@@ -2,6 +2,7 @@ import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/logo.dart';
 import 'package:appalimentacion/vistas/preload.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -13,10 +14,28 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
  
+  String txt_usuario    = '';
+  String txt_contrasena = '';
+  SharedPreferences prefs;
+
+  int estadoLogin = null;
+
   @override
   void initState() {
     super.initState();
+    obtener();
   }
+
+  void obtener()
+  async{
+    prefs = await SharedPreferences.getInstance();
+    print('Estado login:');
+    print(prefs.getInt('estadoLogin'));
+    setState(() {
+      estadoLogin = prefs.getInt('estadoLogin');
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +94,12 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   Expanded(
                                     child: TextField(
+                                      
+                                      onChanged: (texto){
+                                        setState(() {
+                                          txt_usuario = texto;
+                                        });
+                                      },
                                       decoration: InputDecoration.collapsed(
                                         hintText: "Usuario",
                                         hintStyle: TextStyle(
@@ -108,8 +133,13 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                   ),
                                   Expanded(
-                                    // padding: EdgeInsets.only(top:10.0),
                                     child: TextField(
+                                      onChanged: (texto){
+                                        setState(() {
+                                          txt_contrasena = texto;
+                                        });
+                                      },
+                                      obscureText: true,
                                       decoration: InputDecoration.collapsed(
                                         hintText: "Contraseña",
                                         hintStyle: TextStyle(
@@ -137,7 +167,12 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                           context, 
                           MaterialPageRoute(
-                            builder: (context) => Preload()
+                            builder: (context) => Preload(
+                              // txt_usuario:'interkont@2',
+                              // txt_contrasena:'45911804'
+                              txt_usuario:txt_usuario,
+                              txt_contrasena:txt_contrasena
+                            )
                           ));
                         },
                         child: Container(
@@ -181,7 +216,22 @@ class _LoginPageState extends State<LoginPage> {
                             )
                           ),
                         )
+                      ),
+
+                      estadoLogin != null && estadoLogin != 200
+                      ?Column(
+                        children: <Widget>[
+                          Text(
+                            'Lo sentimos',
+                            style: AppTheme.parrafoRojo,
+                          ),
+                          Text(
+                            'el usuario o la contraseña es incorrecta',
+                            style: AppTheme.parrafoRojo,
+                          ),
+                        ],
                       )
+                      :Text('')
                     ],
                   )
                 ],

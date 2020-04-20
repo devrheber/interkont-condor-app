@@ -1,32 +1,73 @@
-import 'dart:math';
-
+import 'dart:convert';
+import 'dart:io';
+import 'package:appalimentacion/vistas/login.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:appalimentacion/widgets/respuestaHttp.dart';
+import 'package:http/http.dart' as http;
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Preload extends StatefulWidget{
+
+  final String txt_usuario;
+  final String txt_contrasena;
+
+  Preload({Key key, this.txt_contrasena, this.txt_usuario}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _PreloadState();
 
 }
 
 class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
-// class _PreloadState extends State<Preload>{
   
   AnimationController _controller;
-
-  // AnimationController _controllerContador;
   Animation<double> animation;
   String i = '0';
 
+  SharedPreferences prefs;
+  validarLogin()
+  async{
+    String url ="$urlGlobal/cobra-ws-condor/login";
+    prefs = await SharedPreferences.getInstance();
+    
+    var body = {
+      'usuario':"${widget.txt_usuario}", 
+      'contrasena':"${widget.txt_contrasena}"
+    };
+
+    var response = await http.post(
+      url, 
+      body: jsonEncode(body)
+    );
+
+    var respuesta = await respuestaHttp(response.statusCode);
+    await prefs.setInt('estadoLogin', response.statusCode);
+
+    if(respuesta == true ){
+      Navigator.push(
+        context, 
+        MaterialPageRoute(
+          builder: (context) => ListaProyectos()
+        ),
+      );
+    }else{
+      Navigator.push(
+        context, 
+        MaterialPageRoute(
+          builder: (context) => LoginPage()
+        ),
+      );
+    }
+    
+  }
+  
   @override
   void initState(){
     super.initState();
-    // _controller = AnimationController(
-    //   duration: const Duration(milliseconds: 4000),
-    //   vsync: this,
-    // );
-
+    
     _controller = AnimationController(duration:const Duration(seconds: 5), vsync: this);
     animation =Tween<double>(begin: 1600, end: 0).animate(_controller)
     ..addListener((){
@@ -36,19 +77,15 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
     });
     _controller.forward();
 
+    
+
     super.initState();
     Future.delayed(
-      Duration(seconds: 5),
+      Duration(seconds: 4),
       () {
-        Navigator.push(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => ListaProyectos()
-          ),);
+        validarLogin();
       },
     );
-    // super.initState();
-    // _controller.forward();
   }
 
   @override
@@ -57,8 +94,6 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
     super.dispose();
   }
   
-  Future<Widget> getRootPage() async =>
-  ListaProyectos();
   @override
   Widget build(BuildContext context){
     return Scaffold(

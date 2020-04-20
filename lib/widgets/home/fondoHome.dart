@@ -32,9 +32,6 @@ class FondoHomeState extends State<FondoHome> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height/3,
-              // decoration: BoxDecoration(
-                
-                // gradient: LinearGradient(colors: [AppTheme.primero, AppTheme.segundo, AppTheme.tercero])
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft:  Radius.circular(15.0),
@@ -51,15 +48,9 @@ class FondoHomeState extends State<FondoHome> {
                   ),
                 ),
             ),
-
-            widget.contenido
-          
-            
+            widget.contenido  
           ],
         ),
-
-        
-        
         bottomNavigationBar: 
         widget.bottomNavigationBar == true
         ?widget.contenidoBottom

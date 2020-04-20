@@ -232,18 +232,15 @@ class ProyectosContenido extends StatelessWidget {
                           )
                         ],
                       )
-                    ) 
-
-                    
+                    )
                   ],
                 )
               ),
             ],
           )
-        ),
-       
+        ), 
       ],
-    );
+    ); 
   }
 
   List proyectosSeleccionados = [];

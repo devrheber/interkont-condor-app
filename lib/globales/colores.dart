@@ -117,6 +117,12 @@ class AppTheme {
     color: Colors.white,
   );
 
+  static const TextStyle parrafoRojo = TextStyle( 
+    fontFamily: fontName,
+    fontWeight: FontWeight.w200,
+    fontSize: 11,
+    color: Colors.red
+  );
 
 
 
