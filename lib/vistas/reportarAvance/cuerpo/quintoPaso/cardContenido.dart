@@ -8,11 +8,19 @@ Widget cardContenidoQuintoPaso(context, titulo)
   return Container(
     width: MediaQuery.of(context).size.width,
     height: MediaQuery.of(context).size.height/3.4,
-    // margin: EdgeInsets.only( top: MediaQuery.of(context).size.height/10, right: 20.0, left: 20.0),
-    // margin: EdgeInsets.only(top: 40.0,right: 20, left: 20),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(10)),
+      boxShadow: [
+        BoxShadow(
+          blurRadius: 10.0, // has the effect of softening the shadow
+          spreadRadius: 0.1, // has the effect of extending the shadow
+          offset: Offset(
+            0.9, // horizontal, move right 10
+            0.9, // vertical, move down 10
+          ),
+        )
+      ],
     ),
     child: Container(
       padding: EdgeInsets.all(25.0),
@@ -23,10 +31,11 @@ Widget cardContenidoQuintoPaso(context, titulo)
           Text(
             '$titulo',
             textAlign: TextAlign.start,
-            style: TextStyle(
-              color: AppTheme.segundo,
+            style: TextStyle( 
+              fontFamily: 'montserrat',
+              fontWeight: FontWeight.bold,
               fontSize: 13,
-              fontWeight: FontWeight.w700,
+              color: AppTheme.segundo,
             ),
           ),
           celdas('Asi va', '67%', '\$ 3.255.255.542',false),
@@ -44,8 +53,12 @@ Widget celdas(txtPrimero, txtSegundo, txtTercero,semaforo)
   return Container(
     padding: EdgeInsets.only(bottom:10.0, top: 15.0),
     decoration: BoxDecoration(
-      border: Border(
-        bottom: BorderSide(width: 0.5, color: Colors.black),
+      border: semaforo != true
+      ?Border(
+        bottom: BorderSide(width: 0.2, color: Colors.black),
+      )
+      :Border(
+        bottom: BorderSide(width: 0.0, color: Colors.white),
       ),
     ),
     child: Row(
@@ -84,7 +97,8 @@ Widget celdas(txtPrimero, txtSegundo, txtTercero,semaforo)
         ?Expanded(
           child: Text(
             '$txtTercero',
-            style: AppTheme.parrafo
+            style: AppTheme.parrafo,
+            textAlign: TextAlign.start,
           ),
         )
         :Expanded(

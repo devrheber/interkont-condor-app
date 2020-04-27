@@ -12,7 +12,11 @@ class CardCuerpoTercerPaso extends StatelessWidget {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2.6 , left: 20.0, right: 20.0),
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height/3.5,
+            left: 20.0, 
+            right: 20.0
+          ),
           child: ListView(
             children: <Widget>[
               Container(
@@ -27,16 +31,18 @@ class CardCuerpoTercerPaso extends StatelessWidget {
                           Text(
                             'Indicador de alcance',
                             style: TextStyle(
+                              fontFamily: 'montserrat',
                               fontSize: 17,
-                              color: AppTheme.darkText,
+                              color: Color(0xFF334660),
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           Text(
                             'Ingrese indicadores de alcance en el periodo',
                             style: TextStyle(
+                              fontFamily: 'montserrat',
                               fontSize: 13,
-                              color: AppTheme.darkText,
+                              color: Color(0xFF505050),
                               fontWeight: FontWeight.w200,
                             ),
                           ),

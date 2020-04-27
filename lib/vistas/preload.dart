@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
+import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
 import 'package:appalimentacion/vistas/login.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:http/http.dart' as http;
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +45,10 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
     await prefs.setInt('estadoLogin', response.statusCode);
 
     if(respuesta == true ){
+      contenidoWebService[0]['usuario']['tokenUsu'] = response.headers['authorization'];
+      contenidoWebService[0]['usuario']['nombreUsu'] = "${widget.txt_usuario}";
+      await obtenerListaProyectos();
+      await prefs.setString('contenidoWebService', jsonEncode(contenidoWebService));
       Navigator.push(
         context, 
         MaterialPageRoute(
@@ -68,7 +70,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
   void initState(){
     super.initState();
     
-    _controller = AnimationController(duration:const Duration(seconds: 5), vsync: this);
+    _controller = AnimationController(duration:const Duration(seconds: 3), vsync: this);
     animation =Tween<double>(begin: 1600, end: 0).animate(_controller)
     ..addListener((){
       setState((){
@@ -81,7 +83,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
 
     super.initState();
     Future.delayed(
-      Duration(seconds: 4),
+      Duration(seconds: 3),
       () {
         validarLogin();
       },
@@ -100,77 +102,54 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/img/Desglose/Preloader/background.jpg"),
+            image: AssetImage("assets/img/Desglose/Preloader/bg-preloader.jpg"),
             fit: BoxFit.cover
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top:60.0),
-              ),
-              RotationTransition(
-                turns: Tween(begin: 0.0, end: 1.0).animate(_controller),                
-                child: aro(
-                  aro(
-                    aro(
-                      Container(
-                        height: MediaQuery.of(context).size.height/1.8,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color.fromRGBO(38, 38, 38, 0.1),
-                          border: Border(
-                            top: BorderSide(
-                              width: 40.0, 
-                              color: Colors.transparent
-                            ),
-                            left: BorderSide(
-                              width: 40.0, 
-                              color: Colors.transparent
-                            ),
-                            right: BorderSide(
-                              width: 40.0, 
-                              color: Colors.transparent
-                            ),
-                            bottom: BorderSide(
-                              width: 40.0, 
-                              color: Colors.transparent
-                            ),
-                          ),
-                          image: DecorationImage(
-                            image: AssetImage('assets/img/Desglose/Preloader/logo.png'),
-                          ),
-                        ),
-                      ),
-                      int.parse(i)
-                    ),
-                    int.parse(i)
-                  ),
-                  int.parse(i)
-                )
-              )
-              
-
-            ],
-          )
-        )
-      ),
-      bottomNavigationBar: Container(
-        color: AppTheme.primero,
-        height: 100,
-        child: Column(
+        child: Stack(
           children: <Widget>[
-            Image(
-              height: 100.0,
-              image: AssetImage(
-                'assets/img/Desglose/Login/logo-footer.png'
+            Positioned(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      'assets/img/Desglose/Preloader/logo.png',
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Positioned(
+              width: MediaQuery.of(context).size.width/2,
+              // height: 100.0,
+              top: MediaQuery.of(context).size.height-150.0,
+              right: MediaQuery.of(context).size.width/4.1,
+              child: Container(
+                child: Image(
+                  image: AssetImage(
+                    'assets/img/Desglose/Login/logo-footer.png',
+                  )
+                )
               )
             )
           ],
         )
       ),
+      // bottomNavigationBar: Container(
+      //   color: AppTheme.primero,
+      //   height: 100,
+      //   child: Column(
+      //     children: <Widget>[
+      //       Image(
+      //         height: 100.0,
+      //         image: AssetImage(
+      //           'assets/img/Desglose/Login/logo-footer.png'
+      //         )
+      //       )
+      //     ],
+      //   )
+      // ),
     );
     
   }
@@ -178,29 +157,6 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
   Widget aro(Widget contenido, int rgb)
   {
     return Container(
-      height: MediaQuery.of(context).size.height/1.8,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Color.fromRGBO(rgb, rgb, rgb, 2.1),
-        border: Border(
-          top: BorderSide(
-            width: 40.0, 
-            color: Colors.transparent
-          ),
-          left: BorderSide(
-            width: 40.0, 
-            color: Colors.transparent
-          ),
-          right: BorderSide(
-            width: 40.0, 
-            color: Colors.transparent
-          ),
-          bottom: BorderSide(
-            width: 40.0, 
-            color: Colors.transparent
-          ),
-        ),
-      ),
       child: contenido
     );
   }

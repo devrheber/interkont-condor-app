@@ -16,8 +16,11 @@ class AppTheme {
   
   
   
-  static const Color primero = Color(0xFF0170bd);
-  static const Color segundo = Color(0xFF1ea782);
+  // static const Color primero = Color(0xFF0170bd);
+  // static const Color segundo = Color(0xFF1ea782);
+  static const Color primero = Color(0xFF0270bd);
+  static const Color segundo = Color(0xFF41b16d);
+
   static const Color tercero = Color(0xFF8cc63f);
 
   static const Color cuarto = Color(0xFF673bb7);
@@ -48,14 +51,18 @@ class AppTheme {
   static const String fontName = 'montserrat';
 
 
+  static const TextStyle h1 = TextStyle( 
+    fontFamily: fontName,
+    fontWeight: FontWeight.bold,
+    fontSize: 17,
+    color: Color(0xFF000000),
+  );
 
   static const TextStyle h2 = TextStyle( 
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
     fontSize: 15,
-    letterSpacing: 0.4,
-    height: 0.9,
-    color: catorceavo,
+    color: Color(0xFF000000),
   );
 
   static const TextStyle peligro = TextStyle(
@@ -73,14 +80,24 @@ class AppTheme {
     fontSize: 13,
     letterSpacing: 0.4,
     height: 0.9,
-    color: catorceavo,
+    // color: catorceavo,
+    color: dieciseisavo
   );
   
   static const TextStyle parrafo = TextStyle( 
     fontFamily: fontName,
     fontWeight: FontWeight.w200,
     fontSize: 12,
-    color: catorceavo,
+    // color: dieciseisavo,
+    color: Color(0xFF556a8d)
+  );
+
+  static const TextStyle parrafoNegrita = TextStyle( 
+    fontFamily: fontName,
+    fontWeight: FontWeight.w700,
+    fontSize: 12,
+    // color: dieciseisavo,
+    color: Color(0xFF505050)
   );
 
   static const TextStyle comentarioPlomo = TextStyle( 

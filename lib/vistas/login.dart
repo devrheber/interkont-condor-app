@@ -41,35 +41,25 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: Container(
+        padding: EdgeInsets.only(
+          top: 120.0
+        ),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/img/Desglose/Login/background.jpg"),
             fit: BoxFit.cover
           ),
         ),
-        padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 30.0, right: 30.0),
-        child: ListView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/10,
-            ),
-
-
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/1.7,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(
-                          bottom: 30.0
-                        ),
-                        child: LogoImg(),
-                      ),
+                      LogoImg(),
                       Container(
                         width: MediaQuery.of(context).size.width-60.0,
                         child: Column(
@@ -80,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                               margin: EdgeInsets.only(top:10.0),
                               padding: EdgeInsets.only(left:15.0, right: 15),
                               decoration: BoxDecoration(
-                                color: AppTheme.septimo,
+                                color: Color.fromRGBO(1, 1, 1, 0.1),
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               child: Row(
@@ -120,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                               margin: EdgeInsets.only(top:10.0),
                               padding: EdgeInsets.only(left:15.0, right: 15),
                               decoration: BoxDecoration(
-                                color: AppTheme.septimo,
+                                color: Color.fromRGBO(1, 1, 1, 0.1),
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               child: Row(
@@ -231,28 +221,41 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       )
-                      :Text('')
+                      :Text(''),
+
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: 40.0
+                        ),
+                        child: Image(
+                          height: 100.0,
+                          image: AssetImage(
+                            'assets/img/Desglose/Login/logo-footer.png'
+                          )
+                        )
+                      )
                     ],
                   )
                 ],
               ),
-            ),
-
-            
+            ),            
           ],
         ),
       ),
       bottomNavigationBar: Container(
         color: AppTheme.primero,
-        height: 120,
-        child: Column(
+        height: 15.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(
-              height: 100.0,
-              image: AssetImage(
-                'assets/img/Desglose/Login/logo-footer.png'
-              )
-            )
+            Text(
+              '2020 Powered by ',
+              style: AppTheme.parrafoBlanco
+            ),
+            Text(
+              'Interkont.com',
+              style: AppTheme.parrafoBlanco
+            ),
           ],
         )
       ),

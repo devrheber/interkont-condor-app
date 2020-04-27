@@ -1,6 +1,5 @@
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -8,12 +7,18 @@ Widget pasos(context, pasoSeleccionado)
 {
   return Container(
     width: MediaQuery.of(context).size.width,
-    height: MediaQuery.of(context).size.height/8,
-    margin: EdgeInsets.only( top: MediaQuery.of(context).size.height/4, right: 20.0, left: 20.0),
-    // margin: EdgeInsets.only(top: 40.0,right: 20, left: 20),
+    // height: MediaQuery.of(context).size.height/8,
+    height: 80.0,
+    margin: EdgeInsets.only( 
+      top: MediaQuery.of(context).size.height/5.5, 
+      right: 20.0, 
+      left: 20.0
+    ),
     decoration: BoxDecoration(
       color: Colors.white,
-      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderRadius: BorderRadius.all(
+        Radius.circular(10)
+      ),
       boxShadow: [
         BoxShadow(
           color: titleColor.withOpacity(.1),
@@ -25,7 +30,6 @@ Widget pasos(context, pasoSeleccionado)
     child: Container(
       child: Row(
         children: <Widget>[ 
-          
           paso(
             'Ingrese el avance', 
             1,
@@ -70,7 +74,10 @@ Widget paso(texto, numero, pasoSeleccionado)
 
   return Expanded(
     child: Container(
-      margin: EdgeInsets.only(left: 10.0, right: 10.0),
+      margin: EdgeInsets.only(
+        left: 10.0, 
+        right: 10.0
+      ),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -83,7 +90,12 @@ Widget paso(texto, numero, pasoSeleccionado)
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(top:10.0, bottom: 10.0, left: 12.0, right: 12.0),
+            padding: EdgeInsets.only(
+              top:10.0, 
+              bottom: 10.0, 
+              left: 12.0, 
+              right: 12.0
+            ),
             margin: EdgeInsets.only(bottom:5.0),
             decoration: BoxDecoration(
               color: contenidoNumero,

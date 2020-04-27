@@ -27,18 +27,28 @@ class _FelicitacionesState extends State<Felicitaciones> {
             fit: BoxFit.cover
           ),
         ),
-        padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 70.0, right: 70.0),
+        padding: EdgeInsets.only(
+          top: 80.0, 
+          bottom: 20.0, 
+          left: 70.0, 
+          right: 70.0
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image(
               image: AssetImage('assets/img/Desglose/Demas/icn-cohete.png'), 
-              width: 100.0, 
+              width: 80.0, 
               height: 130,
             ),
             Text(
               '¡Felicitaciones!',
-              style: AppTheme.h1Blanco,
+              style: TextStyle( 
+                fontFamily: 'montserrat',
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+                color: Colors.white,
+              ),
             ),
             SizedBox(
               height: 20.0,
@@ -49,7 +59,7 @@ class _FelicitacionesState extends State<Felicitaciones> {
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: 20.0,
+              height: 50.0,
             ),
             GestureDetector(
               onTap: (){
@@ -84,16 +94,22 @@ class _FelicitacionesState extends State<Felicitaciones> {
                       bottom: BorderSide(width: 1.0, color: AppTheme.onceavo),
                     ),
                   ),
-                  padding: EdgeInsets.only(left:20.0, right: 20.0, top: 15.0, bottom: 15.0),
+                  padding: EdgeInsets.only(
+                    left:20.0, 
+                    right: 20.0, 
+                    top: 10.0, 
+                    bottom: 10.0
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         'Inicio',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15,
-                          color: Colors.white
+                        style: TextStyle( 
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: Colors.white,
                         ),
                         textAlign: TextAlign.center,
                       )

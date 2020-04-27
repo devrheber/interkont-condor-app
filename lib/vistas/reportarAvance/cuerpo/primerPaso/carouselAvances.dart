@@ -2,18 +2,26 @@ import 'package:appalimentacion/globales/colores.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+
 Widget carouselAvances(context)
 {
   return CarouselSlider(
     enableInfiniteScroll: false,
     enlargeCenterPage: true,
-    height: 300.0,
+    height: 330.0,
     items: [1,2,3,4,5].map((i) {
       return Builder(
         builder: (BuildContext context) {
           return Container(
-            width: 250.0,
+            // width: 750.0,
             decoration: const BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xff444444),
+                  blurRadius: 5,
+                  spreadRadius: 0.1
+                ),
+              ],
               borderRadius: BorderRadius.only( 
                 topLeft:     Radius.circular(15.0),
                 topRight:    Radius.circular(15.0),
@@ -24,14 +32,17 @@ Widget carouselAvances(context)
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: <Color>[
-                  AppTheme.primero,
-                  AppTheme.segundo,
-                  AppTheme.tercero,
+                  Color(0xff0c81ab),
+                  Color(0xff2eac78)
                 ],
               ),
             ),
             // margin: EdgeInsets.only(left:5.0, right: 5.0),
             padding: EdgeInsets.only(left:20.0, right: 20.0, top: 35.0, bottom: 15.0),
+            margin: EdgeInsets.only(
+              right: 10.0,
+              bottom: 10.0
+            ),
             child: ListView(
               children: <Widget>[
                 Text(
@@ -51,25 +62,25 @@ Widget carouselAvances(context)
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.white,
-                    fontWeight: FontWeight.w200,
+                    fontWeight: FontWeight.w300,
                   ),
                   textAlign: TextAlign.center
                 ),
                 Container(
-                  margin: EdgeInsets.only(left:25.0, right: 25.0, top: 5.0, bottom: 15.0),
+                  margin: EdgeInsets.only(
+                    left:25.0, 
+                    right: 25.0, 
+                    top: 5.0, 
+                    bottom: 15.0
+                  ),
                   height: 50.0,
                   decoration: const BoxDecoration(
+                    color: Color(0xFF48b3a1),
                     borderRadius: BorderRadius.only( 
                       topLeft:     Radius.circular(15.0),
                       topRight:    Radius.circular(15.0),
                       bottomLeft:  Radius.circular(15.0),
                       bottomRight: Radius.circular(15.0),
-                    ),
-                    gradient: LinearGradient(
-                      colors: <Color>[
-                        AppTheme.noveno,
-                        AppTheme.noveno,
-                      ],
                     ),
                   ),
                   child: Row(
@@ -79,10 +90,12 @@ Widget carouselAvances(context)
                         child: TextField(
                           textAlign: TextAlign.center,
                           decoration: InputDecoration.collapsed(
-                            hintText: "1000",
+                            hintText: "1.24",
                             hintStyle: TextStyle(
                               fontSize: 20.0, 
-                              color: Colors.white
+                              color: Colors.white,
+                              fontFamily: 'montserrat',
+                              fontWeight: FontWeight.bold
                             ), 
                           )
                         ),
@@ -94,27 +107,38 @@ Widget carouselAvances(context)
                   children: <Widget>[
                     celdas(
                       'Unidad de medida',
-                      'ML'
+                      'ML',
+                      false
                     ),
                     celdas(
                       'Valor Unitario',
-                      '\$ 100.000'
+                      '\$ 100.000',
+                      false
                     ),
                     celdas(
                       'Cantidad Programada',
-                      '100'
+                      '100',
+                      false
                     ),
                     celdas(
                       'Valor Programado',
-                      '\$ 10.000.000'
+                      '\$ 10.000.000',
+                      false
                     ),
                     celdas(
                       'Cantidad Ejecutada',
-                      '50'
+                      '50',
+                      true
+                    ),
+                    celdas(
+                      'Valor Ejecutado',
+                      '\$5.000.000',
+                      true
                     ),
                     celdas(
                       'Avance a hoy',
-                      '50%'
+                      '50%',
+                      true
                     ),
                   ],
                 )
@@ -131,18 +155,25 @@ Widget carouselAvances(context)
   );          
 }
 
-Widget celdas(txtIzquierda, txtDerecha)
+Widget celdas(txtIzquierda, txtDerecha, negrita)
 {
+  FontWeight fontWeight = FontWeight.w200;
+  if(negrita == true){
+    fontWeight = FontWeight.w600;
+  }
   return Container(
-    padding: EdgeInsets.only(bottom:4.0, top: 4.0),
+    padding: EdgeInsets.only(
+      bottom:4.0, 
+      top: 4.0
+    ),
     decoration: BoxDecoration(
       border: Border(
         bottom: BorderSide(
-          width: 0.5, 
+          width: 0.2, 
           color: Colors.white
         ),
         top: BorderSide(
-          width: 0.5, 
+          width: 0.2, 
           color: Colors.white
         ),
       ),
@@ -152,20 +183,22 @@ Widget celdas(txtIzquierda, txtDerecha)
         Expanded(
           child: Text(
             '$txtIzquierda',
-            style: TextStyle(
+            style: TextStyle( 
+              fontFamily: 'montserrat',
+              fontWeight: fontWeight,
               fontSize: 10,
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
+              color: Colors.white
+            )
           ),
         ),
         Expanded(
           child: Text(
             '$txtDerecha',
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.white,
-              fontWeight: FontWeight.w200,
+            style: TextStyle( 
+              fontFamily: 'montserrat',
+              fontWeight: fontWeight,
+              fontSize: 11,
+              color: Colors.white
             ),
             textAlign: TextAlign.right,
           ), 

@@ -14,7 +14,11 @@ class CardCuerpoCuartoPaso extends StatelessWidget {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2.5 , left: 20.0, right: 20.0),
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height/3.3, 
+            left: 20.0, 
+            right: 20.0
+          ),
           child: ListView(
             children: <Widget>[
               Container(
@@ -29,8 +33,9 @@ class CardCuerpoCuartoPaso extends StatelessWidget {
                           Text(
                             'Descripción & Documentos',
                             style: TextStyle(
+                              fontFamily: 'montserrat',
                               fontSize: 17,
-                              color: AppTheme.darkText,
+                              color: Color(0xFF334660),
                               fontWeight: FontWeight.w700,
                             ),
                           ),

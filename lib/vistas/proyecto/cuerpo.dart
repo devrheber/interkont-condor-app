@@ -36,9 +36,12 @@ class CardCuerpoState extends State<CardCuerpo> {
       
         Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2 , left: 20.0, right: 20.0),
-          // color: Colors.black,
-          child: ListView(
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height/2.75,
+            left: 20.0, 
+            right: 20.0
+          ),
+          child: Column(
             children: <Widget>[
               Container(
                 child: Column(
@@ -47,7 +50,11 @@ class CardCuerpoState extends State<CardCuerpo> {
                     resumen(context),
 
                     Container(
-                      padding: EdgeInsets.only(top:10.0, right: 20.0, left:20.0, bottom: 15.0),
+                      padding: EdgeInsets.only(
+                        right: 20.0, 
+                        left:20.0, 
+                        bottom: 5.0
+                      ),
                       child: Text(
                         'Seleccione el periodo a reportar',
                         style: AppTheme.parrafo
@@ -56,18 +63,20 @@ class CardCuerpoState extends State<CardCuerpo> {
 
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(bottom: 10.0),
+                      margin: EdgeInsets.only(
+                        bottom: 10.0
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                         border: Border(
-                          top: BorderSide(width: 1.0, color: AppTheme.cuarto),
-                          left: BorderSide(width: 1.0, color: AppTheme.cuarto),
-                          right: BorderSide(width: 1.0, color: AppTheme.cuarto),
-                          bottom: BorderSide(width: 1.0, color: AppTheme.cuarto),
+                          top: BorderSide(width: 0.5, color: AppTheme.cuarto),
+                          left: BorderSide(width: 0.5, color: AppTheme.cuarto),
+                          right: BorderSide(width: 0.5, color: AppTheme.cuarto),
+                          bottom: BorderSide(width: 0.5, color: AppTheme.cuarto),
                         ),
                       ),
-                      padding: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.all(10.0),
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -78,9 +87,25 @@ class CardCuerpoState extends State<CardCuerpo> {
                           ),
                           Expanded(
                             flex: 6,
-                            child: Text(
-                              'del 14 feb hasta el 15 mar 19',
-                              style: AppTheme.parrafo
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  'del',
+                                  style: AppTheme.parrafo
+                                ),
+                                Text(
+                                  ' 14.Feb.19 ',
+                                  style: AppTheme.parrafoNegrita
+                                ),
+                                Text(
+                                  'hasta el ',
+                                  style: AppTheme.parrafo
+                                ),
+                                Text(
+                                  '15.Mar.19',
+                                  style: AppTheme.parrafoNegrita
+                                ),
+                              ],
                             )
                           ),
                           Expanded(
@@ -98,30 +123,39 @@ class CardCuerpoState extends State<CardCuerpo> {
                     ?
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(bottom: 10.0),
+                      // margin: EdgeInsets.only(
+                      //   bottom: 10.0
+                      // ),
                       decoration: BoxDecoration(
                         color: AppTheme.rojoBackground,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10)
+                        ),
                       ),
-                      padding: EdgeInsets.all(15.0),
+                      padding: EdgeInsets.only(
+                        top: 5.0,
+                        bottom: 10.0,
+                        left: 20.0,
+                        right: 20.0
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            height: 20.0,
+                            height: 15.0,
                             margin: EdgeInsets.only(
                               bottom: 5.0
                             ),
+                            // margin: EdgeInsets.only(
+                            //   bottom: 5.0
+                            // ),
                             child: Image.asset(
                               'assets/img/Desglose/Demas/icn-alert.png',
                             ),
                           ),
                           Text(
                             'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: AppTheme.parrafoRojo,
                             textAlign: TextAlign.center,
                             
                           )
@@ -143,14 +177,13 @@ class CardCuerpoState extends State<CardCuerpo> {
   {
     return GestureDetector(
       onTap: (){
-        cambiarPagina(
-          context, 
-          Proyecto()
-        );
+
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.only(bottom: 10.0),
+        margin: EdgeInsets.only(
+          bottom: 10.0
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -192,11 +225,30 @@ class CardCuerpoState extends State<CardCuerpo> {
 
   Widget celdas(txtPrimero, txtSegundo, semaforo)
   {
+    // SI LA VARIABLE "SEMAFORO" ESTA EN TRUE SIGNIFICA QUE ES LA ULTIMA CELDA, 
+    // POR LO TANTO NO TIENE BORDE EN BOTTOM Y SU PADDING EN BOTTOM ES MENOR
     return Container(
-      padding: EdgeInsets.only(bottom:10.0, top: 15.0),
+      padding: 
+      semaforo == true
+      ?EdgeInsets.only(
+        top: 10.0
+      )
+      :EdgeInsets.only(
+        bottom:10.0, 
+        top: 10.0
+      ),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(width: 0.5, color: Colors.black),
+          bottom: 
+          semaforo != true
+          ?BorderSide(
+            width: 0.3, 
+            color: Colors.black
+          )
+          :BorderSide(
+            width: 0.0,
+            color: Colors.white
+          )
         ),
       ),
       child: Row(

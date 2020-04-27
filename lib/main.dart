@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/logo.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:appalimentacion/vistas/login.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +29,18 @@ class _TodoAppState extends State<TodoApp>{
   void obtenerListaProyectosSeleccionados()
   async{
     prefs = await SharedPreferences.getInstance();
-    await prefs.setString('listProyectosSeleccionados', '[]');
     await prefs.setString('estadoInformeProyecto', 'informeNoAprobado');
+    await prefs.setString('listProyectosSeleccionados', '[]');
+    obtenerDataGuardada();
+  }
+
+  void obtenerDataGuardada()
+  async{
+    if(prefs.getString('contenidoWebService') == null){
+      // contenidoWebService = [];
+    }else{
+      contenidoWebService = jsonDecode(prefs.getString('contenidoWebService'));
+    }
   }
   
   @override
@@ -59,23 +72,6 @@ class _TodoAppState extends State<TodoApp>{
           ),);
       },
     );
-
-    // getRootPage().then((Widget page) async{
-    //   if(prefs.getInt('estadoLogin') == null){
-    //     setState(() {
-    //       _rootPage = page;
-    //     });
-    //   }else if(prefs.getInt('estadoLogin') == 200){
-    //     setState(() {
-    //       _rootPage = ListaProyectos();
-    //     });
-    //   }else{
-    //     setState(() {
-    //       _rootPage = page;
-    //     });
-    //   }
-      
-    // });
   }
   
   Widget _rootPage = LoginPage();

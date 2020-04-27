@@ -48,7 +48,7 @@ Widget btnCancelar(
       accion();
     },
     child: Container(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(10.0),
       color: AppTheme.bottomPrincipal,
       child: Container(
         decoration: const BoxDecoration(
@@ -66,13 +66,13 @@ Widget btnCancelar(
             ],
           ),
           border: Border(
-            top: BorderSide(width: 1.0, color: Colors.red),
-            left: BorderSide(width: 1.0, color: Colors.red),
-            right: BorderSide(width: 1.0, color: Colors.red),
-            bottom: BorderSide(width: 1.0, color: Colors.red),
+            top: BorderSide(width: 0.5, color: Colors.red),
+            left: BorderSide(width: 0.5, color: Colors.red),
+            right: BorderSide(width: 0.5, color: Colors.red),
+            bottom: BorderSide(width: 0.5, color: Colors.red),
           ),
         ),
-        padding: EdgeInsets.only(left:20.0, right: 20.0, top: 15.0, bottom: 15.0),
+        padding: EdgeInsets.only(left:20.0, right: 20.0, top: 10.0, bottom: 10.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -107,7 +107,7 @@ Widget btnSiguiente(
       accion();
     },
     child: Container(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(10.0),
       color: AppTheme.bottomPrincipal,
       child: Container(
         decoration: BoxDecoration(
@@ -124,7 +124,12 @@ Widget btnSiguiente(
             ],
           ),
         ),
-        padding: EdgeInsets.only(left:20.0, right: 20.0, top: 15.0, bottom: 15.0),
+        padding: EdgeInsets.only(
+          left:20.0, 
+          right: 20.0, 
+          top: 10.0, 
+          bottom: 10.0
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

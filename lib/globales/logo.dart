@@ -8,7 +8,7 @@ class LogoImg extends StatelessWidget {
     var image = new Image(
       image: assetsImage, 
       width: 150.0, 
-      height: 130,
+      height: 180,
     );
     return new Container( 
       child: image,

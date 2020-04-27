@@ -3,7 +3,6 @@ import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/reportarAvance/contenido.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cargando.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/ejemploImage.dart';
 import 'package:appalimentacion/widgets/home/contenidoBottom.dart';
 import 'package:appalimentacion/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';

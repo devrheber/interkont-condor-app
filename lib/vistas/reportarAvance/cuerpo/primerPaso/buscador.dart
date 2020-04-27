@@ -15,7 +15,9 @@ Widget buscador(context)
           padding: EdgeInsets.all(5.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10)
+            ),
           ),
           child: Row(
             children: <Widget>[
@@ -53,7 +55,7 @@ Widget buscador(context)
                 end: Alignment.topRight,
                 colors: <Color>[
                   AppTheme.dieciochoavo,
-                  AppTheme.diecisieteavo
+                  AppTheme.tercero
                 ],
               ),
             ),

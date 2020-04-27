@@ -96,12 +96,10 @@ class _MostrarFotoSubidaState extends State<MostrarFotoSubida> {
           imagen == null
           ?seleccionarGaleriaCamara(context)
           :removerImagen(imagen);
-          
         },
         child: Container(
           height: 90.0,
           width: MediaQuery.of(context).size.width/4,
-          margin: EdgeInsets.only(left: 5.0, right: 5.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
               color: Colors.transparent,

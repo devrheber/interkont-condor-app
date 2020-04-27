@@ -26,7 +26,9 @@ class CardHeadReporteAvanceState extends State<CardHeadReporteAvance> {
         Container(
           width: MediaQuery.of(context).size.width,
           height: 30.0,
-          margin: EdgeInsets.only( top: MediaQuery.of(context).size.height/9),
+          margin: EdgeInsets.only( 
+            top: MediaQuery.of(context).size.height/18
+          ),
           child: Container(
             margin: EdgeInsets.only(right: 20, left: 20),
             child: Row(
@@ -58,14 +60,23 @@ class CardHeadReporteAvanceState extends State<CardHeadReporteAvance> {
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height/12,
-          margin: EdgeInsets.only( top: MediaQuery.of(context).size.height/6, right: 20.0, left: 20.0),
+          margin: EdgeInsets.only( 
+            top: MediaQuery.of(context).size.height/10, 
+            right: 20.0, 
+            left: 20.0
+          ),
           child: Container(
             child: Row(
               children: <Widget>[ 
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.all(5.0),
-                    padding: EdgeInsets.all(5.0),
+                    padding: EdgeInsets.only(
+                      top: 5.0,
+                      left: 5.0,
+                      right: 5.0,
+                      bottom: 2.0
+                    ),
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(38, 38, 38, 0.1),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -120,7 +131,12 @@ class CardHeadReporteAvanceState extends State<CardHeadReporteAvance> {
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.all(5.0),
-                    padding: EdgeInsets.all(5.0),
+                    padding: EdgeInsets.only(
+                      top: 5.0,
+                      left: 5.0,
+                      right: 5.0,
+                      bottom: 2.0
+                    ),
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(38, 38, 38, 0.1),
                       borderRadius: BorderRadius.all(Radius.circular(10)),

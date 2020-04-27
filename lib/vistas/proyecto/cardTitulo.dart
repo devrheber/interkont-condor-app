@@ -21,13 +21,14 @@ class CardTituloState extends State<CardTitulo> {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
-          // height: MediaQuery.of(context).size.height/2,
-          margin: EdgeInsets.only( top: MediaQuery.of(context).size.height/6,),
+          margin: EdgeInsets.only( 
+            top: MediaQuery.of(context).size.height/15
+          ),
           child: Stack(
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height/4,
+                height: MediaQuery.of(context).size.height/4.5,
                 padding: EdgeInsets.only(top: 1.0, bottom: 10.0),
                 margin: EdgeInsets.only(top: 40.0,right: 20, left: 20),
                 decoration: BoxDecoration(
@@ -42,26 +43,30 @@ class CardTituloState extends State<CardTitulo> {
                   ]
                 ),
                 child: Container(
-                  padding: EdgeInsets.only(top:20.0,),
+                  padding: EdgeInsets.only(
+                    top:20.0
+                  ),
                   child: ListView(
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.only(left:80.0, right: 80.0),
+                        padding: EdgeInsets.only(
+                          left:70.0, 
+                          right: 70.0
+                        ),
                         child: Text(
                           'TESALIA CENTRO DE DESARROLLO HIDRICO',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: AppTheme.darkText,
-                            fontWeight: FontWeight.w700,
-                          ),
+                          style: AppTheme.tituloParrafo
                         ),
                       ),
                       SizedBox(
                         height: 6,
                       ),
                       Container(
-                        padding: EdgeInsets.only(left:40.0, right: 40.0),
+                        padding: EdgeInsets.only(
+                          left:30.0, 
+                          right: 30.0
+                        ),
                         child: Center(
                           child: Text(
                             'Estudios diseños y contruccion de centros de integracion ciudadana cic. grupo 1 - region pacifico de Colombia',
@@ -88,7 +93,9 @@ class CardTituloState extends State<CardTitulo> {
                           width: 80,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('assets/img/Desglose/Home/${widget.nombreIcono}.png'), 
+                              image: AssetImage(
+                                'assets/img/Desglose/Home/${widget.nombreIcono}.png'
+                              ), 
                               fit: BoxFit.fill
                             ),
                             borderRadius: BorderRadius.circular(100),
@@ -111,7 +118,9 @@ class CardTituloState extends State<CardTitulo> {
         Container(
           width: MediaQuery.of(context).size.width,
           height: 30.0,
-          margin: EdgeInsets.only( top: MediaQuery.of(context).size.height/10,),
+          margin: EdgeInsets.only( 
+            top: MediaQuery.of(context).size.height/15
+          ),
           padding: EdgeInsets.only(right: 20, left: 20),
           child: Row(
             children: <Widget>[
@@ -129,14 +138,13 @@ class CardTituloState extends State<CardTitulo> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width/7
+                  left: MediaQuery.of(context).size.width/2.2
                 )
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 120.0,
+                    width: 100.0,
                     height: 30.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -145,12 +153,12 @@ class CardTituloState extends State<CardTitulo> {
                         ), 
                         fit: BoxFit.fill
                       ),
-                      border: Border(
-                        top: BorderSide(width: 0.5, color: Colors.white),
-                        left: BorderSide(width: 0.5, color: Colors.white),
-                        right: BorderSide(width: 0.5, color: Colors.white),
-                        bottom: BorderSide(width: 0.5, color: Colors.white),
-                      ),
+                      // border: Border(
+                      //   top: BorderSide(width: 0.5, color: Colors.white),
+                      //   left: BorderSide(width: 0.5, color: Colors.white),
+                      //   right: BorderSide(width: 0.5, color: Colors.white),
+                      //   bottom: BorderSide(width: 0.5, color: Colors.white),
+                      // ),
                       borderRadius: BorderRadius.all( 
                         Radius.circular(50.0),
                       ),

@@ -31,19 +31,22 @@ class FondoHomeState extends State<FondoHome> {
           children: <Widget>[
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/3,
+              height: MediaQuery.of(context).size.height/4.5,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft:  Radius.circular(15.0),
                     bottomRight: Radius.circular(15.0)
                   ),
                   gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
                     colors: <Color>[
                       AppTheme.primero,
                       AppTheme.segundo,
-                      AppTheme.tercero,
+                      
+                      // Colors.red,
+                      // Colors.black
+
                     ],
                   ),
                 ),

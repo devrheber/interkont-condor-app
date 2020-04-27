@@ -17,7 +17,11 @@ class CardCuerpoSegundoPaso extends StatelessWidget {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2.5 , left: 20.0, right: 20.0),
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height/3.3, 
+            left: 20.0, 
+            right: 20.0
+          ),
           // color: Colors.black,
           child: ListView(
             children: <Widget>[
@@ -29,6 +33,7 @@ class CardCuerpoSegundoPaso extends StatelessWidget {
                     Text(
                       'Avance Cualitativo',
                       style: TextStyle(
+                        fontFamily: 'montserrat',
                         fontSize: 17,
                         color: AppTheme.darkText,
                         fontWeight: FontWeight.w700,
@@ -37,21 +42,24 @@ class CardCuerpoSegundoPaso extends StatelessWidget {
                     Text(
                       '¿Qué logros y dificultades se presentaron?',
                       style: TextStyle(
+                        fontFamily: 'montserrat',
                         fontSize: 13,
                         color: AppTheme.darkText,
                         fontWeight: FontWeight.w200,
                       ),
                     ),
-                    seleccionarAvance(context),
+                    SeleccionarAvance(),
                     cajonTexto(
                       context,
                       'Ingrese los logros',
-                      'Aca puede agregar los logros que obtuvo el proyecto..'
+                      'Aca puede agregar los logros que obtuvo el proyecto..',
+                      true
                     ),
                     cajonTexto(
                       context,
                       'Ingrese las dificultades',
-                      'Aca puede agregar los dificultades que obtuvo el proyecto..'
+                      'Aca puede agregar los dificultades que obtuvo el proyecto..',
+                      false
                     ),
                     GestureDetector(
                       onTap: (){
@@ -63,18 +71,15 @@ class CardCuerpoSegundoPaso extends StatelessWidget {
                         child: Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only( 
-                              topLeft:     Radius.circular(15.0),
-                              topRight:    Radius.circular(15.0),
-                              bottomLeft:  Radius.circular(15.0),
-                              bottomRight: Radius.circular(15.0),
+                              topLeft:     Radius.circular(10.0),
+                              topRight:    Radius.circular(10.0),
+                              bottomLeft:  Radius.circular(10.0),
+                              bottomRight: Radius.circular(10.0),
                             ),
                             gradient: LinearGradient(
-                              // begin: Alignment.bottomCenter,
-                              // end: Alignment.topCenter,
                               colors: <Color>[
                                 AppTheme.primero,
                                 AppTheme.segundo,
-                                AppTheme.tercero,
                               ],
                             ),
                             
@@ -99,7 +104,8 @@ class CardCuerpoSegundoPaso extends StatelessWidget {
                                     Text(
                                       'Añadir',
                                       style: TextStyle(
-                                        fontSize: 15,
+                                        fontFamily: 'montserrat',
+                                        fontSize: 12,
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,
                                       ),

@@ -65,69 +65,63 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/img/Desglose/Preloader/background.jpg"),
+            image: AssetImage("assets/img/Desglose/Preloader/bg-preloader.jpg"),
             fit: BoxFit.cover
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top:60.0),
-              ),
-              aro(
-                aro(
-                  aro(
-                    Container(
-                      height: MediaQuery.of(context).size.height/1.8,
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(38, 38, 38, 0.1),
-                        border: Border(
-                          top: BorderSide(width: 30.0, color: Colors.transparent),
-                          left: BorderSide(width: 30.0, color: Colors.transparent),
-                          right: BorderSide(width: 30.0, color: Colors.transparent),
-                          bottom: BorderSide(width: 30.0, color: Colors.transparent),
+              Center(
+                child: new CircularPercentIndicator(
+                  radius: 140.0,
+                  lineWidth: 2.0,
+                  percent: double.parse('$i')/100,
+                  center: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "$i",
+                        style: TextStyle( 
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 35,
+                          color: Colors.white,
                         ),
-                        shape: BoxShape.circle,
                       ),
-                      child: new CircularPercentIndicator(
-                        radius: 60.0,
-                        lineWidth: 2.0,
-                        percent: double.parse('$i')/100,
-                        center: Text(
-                          "$i %",
-                          style: TextStyle(
-                            color: Colors.white
-                          ),
+                      Text(
+                        "%",
+                        style: TextStyle( 
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Colors.white,
                         ),
-                        progressColor: Colors.white,
-                        animateFromLastPercent: true,
-                      )
-                    ),
-                    int.parse(contadorRgb)
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
                   ),
-                  int.parse(contadorRgb)
-                ),
-                int.parse(contadorRgb)
+                  progressColor: Colors.white,
+                  animateFromLastPercent: true,
+                )
+              ),
+              
+              Positioned(
+                width: MediaQuery.of(context).size.width/2,
+                height: 100.0,
+                top: MediaQuery.of(context).size.height-150.0,
+                // top: 20.0,
+                right: MediaQuery.of(context).size.width/4.1,
+                child: Container(
+                  child: Image(
+                    image: AssetImage(
+                      'assets/img/Desglose/Login/logo-footer.png',
+                    )
+                  )
+                )
               )
             ],
           )
-        )
-      ),
-      bottomNavigationBar: Container(
-        color: AppTheme.primero,
-        height: 100,
-        child: Column(
-          children: <Widget>[
-            Image(
-              height: 100.0,
-              image: AssetImage(
-                'assets/img/Desglose/Login/logo-footer.png'
-              )
-            )
-          ],
-        )
       ),
     );
     

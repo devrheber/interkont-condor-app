@@ -1,10 +1,10 @@
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/funciones/logout.dart';
 import 'package:appalimentacion/vistas/listaProyectos/proyectos.dart';
 import 'package:appalimentacion/vistas/login.dart';
 import 'package:appalimentacion/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
 import 'package:appalimentacion/widgets/modals.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ListaProyectos extends StatelessWidget {
 
@@ -17,8 +17,7 @@ class ListaProyectos extends StatelessWidget {
           context, 
           "Estas apunto de cerrar la sessión", 
           ()async{
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            await prefs.setInt('estadoLogin', null);
+            logout();
             Navigator.push(
               context, 
               MaterialPageRoute(

@@ -12,7 +12,11 @@ class CardCuerpoPrimerPaso extends StatelessWidget {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2.6 , left: 20.0, right: 20.0),
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height/3.3,
+            left: 20.0, 
+            right: 20.0
+          ),
           // color: Colors.black,
           child: ListView(
             children: <Widget>[
@@ -24,14 +28,20 @@ class CardCuerpoPrimerPaso extends StatelessWidget {
                     Text(
                       'Ingrese el avance',
                       style: TextStyle(
+                        fontFamily: 'montserrat',
                         fontSize: 17,
-                        color: AppTheme.darkText,
+                        color: Color(0xFF334660),
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
                       'Ingrese cantidad de avance por actividad',
-                      style: AppTheme.parrafo
+                      style: TextStyle(
+                        fontFamily: 'montserrat',
+                        fontSize: 13,
+                        color: Color(0xFF505050),
+                        fontWeight: FontWeight.w200,
+                      ),
                     ),
                   ],
                 ),

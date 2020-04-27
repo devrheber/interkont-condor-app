@@ -71,22 +71,19 @@ class _MostrarFotosSubidasState extends State<MostrarFotosSubidas> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        margin: EdgeInsets.only(top:10.0),
-        child: Wrap(
-          children: <Widget>[
-            
-            for(int cont = 0; cont < listaImagenes.length; cont++)
-              cajonImagen(listaImagenes[cont]),
-              cajonImagen(null),
-            if(listaImagenes.length%3 != 0)
+    return Container(
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        children: <Widget>[    
+          for(int cont = 0; cont < listaImagenes.length; cont++)
+            cajonImagen(listaImagenes[cont]),
             cajonImagen(null),
-            if(listaImagenes.length == 0)
-            cajonImagen(null)
-          ],
-        ),
-      )
+          if(listaImagenes.length%3 != 0)
+          cajonImagen(null),
+          if(listaImagenes.length == 0)
+          cajonImagen(null)
+        ],
+      ),
     );
   }
   // onPressed: obtenerImagenCamara,
@@ -106,7 +103,9 @@ class _MostrarFotosSubidasState extends State<MostrarFotosSubidas> {
         child: Container(
           height: 90.0,
           width: MediaQuery.of(context).size.width/4,
-          margin: EdgeInsets.only(left: 5.0, right: 5.0),
+          margin: EdgeInsets.only(
+            top:5.0
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
               color: Colors.transparent,

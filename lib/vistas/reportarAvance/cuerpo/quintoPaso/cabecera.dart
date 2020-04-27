@@ -1,9 +1,6 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/vistas/proyecto/home.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cabecera/cardHead.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class CardHeadReporteAvanceQuintoPaso extends StatefulWidget {
@@ -26,7 +23,9 @@ class CardHeadReporteAvanceQuintoPasoState extends State<CardHeadReporteAvanceQu
         Container(
           width: MediaQuery.of(context).size.width,
           height: 80.0,
-          margin: EdgeInsets.only( top: MediaQuery.of(context).size.height/8,),
+          margin: EdgeInsets.only( 
+            top: MediaQuery.of(context).size.height/20
+          ),
           child: Row(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -46,12 +45,9 @@ class CardHeadReporteAvanceQuintoPasoState extends State<CardHeadReporteAvanceQu
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(5.0),
+                padding: EdgeInsets.all(15.0),
               ),
               Center(
-                // color: Colors.black,
-                // margin: EdgeInsets.only(right:20.0),
-                // padding: EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -59,10 +55,13 @@ class CardHeadReporteAvanceQuintoPasoState extends State<CardHeadReporteAvanceQu
                       '¡Último Paso!',
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                        fontFamily: 'montserrat',
                         fontSize: 18,
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
                       ),
+
+                      
                     ),
                     SizedBox(
                       height: 10.0,
@@ -71,7 +70,8 @@ class CardHeadReporteAvanceQuintoPasoState extends State<CardHeadReporteAvanceQu
                       'No finalices sin antes estar seguro de',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontFamily: 'montserrat',
+                        fontSize: 12,
                         color: Colors.white,
                         fontWeight: FontWeight.w300,
                       ),
@@ -80,7 +80,8 @@ class CardHeadReporteAvanceQuintoPasoState extends State<CardHeadReporteAvanceQu
                       'tus nuevos cambios',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontFamily: 'montserrat',
+                        fontSize: 12,
                         color: Colors.white,
                         fontWeight: FontWeight.w300,
                       ),

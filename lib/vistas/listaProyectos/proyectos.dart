@@ -16,8 +16,9 @@ class ProyectosContenido extends StatelessWidget {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/4,
-          margin: EdgeInsets.only( top: MediaQuery.of(context).size.height/5,),
+          margin: EdgeInsets.only( 
+            top: MediaQuery.of(context).size.height/11
+          ),
           child: Stack(
             children: <Widget>[
               Container(
@@ -36,7 +37,7 @@ class ProyectosContenido extends StatelessWidget {
                   ]
                 ),
                 child: Container(
-                  padding: EdgeInsets.only(top:40.0),
+                  padding: EdgeInsets.only(top:42.0),
                   child: Column(
                     children: <Widget>[
                       Text(
@@ -56,7 +57,6 @@ class ProyectosContenido extends StatelessWidget {
               ),
               Container(
                 color: Colors.transparent,
-                // margin: EdgeInsets.only(bottom: (MediaQuery.of(context).size.height/6)/1.5),
                 width: MediaQuery.of(context).size.width,
                 child: Center(
                   child: Container(
@@ -89,7 +89,11 @@ class ProyectosContenido extends StatelessWidget {
 
         Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2.5, left: 20.0, right: 20.0),
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height/3.5,
+            left: 20.0, 
+            right: 20.0
+          ),
           // color: Colors.black,
           child: ListView(
             children: <Widget>[
@@ -101,14 +105,10 @@ class ProyectosContenido extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           'Mis Proyectos ', 
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: AppTheme.darkText,
-                            fontWeight: FontWeight.w700,                            
-                          ),
+                          style: AppTheme.h1
                         ),
                         Text(
-                          '(10 proyectos)', 
+                          '(${contenidoWebService[0]['proyectos'].length} proyectos)', 
                           style: TextStyle(
                             fontSize: 18,
                             color: AppTheme.segundo,
@@ -122,87 +122,24 @@ class ProyectosContenido extends StatelessWidget {
                     ),
                     Text(
                       'Selecciona un proyecto', 
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: AppTheme.darkText,
-                        fontWeight: FontWeight.w200,
-                      ),
+                      style: AppTheme.parrafo
                     ),
                     SizedBox(
                       height: 20,
                     ),
-
-                    proyecto(
-                      context,
-                      1,
-                      true,
-                      'icn-linea-1',
-                      'semaforo-2'
-                    ),
-                    proyecto(
-                      context,
-                      2,
-                      false,
-                      'icn-linea-2',
-                      'semaforo-1'
-                    ),
-                    proyecto(
-                      context,
-                      3,
-                      false,
-                      'icn-linea-3',
-                      'semaforo-3'
-                    ),
-                    proyecto(
-                      context,
-                      4,
-                      false,
-                      'icn-linea-4',
-                      'semaforo-3'
-                    ),
-                    proyecto(
-                      context,
-                      5,
-                      true,
-                      'icn-linea-5',
-                      'semaforo-2'
-                    ),
-                    proyecto(
-                      context,
-                      6,
-                      false,
-                      'icn-linea-6',
-                      'semaforo-3'
-                    ),
-                    proyecto(
-                      context,
-                      7,
-                      false,
-                      'icn-linea-7',
-                      'semaforo-1'
-                    ),
-                    proyecto(
-                      context,
-                      8,
-                      false,
-                      'icn-linea-8',
-                      'semaforo-2'
-                    ),
-                    proyecto(
-                      context,
-                      9,
-                      true,
-                      'icn-linea-9',
-                      'semaforo-3'
-                    ),
-                    proyecto(
-                      context,
-                      10,
-                      true,
-                      'icn-linea-10',
-                      'semaforo-3'
-                    ),
-
+                    for(int cont = 0; cont < contenidoWebService[0]['proyectos'].length; cont++)
+                      proyecto(
+                        context,
+                        contenidoWebService[0]['proyectos'][cont]['codigoproyecto'],
+                        contenidoWebService[0]['proyectos'][cont]['nombrecategoria'],
+                        contenidoWebService[0]['proyectos'][cont]['nombreproyecto'],
+                        contenidoWebService[0]['proyectos'][cont]['valorejecutado'],
+                        contenidoWebService[0]['proyectos'][cont]['valorproyecto'],
+                        false,
+                        'icn-linea-1',
+                        contenidoWebService[0]['proyectos'][cont]['semaforoproyecto']
+                      ),
+                    if(contenidoWebService[0]['proyectos'].length == 0)
                     Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.only(bottom: 10.0),
@@ -244,8 +181,29 @@ class ProyectosContenido extends StatelessWidget {
   }
 
   List proyectosSeleccionados = [];
-  Widget proyecto(context, idProyecto, faltaPublicar, nombreIcono, nombreSemaforo)
+  Widget proyecto(
+    context, 
+    idProyecto, 
+    titulo, 
+    descripcion, 
+    valorEjecutado,
+    valorProyecto,
+    faltaPublicar, 
+    nombreIcono, 
+    nombreSemaforo
+  )
   {
+    int porcentaje = ((100*valorEjecutado)/valorProyecto).round();
+
+    String iconoSemaforo = 'semaforo-3';
+    if(nombreSemaforo == 'rojo'){
+      iconoSemaforo = 'semaforo-3';
+    }else if(nombreSemaforo == 'amarillo'){
+      iconoSemaforo = 'semaforo-2';
+    }else if(nombreSemaforo == 'verde'){
+      iconoSemaforo = 'semaforo-1';
+    }
+    
     return GestureDetector(
       onTap: () async{
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -330,7 +288,7 @@ class ProyectosContenido extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: Text(
-                                'DCA SC', 
+                                '$titulo', 
                                 style: AppTheme.tituloParrafo
                               ),
                             ),
@@ -339,15 +297,23 @@ class ProyectosContenido extends StatelessWidget {
                         SizedBox(
                           height: 3.5  ,
                         ),
+                        Text(
+                          '$descripcion', 
+                          style: TextStyle( 
+                            fontFamily: "montserrat",
+                            fontWeight: FontWeight.w600,
+                            fontSize: 9,
+                            color: Color(0xFF556a8d)
+                          )
+                        ),
                         Row(
                           children: <Widget>[
                             Expanded(
                               flex: 5,
                               child: Column(
                                 children: <Widget>[
-                                  Text(
-                                    'Abrego Vehiculo Compactador', 
-                                    style: AppTheme.parrafo
+                                  SizedBox(
+                                    height: 5.0,
                                   ),
                                   Row(
                                     children: <Widget>[
@@ -355,37 +321,35 @@ class ProyectosContenido extends StatelessWidget {
                                         child: Container(
                                           decoration: const BoxDecoration(
                                             border: Border(
-                                              right: BorderSide(width: 1.0, color: Color(0xFFFF000000)),
+                                              right: BorderSide(width: 0.5, color: Color(0xFFFF000000)),
                                             ),
                                           ),
-                                          child: Center(
-                                            child: Text(
-                                              '\$ 1.234', 
+                                          child: Text(
+                                              '\$ 1.234M', 
                                               style: AppTheme.comentarioPlomo
                                             ),
-                                          ),
                                         ),
                                       ),
                                       Expanded(
                                         child: Container(
                                           decoration: const BoxDecoration(
                                             border: Border(
-                                              right: BorderSide(width: 1.0, color: Color(0xFFFF000000)),
+                                              right: BorderSide(width: 0.5, color: Color(0xFFFF000000)),
                                             ),
                                           ),
                                           child: Center(
                                             child: Text(
-                                              '77%', 
+                                              '$porcentaje'+'%', 
                                               style: AppTheme.comentarioPlomo
                                             ),
                                           )
                                         )
                                       ),
                                       Expanded(
-                                        child: Container(
-                                          padding: EdgeInsets.only(left:10.0),
+                                        child: Center(
                                           child: Image.asset(
-                                            'assets/img/Desglose/Home/${nombreSemaforo}.png'
+                                            'assets/img/Desglose/Home/${iconoSemaforo}.png',
+                                            height: 15.0,
                                           )
                                         )
                                       ),
@@ -394,10 +358,10 @@ class ProyectosContenido extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: Text(''),
-                            )
+                            // Expanded(
+                            //   flex: 1,
+                            //   child: Text(''),
+                            // )
                           ],
                         ),
                       ],
