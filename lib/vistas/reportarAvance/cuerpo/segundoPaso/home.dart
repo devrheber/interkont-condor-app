@@ -1,4 +1,5 @@
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/segundoPaso/bloqueAgregado.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/segundoPaso/cajonTexto.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/segundoPaso/seleccionarAvance.dart';
@@ -7,9 +8,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final titleColor = Color(0xff444444);
 
-class CardCuerpoSegundoPaso extends StatelessWidget {
+class CardCuerpoSegundoPaso extends StatefulWidget {
 
+  CardCuerpoSegundoPaso({Key key}) : super(key: key);
 
+  @override
+  CardCuerpoSegundoPasoState createState() => CardCuerpoSegundoPasoState();
+}
+
+class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
+
+  List listaLogrosDificultades = [];
+  String txtLogro = '';
+  String txtDificultad = '';
+  bool reiniciarLogroDificultad = false;
+
+  TextEditingController controllerLogro = TextEditingController();
+  TextEditingController controllerDificultad = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +68,29 @@ class CardCuerpoSegundoPaso extends StatelessWidget {
                       context,
                       'Ingrese los logros',
                       'Aca puede agregar los logros que obtuvo el proyecto..',
-                      true
+                      true,
+                      (texto){
+                        setState(() {
+                          txtLogro = texto;
+                        });
+                      },
+                      controllerLogro
                     ),
                     cajonTexto(
                       context,
                       'Ingrese las dificultades',
                       'Aca puede agregar los dificultades que obtuvo el proyecto..',
-                      false
+                      false,
+                      (texto){
+                        setState(() {
+                          txtDificultad = texto;
+                        });
+                      },
+                      controllerDificultad
                     ),
                     GestureDetector(
                       onTap: (){
-                        
+                        anadirLogroDificultad();
                       },
                       child: Container(
                         padding: EdgeInsets.only(top:10.0),
@@ -119,8 +146,9 @@ class CardCuerpoSegundoPaso extends StatelessWidget {
                         ),
                       )
                     ),
-
-                    bloqueAgregado(context, '','')
+                    
+                    for(int cont=0; cont<listaLogrosDificultades.length; cont++)
+                    bloqueAgregado(context, listaLogrosDificultades[cont]['titulo'], listaLogrosDificultades[cont]['logro'], listaLogrosDificultades[cont]['dificultad'], (){listaLogrosDificultades.removeAt(cont); setState(() {listaLogrosDificultades = listaLogrosDificultades;});})
                     
                   ],
                 ),
@@ -130,5 +158,21 @@ class CardCuerpoSegundoPaso extends StatelessWidget {
         )
       ],
     );
+  }
+
+  void anadirLogroDificultad()
+  {
+    controllerLogro.clear();
+    controllerDificultad.clear();
+    listaLogrosDificultades.add(
+      {
+        'titulo'      : txtBtnDesplegableAvanceCualitativo,
+        'logro'       : txtLogro,
+        'dificultad'  : txtDificultad,
+      }
+    );
+    setState(() {
+      listaLogrosDificultades = listaLogrosDificultades;
+    });
   }
 }

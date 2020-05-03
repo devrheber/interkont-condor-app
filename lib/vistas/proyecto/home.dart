@@ -1,25 +1,22 @@
-import 'dart:convert';
-
+import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
 import 'package:appalimentacion/globales/transicion.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/proyecto/contenido.dart';
 import 'package:appalimentacion/vistas/reportarAvance/home.dart';
 import 'package:appalimentacion/widgets/home/contenidoBottom.dart';
 import 'package:appalimentacion/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
-import 'package:appalimentacion/globales/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Proyecto extends StatefulWidget {
-  final String nombreIcono;
-  Proyecto({Key key, this.nombreIcono}) : super(key: key);
+  Proyecto({Key key}) : super(key: key);
   
   @override
   ProyectoState createState() => ProyectoState();
 }
 
 class ProyectoState extends State<Proyecto> {
-// class Proyecto extends StatelessWidget {
-  bool segundoBotonDesactivado = true;
   SharedPreferences prefs;
   void activarVariablesPreferences()
   async{
@@ -38,27 +35,27 @@ class ProyectoState extends State<Proyecto> {
   Widget build(BuildContext context) {
     return FondoHome(
       contenido: ContenidoProyecto(
-        nombreIcono: widget.nombreIcono
       ),
       bottomNavigationBar: true,
       contenidoBottom: contenidoBottom(
         context,
+        AppTheme.bottomPrincipal,
         false,
         false,
-        segundoBotonDesactivado,
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['pendienteAprobacion'],
         null,
         'Reportar Avance',
         null,
-        ()async{
-          if(segundoBotonDesactivado == true){
-            setState(() {
-              segundoBotonDesactivado = false;
-            });
-            await prefs.setString('estadoInformeProyecto', 'informeAprobado');
+        (){
+          if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['pendienteAprobacion'] == true){
+            // setState(() {
+            //   segundoBotonDesactivado = false;
+            // });
             
           }else{
-            print('$posicionListaProyectosSeleccionado');
-            cambiarPaginaSeleccionada();
+            cambiarPasoProyecto(
+              1
+            );
             cambiarPagina(
               context, 
               ReportarAvance()
@@ -68,15 +65,4 @@ class ProyectoState extends State<Proyecto> {
       )
     );
   }
-
-  List proyectosSeleccionados = [];
-  void cambiarPaginaSeleccionada ()
-  async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    proyectosSeleccionados = json.decode(prefs.getString('listProyectosSeleccionados'));
-    proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso'] = 1;
-    String stringListasProyectosSeleccionados = json.encode(proyectosSeleccionados);
-    await prefs.setString('listProyectosSeleccionados', stringListasProyectosSeleccionados);
-  }
-
 }

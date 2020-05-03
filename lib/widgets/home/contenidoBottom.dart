@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 Widget contenidoBottom(
   context,
+  Color colorFondo,
   bool dosBotones,
   bool primerBotonDesactivado,
   bool segundoBotonDesactivado,
@@ -18,6 +19,7 @@ Widget contenidoBottom(
       Expanded(
         child: btnCancelar(
           context,
+          colorFondo,
           txtPrimerBoton,
           accionPrimerBoton,
           primerBotonDesactivado
@@ -26,6 +28,7 @@ Widget contenidoBottom(
       Expanded(
         child: btnSiguiente(
           context,
+          colorFondo,
           txtSegundoBoton,
           accionSegundoBoton,
           segundoBotonDesactivado
@@ -38,6 +41,7 @@ Widget contenidoBottom(
 
 Widget btnCancelar(
   context,
+  colorFondo,
   texto,
   accion,
   desactivado
@@ -49,7 +53,12 @@ Widget btnCancelar(
     },
     child: Container(
       padding: EdgeInsets.all(10.0),
-      color: AppTheme.bottomPrincipal,
+      decoration: BoxDecoration(
+        color: colorFondo,
+        border: Border.all(
+          color: colorFondo,
+        ),
+      ),
       child: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only( 
@@ -92,6 +101,7 @@ Widget btnCancelar(
 
 Widget btnSiguiente(
   context,
+  colorFondo,
   texto,
   accion,
   desactivado
@@ -108,7 +118,13 @@ Widget btnSiguiente(
     },
     child: Container(
       padding: EdgeInsets.all(10.0),
-      color: AppTheme.bottomPrincipal,
+      // color: AppTheme.bottomPrincipal,
+      decoration: BoxDecoration(
+        color: colorFondo,
+        border: Border.all(
+          color: colorFondo,
+        ),
+      ),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only( 

@@ -158,10 +158,10 @@ class _LoginPageState extends State<LoginPage> {
                           context, 
                           MaterialPageRoute(
                             builder: (context) => Preload(
-                              // txt_usuario:'interkont@2',
-                              // txt_contrasena:'45911804'
-                              txt_usuario:txt_usuario,
-                              txt_contrasena:txt_contrasena
+                              txt_usuario:'interkont@2',
+                              txt_contrasena:'45911804'
+                              // txt_usuario:txt_usuario,
+                              // txt_contrasena:txt_contrasena
                             )
                           ));
                         },

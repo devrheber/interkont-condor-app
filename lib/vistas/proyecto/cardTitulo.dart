@@ -1,13 +1,13 @@
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/transicion.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:flutter/material.dart';
 
 final titleColor = Color(0xff444444);
 
 class CardTitulo extends StatefulWidget {
-  final String nombreIcono;
-  CardTitulo({Key key, this.nombreIcono}) : super(key: key);
+  CardTitulo({Key key}) : super(key: key);
   
   @override
   CardTituloState createState() => CardTituloState();
@@ -54,7 +54,7 @@ class CardTituloState extends State<CardTitulo> {
                           right: 70.0
                         ),
                         child: Text(
-                          'TESALIA CENTRO DE DESARROLLO HIDRICO',
+                          '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['nombreproyecto']}',
                           textAlign: TextAlign.center,
                           style: AppTheme.tituloParrafo
                         ),
@@ -69,7 +69,7 @@ class CardTituloState extends State<CardTitulo> {
                         ),
                         child: Center(
                           child: Text(
-                            'Estudios diseños y contruccion de centros de integracion ciudadana cic. grupo 1 - region pacifico de Colombia',
+                            '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['objeto']}',
                             textAlign: TextAlign.center,
                             style: AppTheme.parrafo
                           ),
@@ -92,13 +92,13 @@ class CardTituloState extends State<CardTitulo> {
                           height: 75,
                           width: 80,
                           decoration: BoxDecoration(
+                            shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: AssetImage(
-                                'assets/img/Desglose/Home/${widget.nombreIcono}.png'
-                              ), 
-                              fit: BoxFit.fill
+                              image: NetworkImage(
+                                '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['imagencategoria']}',
+                              ),
+                              fit: BoxFit.fitWidth
                             ),
-                            borderRadius: BorderRadius.circular(100),
                             border: Border.all(
                               color: Colors.white, 
                               width: 5

@@ -2,8 +2,10 @@ import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 
 final titleColor = Color(0xff444444);
-Widget cajonTexto(context, textoTitulo, textoHint, logros )
+
+Widget cajonTexto(context, textoTitulo, textoHint, logros, capturarCambio, TextEditingController controller )
 {
+    
   return Container(
     width: MediaQuery.of(context).size.width,
     height: 120.0,
@@ -51,6 +53,9 @@ Widget cajonTexto(context, textoTitulo, textoHint, logros )
         Container(
           padding: EdgeInsets.only(top:10.0),
           child: TextField(
+            
+            controller: controller,
+            onChanged: capturarCambio,
             maxLines: 2,
             decoration: InputDecoration.collapsed(
               hintText: "$textoHint",

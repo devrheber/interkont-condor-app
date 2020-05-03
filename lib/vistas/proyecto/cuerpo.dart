@@ -1,8 +1,7 @@
 import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/globales/transicion.dart';
-import 'package:appalimentacion/vistas/proyecto/home.dart';
+import 'package:appalimentacion/globales/variables.dart';
+import 'package:appalimentacion/vistas/proyecto/widgets/seleccionaPeriodo.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CardCuerpo extends StatefulWidget {
@@ -24,11 +23,27 @@ class CardCuerpoState extends State<CardCuerpo> {
       prefs = prefs;
     });
   }
+
+  double valorejecutado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorejecutado'];
+  double valorproyecto = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'];
+  int porcentajeAsiVa = 0;
+
   @override
   void initState(){
     activarVariablesPreferences();
+    setState(() {
+      porcentajeAsiVa = ((100*valorejecutado)/valorproyecto).round();
+    });
   }
 
+  // Seleccione el periodo a reportar
+  int posicionPeriodoReportado = 0;
+  cambiarPosicionPeriodoReportado(nuevaPosicion)
+  {
+    setState(() {
+      posicionPeriodoReportado = nuevaPosicion;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -61,65 +76,14 @@ class CardCuerpoState extends State<CardCuerpo> {
                       ),
                     ),
 
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(
-                        bottom: 10.0
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        border: Border(
-                          top: BorderSide(width: 0.5, color: AppTheme.cuarto),
-                          left: BorderSide(width: 0.5, color: AppTheme.cuarto),
-                          right: BorderSide(width: 0.5, color: AppTheme.cuarto),
-                          bottom: BorderSide(width: 0.5, color: AppTheme.cuarto),
-                        ),
-                      ),
-                      padding: EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Icon(
-                              FontAwesomeIcons.clock
-                            ),
-                          ),
-                          Expanded(
-                            flex: 6,
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  'del',
-                                  style: AppTheme.parrafo
-                                ),
-                                Text(
-                                  ' 14.Feb.19 ',
-                                  style: AppTheme.parrafoNegrita
-                                ),
-                                Text(
-                                  'hasta el ',
-                                  style: AppTheme.parrafo
-                                ),
-                                Text(
-                                  '15.Mar.19',
-                                  style: AppTheme.parrafoNegrita
-                                ),
-                              ],
-                            )
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Icon(
-                              FontAwesomeIcons.arrowDown
-                            ),
-                          ),
-                        ],
-                      )
+                    seleccionaPeriodo(
+                      context,
+                      posicionPeriodoReportado,
+                      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'],
+                      (posicion){cambiarPosicionPeriodoReportado(posicion);}
                     ),
 
-                    //miomio
-                    prefs.getString('estadoInformeProyecto')== 'informeNoAprobado'
+                    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['pendienteAprobacion'] == true
                     ?
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -146,9 +110,6 @@ class CardCuerpoState extends State<CardCuerpo> {
                             margin: EdgeInsets.only(
                               bottom: 5.0
                             ),
-                            // margin: EdgeInsets.only(
-                            //   bottom: 5.0
-                            // ),
                             child: Image.asset(
                               'assets/img/Desglose/Demas/icn-alert.png',
                             ),
@@ -156,8 +117,7 @@ class CardCuerpoState extends State<CardCuerpo> {
                           Text(
                             'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
                             style: AppTheme.parrafoRojo,
-                            textAlign: TextAlign.center,
-                            
+                            textAlign: TextAlign.center
                           )
                         ],
                       )
@@ -193,27 +153,27 @@ class CardCuerpoState extends State<CardCuerpo> {
           children: <Widget>[
             celdas(
               'Presupuesto',
-              '\$ 1.245.041.248',
+              '\$ ${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto']}',
               false
             ),
             celdas(
               'Asi va',
-              '63%',
+              '$porcentajeAsiVa%',
               false
             ),
             celdas(
               'Asi deberia ir',
-              '67%',
+              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porcentajeProyectado'].round()}%',
               false
             ),
             celdas(
               'Contratista',
-              'Arqueada SAS',
+              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['contratista']}',
               false
             ),
             celdas(
               'Semaforo',
-              '',
+              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['semaforoproyecto']}',
               true
             ),
 
@@ -227,6 +187,16 @@ class CardCuerpoState extends State<CardCuerpo> {
   {
     // SI LA VARIABLE "SEMAFORO" ESTA EN TRUE SIGNIFICA QUE ES LA ULTIMA CELDA, 
     // POR LO TANTO NO TIENE BORDE EN BOTTOM Y SU PADDING EN BOTTOM ES MENOR
+    String iconoSemaforo = 'semaforo-3';
+    if(semaforo == true){
+      if(txtSegundo == 'rojo'){
+        iconoSemaforo = 'semaforo-3';
+      }else if(txtSegundo == 'amarillo'){
+        iconoSemaforo = 'semaforo-2';
+      }else if(txtSegundo == 'verde'){
+        iconoSemaforo = 'semaforo-1';
+      }
+    }
     return Container(
       padding: 
       semaforo == true
@@ -271,7 +241,7 @@ class CardCuerpoState extends State<CardCuerpo> {
               child: Row(
                 children: <Widget>[
                   Image.asset(
-                    'assets/img/Desglose/Home/semaforo-3.png',
+                    'assets/img/Desglose/Home/'+iconoSemaforo+'.png',
                   ),
                 ],
               )

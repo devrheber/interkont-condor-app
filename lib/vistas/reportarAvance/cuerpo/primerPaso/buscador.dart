@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 final titleColor = Color(0xff444444);
 
-Widget buscador(context)
+Widget buscador(context, accion)
 {
   return Row(
     children: <Widget>[
@@ -26,16 +26,14 @@ Widget buscador(context)
               ),
               Expanded(
                 child: TextField(
-                  decoration: InputDecoration.collapsed(hintText: "Buscar por palabra clave..", )
+                  decoration: InputDecoration.collapsed(hintText: "Buscar por palabra clave..", ),
+                  onChanged: accion
                 ),
               )
             ],
           )
         ),
       ),
-
-
-
       Expanded(
         flex: 1,
         child: GestureDetector(

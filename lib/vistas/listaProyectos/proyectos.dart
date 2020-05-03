@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/proyecto/home.dart';
 import 'package:appalimentacion/vistas/reportarAvance/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:appalimentacion/widgets/cargando.dart';
+import 'package:appalimentacion/widgets/respuestaHttp.dart';
+import 'package:http/http.dart' as http;
 
 final titleColor = Color(0xff444444);
 
@@ -48,7 +52,8 @@ class ProyectosContenido extends StatelessWidget {
                         height: 5.0,
                       ),
                       Text(
-                        'Usuario Admin',
+                        contenidoWebService[0]['usuario']['nombreUsu'],
+                        // 'Usuario Admin',
                         style: AppTheme.parrafo,
                       )
                     ],
@@ -130,6 +135,7 @@ class ProyectosContenido extends StatelessWidget {
                     for(int cont = 0; cont < contenidoWebService[0]['proyectos'].length; cont++)
                       proyecto(
                         context,
+                        cont,
                         contenidoWebService[0]['proyectos'][cont]['codigoproyecto'],
                         contenidoWebService[0]['proyectos'][cont]['nombrecategoria'],
                         contenidoWebService[0]['proyectos'][cont]['nombreproyecto'],
@@ -137,7 +143,9 @@ class ProyectosContenido extends StatelessWidget {
                         contenidoWebService[0]['proyectos'][cont]['valorproyecto'],
                         false,
                         'icn-linea-1',
-                        contenidoWebService[0]['proyectos'][cont]['semaforoproyecto']
+                        contenidoWebService[0]['proyectos'][cont]['semaforoproyecto'],
+                        contenidoWebService[0]['proyectos'][cont]['colorcategoria'],
+                        contenidoWebService[0]['proyectos'][cont]['imagencategoria']
                       ),
                     if(contenidoWebService[0]['proyectos'].length == 0)
                     Container(
@@ -180,9 +188,9 @@ class ProyectosContenido extends StatelessWidget {
     ); 
   }
 
-  List proyectosSeleccionados = [];
   Widget proyecto(
-    context, 
+    context,
+    posicion,
     idProyecto, 
     titulo, 
     descripcion, 
@@ -190,7 +198,9 @@ class ProyectosContenido extends StatelessWidget {
     valorProyecto,
     faltaPublicar, 
     nombreIcono, 
-    nombreSemaforo
+    nombreSemaforo,
+    colorTitulo,
+    imagencategoria
   )
   {
     int porcentaje = ((100*valorEjecutado)/valorProyecto).round();
@@ -203,60 +213,21 @@ class ProyectosContenido extends StatelessWidget {
     }else if(nombreSemaforo == 'verde'){
       iconoSemaforo = 'semaforo-1';
     }
-    
+
+    colorTitulo = colorTitulo.split("#");
+    colorTitulo = "0XFF"+colorTitulo[1];
+
+    // VALOR EN MILLONES
+    var valorProyectoRedondeado = valorProyecto/1000000;
+    valorProyectoRedondeado = double.parse((valorProyectoRedondeado).toStringAsFixed(1));
     return GestureDetector(
       onTap: () async{
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        var nuevoElemento = {
-          'id'    : idProyecto,
-          'icono' : '$nombreIcono',
-          'paso'  : 0
-        };
-        
-        proyectosSeleccionados = json.decode(prefs.getString('listProyectosSeleccionados'));
-
-        if(proyectosSeleccionados.length > 0){
-          for(int cont = 0 ; cont < proyectosSeleccionados.length; cont++){
-            if(proyectosSeleccionados[cont]['id'] == idProyecto){
-              print('ya existe');
-              posicionListaProyectosSeleccionado = cont;
-              break;
-            }else if(cont+1 == proyectosSeleccionados.length){
-              proyectosSeleccionados.add( nuevoElemento );
-              print('Agregado');
-              posicionListaProyectosSeleccionado = proyectosSeleccionados.length-1;
-              break;
-            }
-          }
-        }else{
-          proyectosSeleccionados.add( nuevoElemento );
-          posicionListaProyectosSeleccionado = 0;
-          print('primerElemento');
-        }
-        
-        String stringListasProyectosSeleccionados = json.encode(proyectosSeleccionados);
-        await prefs.setString('listProyectosSeleccionados', stringListasProyectosSeleccionados);
-        await print(prefs.getString('listProyectosSeleccionados'));
-        
-        switch (proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso']) {
-          case 0:
-            cambiarPagina(
-              context, 
-              Proyecto(
-                nombreIcono: nombreIcono,
-              )
-            );
-            break;
-          case 1:
-            cambiarPagina(
-              context, 
-              ReportarAvance()
-            );    
-            break;
-          default:
-        }
-
-        
+        _seleccionarProyecto(
+          context,
+          posicion,
+          idProyecto,
+          nombreIcono
+        );
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -272,9 +243,9 @@ class ProyectosContenido extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: Image.asset(
-                    'assets/img/Desglose/Home/${nombreIcono}.png'
-                  )
+                  child: Image.network(
+                    '$imagencategoria'
+                  ),
                 ),
                 Expanded(
                   flex: 4,
@@ -288,8 +259,16 @@ class ProyectosContenido extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: Text(
-                                '$titulo', 
-                                style: AppTheme.tituloParrafo
+                                '$titulo',
+                                style: TextStyle( 
+                                  fontFamily: 'montserrat',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13,
+                                  letterSpacing: 0.4,
+                                  height: 0.9,
+                                  color: Color(int.parse(colorTitulo))
+                                ),
+                                // style: AppTheme.tituloParrafo
                               ),
                             ),
                           ],
@@ -317,18 +296,17 @@ class ProyectosContenido extends StatelessWidget {
                                   ),
                                   Row(
                                     children: <Widget>[
-                                      Expanded(
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                            border: Border(
-                                              right: BorderSide(width: 0.5, color: Color(0xFFFF000000)),
-                                            ),
+                                      Container(
+                                        width: 90.0,
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(width: 0.5, color: Color(0xFFFF000000)),
                                           ),
-                                          child: Text(
-                                              '\$ 1.234M', 
-                                              style: AppTheme.comentarioPlomo
-                                            ),
                                         ),
+                                        child: Text(
+                                            '\$ $valorProyectoRedondeado'+'M', 
+                                            style: AppTheme.comentarioPlomo
+                                          ),
                                       ),
                                       Expanded(
                                         child: Container(
@@ -388,18 +366,52 @@ class ProyectosContenido extends StatelessWidget {
                 ],
               ),
             )
-
-
-
-
-
-
           ],
         )
       )
     );
   }
 
+  _seleccionarProyecto(context, posicion, idProyecto, nombreIcono)
+  async{
+    posicionListaProyectosSeleccionado = posicion;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if(contenidoWebService[0]['proyectos'][posicion]['paso'] == null){
+      contenidoWebService[0]['proyectos'][posicion]['paso'] = 0;
+      prefs.setString('contenidoWebService', jsonEncode(contenidoWebService));
+    }else{
+
+    }
+    print('PASO ACTUAL:');
+    print(contenidoWebService[0]['proyectos'][posicion]['paso']);
+    //miomio
+
+    var respuesta = await obtenerDatosProyecto(idProyecto);
+    if(respuesta){
+      switch (contenidoWebService[0]['proyectos'][posicion]['paso']) {
+        case 0:
+          cambiarPagina(
+            context,
+            Proyecto()
+          );
+          break;
+        case 1:
+          cambiarPagina(
+            context, 
+            ReportarAvance()
+          );
+          break;
+        default:
+        cambiarPagina(
+          context, 
+          ReportarAvance()
+        );
+      }
+    }else{
+
+    }
+  }
 }
 
 

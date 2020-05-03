@@ -1,7 +1,7 @@
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 
-Widget bloqueAgregado(context, textoTitulo, textoHint )
+Widget bloqueAgregado(context, textoTitulo, textoLogro, textoDificultad, accionEliminar )
 {
   return Container(
     width: MediaQuery.of(context).size.width,
@@ -12,32 +12,36 @@ Widget bloqueAgregado(context, textoTitulo, textoHint )
       borderRadius: BorderRadius.all(Radius.circular(10)),
     ),
     child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(
           children: <Widget>[
             Expanded(
               flex: 2,
               child: Text(
-                'Administrativo',
+                '$textoTitulo',
                 style: AppTheme.h2,
               ),
             ),
             Expanded(
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    'Eliminar',
-                    textAlign: TextAlign.end,
-                    style: AppTheme.peligro,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left:5.0),
-                    width: 25.0,
-                    child: Image.asset(
-                      'assets/img/Desglose/Demas/btn-delete.png',
+              child: GestureDetector(
+                onTap: accionEliminar,
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Eliminar',
+                      textAlign: TextAlign.end,
+                      style: AppTheme.peligro,
                     ),
-                  )
-                ],
+                    Container(
+                      margin: EdgeInsets.only(left:5.0),
+                      width: 25.0,
+                      child: Image.asset(
+                        'assets/img/Desglose/Demas/btn-delete.png',
+                      ),
+                    )
+                  ],
+                )
               )
             )
           ],
@@ -52,10 +56,12 @@ Widget bloqueAgregado(context, textoTitulo, textoHint )
               Text(
                 'LOGROS',
                 style: AppTheme.tituloParrafo,
+                textAlign: TextAlign.start,
               ),
               Text(
-                'lorem ipsum dolor text otros a la bin bin que refurinfunflay asda asdas asd adas dasd asd',
+                '$textoLogro',
                 style: AppTheme.parrafo,
+                textAlign: TextAlign.start,
               ),
 
               SizedBox(
@@ -65,10 +71,12 @@ Widget bloqueAgregado(context, textoTitulo, textoHint )
               Text(
                 'DIFICULTADES',
                 style: AppTheme.tituloParrafo,
+                textAlign: TextAlign.start,
               ),
               Text(
-                'lorem ipsum dolor text otros a la bin bin que refurinfunflay asda asdas asd adas dasd asd',
+                '$textoDificultad',
                 style: AppTheme.parrafo,
+                textAlign: TextAlign.start,
               ),
 
             ],

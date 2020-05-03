@@ -1,7 +1,6 @@
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 
 final titleColor = Color(0xff444444);
 class SeleccionarAvance extends StatefulWidget {
@@ -13,14 +12,21 @@ class SeleccionarAvance extends StatefulWidget {
 }
 
 class _SeleccionarAvanceState extends State<SeleccionarAvance> {
-  String textoSeleccionado = 'Administrativo';
-  List<String> valoresSelect = [
-    "Administrativo",
-    "Financiero",
-    "Técnico",
-    "Jurídico",
-    "Social"
-  ]; 
+  String textoSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]['descripcionAspectoEvaluar'];
+
+  List<String> valoresSelect = [];
+  int aspectoEvaluarId = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]['aspectoEvaluarId'];
+  List valores = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'];
+  // contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'];
+
+  @override
+  void initState()
+  {
+    for(int cont = 1; cont < valores.length; cont++){
+      valoresSelect.add(valores[cont]['descripcionAspectoEvaluar']);
+    }
+    txtBtnDesplegableAvanceCualitativo = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]['descripcionAspectoEvaluar'];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +47,6 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
           ),
           Expanded(
             child: DropdownButtonHideUnderline(
-              
               child: DropdownButton(
                 hint: Padding(
                   padding: EdgeInsets.only(left: 10.0),
@@ -64,10 +69,16 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
                 )).toList(),
                 onChanged: (String value) {
                   setState(() {
+                    for(int cont = 1; cont < valores.length; cont++){
+                      if(valores[cont]['descripcionAspectoEvaluar'] == value){
+                        aspectoEvaluarId = valores[cont]['aspectoEvaluarId'];
+                        break;
+                      }
+                    }
                     textoSeleccionado = value;
+                    txtBtnDesplegableAvanceCualitativo = value;
                   });
                 },
-                // value: "textoSeleccionado",
               ),
             )
           )

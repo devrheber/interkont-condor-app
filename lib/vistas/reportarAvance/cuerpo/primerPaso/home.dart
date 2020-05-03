@@ -1,11 +1,21 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/primerPaso/buscador.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/primerPaso/carouselAvances.dart';
 import 'package:flutter/material.dart';
 
 final titleColor = Color(0xff444444);
 
-class CardCuerpoPrimerPaso extends StatelessWidget {
+class CardCuerpoPrimerPaso extends StatefulWidget {
+  
+  CardCuerpoPrimerPaso({Key key}) : super(key: key);
+  
+  @override
+  CardCuerpoPrimerPasoState createState() => CardCuerpoPrimerPasoState();
+}
+
+class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
+  // Ingrese cantidad de avance por actividad
+  String txtBuscarAvance = '';
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -47,15 +57,22 @@ class CardCuerpoPrimerPaso extends StatelessWidget {
                 ),
               ),
 
-
-              buscador(context),
+              buscador(
+                context,
+                (value){
+                  setState(() {
+                    txtBuscarAvance = value;
+                  });
+                }
+              ),
               
               SizedBox(
                 height: 10.0,
               ),
 
-
-              carouselAvances(context)
+              CarouselAvances(
+                txtBuscar: txtBuscarAvance,
+              )
             ]
           )
         )

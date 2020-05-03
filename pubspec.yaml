@@ -33,6 +33,8 @@ dependencies:
   percent_indicator: ^2.1.1
   http: any
   path_provider:
+  intl: ^0.16.1
+
 
   
 

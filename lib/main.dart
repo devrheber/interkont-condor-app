@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/logo.dart';
 import 'package:appalimentacion/globales/variables.dart';
@@ -29,13 +28,11 @@ class _TodoAppState extends State<TodoApp>{
   void obtenerListaProyectosSeleccionados()
   async{
     prefs = await SharedPreferences.getInstance();
-    await prefs.setString('estadoInformeProyecto', 'informeNoAprobado');
-    await prefs.setString('listProyectosSeleccionados', '[]');
     obtenerDataGuardada();
   }
 
   void obtenerDataGuardada()
-  async{
+  async{  //CONTENIDO DE LA WEB SERVICES = LISTA DE PROYECTOS Y DATOS DEL USUARIO LOGEADO
     if(prefs.getString('contenidoWebService') == null){
       // contenidoWebService = [];
     }else{

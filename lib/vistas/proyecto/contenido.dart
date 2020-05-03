@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 final titleColor = Color(0xff444444);
 
 class ContenidoProyecto extends StatefulWidget {
-  final String nombreIcono;
-  ContenidoProyecto({Key key, this.nombreIcono}) : super(key: key);
+  
+  ContenidoProyecto({Key key}) : super(key: key);
   
   @override
   ContenidoProyectoState createState() => ContenidoProyectoState();
@@ -19,7 +19,6 @@ class ContenidoProyectoState extends State<ContenidoProyecto> {
     return Stack(
       children: <Widget>[
         CardTitulo(
-          nombreIcono: widget.nombreIcono,
         ),
         SizedBox(
           height: 10,

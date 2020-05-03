@@ -134,6 +134,13 @@ class AppTheme {
     color: Colors.white,
   );
 
+  static const TextStyle parrafoBlancoNegrita = TextStyle( 
+    fontFamily: fontName,
+    fontWeight: FontWeight.w700,
+    fontSize: 11,
+    color: Colors.white,
+  );
+
   static const TextStyle parrafoRojo = TextStyle( 
     fontFamily: fontName,
     fontWeight: FontWeight.w200,

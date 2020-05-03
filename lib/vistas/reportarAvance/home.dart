@@ -1,8 +1,10 @@
-import 'dart:convert';
+import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/reportarAvance/contenido.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cargando.dart';
+import 'package:appalimentacion/vistas/reportarAvance/cuerpo/factorAtraso/index.dart';
 import 'package:appalimentacion/widgets/home/contenidoBottom.dart';
 import 'package:appalimentacion/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
@@ -18,19 +20,16 @@ class ReportarAvance extends StatefulWidget {
 }
 
 class ReportarAvanceState extends State<ReportarAvance> {
-// class ReportarAvance extends StatelessWidget {
   SharedPreferences prefs;
   String txtPrimerBoton = '';
   String txtSegundoBoton = '';
   var accionPrimerBoton = (){};
   var accionSegundoBoton = (){};
   int numeroPaso = 0;
-  List proyectosSeleccionados = [];
 
   void obtenerVariablesSharedPreferences() async
   {
     prefs = await SharedPreferences.getInstance();
-    proyectosSeleccionados = json.decode(prefs.getString('listProyectosSeleccionados'));
     actualizarPaso();
   }
 
@@ -42,17 +41,17 @@ class ReportarAvanceState extends State<ReportarAvance> {
 
   void siguiente() async
   {
-    proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso'] = proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso']+1;
-    String stringListasProyectosSeleccionados = json.encode(proyectosSeleccionados);
-    await prefs.setString('listProyectosSeleccionados', stringListasProyectosSeleccionados);
+    cambiarPasoProyecto(
+      numeroPaso+1
+    );
     actualizarPaso();
   }
 
   void anterior() async
   {
-    proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso'] = proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso']-1;
-    String stringListasProyectosSeleccionados = json.encode(proyectosSeleccionados);
-    await prefs.setString('listProyectosSeleccionados', stringListasProyectosSeleccionados);
+    cambiarPasoProyecto(
+      numeroPaso-1
+    );
     actualizarPaso();
   }
 
@@ -60,8 +59,8 @@ class ReportarAvanceState extends State<ReportarAvance> {
   {
 
     setState(() {
-      numeroPaso = proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso'];
-      if(proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso'] == 1){
+      numeroPaso = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'];
+      if(numeroPaso == 1){
         txtPrimerBoton  = 'Cancelar';
         txtSegundoBoton = 'Siguíente Paso';
         accionPrimerBoton = (){
@@ -70,7 +69,20 @@ class ReportarAvanceState extends State<ReportarAvance> {
         accionSegundoBoton = (){
           siguiente();
         };
-      }else if(proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso'] == 2 || proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso'] == 3 || proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso'] == 4){
+      }else if(numeroPaso == 2){
+        txtPrimerBoton  = 'Cancelar';
+        txtSegundoBoton = 'Siguíente Paso';
+        accionPrimerBoton = (){
+          anterior();
+        };
+        accionSegundoBoton = (){
+          print('Siguiente');
+          cambiarPagina(
+            context,
+            IndexFactorAtraso()
+          );
+        };
+      }else if(numeroPaso == 3 || numeroPaso == 4){
         txtPrimerBoton  = 'Cancelar';
         txtSegundoBoton = 'Siguíente Paso';
         accionPrimerBoton = (){
@@ -79,22 +91,21 @@ class ReportarAvanceState extends State<ReportarAvance> {
         accionSegundoBoton = (){
           siguiente();
         };
-      }else if(proyectosSeleccionados[posicionListaProyectosSeleccionado]['paso'] == 5){
+      }else if(numeroPaso == 5){
         txtPrimerBoton  = 'Cancelar';
-          txtSegundoBoton = 'Finalizar';
-          accionPrimerBoton = (){
-            anterior();
-          };
-          accionSegundoBoton = (){
-            Navigator.of(context).pop();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CargandoFinalizar()),
-            );
-          };
+        txtSegundoBoton = 'Finalizar';
+        accionPrimerBoton = (){
+          anterior();
+        };
+        accionSegundoBoton = (){
+          Navigator.of(context).pop();
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CargandoFinalizar()),
+          );
+        };
       }
     });
-
   }
 
   @override
@@ -106,6 +117,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
       bottomNavigationBar: true,
       contenidoBottom: contenidoBottom(
         context,
+        AppTheme.bottomPrincipal,
         true,
         false,
         false,
@@ -116,7 +128,4 @@ class ReportarAvanceState extends State<ReportarAvance> {
       )
     );
   }
-
-  
-  
 }

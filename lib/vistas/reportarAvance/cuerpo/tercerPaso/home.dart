@@ -1,10 +1,11 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/tercerPaso/carouselAvances.dart';
 import 'package:flutter/material.dart';
 
 final titleColor = Color(0xff444444);
 
 class CardCuerpoTercerPaso extends StatelessWidget {
+  // Indicador de alcance
+  String txtBuscarAlcance = '';
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +54,6 @@ class CardCuerpoTercerPaso extends StatelessWidget {
                       height: 10.0,
                     ),
                     carouselAlcance(context)
-
-
                   ],
                 ),
               ),

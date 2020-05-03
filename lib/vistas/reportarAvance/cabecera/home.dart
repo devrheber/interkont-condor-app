@@ -3,8 +3,6 @@ import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/vistas/proyecto/home.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cabecera/cardHead.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 
 class CardHeadReporteAvance extends StatefulWidget {
   final int numeroPaso;
