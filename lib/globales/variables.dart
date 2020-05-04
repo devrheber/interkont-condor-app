@@ -4,6 +4,7 @@ String urlGlobal = 'http://13.59.62.87:8080';
 String urlGlobalApiCondor = urlGlobal+'/cobra-ws-condor';
 int posicionListaProyectosSeleccionado = 0;
 String txtBtnDesplegableAvanceCualitativo = '';
+int idAspectoEvaluar;
 List contenidoWebService = [
   {
     'usuario' : {
@@ -26,9 +27,10 @@ List contenidoWebService = [
         "objeto"              : '',
         "contratista"         : '',
         "pendienteAprobacion" : '',
-        "paso"                : '',
+        "paso"                : '',   //CACHE
         "datos"               :{
           "limitePorcentajeAtraso": '',
+          "periodoIdSeleccionado" : '', //CACHE
           "periodos": [
               {
                   "periodoId"             : '',
@@ -55,7 +57,7 @@ List contenidoWebService = [
                   "valorEjecutado": 3000000,
                   "porcentajeAvance": 30.0,
 
-                  'avance' : ''
+                  'txtActividadAvance' : '' //CACHE
               },
           ],
           "indicadoresAlcance": [
@@ -65,7 +67,9 @@ List contenidoWebService = [
               "unidadMedida": "Ml",
               "cantidadProgramada": 10.0,
               "cantidadEjecutada": 3.0,
-              "porcentajeAvance": 30.0
+              "porcentajeAvance": 30.0,
+
+              'txtEjecucionIndicadorAlcance' : '' //CACHE
             }
           ],
           "apectosEvaluar": [
@@ -90,6 +94,16 @@ List contenidoWebService = [
                   "descripcionAspectoEvaluar": "Social"
               }
           ],
+          /* CACHE */
+          'avancesCualitativos' : [
+            {
+              'aspectoEvaluarId' : '',
+              'titulo'     : '',
+              'logro'      : '',
+              'dificultad' : ''
+            }
+          ],
+          /* fin CACHE **/
           "tiposFactorAtraso": [
               {
                   "tipoFactorAtrasoId": 1,
@@ -162,8 +176,26 @@ List contenidoWebService = [
                   "factorAtraso": "LICENCIAS",
                   "tipoFactorAtrasoId": 1
               },
+          ],
+
+          /* CACHE */
+          'factoresAtrasoSeleccionados' : [
+            {
+              'tipoFactorAtrasoId'  : '',
+              'tipoFactor'          : '',
+              'factorAtrasoId'      : '',
+              'factor' : ''
+            }
+          ],
+          'txtComentario' : '',
+          'fileFotoPrincipal' : '',
+          'filesFotosComplementarias': [
+            {
+              'fileFoto1' : ''
+            }
           ]
-      }
+          /* fin CACHE **/
+        }
       },
       {
         "codigoproyecto"      : '',

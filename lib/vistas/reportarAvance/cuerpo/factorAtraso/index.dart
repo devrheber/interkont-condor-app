@@ -21,18 +21,35 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
 
   // Factores Registrados
   int posicionPeriodoReportado = 0;
+  int idTipoFactorAtrasoSeleccionado = 0;
+  int idFactorAtrasoSeleccionado = 0;
   String tipoFactorSeleccionado = 'Selecciona el tipo de factor';
   String factorSeleccionado = 'Selecciona el factor';
   List listaFactoresRegistrados = [];
 
   registrarFactor()
   {
-    setState(() {
-      listaFactoresRegistrados.add({
-          'tipoFactor'   : '$tipoFactorSeleccionado',
-          'factor'       : '$factorSeleccionado'
-        });
-    });
+    if(idTipoFactorAtrasoSeleccionado != 0 && idFactorAtrasoSeleccionado != 0 ){
+      setState(() {
+        listaFactoresRegistrados.add({
+            'tipoFactorAtrasoId' : idTipoFactorAtrasoSeleccionado,
+            'tipoFactor'   : '$tipoFactorSeleccionado',
+            'factorAtrasoId' : idFactorAtrasoSeleccionado,
+            'factor'       : '$factorSeleccionado'
+          });
+      });
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'] = listaFactoresRegistrados;
+    }
+  }
+
+  @override
+  void initState()
+  {
+    if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'] != null){
+      setState(() {
+        listaFactoresRegistrados = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'];
+      });
+    }
   }
 
   @override
@@ -103,11 +120,14 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                     '$tipoFactorSeleccionado',
                     'tipoFactorAtraso',
                     posicionPeriodoReportado,
+                    idTipoFactorAtrasoSeleccionado,
+                    false,
                     contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['tiposFactorAtraso'],
                     (nuevaPosicion){
                       setState(() {
                         posicionPeriodoReportado = nuevaPosicion;
                         tipoFactorSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['tiposFactorAtraso'][nuevaPosicion]['tipoFactorAtraso'];
+                        idTipoFactorAtrasoSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['tiposFactorAtraso'][nuevaPosicion]['tipoFactorAtrasoId'];
                       });
                     }
                   ),
@@ -116,11 +136,14 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                     '$factorSeleccionado',
                     'factorAtraso',
                     posicionPeriodoReportado,
+                    idTipoFactorAtrasoSeleccionado,
+                    true,
                     contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtraso'],
                     (nuevaPosicion){
                       setState(() {
                         posicionPeriodoReportado = nuevaPosicion;
                         factorSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtraso'][nuevaPosicion]['factorAtraso'];
+                        idFactorAtrasoSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtraso'][nuevaPosicion]['factorAtrasoId'];
                       });
                     }
                   ),
@@ -214,10 +237,9 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                     listaFactoresRegistrados[cont]['factor'],
                     (){
                       listaFactoresRegistrados.removeAt(cont); setState(() {listaFactoresRegistrados = listaFactoresRegistrados;});
+                      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'] = listaFactoresRegistrados;
                     }
                   ),
-
-
                 ],
               ),
             ),

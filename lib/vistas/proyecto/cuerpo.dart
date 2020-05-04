@@ -13,7 +13,6 @@ class CardCuerpo extends StatefulWidget {
 }
 
 class CardCuerpoState extends State<CardCuerpo> {
-// class CardCuerpo extends StatelessWidget {
   
   SharedPreferences prefs;
   void activarVariablesPreferences()
@@ -34,16 +33,26 @@ class CardCuerpoState extends State<CardCuerpo> {
     setState(() {
       porcentajeAsiVa = ((100*valorejecutado)/valorproyecto).round();
     });
+    if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'] != null){
+      setState(() {
+        periodoIdSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'];  
+      });
+    }
   }
 
   // Seleccione el periodo a reportar
   int posicionPeriodoReportado = 0;
+  int periodoIdSeleccionado = 0;
+
   cambiarPosicionPeriodoReportado(nuevaPosicion)
   {
+    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][nuevaPosicion]['periodoId'];
     setState(() {
       posicionPeriodoReportado = nuevaPosicion;
+      periodoIdSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][nuevaPosicion]['periodoId'];
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -79,6 +88,7 @@ class CardCuerpoState extends State<CardCuerpo> {
                     seleccionaPeriodo(
                       context,
                       posicionPeriodoReportado,
+                      periodoIdSeleccionado,
                       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'],
                       (posicion){cambiarPosicionPeriodoReportado(posicion);}
                     ),

@@ -77,6 +77,9 @@ class ReportarAvanceState extends State<ReportarAvance> {
         };
         accionSegundoBoton = (){
           print('Siguiente');
+          cambiarPasoProyecto(
+            2
+          );
           cambiarPagina(
             context,
             IndexFactorAtraso()

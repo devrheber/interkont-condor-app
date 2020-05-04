@@ -27,6 +27,16 @@ class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
   TextEditingController controllerDificultad = TextEditingController();
 
   @override
+  void initState()
+  {
+    if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'] != null){
+      setState(() {
+        listaLogrosDificultades = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'];
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
@@ -148,7 +158,12 @@ class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
                     ),
                     
                     for(int cont=0; cont<listaLogrosDificultades.length; cont++)
-                    bloqueAgregado(context, listaLogrosDificultades[cont]['titulo'], listaLogrosDificultades[cont]['logro'], listaLogrosDificultades[cont]['dificultad'], (){listaLogrosDificultades.removeAt(cont); setState(() {listaLogrosDificultades = listaLogrosDificultades;});})
+                    bloqueAgregado(
+                      context, 
+                      listaLogrosDificultades[cont]['titulo'], 
+                      listaLogrosDificultades[cont]['logro'], 
+                      listaLogrosDificultades[cont]['dificultad'], 
+                      (){listaLogrosDificultades.removeAt(cont); setState(() {listaLogrosDificultades = listaLogrosDificultades;}); contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'] = listaLogrosDificultades;})
                     
                   ],
                 ),
@@ -166,6 +181,7 @@ class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
     controllerDificultad.clear();
     listaLogrosDificultades.add(
       {
+        'aspectoEvaluarId' : idAspectoEvaluar,
         'titulo'      : txtBtnDesplegableAvanceCualitativo,
         'logro'       : txtLogro,
         'dificultad'  : txtDificultad,
@@ -174,5 +190,7 @@ class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
     setState(() {
       listaLogrosDificultades = listaLogrosDificultades;
     });
+    
+    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'] = listaLogrosDificultades;
   }
 }

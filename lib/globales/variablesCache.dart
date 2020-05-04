@@ -5,8 +5,8 @@ List camposAplicacion = [
     'codigoproyecto' : '',
     'data' : [
       {
-        'periodoId'   : '',
         'paso' : '',
+        'periodoId'   : '',
         'actividades' : [
           {
             'actividadId' : '',
@@ -21,7 +21,7 @@ List camposAplicacion = [
             'dificultad' : ''
           }
         ],
-        'factoresAtraso' : [
+        'factoresAtrasoSeleccionados' : [
           {
             'tipoFactorAtrasoId' : '',
             'tipo' : '',

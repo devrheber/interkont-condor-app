@@ -15,7 +15,7 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
   String textoSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]['descripcionAspectoEvaluar'];
 
   List<String> valoresSelect = [];
-  int aspectoEvaluarId = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]['aspectoEvaluarId'];
+  // int aspectoEvaluarId = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]['aspectoEvaluarId'];
   List valores = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'];
   // contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'];
 
@@ -25,6 +25,7 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
     for(int cont = 1; cont < valores.length; cont++){
       valoresSelect.add(valores[cont]['descripcionAspectoEvaluar']);
     }
+    idAspectoEvaluar = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]['aspectoEvaluarId'];
     txtBtnDesplegableAvanceCualitativo = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]['descripcionAspectoEvaluar'];
   }
 
@@ -71,7 +72,7 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
                   setState(() {
                     for(int cont = 1; cont < valores.length; cont++){
                       if(valores[cont]['descripcionAspectoEvaluar'] == value){
-                        aspectoEvaluarId = valores[cont]['aspectoEvaluarId'];
+                        idAspectoEvaluar = valores[cont]['aspectoEvaluarId'];
                         break;
                       }
                     }

@@ -53,6 +53,7 @@ class ProyectoState extends State<Proyecto> {
             // });
             
           }else{
+            // print('Siguiente reportar');
             cambiarPasoProyecto(
               1
             );

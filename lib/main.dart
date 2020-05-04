@@ -1,7 +1,7 @@
-import 'dart:convert';
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
+import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
 import 'package:appalimentacion/globales/logo.dart';
-import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:appalimentacion/vistas/login.dart';
 import 'package:flutter/material.dart';
@@ -28,27 +28,30 @@ class _TodoAppState extends State<TodoApp>{
   void obtenerListaProyectosSeleccionados()
   async{
     prefs = await SharedPreferences.getInstance();
-    obtenerDataGuardada();
-  }
-
-  void obtenerDataGuardada()
-  async{  //CONTENIDO DE LA WEB SERVICES = LISTA DE PROYECTOS Y DATOS DEL USUARIO LOGEADO
-    if(prefs.getString('contenidoWebService') == null){
-      // contenidoWebService = [];
-    }else{
-      contenidoWebService = jsonDecode(prefs.getString('contenidoWebService'));
+    // obtenerDataGuardada();
+    if(prefs.getInt('estadoLogin') == 200){
+      await obtenerListaProyectos();
+      await actualizarProyectos();
     }
   }
+
+  // void obtenerDataGuardada()
+  // async{  //CONTENIDO DE LA WEB SERVICES = LISTA DE PROYECTOS Y DATOS DEL USUARIO LOGEADO
+  //   if(prefs.getString('contenidoWebService') == null){
+  //     // contenidoWebService = [];
+  //   }else{
+  //     // contenidoWebService = jsonDecode(prefs.getString('contenidoWebService'));
+  //   }
+  // }
   
   @override
   void initState(){
     super.initState();
     obtenerListaProyectosSeleccionados();
+    
     Future.delayed(
       Duration(seconds: 3),
       () {
-        print('main estado login:');
-        print(prefs.getInt('estadoLogin'));
         if(prefs.getInt('estadoLogin') == null){
           setState(() {
             _rootPage = LoginPage();

@@ -2,11 +2,18 @@
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 
-Widget campoSeleccionar(String txtHint, String nombreObj, int posicionPeriodoReportado, valores, accion)
+Widget campoSeleccionar(String txtHint, String nombreObj, int posicionPeriodoReportado, idTipoFactorAtrasoSeleccionado, bool esFactorAtraso, valores, accion)
 {
   List<int> nuevosValores = [];
   for(int cont = 0; cont < valores.length; cont++){
-    nuevosValores.add(cont);
+    if(esFactorAtraso == true){
+      if(valores[cont]['tipoFactorAtrasoId'] == idTipoFactorAtrasoSeleccionado){
+        nuevosValores.add(cont);
+      }
+      
+    }else{
+      nuevosValores.add(cont);
+    }
   }
   return Container(
     padding: EdgeInsets.only(
