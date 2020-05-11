@@ -1,5 +1,6 @@
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/transicion.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/proyecto/home.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cabecera/cardHead.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +109,8 @@ class CardHeadReporteAvanceState extends State<CardHeadReporteAvance> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  '38%',
+                                  // '38%',
+                                  "${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'].round()}"+'%',
                                   style: AppTheme.h2Blanco
                                 ),
                                 SizedBox(
@@ -168,7 +170,8 @@ class CardHeadReporteAvanceState extends State<CardHeadReporteAvance> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  '45%',
+                                  // '45%',
+                                  "${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado'].round()}"+'%',
                                   style: AppTheme.h2Blanco
                                 ),
                                 SizedBox(

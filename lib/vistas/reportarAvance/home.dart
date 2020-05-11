@@ -76,14 +76,19 @@ class ReportarAvanceState extends State<ReportarAvance> {
           anterior();
         };
         accionSegundoBoton = (){
-          print('Siguiente');
-          cambiarPasoProyecto(
-            2
-          );
-          cambiarPagina(
-            context,
-            IndexFactorAtraso()
-          );
+          if(((contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado']/contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado'])*100)-100 > contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['limitePorcentajeAtraso']){
+            cambiarPasoProyecto(
+              2
+            );
+            cambiarPagina(
+              context,
+              IndexFactorAtraso()
+            );
+          }else{
+            siguiente();
+          }
+          // print('Siguiente');
+          
         };
       }else if(numeroPaso == 3 || numeroPaso == 4){
         txtPrimerBoton  = 'Cancelar';

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 Widget seleccionaPeriodo(context, int posicionPeriodoReportado, int idPeriodoSeleccionado, valores, accion)
 {
 
-  print(valores);
   List<int> nuevosValores = [];
   for(int cont = 0; cont < valores.length; cont++){
     nuevosValores.add(cont);

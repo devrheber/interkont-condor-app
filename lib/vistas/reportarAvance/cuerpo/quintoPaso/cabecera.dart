@@ -14,7 +14,6 @@ class CardHeadReporteAvanceQuintoPaso extends StatefulWidget {
 
 class CardHeadReporteAvanceQuintoPasoState extends State<CardHeadReporteAvanceQuintoPaso> {
 
-// class CardHeadReporteAvanceQuintoPaso extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(

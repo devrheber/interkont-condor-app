@@ -63,7 +63,6 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
         ),
       );
     }
-    
   }
   
   @override

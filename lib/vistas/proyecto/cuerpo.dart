@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CardCuerpo extends StatefulWidget {
-  
-  CardCuerpo({Key key}) : super(key: key);
+  final int ultimaSincro;
+  CardCuerpo({Key key, this.ultimaSincro}) : super(key: key);
   
   @override
   CardCuerpoState createState() => CardCuerpoState();
@@ -37,7 +37,14 @@ class CardCuerpoState extends State<CardCuerpo> {
       setState(() {
         periodoIdSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'];  
       });
+    }else{
+      setState(() {
+        periodoIdSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][0]['periodoId'];
+      });
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][0]['periodoId'];
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][0]['porcentajeProyectado'];
     }
+    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado'] = porcentajeAsiVa;
   }
 
   // Seleccione el periodo a reportar
@@ -47,6 +54,7 @@ class CardCuerpoState extends State<CardCuerpo> {
   cambiarPosicionPeriodoReportado(nuevaPosicion)
   {
     contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][nuevaPosicion]['periodoId'];
+    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][nuevaPosicion]['porcentajeProyectado'];
     setState(() {
       posicionPeriodoReportado = nuevaPosicion;
       periodoIdSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][nuevaPosicion]['periodoId'];
@@ -57,11 +65,63 @@ class CardCuerpoState extends State<CardCuerpo> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-      
+
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['ultimaFechaSincro'] == null
+        ?
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 50.0,
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height/2.6,
+            left: 20.0,
+            right: 20.0
+          ),
+          decoration: BoxDecoration(
+            color: AppTheme.rojoBackground,
+            borderRadius: BorderRadius.all(
+              Radius.circular(10)
+            ),
+          ),
+          padding: EdgeInsets.only(
+            top: 5.0,
+            bottom: 10.0,
+            left: 20.0,
+            right: 20.0
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                height: 20.0,
+                margin: EdgeInsets.only(
+                  bottom: 5.0,
+                  right: 10.0
+                ),
+                child: Image.asset(
+                  'assets/img/Desglose/Demas/icn-alert.png',
+                  // width: 100.0,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  // 'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
+                  'Debes sincronizar el proyecto para poder reportar tu avance',
+                  style: AppTheme.parrafoRojo,
+                  textAlign: TextAlign.left
+                )
+              )
+            ],
+          )
+        )
+        :Text(''),
+
         Container(
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height/2.75,
+            top: 
+            contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['ultimaFechaSincro'] == null
+            ?MediaQuery.of(context).size.height/2.1
+            :MediaQuery.of(context).size.height/2.55,
             left: 20.0, 
             right: 20.0
           ),
@@ -90,52 +150,63 @@ class CardCuerpoState extends State<CardCuerpo> {
                       posicionPeriodoReportado,
                       periodoIdSeleccionado,
                       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'],
-                      (posicion){cambiarPosicionPeriodoReportado(posicion);}
+                      (posicion){
+                        cambiarPosicionPeriodoReportado(posicion);
+                      }
                     ),
 
-                    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['pendienteAprobacion'] == true
-                    ?
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      // margin: EdgeInsets.only(
-                      //   bottom: 10.0
-                      // ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.rojoBackground,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10)
-                        ),
-                      ),
-                      padding: EdgeInsets.only(
-                        top: 5.0,
-                        bottom: 10.0,
-                        left: 20.0,
-                        right: 20.0
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            height: 15.0,
-                            margin: EdgeInsets.only(
-                              bottom: 5.0
-                            ),
-                            child: Image.asset(
-                              'assets/img/Desglose/Demas/icn-alert.png',
-                            ),
-                          ),
-                          Text(
-                            'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
-                            style: AppTheme.parrafoRojo,
-                            textAlign: TextAlign.center
-                          )
-                        ],
-                      )
-                    )
-                    :Text('')
                   ],
                 )
               ),
+
+              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['pendienteAprobacion'] == true
+              ?
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 50.0,
+                // margin: EdgeInsets.only(
+                //   top: MediaQuery.of(context).size.height/2.5,
+                //   left: 20.0,
+                //   right: 20.0
+                // ),
+                decoration: BoxDecoration(
+                  color: AppTheme.rojoBackground,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10)
+                  ),
+                ),
+                padding: EdgeInsets.only(
+                  top: 5.0,
+                  bottom: 10.0,
+                  left: 20.0,
+                  right: 20.0
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: 20.0,
+                      margin: EdgeInsets.only(
+                        bottom: 5.0,
+                        right: 10.0
+                      ),
+                      child: Image.asset(
+                        'assets/img/Desglose/Demas/icn-alert.png',
+                        // width: 100.0,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        // 'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
+                        'Debes sincronizar el proyecto para poder reportar tu avance',
+                        style: AppTheme.parrafoRojo,
+                        textAlign: TextAlign.left
+                      )
+                    )
+                  ],
+                )
+              )
+              :Text(''),
             ],
           )
         ),

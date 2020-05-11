@@ -1,3 +1,6 @@
+import 'package:date_format/date_format.dart';
+import 'package:appalimentacion/globales/funciones/cambiarFormatoFecha.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/proyecto/cardTitulo.dart';
 import 'package:appalimentacion/vistas/proyecto/cuerpo.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +16,31 @@ class ContenidoProyecto extends StatefulWidget {
 }
 
 class ContenidoProyectoState extends State<ContenidoProyecto> {
-// class ContenidoProyecto extends StatelessWidget {
+
+  int ultimaSincro;
+
+  activarUltimaSincronizacion()
+  {
+    print('go click');
+    setState(() {
+      ultimaSincro = 1;
+      var fechaActual = DateTime.now();
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['ultimaFechaSincro'] = '${cambiarFormatoFecha(formatDate(fechaActual, [M, " ",d ," ", yyyy, " ", H, ':', nn]))}';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         CardTitulo(
+          ultimaSincro : ultimaSincro,
+          activarUltimaSincronizacion: activarUltimaSincronizacion,
         ),
-        SizedBox(
-          height: 10,
-        ),
-        CardCuerpo()
+        
+        CardCuerpo(
+          ultimaSincro : ultimaSincro
+        )
       ],
       
     );

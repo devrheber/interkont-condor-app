@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'package:appalimentacion/globales/funciones/calcularValorEjecutado.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,12 +42,27 @@ async{
     if( contenidoWebServiceCache[cont]['codigoproyecto'] == proyectos[posicionListaProyectosSeleccionado]['codigoproyecto'] ){
       if(contenidoWebServiceCache[cont]['datos'] != null){
         proyectos[posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'] = contenidoWebServiceCache[cont]['datos']['periodoIdSeleccionado'];
+        proyectos[posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'] = contenidoWebServiceCache[cont]['datos']['porcentajeValorProyectadoSeleccionado'];
+        proyectos[posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado'] = contenidoWebServiceCache[cont]['datos']['porcentajeValorEjecutado'];
         if(contenidoWebServiceCache[cont]['paso'] >= 1){
           for(int contActividadesCache = 0; contActividadesCache < contenidoWebServiceCache[cont]['datos']['actividades'].length; contActividadesCache++){
             for(int contActividades = 0; contActividades < proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'].length; contActividades++){
               if(proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'][contActividades]['actividadId'] ==  contenidoWebServiceCache[cont]['datos']['actividades'][contActividadesCache]['actividadId']){
+
                 proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'][contActividades]['txtActividadAvance'] = contenidoWebServiceCache[cont]['datos']['actividades'][contActividadesCache]['txtActividadAvance'];
+
+                if(contenidoWebServiceCache[cont]['datos']['actividades'][contActividadesCache]['txtActividadAvance'] != null){
+                  
+                  proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'][contActividades]['cantidadEjecutada'] = double.parse('${proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'][contActividades]['cantidadEjecutadaInicial']}') + double.parse('${contenidoWebServiceCache[cont]['datos']['actividades'][contActividadesCache]['txtActividadAvance']}');
+                  proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'][contActividades]['valorEjecutado'] = double.parse('${proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'][contActividades]['cantidadEjecutada']}') * double.parse('${proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'][contActividades]['valorUnitario']}');
+                  proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'][contActividades]['porcentajeAvance'] = double.parse('${proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'][contActividades]['valorEjecutado']}') / double.parse('${proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'][contActividades]['valorProgramado']}');
+
+                  calcularValorEjecutado();
+                  
+                }
+
                 break;
+
               }
             }              
           }

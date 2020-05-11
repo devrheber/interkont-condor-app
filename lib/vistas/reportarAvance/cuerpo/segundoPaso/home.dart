@@ -177,20 +177,24 @@ class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
 
   void anadirLogroDificultad()
   {
-    controllerLogro.clear();
-    controllerDificultad.clear();
-    listaLogrosDificultades.add(
-      {
-        'aspectoEvaluarId' : idAspectoEvaluar,
-        'titulo'      : txtBtnDesplegableAvanceCualitativo,
-        'logro'       : txtLogro,
-        'dificultad'  : txtDificultad,
-      }
-    );
-    setState(() {
-      listaLogrosDificultades = listaLogrosDificultades;
-    });
-    
-    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'] = listaLogrosDificultades;
+    if(txtLogro != '' || txtDificultad != '' ){
+      controllerLogro.clear();
+      controllerDificultad.clear();
+      listaLogrosDificultades.add(
+        {
+          'aspectoEvaluarId' : idAspectoEvaluar,
+          'titulo'      : txtBtnDesplegableAvanceCualitativo,
+          'logro'       : txtLogro,
+          'dificultad'  : txtDificultad,
+        }
+      );
+      setState(() {
+        listaLogrosDificultades = listaLogrosDificultades;
+        txtLogro  = '';
+        txtDificultad = '';
+      });
+      
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'] = listaLogrosDificultades;
+    }
   }
 }

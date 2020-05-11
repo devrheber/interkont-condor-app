@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/felicitaciones.dart';
+import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class CargandoFinalizar extends StatefulWidget{
   @override
@@ -37,6 +43,7 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
     _controller.forward();
 
 
+    guardarAlimentacion();
 
     super.initState();
     Future.delayed(
@@ -49,6 +56,75 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
           ),);
       },
     );
+  }
+
+  guardarAlimentacion()
+  async{
+    String url ="$urlGlobal/cobra-ws-condor/guardar-alimentacion";
+    
+    var body = {
+      "actividades": [
+        {
+          "actividadId": 0,
+          "cantidadEjecutada": 0
+        }
+      ],
+      "aspectosEvaluar": [
+        {
+          "aspectoEvaluarId": 0,
+          "dificultadesAspectoEvaluar": "string",
+          "logrosAspectoEvaluar": "string"
+        }
+      ],
+      "codigoproyecto": 0,
+      "descripcion": "string",
+      "factoresAtraso": [
+        {
+          "factorAtrasoId": 0
+        }
+      ],
+      "fotoPrincipal": {
+        "image": "string",
+        "nombre": "string",
+        "tipo": "string"
+      },
+      "imagenesComplementarias": [
+        {
+          "image": "string",
+          "nombre": "string",
+          "tipo": "string"
+        }
+      ],
+      "indicadoresAlcance": [
+        {
+          "cantidadEjecucion": 0,
+          "indicadorAlcanceId": 0
+        }
+      ],
+      "periodoId": 0,
+      "usuario": "string"
+    };
+
+    String tokenUsu  = contenidoWebService[0]['usuario']['tokenUsu'];
+
+    var response = await http.post(
+      url, 
+      body: jsonEncode(body),
+      headers: {
+        "Content-type": "application/json",
+        'Authorization' : tokenUsu
+      },
+    );
+
+    var respuesta = await respuestaHttp(response.statusCode);
+    print('-----------');
+    print(response.body);
+    if(respuesta == true ){
+      
+    
+    }else{
+      
+    }
   }
 
   @override

@@ -34,6 +34,8 @@ dependencies:
   http: any
   path_provider:
   intl: ^0.16.1
+  keyboard_visibility: any
+  date_format: ^1.0.8
 
 
   

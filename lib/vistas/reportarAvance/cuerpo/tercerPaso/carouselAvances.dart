@@ -4,20 +4,19 @@ import 'package:flutter/material.dart';
 
 Widget carouselAlcance(context)
 {
-  List lista = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'];
   return CarouselSlider(
     enableInfiniteScroll: false,
     enlargeCenterPage: true,
     height: 260.0,
     items: <Widget>[
-      for(int cont=0; cont < lista.length; cont++)
+      for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'].length; cont++)
       cardCarousel(
-        lista[cont]['descripcionIndicadorAlcance'],
-        lista[cont]['unidadMedida'],
-        lista[cont]['cantidadProgramada'],
-        lista[cont]['cantidadEjecutada'],
-        lista[cont]['porcentajeAvance'],
-        lista[cont]['txtEjecucionIndicadorAlcance'],
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['descripcionIndicadorAlcance'],
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['unidadMedida'],
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadProgramada'],
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadEjecutada'],
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['porcentajeAvance'],
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'],
         (value){
           contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] = value;
         }
@@ -103,6 +102,7 @@ Widget cardCarousel(
             children: <Widget>[
               Expanded(
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   controller: controllerTercerPasoTxtEjecucion,
                   onChanged: accion,
                   textAlign: TextAlign.center,
@@ -113,10 +113,10 @@ Widget cardCarousel(
                     fontSize: 20.0, 
                   ),
                   decoration: InputDecoration.collapsed(
-                    hintText: "500",
+                    hintText: "0",
                     hintStyle: TextStyle(
                       fontSize: 20.0, 
-                      color: Colors.white,
+                      color: Color(0xffE3E3E3),
                       fontFamily: 'montserrat',
                       fontWeight: FontWeight.bold
                     ), 

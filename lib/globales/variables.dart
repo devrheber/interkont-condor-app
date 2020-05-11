@@ -5,6 +5,8 @@ String urlGlobalApiCondor = urlGlobal+'/cobra-ws-condor';
 int posicionListaProyectosSeleccionado = 0;
 String txtBtnDesplegableAvanceCualitativo = '';
 int idAspectoEvaluar;
+int keyboardVisibilitySubscriberId;
+int keyboardVisibilitySubscriberId2;
 List contenidoWebService = [
   {
     'usuario' : {
@@ -27,10 +29,13 @@ List contenidoWebService = [
         "objeto"              : '',
         "contratista"         : '',
         "pendienteAprobacion" : '',
-        "paso"                : '',   //CACHE
+        "paso"                : '',  //CACHE
+        "ultimaFechaSincro"   : '', //CACHE
         "datos"               :{
           "limitePorcentajeAtraso": '',
           "periodoIdSeleccionado" : '', //CACHE
+          'porcentajeValorProyectadoSeleccionado' : '', //CACHE
+          'porcentajeValorEjecutado' : '', // CACHE
           "periodos": [
               {
                   "periodoId"             : '',

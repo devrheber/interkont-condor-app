@@ -26,11 +26,13 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
   String tipoFactorSeleccionado = 'Selecciona el tipo de factor';
   String factorSeleccionado = 'Selecciona el factor';
   List listaFactoresRegistrados = [];
+  bool bool_avanzarSiguientePaso = true;
 
   registrarFactor()
   {
     if(idTipoFactorAtrasoSeleccionado != 0 && idFactorAtrasoSeleccionado != 0 ){
       setState(() {
+        bool_avanzarSiguientePaso = false;
         listaFactoresRegistrados.add({
             'tipoFactorAtrasoId' : idTipoFactorAtrasoSeleccionado,
             'tipoFactor'   : '$tipoFactorSeleccionado',
@@ -48,6 +50,9 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
     if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'] != null){
       setState(() {
         listaFactoresRegistrados = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'];
+        if(listaFactoresRegistrados.length > 0){
+          bool_avanzarSiguientePaso = false;
+        }
       });
     }
   }
@@ -236,7 +241,13 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                     listaFactoresRegistrados[cont]['tipoFactor'],
                     listaFactoresRegistrados[cont]['factor'],
                     (){
-                      listaFactoresRegistrados.removeAt(cont); setState(() {listaFactoresRegistrados = listaFactoresRegistrados;});
+                      listaFactoresRegistrados.removeAt(cont); 
+                      setState(() {
+                        listaFactoresRegistrados = listaFactoresRegistrados;
+                        if(listaFactoresRegistrados.length == 0){
+                          bool_avanzarSiguientePaso = true;
+                        }
+                      });
                       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'] = listaFactoresRegistrados;
                     }
                   ),
@@ -252,7 +263,7 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
         Color(0xFF2089B6),
         true,
         false,
-        false,
+        bool_avanzarSiguientePaso,
         "Cancelar",
         "Siguiente Paso",
         (){
@@ -265,13 +276,15 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
           );
         },
         (){
-          cambiarPasoProyecto(
-            3
-          );
-          cambiarPagina(
-            context, 
-            ReportarAvance()
-          );
+          if(bool_avanzarSiguientePaso == false){
+            cambiarPasoProyecto(
+              3
+            );
+            cambiarPagina(
+              context, 
+              ReportarAvance()
+            );
+          }
         }
       ),
     );

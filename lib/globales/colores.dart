@@ -148,7 +148,26 @@ class AppTheme {
     color: Colors.red
   );
 
+  static const TextStyle parrafoRojoNegrita = TextStyle( 
+    fontFamily: fontName,
+    fontWeight: FontWeight.w800,
+    fontSize: 11,
+    color: Colors.red
+  );
 
+  static const TextStyle parrafoVerdeNegrita = TextStyle( 
+    fontFamily: fontName,
+    fontWeight: FontWeight.w800,
+    fontSize: 11,
+    color: verde
+  );
+
+  static const TextStyle parrafoCelesteNegrita = TextStyle( 
+    fontFamily: fontName,
+    fontWeight: FontWeight.w800,
+    fontSize: 11,
+    color: Color(0xff1EB8CF)
+  );
 
   static const TextTheme textTheme = TextTheme(
     display1: display1,
