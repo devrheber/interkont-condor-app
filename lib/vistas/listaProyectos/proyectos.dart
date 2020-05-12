@@ -220,6 +220,19 @@ class ProyectosContenido extends StatelessWidget {
     // VALOR EN MILLONES
     var valorProyectoRedondeado = valorProyecto/1000000;
     valorProyectoRedondeado = double.parse((valorProyectoRedondeado).toStringAsFixed(1));
+
+    var imagen;
+
+    if(conexionInternet == true){
+      imagen = Image.network(
+        '$imagencategoria'
+      );
+    }else{
+      imagen = Image.asset(
+        'assets/img/Desglose/Demas/question.png',
+      );
+    }
+
     return GestureDetector(
       onTap: () async{
         _seleccionarProyecto(
@@ -243,9 +256,7 @@ class ProyectosContenido extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: Image.network(
-                    '$imagencategoria'
-                  ),
+                  child: imagen
                 ),
                 Expanded(
                   flex: 4,

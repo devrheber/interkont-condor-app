@@ -13,5 +13,5 @@ calcularValorEjecutado()
   nuevoPorcentajeValorJecutado = nuevoValorEjecutado/contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'];
 
   contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado'] = nuevoPorcentajeValorJecutado;
-
+  contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['nuevoValorEjecutado'] = nuevoValorEjecutado;
 }

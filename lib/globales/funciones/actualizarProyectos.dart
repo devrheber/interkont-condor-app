@@ -20,6 +20,7 @@ async{
       for(int conta = 0; conta < proyectos.length; conta++){
         if(contenidoWebServiceCache[0]['proyectos'][cont]['codigoproyecto'] == proyectos[conta]['codigoproyecto'] && contenidoWebServiceCache[0]['proyectos'][cont]['datos'] != null){
           proyectos[conta]['paso']  = contenidoWebServiceCache[0]['proyectos'][cont]['paso'];
+          proyectos[conta]['ultimaFechaSincro']  = contenidoWebServiceCache[0]['proyectos'][cont]['ultimaFechaSincro'];
           proyectos[conta]['datos'] = contenidoWebServiceCache[0]['proyectos'][cont]['datos'];
           break;
         }
@@ -44,6 +45,7 @@ async{
         proyectos[posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'] = contenidoWebServiceCache[cont]['datos']['periodoIdSeleccionado'];
         proyectos[posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'] = contenidoWebServiceCache[cont]['datos']['porcentajeValorProyectadoSeleccionado'];
         proyectos[posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado'] = contenidoWebServiceCache[cont]['datos']['porcentajeValorEjecutado'];
+        proyectos[posicionListaProyectosSeleccionado]['datos']['nuevoValorEjecutado'] = contenidoWebServiceCache[cont]['datos']['nuevoValorEjecutado'];
         if(contenidoWebServiceCache[cont]['paso'] >= 1){
           for(int contActividadesCache = 0; contActividadesCache < contenidoWebServiceCache[cont]['datos']['actividades'].length; contActividadesCache++){
             for(int contActividades = 0; contActividades < proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'].length; contActividades++){

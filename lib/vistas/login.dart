@@ -84,7 +84,12 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   Expanded(
                                     child: TextField(
-                                      
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'montserrat',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0,
+                                      ),
                                       onChanged: (texto){
                                         setState(() {
                                           txt_usuario = texto;
@@ -124,6 +129,12 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   Expanded(
                                     child: TextField(
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'montserrat',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.0,
+                                      ),
                                       onChanged: (texto){
                                         setState(() {
                                           txt_contrasena = texto;

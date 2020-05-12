@@ -1,10 +1,37 @@
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:flutter/material.dart';
 
 final titleColor = Color(0xff444444);
 
-Widget cardContenidoQuintoPaso(context, titulo)
+Widget cardContenidoQuintoPaso(
+  context, 
+  String titulo,
+  String asivaTxt,
+  String porcentajeAsiVa,
+  String porcentajeAsiVaDos,
+  String dineroAsiVa,
+  String deberiaIrTxt,
+  String porcentajeDeberiaIr,
+  String dineroDeberiaIr,
+  bool esAntes,
+  String semaforo
+)
 {
+  String nombreSemaforo = 'rojo';
+  if(esAntes){
+    nombreSemaforo = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['semaforoproyecto'];
+  }else{
+    var datoVerde = (((double.parse('$porcentajeAsiVaDos') / contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'])*100)-100);
+    if(datoVerde <= contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['limitePorcentajeAtraso']){
+      nombreSemaforo = 'verde';
+    }else if( datoVerde > contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['limitePorcentajeAtraso'] && datoVerde <= contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['limitePorcentajeAtrasoAmarillo'] ){
+      nombreSemaforo = 'amarillo';
+    }else if( datoVerde > contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['limitePorcentajeAtrasoAmarillo'] ){
+      nombreSemaforo = 'rojo';
+    }
+  }
+
   return Container(
     width: MediaQuery.of(context).size.width,
     height: MediaQuery.of(context).size.height/3.4,
@@ -13,17 +40,21 @@ Widget cardContenidoQuintoPaso(context, titulo)
       borderRadius: BorderRadius.all(Radius.circular(10)),
       boxShadow: [
         BoxShadow(
-          blurRadius: 10.0, // has the effect of softening the shadow
-          spreadRadius: 0.1, // has the effect of extending the shadow
+          blurRadius: 10.0,
+          spreadRadius: 0.1,
           offset: Offset(
-            0.9, // horizontal, move right 10
-            0.9, // vertical, move down 10
+            0.9,
+            0.9,
           ),
         )
       ],
     ),
     child: Container(
-      padding: EdgeInsets.all(25.0),
+      padding: EdgeInsets.only(
+        top: 23.0,
+        left: 23.0,
+        right: 23.0 
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         textDirection: TextDirection.ltr,
@@ -38,9 +69,27 @@ Widget cardContenidoQuintoPaso(context, titulo)
               color: AppTheme.segundo,
             ),
           ),
-          celdas('Asi va', '67%', '\$ 3.255.255.542',false),
-          celdas('Deberia ir', '76%', '\$ 3.255.255.542',false),
-          celdas('Semaforo', 'segundo', 'tercero',true)
+          celdas(
+            '$asivaTxt',
+            '$porcentajeAsiVa%', 
+            '\$ $dineroAsiVa', 
+            false,
+            ''
+          ),
+          celdas(
+            '$deberiaIrTxt',
+            '$porcentajeDeberiaIr%', 
+            '\$ $dineroDeberiaIr',
+            false,
+            ''
+          ),
+          celdas(
+            'Semaforo',
+            'segundo', 
+            'tercero', 
+            true,
+            nombreSemaforo
+          )
           
         ],
       )
@@ -48,8 +97,17 @@ Widget cardContenidoQuintoPaso(context, titulo)
   );
 }
 
-Widget celdas(txtPrimero, txtSegundo, txtTercero,semaforo)
+Widget celdas(txtPrimero, txtSegundo, txtTercero,semaforo, nombreSemaforo)
 {
+   String iconoSemaforo = 'semaforo-3';
+   if(nombreSemaforo == 'rojo'){
+      iconoSemaforo = 'semaforo-3';
+    }else if(nombreSemaforo == 'amarillo'){
+      iconoSemaforo = 'semaforo-2';
+    }else if(nombreSemaforo == 'verde'){
+      iconoSemaforo = 'semaforo-1';
+    }
+
   return Container(
     padding: EdgeInsets.only(bottom:10.0, top: 15.0),
     decoration: BoxDecoration(
@@ -63,7 +121,8 @@ Widget celdas(txtPrimero, txtSegundo, txtTercero,semaforo)
     ),
     child: Row(
       children: <Widget>[
-        Expanded(
+        Container(
+          width: 80.0,
           child: Text(
             '$txtPrimero',
             style: TextStyle(
@@ -73,23 +132,30 @@ Widget celdas(txtPrimero, txtSegundo, txtTercero,semaforo)
             ),
           ),
         ),
-        Expanded(
-          child: 
-          semaforo == true
-          ?Container(
-            height: 20.0,
-            child: Row(
-              children: <Widget>[
-                Image.asset(
-                  'assets/img/Desglose/Home/semaforo-3.png',
-                  alignment: Alignment.topLeft,
-                ),
-              ],
-            )
+
+        semaforo == true
+        ?Container(
+          height: 20.0,
+          child: Row(
+            children: <Widget>[
+              Image.asset(
+                'assets/img/Desglose/Home/${iconoSemaforo}.png',
+                height: 15.0,
+              )
+            ],
           )
-          :Text(
-            '$txtSegundo',
-            style: AppTheme.parrafo
+        )
+        :Container(
+          height: 20.0,
+          width: 60.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '$txtSegundo',
+                style: AppTheme.parrafo
+              )
+            ],
           )
         ),
 

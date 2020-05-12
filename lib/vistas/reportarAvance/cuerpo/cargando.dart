@@ -60,50 +60,96 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
 
   guardarAlimentacion()
   async{
+    print('ENVIANDO LOS DATOS...');
     String url ="$urlGlobal/cobra-ws-condor/guardar-alimentacion";
+    List actividades = [
+      {
+        'actividadId' : '0',
+        'cantidadEjecutada' : '0',
+      }
+    ];
+    List avancesCualitativos = [
+      {
+        'aspectoEvaluarId'  : '0',
+        'dificultadesAspectoEvaluar'  : '0',
+        'logrosAspectoEvaluar ' : '0',
+      }
+    ];
+    List factoresAtraso = [
+      {
+        'factorAtrasoId' : 0
+      }
+    ];
+    List indicadoresAlcance = [
+      {
+        'indicadorAlcanceId'  : '0',
+        'cantidadEjecucion' : '0',
+      }
+    ];
+
+    // for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'].length; cont++){
+    //   actividades[cont]['actividadId'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['actividadId'];
+    //   actividades[cont]['cantidadEjecutada'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance'];
+    // }
     
+    // for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'].length ; cont++){
+    //   avancesCualitativos[cont]['aspectoEvaluarId'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['aspectoEvaluarId'];
+    //   avancesCualitativos[cont]['dificultadesAspectoEvaluar'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad'];
+    //   avancesCualitativos[cont]['logrosAspectoEvaluar'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'];
+    // }
+
+    // for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados']; cont++){
+    //   factoresAtraso[cont]['factorAtrasoId'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'][cont]['factorAtrasoId'];
+    // }
+    
+    // for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados']; cont++){
+    //   indicadoresAlcance[cont]['indicadorAlcanceId']  = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['indicadorAlcanceId'];
+    //   indicadoresAlcance[cont]['cantidadEjecucion']   = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'];
+    // }
+
+
     var body = {
-      "actividades": [
-        {
-          "actividadId": 0,
-          "cantidadEjecutada": 0
-        }
-      ],
-      "aspectosEvaluar": [
-        {
-          "aspectoEvaluarId": 0,
-          "dificultadesAspectoEvaluar": "string",
-          "logrosAspectoEvaluar": "string"
-        }
-      ],
-      "codigoproyecto": 0,
-      "descripcion": "string",
-      "factoresAtraso": [
-        {
-          "factorAtrasoId": 0
-        }
-      ],
-      "fotoPrincipal": {
-        "image": "string",
-        "nombre": "string",
-        "tipo": "string"
-      },
-      "imagenesComplementarias": [
-        {
-          "image": "string",
-          "nombre": "string",
-          "tipo": "string"
-        }
-      ],
-      "indicadoresAlcance": [
-        {
-          "cantidadEjecucion": 0,
-          "indicadorAlcanceId": 0
-        }
-      ],
-      "periodoId": 0,
-      "usuario": "string"
-    };
+  "actividades": [
+    {
+      "actividadId": 0,
+      "cantidadEjecutada": 0
+    }
+  ],
+  "aspectosEvaluar": [
+    {
+      "aspectoEvaluarId": 0,
+      "dificultadesAspectoEvaluar": "string",
+      "logrosAspectoEvaluar": "string"
+    }
+  ],
+  "codigoproyecto": 0,
+  "descripcion": "string",
+  "factoresAtraso": [
+    {
+      "factorAtrasoId": 0
+    }
+  ],
+  "fotoPrincipal": {
+    "image": "string",
+    "nombre": "string",
+    "tipo": "string"
+  },
+  "imagenesComplementarias": [
+    {
+      "image": "string",
+      "nombre": "string",
+      "tipo": "string"
+    }
+  ],
+  "indicadoresAlcance": [
+    {
+      "cantidadEjecucion": 0,
+      "indicadorAlcanceId": 0
+    }
+  ],
+  "periodoId": 0,
+  "usuario": "string"
+};
 
     String tokenUsu  = contenidoWebService[0]['usuario']['tokenUsu'];
 
@@ -116,14 +162,14 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
       },
     );
 
-    var respuesta = await respuestaHttp(response.statusCode);
+    
     print('-----------');
     print(response.body);
-    if(respuesta == true ){
-      
-    
+    if(response.statusCode == 200 ){
+      print('SE PUDO');
     }else{
-      
+      print(response.statusCode);
+      print('NO SE PUDO');
     }
   }
 

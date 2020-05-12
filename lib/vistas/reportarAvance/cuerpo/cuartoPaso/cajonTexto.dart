@@ -44,10 +44,9 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint )
           child: TextField(
             controller: controllerCuartoPasoTxtComentarios,
             onChanged: (value){
-              print(value);
               contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['txtComentario'] = value;
             },
-            maxLines: 2,
+            maxLines: 4,
             decoration: InputDecoration.collapsed(
               hintText: "$textoHint",
               hintStyle: TextStyle(

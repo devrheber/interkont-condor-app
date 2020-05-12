@@ -43,6 +43,7 @@ async{
     }
   }catch(error){
     print('Sin internet');
+    conexionInternet = false;
   }
   
 

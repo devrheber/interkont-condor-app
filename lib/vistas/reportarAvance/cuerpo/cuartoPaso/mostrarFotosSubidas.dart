@@ -104,7 +104,8 @@ class _MostrarFotosSubidasState extends State<MostrarFotosSubidas> {
           height: 90.0,
           width: MediaQuery.of(context).size.width/4,
           margin: EdgeInsets.only(
-            top:5.0
+            top:5.0,
+            left: 5.0
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),

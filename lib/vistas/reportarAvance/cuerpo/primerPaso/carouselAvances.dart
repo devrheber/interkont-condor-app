@@ -18,11 +18,6 @@ class CarouselAvancesState extends State<CarouselAvances> {
   calcular(cont, value)
   {
     print(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutada']);
-    
-
-    // contenidoWebService[0][ 'proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutada'] = lista[cont]['cantidadEjecutada'];
-
-    
 
     setState(() {
       // lista[cont]['cantidadEjecutada'] = double.parse('${listaDos[cont]['cantidadEjecutada']}')+double.parse('${value}');

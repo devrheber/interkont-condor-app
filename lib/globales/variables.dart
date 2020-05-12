@@ -7,6 +7,7 @@ String txtBtnDesplegableAvanceCualitativo = '';
 int idAspectoEvaluar;
 int keyboardVisibilitySubscriberId;
 int keyboardVisibilitySubscriberId2;
+bool conexionInternet = true;
 List contenidoWebService = [
   {
     'usuario' : {

@@ -24,7 +24,7 @@ class CardCuerpoState extends State<CardCuerpo> {
   }
 
   double valorejecutado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorejecutado'];
-  double valorproyecto = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'];
+  double valorproyecto  = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'];
   int porcentajeAsiVa = 0;
 
   @override

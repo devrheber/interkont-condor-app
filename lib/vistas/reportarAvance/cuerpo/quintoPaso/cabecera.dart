@@ -1,3 +1,4 @@
+import 'package:appalimentacion/globales/funciones/calcularValorEjecutado.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/vistas/proyecto/home.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,13 @@ class CardHeadReporteAvanceQuintoPaso extends StatefulWidget {
 }
 
 class CardHeadReporteAvanceQuintoPasoState extends State<CardHeadReporteAvanceQuintoPaso> {
-
+  
+  @protected
+  void initState() {
+    super.initState();
+    calcularValorEjecutado();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Stack(
