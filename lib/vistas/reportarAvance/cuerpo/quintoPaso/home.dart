@@ -44,7 +44,7 @@ class CardCuerpoQuintoPaso extends StatelessWidget {
                 'Asi va en',
                 '${f.format((contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['nuevoValorEjecutado']/contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])*100)}',
                 '${((contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['nuevoValorEjecutado']/contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])*100)}',
-                '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['nuevoValorEjecutado']}',
+                '${f2.format(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['nuevoValorEjecutado'])}',
                 'Deberia ir en',
                 '${f.format(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'])}',
                 '${f2.format((contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado']/100)*contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])}',

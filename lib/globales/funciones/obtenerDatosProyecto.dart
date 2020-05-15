@@ -34,7 +34,7 @@ async {
     return respuesta;
   }catch(value){
     print('Sin internet datos del proyecto');
-    return true;  
+    return false;  
   }
 
   

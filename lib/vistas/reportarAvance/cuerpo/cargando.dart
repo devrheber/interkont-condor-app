@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/felicitaciones.dart';
+import 'package:appalimentacion/vistas/reportarAvance/cuerpo/noInternet.dart';
 import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -49,11 +50,14 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
     Future.delayed(
       Duration(seconds: 10),
       () {
-        Navigator.push(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => Felicitaciones()
-          ),);
+        if( contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] == false ){
+          Navigator.push(
+            context, 
+            MaterialPageRoute(
+              builder: (context) => Felicitaciones()
+            ),
+          );
+        }
       },
     );
   }
@@ -62,115 +66,126 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
   async{
     print('ENVIANDO LOS DATOS...');
     String url ="$urlGlobal/cobra-ws-condor/guardar-alimentacion";
-    List actividades = [
-      {
-        'actividadId' : '0',
-        'cantidadEjecutada' : '0',
-      }
-    ];
-    List avancesCualitativos = [
-      {
-        'aspectoEvaluarId'  : '0',
-        'dificultadesAspectoEvaluar'  : '0',
-        'logrosAspectoEvaluar ' : '0',
-      }
-    ];
-    List factoresAtraso = [
-      {
-        'factorAtrasoId' : 0
-      }
-    ];
-    List indicadoresAlcance = [
-      {
-        'indicadorAlcanceId'  : '0',
-        'cantidadEjecucion' : '0',
-      }
-    ];
+    List actividades = [];
+    List avancesCualitativos = [];
+    List factoresAtraso = [];
+    List indicadoresAlcance = [];
 
-    // for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'].length; cont++){
-    //   actividades[cont]['actividadId'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['actividadId'];
-    //   actividades[cont]['cantidadEjecutada'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance'];
-    // }
+    for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'].length; cont++){
+      double cantidadEjecutada;
+      if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance'] != null){
+        cantidadEjecutada = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance']}');
+      }else{
+        cantidadEjecutada = 0.0;
+      }
+      var listaArmada = {
+        'actividadId' : int.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['actividadId']}'),
+        'cantidadEjecutada' : cantidadEjecutada
+      };
+      actividades.add(listaArmada);
+    }
+
+    for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'].length ; cont++){
+
+      String dificultad;
+      if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad'] == ''){
+        dificultad = '';
+      }else{
+        dificultad = '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad']}';
+      }
+
+      String logros;
+      if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'] == ''){
+        logros = '';
+      }else{
+        logros = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'];
+      }
+
+      var listaArmada = {
+        'aspectoEvaluarId'            : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['aspectoEvaluarId'],
+        'dificultadesAspectoEvaluar'  : dificultad,
+        'logrosAspectoEvaluar'        : logros,
+      };
+      
+      avancesCualitativos.add(listaArmada);
+    }
+
+    for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'].length; cont++){
+      factoresAtraso.add({
+        'factorAtrasoId' : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'][cont]['factorAtrasoId']
+      });
+    }
     
-    // for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'].length ; cont++){
-    //   avancesCualitativos[cont]['aspectoEvaluarId'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['aspectoEvaluarId'];
-    //   avancesCualitativos[cont]['dificultadesAspectoEvaluar'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad'];
-    //   avancesCualitativos[cont]['logrosAspectoEvaluar'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'];
-    // }
+    for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'].length; cont++){
+      double cantidadEjecucion;
+      if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] == ''){
+        cantidadEjecucion = 0.0;
+      }else{
+        cantidadEjecucion = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance']}');
+      }
+      var listaArmada = {
+        'indicadorAlcanceId'  : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['indicadorAlcanceId'],
+        'cantidadEjecucion' : cantidadEjecucion,
+      };
+      indicadoresAlcance.add(listaArmada);
+    }
 
-    // for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados']; cont++){
-    //   factoresAtraso[cont]['factorAtrasoId'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'][cont]['factorAtrasoId'];
-    // }
-    
-    // for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados']; cont++){
-    //   indicadoresAlcance[cont]['indicadorAlcanceId']  = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['indicadorAlcanceId'];
-    //   indicadoresAlcance[cont]['cantidadEjecucion']   = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'];
-    // }
-
+    print(indicadoresAlcance);
 
     var body = {
-  "actividades": [
-    {
-      "actividadId": 0,
-      "cantidadEjecutada": 0
-    }
-  ],
-  "aspectosEvaluar": [
-    {
-      "aspectoEvaluarId": 0,
-      "dificultadesAspectoEvaluar": "string",
-      "logrosAspectoEvaluar": "string"
-    }
-  ],
-  "codigoproyecto": 0,
-  "descripcion": "string",
-  "factoresAtraso": [
-    {
-      "factorAtrasoId": 0
-    }
-  ],
-  "fotoPrincipal": {
-    "image": "string",
-    "nombre": "string",
-    "tipo": "string"
-  },
-  "imagenesComplementarias": [
-    {
-      "image": "string",
-      "nombre": "string",
-      "tipo": "string"
-    }
-  ],
-  "indicadoresAlcance": [
-    {
-      "cantidadEjecucion": 0,
-      "indicadorAlcanceId": 0
-    }
-  ],
-  "periodoId": 0,
-  "usuario": "string"
-};
+      "actividades": actividades,
+      "aspectosEvaluar": avancesCualitativos,
+      "codigoproyecto": contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['codigoproyecto'],
+      "descripcion": contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['txtComentario'],
+      "factoresAtraso": factoresAtraso,
+      "fotoPrincipal": {
+        "image": contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['fileFotoPrincipal'],
+        "nombre": "fotoPrincipal",
+        "tipo": "jpeg"
+      },
+      "imagenesComplementarias": contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['filesFotosComplementarias'],
+      "indicadoresAlcance": indicadoresAlcance,
+      "periodoId": contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'],
+      "usuario": contenidoWebService[0]['usuario']['nombreUsu']
+    };
 
     String tokenUsu  = contenidoWebService[0]['usuario']['tokenUsu'];
 
-    var response = await http.post(
-      url, 
-      body: jsonEncode(body),
-      headers: {
-        "Content-type": "application/json",
-        'Authorization' : tokenUsu
-      },
-    );
+    try{
+      var response = await http.post(
+        url, 
+        body: jsonEncode(body),
+        headers: {
+          "Content-type": "application/json",
+          'Authorization' : tokenUsu
+        },
+      );
 
-    
-    print('-----------');
-    print(response.body);
-    if(response.statusCode == 200 ){
-      print('SE PUDO');
-    }else{
+      print('-----------');
+      print(response.body);
       print(response.statusCode);
-      print('NO SE PUDO');
-    }
+      if(response.statusCode == 200 || response.statusCode == 201 ){
+        print('SE PUDO');
+        print(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['fileFotoPrincipal']);
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = 0;
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] = false;
+      }else{
+        Navigator.push(
+          context, 
+          MaterialPageRoute(
+            builder: (context) => NoInternet()
+          ),
+        );
+      }
+    }catch(erro){
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] = true;
+      Navigator.push(
+        context, 
+        MaterialPageRoute(
+          builder: (context) => NoInternet()
+        ),
+      );
+    }    
   }
 
   @override
@@ -192,7 +207,6 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
           ),
         ),
         child: Stack(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Center(
                 child: new CircularPercentIndicator(

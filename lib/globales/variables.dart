@@ -7,7 +7,9 @@ String txtBtnDesplegableAvanceCualitativo = '';
 int idAspectoEvaluar;
 int keyboardVisibilitySubscriberId;
 int keyboardVisibilitySubscriberId2;
+int keyboardVisibilitySubscriberId3; // DE TODA LA CARPETA DE REPORTAR AVANCE
 bool conexionInternet = true;
+bool bool_estSegundoBtn_reportarAvance = false;
 List contenidoWebService = [
   {
     'usuario' : {
@@ -32,6 +34,7 @@ List contenidoWebService = [
         "pendienteAprobacion" : '',
         "paso"                : '',  //CACHE
         "ultimaFechaSincro"   : '', //CACHE
+        "porPublicar"         : '', //CACHE
         "datos"               :{
           "limitePorcentajeAtraso": '',
           "periodoIdSeleccionado" : '', //CACHE
@@ -195,11 +198,7 @@ List contenidoWebService = [
           ],
           'txtComentario' : '',
           'fileFotoPrincipal' : '',
-          'filesFotosComplementarias': [
-            {
-              'fileFoto1' : ''
-            }
-          ]
+          'filesFotosComplementarias': []
           /* fin CACHE **/
         }
       },

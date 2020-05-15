@@ -14,6 +14,15 @@ Widget seleccionaPeriodo(context, int posicionPeriodoReportado, int idPeriodoSel
       );
     }
   }
+  String fechaIniPeriodo;
+  String fechaFinPeriodo;
+  if(valores.length <= 0){
+    fechaIniPeriodo = '';
+    fechaFinPeriodo = '';
+  }else{
+    fechaIniPeriodo = '${valores[posicionPeriodoReportado]['fechaIniPeriodo']}';
+    fechaFinPeriodo = '${valores[posicionPeriodoReportado]['fechaFinPeriodo']}';
+  }
 
   return Container(
     width: MediaQuery.of(context).size.width,
@@ -66,7 +75,8 @@ Widget seleccionaPeriodo(context, int posicionPeriodoReportado, int idPeriodoSel
                       style: AppTheme.parrafo
                     ),
                     Text(
-                      valores[posicionPeriodoReportado]['fechaIniPeriodo'],
+                      // valores[posicionPeriodoReportado]['fechaIniPeriodo'],
+                      '$fechaIniPeriodo',
                       style: AppTheme.parrafoNegrita
                     ),
                     Text(
@@ -74,7 +84,8 @@ Widget seleccionaPeriodo(context, int posicionPeriodoReportado, int idPeriodoSel
                       style: AppTheme.parrafo
                     ),
                     Text(
-                      valores[posicionPeriodoReportado]['fechaFinPeriodo'],
+                      // valores[posicionPeriodoReportado]['fechaFinPeriodo'],
+                      '$fechaFinPeriodo',
                       style: AppTheme.parrafoNegrita
                     ),
                   ],

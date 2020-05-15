@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final titleColor = Color(0xff444444);
-Widget cajonTextoComentarios(context, textoTitulo, textoHint )
+Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion )
 {
   TextEditingController controllerCuartoPasoTxtComentarios = TextEditingController();
   if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['txtComentario'] != null){
@@ -43,9 +43,7 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint )
           padding: EdgeInsets.only(top:10.0),
           child: TextField(
             controller: controllerCuartoPasoTxtComentarios,
-            onChanged: (value){
-              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['txtComentario'] = value;
-            },
+            onChanged: accion,
             maxLines: 4,
             decoration: InputDecoration.collapsed(
               hintText: "$textoHint",

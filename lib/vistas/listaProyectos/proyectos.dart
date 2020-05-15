@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
 import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
@@ -7,9 +8,7 @@ import 'package:appalimentacion/vistas/proyecto/home.dart';
 import 'package:appalimentacion/vistas/reportarAvance/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:appalimentacion/widgets/cargando.dart';
-import 'package:appalimentacion/widgets/respuestaHttp.dart';
-import 'package:http/http.dart' as http;
+import 'package:toast/toast.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -141,7 +140,8 @@ class ProyectosContenido extends StatelessWidget {
                         contenidoWebService[0]['proyectos'][cont]['nombreproyecto'],
                         contenidoWebService[0]['proyectos'][cont]['valorejecutado'],
                         contenidoWebService[0]['proyectos'][cont]['valorproyecto'],
-                        false,
+                        // false,
+                        contenidoWebService[0]['proyectos'][cont]['porPublicar'],
                         'icn-linea-1',
                         contenidoWebService[0]['proyectos'][cont]['semaforoproyecto'],
                         contenidoWebService[0]['proyectos'][cont]['colorcategoria'],
@@ -360,7 +360,7 @@ class ProyectosContenido extends StatelessWidget {
               ],
             ),
 
-
+            if(faltaPublicar != null)
             if(faltaPublicar == true)
             Container(
               margin: EdgeInsets.only(
@@ -396,7 +396,6 @@ class ProyectosContenido extends StatelessWidget {
     }
     print('PASO ACTUAL:');
     print(contenidoWebService[0]['proyectos'][posicion]['paso']);
-    //miomio
 
     var respuesta = await obtenerDatosProyecto(idProyecto);
     if(respuesta){
@@ -420,7 +419,37 @@ class ProyectosContenido extends StatelessWidget {
         );
       }
     }else{
-
+      print('.---------------.');
+      print(contenidoWebService[0]['proyectos'][posicion]['datos']);
+      if(contenidoWebService[0]['proyectos'][posicion]['datos'] != null){
+        switch (contenidoWebService[0]['proyectos'][posicion]['paso']) {
+          case 0:
+            cambiarPagina(
+              context,
+              Proyecto()
+            );
+            break;
+          case 1:
+            cambiarPagina(
+              context, 
+              ReportarAvance()
+            );
+            break;
+          default:
+          cambiarPagina(
+            context, 
+            ReportarAvance()
+          );
+        }
+      }else{
+        Toast.show(
+          "Lo sentimos, este proyecto no fue sincronizado anteriormente", 
+          context, 
+          duration: 3, 
+          gravity:  Toast.BOTTOM
+        );
+      }
+      //miomio
     }
   }
 }

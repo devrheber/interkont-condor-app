@@ -1,4 +1,5 @@
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/cajonTexto.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/mostrarFotoPrincipal.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/mostrarFotosSubidas.dart';
@@ -6,7 +7,16 @@ import 'package:flutter/material.dart';
 
 final titleColor = Color(0xff444444);
 
-class CardCuerpoCuartoPaso extends StatelessWidget {
+class CardCuerpoCuartoPaso extends StatefulWidget {
+  
+  CardCuerpoCuartoPaso({Key key}) : super(key: key);
+  
+  @override
+  CardCuerpoCuartoPasoState createState() => CardCuerpoCuartoPasoState();
+}
+
+class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
+// class CardCuerpoCuartoPaso extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +52,16 @@ class CardCuerpoCuartoPaso extends StatelessWidget {
                           cajonTextoComentarios(
                             context, 
                             'Comentarios', 
-                            'Aca puede agregar una descripción del avance..'
+                            'Aca puede agregar una descripción del avance..',
+                            (value){
+                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['txtComentario'] = value;
+                              if(value.length > 1){
+                                bool_estSegundoBtn_reportarAvance = false;
+                              }else{
+                                bool_estSegundoBtn_reportarAvance = true;
+                              }
+                              
+                            },
                           ),
                           SizedBox(
                             height: 10.0,

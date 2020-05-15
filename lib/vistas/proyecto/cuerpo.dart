@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/proyecto/widgets/seleccionaPeriodo.dart';
@@ -21,6 +23,7 @@ class CardCuerpoState extends State<CardCuerpo> {
     setState(() {
       prefs = prefs;
     });
+    await prefs.setString('contenidoWebService', jsonEncode(contenidoWebService));
   }
 
   double valorejecutado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorejecutado'];
@@ -29,7 +32,7 @@ class CardCuerpoState extends State<CardCuerpo> {
 
   @override
   void initState(){
-    activarVariablesPreferences();
+    
     setState(() {
       porcentajeAsiVa = ((100*valorejecutado)/valorproyecto).round();
     });
@@ -38,13 +41,16 @@ class CardCuerpoState extends State<CardCuerpo> {
         periodoIdSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'];  
       });
     }else{
-      setState(() {
-        periodoIdSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][0]['periodoId'];
-      });
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][0]['periodoId'];
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][0]['porcentajeProyectado'];
+      if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'].length > 0 ){
+        setState(() {
+          periodoIdSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][0]['periodoId'];
+        });
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][0]['periodoId'];
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'] = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][0]['porcentajeProyectado'];
+      }
     }
     contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado'] = porcentajeAsiVa;
+    activarVariablesPreferences();
   }
 
   // Seleccione el periodo a reportar
@@ -197,8 +203,8 @@ class CardCuerpoState extends State<CardCuerpo> {
                     ),
                     Expanded(
                       child: Text(
-                        // 'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
-                        'Debes sincronizar el proyecto para poder reportar tu avance',
+                        'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
+                        // 'Debes sincronizar el proyecto para poder reportar tu avance',
                         style: AppTheme.parrafoRojo,
                         textAlign: TextAlign.left
                       )

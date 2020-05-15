@@ -26,7 +26,6 @@ class CarouselAvancesState extends State<CarouselAvances> {
 
   @override
   Widget build(BuildContext context) {
-    print('na');
     return CarouselSlider(
       enableInfiniteScroll: false,
       enlargeCenterPage: true,
