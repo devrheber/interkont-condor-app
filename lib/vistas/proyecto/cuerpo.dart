@@ -4,6 +4,7 @@ import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/proyecto/widgets/seleccionaPeriodo.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CardCuerpo extends StatefulWidget {
@@ -66,6 +67,8 @@ class CardCuerpoState extends State<CardCuerpo> {
       periodoIdSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodos'][nuevaPosicion]['periodoId'];
     });
   }
+
+  NumberFormat f2 = new NumberFormat("#,##0.00", "es_AR");
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +243,7 @@ class CardCuerpoState extends State<CardCuerpo> {
           children: <Widget>[
             celdas(
               'Presupuesto',
-              '\$ ${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto']}',
+              '\$ ${f2.format(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])}',
               false
             ),
             celdas(

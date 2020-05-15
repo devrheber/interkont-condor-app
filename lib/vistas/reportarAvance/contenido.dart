@@ -31,7 +31,7 @@ class ContenidoReportarAvanceState extends State<ContenidoReportarAvance> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        widget.numeroPaso != 5
+        widget.numeroPaso < 5
         ?CardHeadReporteAvance(
           numeroPaso: widget.numeroPaso,
         )
@@ -47,7 +47,7 @@ class ContenidoReportarAvanceState extends State<ContenidoReportarAvance> {
         CardCuerpoTercerPaso(),
         if(widget.numeroPaso == 4)
         CardCuerpoCuartoPaso(),
-        if(widget.numeroPaso == 5)
+        if(widget.numeroPaso >= 5)
         CardCuerpoQuintoPaso(),
       ],
     );

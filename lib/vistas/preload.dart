@@ -36,32 +36,35 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
       'contrasena':"${widget.txt_contrasena}"
     };
 
-    var response = await http.post(
-      url, 
-      body: jsonEncode(body)
-    );
-
-    var respuesta = await respuestaHttp(response.statusCode);
-    await prefs.setInt('estadoLogin', response.statusCode);
-
-    if(respuesta == true ){
-      contenidoWebService[0]['usuario']['tokenUsu'] = response.headers['authorization'];
-      contenidoWebService[0]['usuario']['nombreUsu'] = "${widget.txt_usuario}";
-      await obtenerListaProyectos();
-      await prefs.setString('contenidoWebService', jsonEncode(contenidoWebService));
-      Navigator.push(
-        context, 
-        MaterialPageRoute(
-          builder: (context) => ListaProyectos()
-        ),
+    try{
+      var response = await http.post(
+        url, 
+        body: jsonEncode(body)
       );
-    }else{
-      Navigator.push(
-        context, 
-        MaterialPageRoute(
-          builder: (context) => LoginPage()
-        ),
-      );
+      var respuesta = await respuestaHttp(response.statusCode);
+      await prefs.setInt('estadoLogin', response.statusCode);
+      if(respuesta == true ){
+        contenidoWebService[0]['usuario']['tokenUsu'] = response.headers['authorization'];
+        contenidoWebService[0]['usuario']['nombreUsu'] = "${widget.txt_usuario}";
+        await obtenerListaProyectos();
+        await prefs.setString('contenidoWebService', jsonEncode(contenidoWebService));
+        Navigator.push(
+          context, 
+          MaterialPageRoute(
+            builder: (context) => ListaProyectos()
+          ),
+        );
+      }else{
+        Navigator.push(
+          context, 
+          MaterialPageRoute(
+            builder: (context) => LoginPage()
+          ),
+        );
+      }
+    }catch(erro){
+      print('-------');
+      print(erro);
     }
   }
   

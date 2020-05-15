@@ -71,63 +71,70 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
     List factoresAtraso = [];
     List indicadoresAlcance = [];
 
-    for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'].length; cont++){
-      double cantidadEjecutada;
-      if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance'] != null){
-        cantidadEjecutada = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance']}');
-      }else{
-        cantidadEjecutada = 0.0;
+    if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'] != null){
+      for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'].length; cont++){
+        double cantidadEjecutada;
+        if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance'] != null){
+          cantidadEjecutada = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance']}');
+        }else{
+          cantidadEjecutada = 0.0;
+        }
+        var listaArmada = {
+          'actividadId' : int.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['actividadId']}'),
+          'cantidadEjecutada' : cantidadEjecutada
+        };
+        actividades.add(listaArmada);
       }
-      var listaArmada = {
-        'actividadId' : int.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['actividadId']}'),
-        'cantidadEjecutada' : cantidadEjecutada
-      };
-      actividades.add(listaArmada);
     }
 
-    for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'].length ; cont++){
+    if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'] != null){
+      for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'].length ; cont++){
+        String dificultad;
+        if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad'] == ''){
+          dificultad = '';
+        }else{
+          dificultad = '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad']}';
+        }
 
-      String dificultad;
-      if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad'] == ''){
-        dificultad = '';
-      }else{
-        dificultad = '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad']}';
+        String logros;
+        if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'] == ''){
+          logros = '';
+        }else{
+          logros = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'];
+        }
+
+        var listaArmada = {
+          'aspectoEvaluarId'            : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['aspectoEvaluarId'],
+          'dificultadesAspectoEvaluar'  : dificultad,
+          'logrosAspectoEvaluar'        : logros,
+        };
+        
+        avancesCualitativos.add(listaArmada);
       }
-
-      String logros;
-      if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'] == ''){
-        logros = '';
-      }else{
-        logros = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'];
-      }
-
-      var listaArmada = {
-        'aspectoEvaluarId'            : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['aspectoEvaluarId'],
-        'dificultadesAspectoEvaluar'  : dificultad,
-        'logrosAspectoEvaluar'        : logros,
-      };
-      
-      avancesCualitativos.add(listaArmada);
     }
 
-    for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'].length; cont++){
-      factoresAtraso.add({
-        'factorAtrasoId' : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'][cont]['factorAtrasoId']
-      });
+    if( contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'] != null ){
+      for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'].length; cont++){
+        factoresAtraso.add({
+          'factorAtrasoId' : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'][cont]['factorAtrasoId']
+        });
+      }
     }
     
-    for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'].length; cont++){
-      double cantidadEjecucion;
-      if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] == ''){
-        cantidadEjecucion = 0.0;
-      }else{
-        cantidadEjecucion = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance']}');
+    if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'] != null){
+      for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'].length; cont++){
+        double cantidadEjecucion;
+        if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] == ''){
+          cantidadEjecucion = 0.0;
+        }else{
+          cantidadEjecucion = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance']}');
+        }
+        var listaArmada = {
+          'indicadorAlcanceId'  : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['indicadorAlcanceId'],
+          'cantidadEjecucion' : cantidadEjecucion,
+        };
+        indicadoresAlcance.add(listaArmada);
       }
-      var listaArmada = {
-        'indicadorAlcanceId'  : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['indicadorAlcanceId'],
-        'cantidadEjecucion' : cantidadEjecucion,
-      };
-      indicadoresAlcance.add(listaArmada);
     }
 
     print(indicadoresAlcance);
@@ -178,7 +185,10 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
         );
       }
     }catch(erro){
+      print(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso']);
+      print(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso']);
       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] = true;
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = 5;
       Navigator.push(
         context, 
         MaterialPageRoute(

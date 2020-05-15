@@ -39,7 +39,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
 
   @override
   void initState(){
-    print(numeroPaso);
+    // print(numeroPaso);
     super.initState();
     obtenerVariablesSharedPreferences();
     if(keyboardVisibilitySubscriberId3 == null){
@@ -175,7 +175,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
         accionSegundoBoton = (){
           siguiente();
         };
-      }else if(numeroPaso == 5){
+      }else if(numeroPaso >= 5){
         txtPrimerBoton  = 'Cancelar';
         txtSegundoBoton = 'Finalizar';
         accionPrimerBoton = (){
