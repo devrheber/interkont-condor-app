@@ -159,10 +159,14 @@ class CarouselAvancesState extends State<CarouselAvances> {
               children: <Widget>[
                 Expanded(
                   child: TextField(
+                    textInputAction: TextInputAction.done,
                     controller: controllerPrimerPasoTxtAvance,
                     onChanged: accion,
                     textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
+                    keyboardType: TextInputType.numberWithOptions(
+                      decimal: true,
+                      signed: true
+                    ),
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'montserrat',

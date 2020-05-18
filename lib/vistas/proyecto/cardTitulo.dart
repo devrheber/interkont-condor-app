@@ -190,8 +190,11 @@ class CardTituloState extends State<CardTitulo> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               image: conexionInternet == true
-                              ?NetworkImage(
-                                '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['imagencategoria']}',
+                              // ?NetworkImage(
+                              //   '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['imagencategoria']}',
+                              // )
+                              ?AssetImage(
+                                'assets/img/Desglose/Demas/question.png',
                               )
                               :AssetImage(
                                 'assets/img/Desglose/Demas/question.png',

@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'package:appalimentacion/globales/funciones/calcularValorEjecutado.dart';
+import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,6 +23,9 @@ async{
           proyectos[conta]['paso']  = contenidoWebServiceCache[0]['proyectos'][cont]['paso'];
           proyectos[conta]['ultimaFechaSincro']  = contenidoWebServiceCache[0]['proyectos'][cont]['ultimaFechaSincro'];
           proyectos[conta]['datos'] = contenidoWebServiceCache[0]['proyectos'][cont]['datos'];
+          if( contenidoWebServiceCache[0]['proyectos'][cont]['porPublicar'] != null ){
+            proyectos[conta]['porPublicar'] = contenidoWebServiceCache[0]['proyectos'][cont]['porPublicar'];
+          }
           break;
         }
       }

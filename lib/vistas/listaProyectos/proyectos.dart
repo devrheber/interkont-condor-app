@@ -225,7 +225,10 @@ class ProyectosContenido extends StatelessWidget {
 
     if(conexionInternet == true){
       imagen = Image.network(
-        '$imagencategoria'
+        'https://condor.car.gov.co/condor/resources/ikont-icons/lineas_negocio/icn-circular-dia.png'
+      );
+      imagen = Image.asset(
+        'assets/img/Desglose/Demas/question.png',
       );
     }else{
       imagen = Image.asset(
@@ -397,7 +400,7 @@ class ProyectosContenido extends StatelessWidget {
     print('PASO ACTUAL:');
     print(contenidoWebService[0]['proyectos'][posicion]['paso']);
 
-    var respuesta = await obtenerDatosProyecto(idProyecto);
+    var respuesta = await obtenerDatosProyecto(idProyecto, true);
     if(respuesta){
       switch (contenidoWebService[0]['proyectos'][posicion]['paso']) {
         case 0:

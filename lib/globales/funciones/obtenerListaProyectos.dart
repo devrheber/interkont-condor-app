@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:http/http.dart' as http;
 import 'package:appalimentacion/globales/variables.dart';
@@ -26,18 +27,19 @@ async{
     'usuario': nombreUsu
   };
   try{
-    var response = await http.post(
-      url, 
-      headers: {
-        "Content-type": "application/json",
-        'Authorization' : tokenUsu
-      },
-      body: jsonEncode(body),
-    );
+    HttpClient client = new HttpClient();
+    client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
+    var request = await client.postUrl(Uri.parse(url)); 
+    request.headers.set('content-type', 'application/json');
+    request.headers.set('Authorization', tokenUsu);
+    request.add(utf8.encode(json.encode(body)));
+    HttpClientResponse response = await request.close();
+    String cuerpoBody = await response.transform(utf8.decoder).join();
+    print(cuerpoBody);
 
     var respuesta = await respuestaHttp(response.statusCode);
     if(respuesta == true){
-      contenidoWebService[0]['proyectos'] = jsonDecode(response.body);
+      contenidoWebService[0]['proyectos'] = jsonDecode(cuerpoBody);
     }else{
       
     }

@@ -3,6 +3,7 @@ import 'package:appalimentacion/vistas/reportarAvance/cuerpo/tercerPaso/carousel
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:toast/toast.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -117,9 +118,18 @@ class CardCuerpoTercerPasoState extends State<CardCuerpoTercerPaso> {
                           contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['porcentajeAvance'],
                           contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'],
                           (value){
-                            contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] = value;
-                            contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadEjecutada'] = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadEjecutadaInicial']}') + double.parse('$value');
-                            contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['porcentajeAvance'] = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadEjecutada']}') / double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadProgramada']}')*100;
+                            if(double.parse('$value') < 0 ){
+                              Toast.show(
+                                "Lo sentimos, solo aceptamos numeros positivos", 
+                                context, 
+                                duration: 3, 
+                                gravity:  Toast.BOTTOM
+                              );
+                            }else{
+                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] = value;
+                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadEjecutada'] = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadEjecutadaInicial']}') + double.parse('$value');
+                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['porcentajeAvance'] = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadEjecutada']}') / double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadProgramada']}')*100;
+                            }
                           }
                         )
                       ],

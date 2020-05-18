@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
 import 'package:appalimentacion/vistas/login.dart';
 import 'package:appalimentacion/widgets/respuestaHttp.dart';
@@ -37,14 +38,29 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
     };
 
     try{
-      var response = await http.post(
-        url, 
-        body: jsonEncode(body)
-      );
+      HttpClient client = new HttpClient();
+      client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
+      var request = await client.postUrl(Uri.parse(url)); 
+      request.headers.set('content-type', 'application/json');
+      request.add(utf8.encode(json.encode(body)));
+      HttpClientResponse response = await request.close();
+      print('------------');
+      print(response);
+      print('------------');
+      print('------------');
+      print(response.statusCode);
+      print('------------');
+      print('------------');
+      print(response.headers);
+      print('------------');
+      print('------------');
+      print(response.headers['authorization'][0]);
+      print('------------');
       var respuesta = await respuestaHttp(response.statusCode);
+
       await prefs.setInt('estadoLogin', response.statusCode);
       if(respuesta == true ){
-        contenidoWebService[0]['usuario']['tokenUsu'] = response.headers['authorization'];
+        contenidoWebService[0]['usuario']['tokenUsu'] = response.headers['authorization'][0];
         contenidoWebService[0]['usuario']['nombreUsu'] = "${widget.txt_usuario}";
         await obtenerListaProyectos();
         await prefs.setString('contenidoWebService', jsonEncode(contenidoWebService));

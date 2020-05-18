@@ -22,7 +22,7 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
   @override
   void initState()
   {
-    for(int cont = 1; cont < valores.length; cont++){
+    for(int cont = 0; cont < valores.length; cont++){
       valoresSelect.add(valores[cont]['descripcionAspectoEvaluar']);
     }
     idAspectoEvaluar = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]['aspectoEvaluarId'];
@@ -70,7 +70,7 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
                 )).toList(),
                 onChanged: (String value) {
                   setState(() {
-                    for(int cont = 1; cont < valores.length; cont++){
+                    for(int cont = 0; cont < valores.length; cont++){
                       if(valores[cont]['descripcionAspectoEvaluar'] == value){
                         idAspectoEvaluar = valores[cont]['aspectoEvaluarId'];
                         break;

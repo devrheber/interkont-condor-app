@@ -23,7 +23,7 @@ class ContenidoProyectoState extends State<ContenidoProyecto> {
 
   activarUltimaSincronizacion()
   async{
-    var respuesta = await obtenerDatosProyecto(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['codigoproyecto']);
+    var respuesta = await obtenerDatosProyecto(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['codigoproyecto'], true);
     if(respuesta){
       setState(() {
         ultimaSincro = 1;

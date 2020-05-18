@@ -1,7 +1,9 @@
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
+import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
+import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:appalimentacion/vistas/reportarAvance/contenido.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cargando.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/factorAtraso/index.dart';
@@ -140,7 +142,21 @@ class ReportarAvanceState extends State<ReportarAvance> {
         txtPrimerBoton  = 'Cancelar';
         txtSegundoBoton = 'Siguíente Paso';
         accionPrimerBoton = (){
-          Navigator.of(context).pop();
+          obtenerDatosProyecto(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['codigoproyecto'], false);
+          Toast.show(
+            "El proyecto ha sido cancelado", 
+            context, 
+            duration: 5, 
+            gravity:  Toast.BOTTOM
+          );
+          cambiarPagina(context, ListaProyectos());
+          setState(() {
+            bool_estSegundoBtn_reportarAvance = false;
+          });
+          actualizarPaso(0);
+          cambiarPasoProyecto(
+            0
+          );
         };
         accionSegundoBoton = (){
           siguiente();

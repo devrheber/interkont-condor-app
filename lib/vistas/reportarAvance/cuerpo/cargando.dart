@@ -1,6 +1,10 @@
 import 'dart:convert';
 
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
+import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
+import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
+import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/felicitaciones.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/noInternet.dart';
@@ -176,7 +180,13 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
         print(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['fileFotoPrincipal']);
         contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = 0;
         contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] = false;
+        await obtenerListaProyectos();
+        await actualizarProyectos();
+        await obtenerDatosProyecto(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['codigoproyecto'], false);
       }else{
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] = true;
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = 5;
+        cambiarPasoProyecto(5);
         Navigator.push(
           context, 
           MaterialPageRoute(
@@ -189,6 +199,7 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
       print(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso']);
       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] = true;
       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = 5;
+      cambiarPasoProyecto(5);
       Navigator.push(
         context, 
         MaterialPageRoute(

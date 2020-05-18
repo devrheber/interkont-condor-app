@@ -5,6 +5,7 @@ import 'package:appalimentacion/vistas/reportarAvance/cuerpo/primerPaso/carousel
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:toast/toast.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -158,13 +159,21 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
                     contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['porcentajeAvance'],
                     contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance'],
                     (value){
-                      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance'] = value;
-
-                      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutada'] = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutadaInicial']}') + double.parse('$value');
-                      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorEjecutado'] = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutada']}') * double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorUnitario']}');
-                      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['porcentajeAvance'] = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorEjecutado']}') / double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorProgramado']}')*100;
-                      calcularValorEjecutado();
-                      
+                      if(double.parse('$value') < 0 ){
+                        Toast.show(
+                          "Lo sentimos, solo aceptamos numeros positivos", 
+                          context, 
+                          duration: 3, 
+                          gravity:  Toast.BOTTOM
+                        );
+                      }else{
+                        print('positivo');
+                        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance'] = value;
+                        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutada'] = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutadaInicial']}') + double.parse('$value');
+                        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorEjecutado'] = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutada']}') * double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorUnitario']}');
+                        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['porcentajeAvance'] = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorEjecutado']}') / double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorProgramado']}')*100;
+                        calcularValorEjecutado();
+                      }
                     }
                   )
                 ],
