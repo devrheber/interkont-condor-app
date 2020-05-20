@@ -11,12 +11,14 @@ class FondoHome extends StatefulWidget {
   final Widget contenido;
   final bool bottomNavigationBar;
   final Widget contenidoBottom;
+  final bool primeraPagina;
 
   FondoHome({
     Key key,
     this.contenido,
     this.bottomNavigationBar,
-    this.contenidoBottom
+    this.contenidoBottom,
+    this.primeraPagina,
   }) : super(
     key: key
   );
@@ -31,7 +33,7 @@ class FondoHomeState extends State<FondoHome> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        key: _drawerKey, // assign key to Scaffold
+        key: _drawerKey,
         drawer: Drawer(
           child: ListView(
             children: <Widget>[
@@ -120,9 +122,10 @@ class FondoHomeState extends State<FondoHome> {
                   ),
                 ),
             ),
-            widget.contenido ,
-            Align(
-              alignment: Alignment.topRight,
+            widget.contenido,
+            widget.primeraPagina != null
+            ?Align(
+              alignment: Alignment.topLeft,
               child: Padding(
                 padding: EdgeInsets.only(
                   right: 30.0,
@@ -139,6 +142,9 @@ class FondoHomeState extends State<FondoHome> {
                   ),
                 )
               )
+            )
+            :Text(
+              ''
             )
           ],
         ),

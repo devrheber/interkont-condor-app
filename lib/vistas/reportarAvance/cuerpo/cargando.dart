@@ -5,7 +5,9 @@ import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
 import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
 import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
 import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
+import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
+import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/felicitaciones.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/noInternet.dart';
 import 'package:appalimentacion/widgets/respuestaHttp.dart';
@@ -13,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:toast/toast.dart';
 
 class CargandoFinalizar extends StatefulWidget{
   @override
@@ -24,9 +27,11 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
   
   AnimationController _controller;
   Animation<double> animation;
-  Animation<double> animationDos;
   String i = '0';
   String contadorRgb = '0';
+  bool correcto = false;
+  bool pasaron10Segundos = false;
+  
   @override
   void initState(){
     super.initState();
@@ -38,13 +43,6 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
         i = animation.value.toStringAsFixed(0);
       });
     });
-    animationDos =Tween<double>(begin: 1600, end: 0).animate(_controller)
-    ..addListener((){
-      setState((){
-        // The state that has changed here is the animation objects value
-        contadorRgb = animationDos.value.toStringAsFixed(0);
-      });
-    });
     _controller.forward();
 
 
@@ -54,12 +52,22 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
     Future.delayed(
       Duration(seconds: 10),
       () {
-        if( contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] == false ){
+        setState(() {
+          pasaron10Segundos = true;
+        });
+        if(correcto == true ){
           Navigator.push(
             context, 
             MaterialPageRoute(
               builder: (context) => Felicitaciones()
             ),
+          );
+        }else{
+          Toast.show(
+            "Espere un momento en linea porfavor", 
+            context, 
+            duration: 5, 
+            gravity:  Toast.BOTTOM
           );
         }
       },
@@ -176,6 +184,10 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
       print(response.body);
       print(response.statusCode);
       if(response.statusCode == 200 || response.statusCode == 201 ){
+        setState(() {
+          correcto = true;
+        });
+        cambiarPasoProyecto(0);
         print('SE PUDO');
         print(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['fileFotoPrincipal']);
         contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = 0;
@@ -183,6 +195,14 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
         await obtenerListaProyectos();
         await actualizarProyectos();
         await obtenerDatosProyecto(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['codigoproyecto'], false);
+        if(pasaron10Segundos == true){
+          Navigator.push(
+            context, 
+            MaterialPageRoute(
+              builder: (context) => Felicitaciones()
+            ),
+          );
+        }
       }else{
         contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] = true;
         contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = 5;

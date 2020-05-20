@@ -144,7 +144,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
         accionPrimerBoton = (){
           obtenerDatosProyecto(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['codigoproyecto'], false);
           Toast.show(
-            "El proyecto ha sido cancelado", 
+            "El avance ha sido cancelado", 
             context, 
             duration: 5, 
             gravity:  Toast.BOTTOM

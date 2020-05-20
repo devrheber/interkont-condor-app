@@ -31,7 +31,8 @@ class ListaProyectos extends StatelessWidget {
       child: FondoHome(
         contenido: ProyectosContenido(),
         bottomNavigationBar: true,
-        contenidoBottom: null
+        contenidoBottom: null,
+        primeraPagina : true
       )
     );
   }

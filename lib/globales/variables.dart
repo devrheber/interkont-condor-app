@@ -1,7 +1,7 @@
 library my_prj.variables;
 
-// String urlGlobal = 'http://13.59.62.87:8080';
-String urlGlobal = 'https://appcondor.car.gov.co';
+String urlGlobal = 'http://13.59.62.87:8080';
+// String urlGlobal = 'https://appcondor.car.gov.co';
 String urlGlobalApiCondor = urlGlobal+'/cobra-ws-condor';
 int posicionListaProyectosSeleccionado = 0;
 String txtBtnDesplegableAvanceCualitativo = '';
@@ -11,6 +11,7 @@ int keyboardVisibilitySubscriberId2;
 int keyboardVisibilitySubscriberId3; // DE TODA LA CARPETA DE REPORTAR AVANCE
 bool conexionInternet = true;
 bool bool_estSegundoBtn_reportarAvance = false;
+String numeroVersion = "1.0.1";
 List contenidoWebService = [
   {
     'usuario' : {

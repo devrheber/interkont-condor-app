@@ -22,7 +22,7 @@ Widget cardContenidoQuintoPaso(
   if(esAntes){
     nombreSemaforo = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['semaforoproyecto'];
   }else{
-    var datoVerde = (((double.parse('$porcentajeAsiVaDos') / contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'])*100)-100);
+    var datoVerde = (100-((double.parse('$porcentajeAsiVaDos') / contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'])*100));
     if(datoVerde <= contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['limitePorcentajeAtraso']){
       nombreSemaforo = 'verde';
     }else if( datoVerde > contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['limitePorcentajeAtraso'] && datoVerde <= contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['limitePorcentajeAtrasoAmarillo'] ){

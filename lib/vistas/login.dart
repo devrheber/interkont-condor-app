@@ -1,5 +1,6 @@
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/logo.dart';
+import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/preload.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -218,28 +219,29 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         )
                       ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+
 
                       estadoLogin != null && estadoLogin != 200
                       ?Column(
                         children: <Widget>[
                           Text(
                             'Lo sentimos',
-                            style: AppTheme.parrafoRojo,
+                            style: AppTheme.parrafoBlanco,
                           ),
                           Text(
                             'el usuario o la contraseña es incorrecta',
-                            style: AppTheme.parrafoRojo,
+                            style: AppTheme.parrafoBlanco,
                           ),
                         ],
                       )
                       :Text(''),
 
                       Container(
-                        padding: EdgeInsets.only(
-                          top: 40.0
-                        ),
                         child: Image(
-                          height: 100.0,
+                          height: 85.0,
                           image: AssetImage(
                             'assets/img/Desglose/Login/logo-footer.png'
                           )
@@ -255,16 +257,27 @@ class _LoginPageState extends State<LoginPage> {
       ),
       bottomNavigationBar: Container(
         color: AppTheme.primero,
-        height: 15.0,
-        child: Row(
+        height: 48.0,
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              '2020 Powered by ',
-              style: AppTheme.parrafoBlanco
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  '2020 Powered by',
+                  style: AppTheme.parrafoBlanco
+                ),
+                Image(
+                  image: AssetImage(
+                    'assets/img/Desglose/Preloader/logo-cliente-footer.png',
+                  ),
+                  width: 70.0,
+                )
+              ],
             ),
             Text(
-              'Interkont.com',
+              'Versión $numeroVersion',
               style: AppTheme.parrafoBlanco
             ),
           ],

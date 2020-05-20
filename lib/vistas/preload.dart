@@ -81,6 +81,13 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
     }catch(erro){
       print('-------');
       print(erro);
+      await prefs.setInt('estadoLogin', 800);
+      Navigator.push(
+        context, 
+        MaterialPageRoute(
+          builder: (context) => LoginPage()
+        ),
+      );
     }
   }
   

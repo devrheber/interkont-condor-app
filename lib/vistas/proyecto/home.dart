@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 class Proyecto extends StatefulWidget {
+
   Proyecto({Key key}) : super(key: key);
   
   @override
@@ -32,10 +33,18 @@ class ProyectoState extends State<Proyecto> {
     activarVariablesPreferences();
   }
 
+  void actualizarEstadoProyecto()
+  {
+    setState(() {
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FondoHome(
       contenido: ContenidoProyecto(
+        actualizarEstadoHome: actualizarEstadoProyecto,
       ),
       bottomNavigationBar: true,
       contenidoBottom: contenidoBottom(
