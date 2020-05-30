@@ -26,6 +26,7 @@ Widget buscador(context, accion)
               ),
               Expanded(
                 child: TextField(
+                  textInputAction: TextInputAction.send,
                   decoration: InputDecoration.collapsed(hintText: "Buscar por palabra clave..", ),
                   onChanged: accion
                 ),

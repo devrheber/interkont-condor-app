@@ -91,7 +91,7 @@ class CarouselAvancesState extends State<CarouselAvances> {
           BoxShadow(
             color: Color(0xff444444),
             blurRadius: 5,
-            spreadRadius: 0.1
+            spreadRadius: 0.4,
           ),
         ],
         borderRadius: BorderRadius.only( 
@@ -114,7 +114,7 @@ class CarouselAvancesState extends State<CarouselAvances> {
         right: 10.0,
         bottom: 10.0
       ),
-      child: ListView(
+      child: Column(
         children: <Widget>[
           Text(
             descripcionActividad,
@@ -159,7 +159,8 @@ class CarouselAvancesState extends State<CarouselAvances> {
               children: <Widget>[
                 Expanded(
                   child: TextField(
-                    textInputAction: TextInputAction.done,
+                    // textInputAction: TextInputAction.done,                    
+                    textInputAction: TextInputAction.send,
                     controller: controllerPrimerPasoTxtAvance,
                     onChanged: accion,
                     textAlign: TextAlign.center,

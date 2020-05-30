@@ -42,6 +42,7 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion )
         Container(
           padding: EdgeInsets.only(top:10.0),
           child: TextField(
+            textInputAction: TextInputAction.send,
             controller: controllerCuartoPasoTxtComentarios,
             onChanged: accion,
             maxLines: 4,

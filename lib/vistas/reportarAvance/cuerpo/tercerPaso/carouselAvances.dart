@@ -102,6 +102,7 @@ Widget cardCarousel(
             children: <Widget>[
               Expanded(
                 child: TextField(
+                  textInputAction: TextInputAction.send,
                   keyboardType: TextInputType.number,
                   controller: controllerTercerPasoTxtEjecucion,
                   onChanged: accion,

@@ -53,7 +53,7 @@ Widget cajonTexto(context, textoTitulo, textoHint, logros, capturarCambio, TextE
         Container(
           padding: EdgeInsets.only(top:10.0),
           child: TextField(
-            
+            textInputAction: TextInputAction.send,
             controller: controller,
             onChanged: capturarCambio,
             maxLines: 2,

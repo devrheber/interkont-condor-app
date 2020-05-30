@@ -55,7 +55,12 @@ class _FelicitacionesState extends State<Felicitaciones> {
             ),
             Text(
               'Tu proyecto ha sido actualizado exitosamente',
-              style: AppTheme.parrafoBlanco,
+              style:  TextStyle( 
+                fontFamily: 'montserrat',
+                fontWeight: FontWeight.w200,
+                fontSize: 13,
+                color: Colors.white,
+              ),
               textAlign: TextAlign.center,
             ),
             SizedBox(

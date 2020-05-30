@@ -136,7 +136,7 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
               CarouselSlider(
                 enableInfiniteScroll: false,
                 enlargeCenterPage: true,
-                height: 330.0,
+                height: 340.0,
                 items: <Widget>[
                   for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'].length; cont++)
                   // if(lista[cont]['descripcionActividad'].indexOf(widget.txtBuscar.toUpperCase()) != -1 || lista[cont]['descripcionActividad'].indexOf(widget.txtBuscar.toLowerCase()) != -1  )

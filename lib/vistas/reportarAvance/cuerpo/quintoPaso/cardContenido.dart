@@ -40,13 +40,11 @@ Widget cardContenidoQuintoPaso(
       borderRadius: BorderRadius.all(Radius.circular(10)),
       boxShadow: [
         BoxShadow(
-          blurRadius: 10.0,
-          spreadRadius: 0.1,
-          offset: Offset(
-            0.9,
-            0.9,
-          ),
-        )
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 2,
+          blurRadius: 7,
+          offset: Offset(1, 1),
+        ),
       ],
     ),
     child: Container(

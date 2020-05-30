@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
 import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
@@ -314,7 +313,7 @@ class ProyectosContenido extends StatelessWidget {
                                         width: 90.0,
                                         decoration: const BoxDecoration(
                                           border: Border(
-                                            right: BorderSide(width: 0.5, color: Color(0xFFFF000000)),
+                                            right: BorderSide(width: 0.3, color: Color(0xFFFF000000)),
                                           ),
                                         ),
                                         child: Text(
@@ -326,7 +325,7 @@ class ProyectosContenido extends StatelessWidget {
                                         child: Container(
                                           decoration: const BoxDecoration(
                                             border: Border(
-                                              right: BorderSide(width: 0.5, color: Color(0xFFFF000000)),
+                                              right: BorderSide(width: 0.3, color: Color(0xFFFF000000)),
                                             ),
                                           ),
                                           child: Center(
