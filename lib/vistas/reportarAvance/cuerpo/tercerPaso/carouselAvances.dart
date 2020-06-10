@@ -1,6 +1,7 @@
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 Widget carouselAlcance(context)
 {
@@ -35,7 +36,8 @@ Widget cardCarousel(
   accion
 )
 {
-
+  NumberFormat f = new NumberFormat("#,##0.0", "es_AR");
+  
   TextEditingController controllerTercerPasoTxtEjecucion = TextEditingController();
   if(txtEjecucionIndicadorAlcance != null){
     controllerTercerPasoTxtEjecucion.text = txtEjecucionIndicadorAlcance;
@@ -136,17 +138,17 @@ Widget cardCarousel(
             ),
             celdas(
               'Cantidad programada',
-              cantidadProgramada,
+              f.format(double.parse('$cantidadProgramada')),
               false
             ),
             celdas(
               'Cantidad ejecutada',
-              cantidadEjecutada,
+              f.format(double.parse('$cantidadEjecutada')),
               true
             ),
             celdas(
               'Porcentaje de avance',
-              '$porcentajeAvance%',
+              f.format(double.parse('$porcentajeAvance'))+'%',
               true
             ),
           ],
