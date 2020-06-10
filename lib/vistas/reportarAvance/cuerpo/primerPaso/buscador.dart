@@ -43,7 +43,7 @@ Widget buscador(context, accion)
       //     },
       //     child: Container(
       //       decoration: const BoxDecoration(
-      //         borderRadius: BorderRadius.only( 
+      //         borderRadius: BorderRadius.only(  
       //           topLeft:     Radius.circular(15.0),
       //           topRight:    Radius.circular(15.0),
       //           bottomLeft:  Radius.circular(15.0),

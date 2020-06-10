@@ -100,9 +100,13 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                       );
                     }
                   ),
+                  Image.asset(
+                    'assets/img/Desglose/ReporteAvance/icn-stop.png',
+                    width: 45,
+                  ),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: 20.0,
+                      top: 10.0,
                       bottom: 10.0
                     ),
                     child: Text(
