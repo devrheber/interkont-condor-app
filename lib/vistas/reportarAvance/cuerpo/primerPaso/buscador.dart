@@ -35,48 +35,48 @@ Widget buscador(context, accion)
           )
         ),
       ),
-      Expanded(
-        flex: 1,
-        child: GestureDetector(
-          onTap: (){
+      // Expanded(
+      //   flex: 1,
+      //   child: GestureDetector(
+      //     onTap: (){
             
-          },
-          child: Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only( 
-                topLeft:     Radius.circular(15.0),
-                topRight:    Radius.circular(15.0),
-                bottomLeft:  Radius.circular(15.0),
-                bottomRight: Radius.circular(15.0),
-              ),
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: <Color>[
-                  AppTheme.dieciochoavo,
-                  AppTheme.tercero
-                ],
-              ),
-            ),
-            margin: EdgeInsets.only(left:5.0),
-            padding: EdgeInsets.only(left:20.0, right: 20.0, top: 10.0, bottom: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    'Buscar',
-                    style: TextStyle(
-                      color: Colors.white
-                    ),
-                    textAlign: TextAlign.center,
-                  )
-                )
-              ],
-            )
-          ),
-        )
-      )
+      //     },
+      //     child: Container(
+      //       decoration: const BoxDecoration(
+      //         borderRadius: BorderRadius.only( 
+      //           topLeft:     Radius.circular(15.0),
+      //           topRight:    Radius.circular(15.0),
+      //           bottomLeft:  Radius.circular(15.0),
+      //           bottomRight: Radius.circular(15.0),
+      //         ),
+      //         gradient: LinearGradient(
+      //           begin: Alignment.bottomLeft,
+      //           end: Alignment.topRight,
+      //           colors: <Color>[
+      //             AppTheme.dieciochoavo,
+      //             AppTheme.tercero
+      //           ],
+      //         ),
+      //       ),
+      //       margin: EdgeInsets.only(left:5.0),
+      //       padding: EdgeInsets.only(left:20.0, right: 20.0, top: 10.0, bottom: 10.0),
+      //       child: Row(
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         children: <Widget>[
+      //           Expanded(
+      //             child: Text(
+      //               'Buscar',
+      //               style: TextStyle(
+      //                 color: Colors.white
+      //               ),
+      //               textAlign: TextAlign.center,
+      //             )
+      //           )
+      //         ],
+      //       )
+      //     ),
+      //   )
+      // )
     ],
   );
 }
