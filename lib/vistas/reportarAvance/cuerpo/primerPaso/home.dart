@@ -140,7 +140,7 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
                 items: <Widget>[
                   for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'].length; cont++)
                   // if(lista[cont]['descripcionActividad'].indexOf(widget.txtBuscar.toUpperCase()) != -1 || lista[cont]['descripcionActividad'].indexOf(widget.txtBuscar.toLowerCase()) != -1  )
-                  if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['descripcionActividad'].indexOf(txtBuscarAvance) != -1)
+                  if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['descripcionActividad'].indexOf(txtBuscarAvance.toUpperCase()) != -1 || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['descripcionActividad'].indexOf(txtBuscarAvance.toLowerCase()) != -1)
                   cardCarousel(
                     (){
                       // print(cont);

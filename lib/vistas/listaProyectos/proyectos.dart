@@ -223,12 +223,12 @@ class ProyectosContenido extends StatelessWidget {
     var imagen;
 
     if(conexionInternet == true){
-      // imagen = Image.network(
-      //   '$imagencategoria'
-      // );
-      imagen = Image.asset(
-        'assets/img/Desglose/Demas/question.png',
+      imagen = Image.network(
+        '$imagencategoria'
       );
+      // imagen = Image.asset(
+      //   'assets/img/Desglose/Demas/question.png',
+      // );
     }else{
       imagen = Image.asset(
         'assets/img/Desglose/Demas/question.png',
