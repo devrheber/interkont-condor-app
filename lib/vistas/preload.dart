@@ -23,8 +23,9 @@ class Preload extends StatefulWidget{
 class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
   
   AnimationController _controller;
+  AnimationController _controllerPeque;
   Animation<double> animation;
-  String i = '0';
+  double i = 100;
 
   SharedPreferences prefs;
   validarLogin()
@@ -94,18 +95,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
   @override
   void initState(){
     super.initState();
-    
-    _controller = AnimationController(duration:const Duration(seconds: 3), vsync: this);
-    animation =Tween<double>(begin: 1600, end: 0).animate(_controller)
-    ..addListener((){
-      setState((){
-        i = animation.value.toStringAsFixed(0);
-      });
-    });
-    _controller.forward();
-
-    
-
+    animacion();
     super.initState();
     Future.delayed(
       Duration(seconds: 3),
@@ -113,6 +103,44 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
         validarLogin();
       },
     );
+  }
+
+  animacion()
+  {
+    print(_controller);
+    if(_controller != null)
+    {
+      setState(() {
+        _controller = null;
+      });
+    }
+    _controller = AnimationController(duration:const Duration(seconds: 5), vsync: this);
+    animation = Tween<double>(begin: 0, end: 500).animate(_controller)
+    ..addListener((){
+      if(double.parse('${animation.value.toStringAsFixed(0)}') % 50 == 0){
+        if(i == 200){
+          setState(() {
+            i = 100;
+          });
+        }else{
+          setState(() {
+            i = 200;
+          });
+        }
+      }
+    });
+    _controller.forward();
+  }
+
+  animacionPeque()
+  {
+    animation =Tween<double>(begin: 0, end: 500).animate(_controller)
+    ..addListener((){
+      setState((){
+        i = double.parse('${animation.value.toStringAsFixed(0)}');
+      });
+    });
+    _controller.forward();
   }
 
   @override
@@ -125,6 +153,8 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context){
     return Scaffold(
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/img/Desglose/Preloader/bg-preloader.jpg"),
@@ -133,16 +163,35 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
         ),
         child: Stack(
           children: <Widget>[
-            Positioned(
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      'assets/img/Desglose/Preloader/logo.png',
+            Center(
+              child: GestureDetector(
+                onTap: (){
+                  print('clickaso');
+                  // if(i == 100){
+                  //   setState(() {
+                  //     i = 150;
+                  //   });
+                  // }else{
+                  //   setState(() {
+                  //     i = 100;
+                  //   });
+                  // }
+                  
+                  animacion();
+                  // animacionPeque();
+                },
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  width: i,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/img/Desglose/Preloader/logo.png',
+                      ),
                     ),
                   ),
                 ),
-              ),
+              )
             ),
 
             Positioned(
