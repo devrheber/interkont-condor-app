@@ -219,7 +219,7 @@ class CardTituloState extends State<CardTitulo> {
                 onTap: widget.activarUltimaSincronizacion,
                 child: Container(
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height/3.8
+                    top: MediaQuery.of(context).size.height/4.0
                   ),
                   color: Colors.transparent,
                   width: MediaQuery.of(context).size.width,

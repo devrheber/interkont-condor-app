@@ -11,7 +11,7 @@ class ListaProyectos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: (){
+      onWillPop: () {
         // print('Saliiir ? :0');
         // modalMensaje.modalOpcion(
         //   context, 

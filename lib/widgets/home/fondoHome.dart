@@ -116,8 +116,8 @@ class FondoHomeState extends State<FondoHome> {
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                     colors: <Color>[
-                      AppTheme.primero,
-                      AppTheme.segundo,
+                      AppTheme.primarioBackground,
+                      AppTheme.segundoBackground,
                     ],
                   ),
                 ),

@@ -11,7 +11,7 @@ int keyboardVisibilitySubscriberId2;
 int keyboardVisibilitySubscriberId3; // DE TODA LA CARPETA DE REPORTAR AVANCE
 bool conexionInternet = true;
 bool bool_estSegundoBtn_reportarAvance = false;
-String numeroVersion = "1.0.5";
+String numeroVersion = "1.0.0";
 List contenidoWebService = [
   {
     'usuario' : {

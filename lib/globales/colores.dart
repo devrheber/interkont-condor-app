@@ -20,6 +20,8 @@ class AppTheme {
   // static const Color segundo = Color(0xFF1ea782);
   static const Color primero = Color(0xFF0270bd);
   static const Color segundo = Color(0xFF41b16d);
+  static const Color primarioBackground = Color(0xFF002F5E);
+  static const Color segundoBackground = Color(0xFF575A9D);
 
   static const Color tercero = Color(0xFF8cc63f);
 
