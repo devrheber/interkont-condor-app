@@ -62,7 +62,7 @@ Widget cajonTexto(context, textoTitulo, textoHint, logros, capturarCambio, TextE
               hintStyle: TextStyle(
                 fontFamily: 'montserrat',
                 fontWeight: FontWeight.w100,
-                fontSize: 8
+                fontSize: 13
               )
             )
           )

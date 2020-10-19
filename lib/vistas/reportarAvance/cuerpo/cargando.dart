@@ -283,7 +283,7 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
                 )
               ),
               
-              Positioned(
+              /*Positioned(
                 width: MediaQuery.of(context).size.width/2,
                 height: 100.0,
                 top: MediaQuery.of(context).size.height-150.0,
@@ -296,7 +296,7 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
                     )
                   )
                 )
-              )
+              )*/
             ],
           )
       ),

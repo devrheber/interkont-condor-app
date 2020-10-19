@@ -50,7 +50,7 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion )
               hintText: "$textoHint",
               hintStyle: TextStyle(
                 fontWeight: FontWeight.w100,
-                fontSize: 10
+                fontSize: 13
               )
             )
           )

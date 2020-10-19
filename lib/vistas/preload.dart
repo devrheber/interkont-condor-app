@@ -30,7 +30,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
   SharedPreferences prefs;
   validarLogin()
   async{
-    String url ="$urlGlobal/cobra-ws-condor/login";
+    String url ="$urlGlobal/siente3-ws/login";
     prefs = await SharedPreferences.getInstance();
     
     var body = {
@@ -157,11 +157,11 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/img/Desglose/Preloader/bg-preloader.jpg"),
+            image: AssetImage("assets/img/Desglose/Preloader/bg-preloader.gif"),
             fit: BoxFit.cover
           ),
         ),
-        child: Stack(
+        /* child: Stack(
           children: <Widget>[
             Center(
               child: GestureDetector(
@@ -208,7 +208,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
               )
             )
           ],
-        )
+        ) */
       ),
       // bottomNavigationBar: Container(
       //   color: AppTheme.primero,

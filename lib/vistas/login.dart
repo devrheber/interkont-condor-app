@@ -170,8 +170,8 @@ class _LoginPageState extends State<LoginPage> {
                           context, 
                           MaterialPageRoute(
                             builder: (context) => Preload(
-                              //txt_usuario:'interkont@2',
-                              //txt_contrasena:'45911804'
+                              // txt_usuario:'interkont@2',
+                              // txt_contrasena:'45911804'
                               txt_usuario:txt_usuario,
                               txt_contrasena:txt_contrasena
                             )
@@ -239,9 +239,13 @@ class _LoginPageState extends State<LoginPage> {
                       )
                       :Text(''),
 
+                      SizedBox(
+                        height: 15.0,
+                      ),
+
                       Container(
                         child: Image(
-                          height: 85.0,
+                          height: 70.0,
                           image: AssetImage(
                             'assets/img/Desglose/Login/logo-footer.png'
                           )

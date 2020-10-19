@@ -111,7 +111,7 @@ Widget paso(texto, numero, pasoSeleccionado)
             '$texto',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 9.5,
+              fontSize: 11.5,
               color: AppTheme.darkText,
               fontWeight: colorLetra,
             ),

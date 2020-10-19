@@ -1,8 +1,8 @@
 library my_prj.variables;
 
-String urlGlobal = 'http://13.59.62.87:8080';
+String urlGlobal = 'http://13.59.62.87:7070';
 // String urlGlobal = 'https://appcondor.car.gov.co';
-String urlGlobalApiCondor = urlGlobal+'/cobra-ws-condor';
+String urlGlobalApiCondor = urlGlobal + '/siente3-ws';
 int posicionListaProyectosSeleccionado = 0;
 String txtBtnDesplegableAvanceCualitativo = '';
 int idAspectoEvaluar;
