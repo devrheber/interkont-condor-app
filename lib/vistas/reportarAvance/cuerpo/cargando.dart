@@ -77,7 +77,7 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
   guardarAlimentacion()
   async{
     print('ENVIANDO LOS DATOS...');
-    String url ="$urlGlobal/cobra-ws-condor/guardar-alimentacion";
+    String url ="$urlGlobalApiCondor/guardar-alimentacion";
     List actividades = [];
     List avancesCualitativos = [];
     List factoresAtraso = [];
@@ -180,9 +180,9 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
         },
       );
 
-      print('-----------');
-      print(response.body);
-      print(response.statusCode);
+      print('============ LOG ERROR =============');
+      print(url);
+
       if(response.statusCode == 200 || response.statusCode == 201 ){
         setState(() {
           correcto = true;
