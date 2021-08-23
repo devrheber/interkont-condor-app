@@ -40,8 +40,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // txt_usuario = 'interkont@2';
-    // txt_contrasena = '45911804';
+    txt_usuario = 'interkont@2';
+    txt_contrasena = '45911804';
     return new Scaffold(
       body: Container(
         height: double.infinity,
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                               elevation: 0,
                               onPressed: () {
                                 Navigator.push(
-                                  context,
+                                  context, 
                                   MaterialPageRoute(
                                     builder: (context) => Preload(
                                         txt_usuario: txt_usuario,
@@ -121,10 +121,8 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                            
                                       Text(
                                         "Ingresar",
-                                        
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 13.sp,

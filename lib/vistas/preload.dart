@@ -26,7 +26,8 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
 
   SharedPreferences prefs;
   validarLogin() async {
-    String url = "$urlGlobal/siente3-ws/login";
+    // String url = "$urlGlobal/siente3-ws/login";
+     String url = "$urlGlobalApiCondor/login"; 
     prefs = await SharedPreferences.getInstance();
 
     var body = {
@@ -48,7 +49,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
       print('------------');
       print(response.statusCode);
       print('------------');
-      print('------------');
+      print('------------'); 
       print(response.headers);
       print('------------');
       print('------------');
