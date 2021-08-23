@@ -1,50 +1,45 @@
 import 'dart:convert';
 
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
 import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
 import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
 import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
-import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/felicitaciones.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/noInternet.dart';
-import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:toast/toast.dart';
 
-class CargandoFinalizar extends StatefulWidget{
+class CargandoFinalizar extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _CargandoFinalizarState();
-
 }
 
-class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTickerProviderStateMixin {
-  
+class _CargandoFinalizarState extends State<CargandoFinalizar>
+    with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> animation;
   String i = '0';
   String contadorRgb = '0';
   bool correcto = false;
   bool pasaron10Segundos = false;
-  
-  @override
-  void initState(){
-    super.initState();
-    _controller = AnimationController(duration:const Duration(seconds: 10), vsync: this);
-    animation =Tween<double>(begin: 0, end: 100).animate(_controller)
-    ..addListener((){
-      setState((){
-        // The state that has changed here is the animation objects value
-        i = animation.value.toStringAsFixed(0);
-      });
-    });
-    _controller.forward();
 
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(duration: const Duration(seconds: 10), vsync: this);
+    animation = Tween<double>(begin: 0, end: 100).animate(_controller)
+      ..addListener(() {
+        setState(() {
+          // The state that has changed here is the animation objects value
+          i = animation.value.toStringAsFixed(0);
+        });
+      });
+    _controller.forward();
 
     guardarAlimentacion();
 
@@ -55,95 +50,158 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
         setState(() {
           pasaron10Segundos = true;
         });
-        if(correcto == true ){
+        if (correcto == true) {
           Navigator.push(
-            context, 
-            MaterialPageRoute(
-              builder: (context) => Felicitaciones()
-            ),
+            context,
+            MaterialPageRoute(builder: (context) => Felicitaciones()),
           );
-        }else{
-          Toast.show(
-            "Espere un momento en linea porfavor", 
-            context, 
-            duration: 5, 
-            gravity:  Toast.BOTTOM
-          );
+        } else {
+          Toast.show("Espere un momento en linea porfavor", context,
+              duration: 5, gravity: Toast.BOTTOM);
         }
       },
     );
   }
 
-  guardarAlimentacion()
-  async{
+  guardarAlimentacion() async {
     print('ENVIANDO LOS DATOS...');
-    String url ="$urlGlobalApiCondor/guardar-alimentacion";
+    String url = "$urlGlobalApiCondor/guardar-alimentacion";
     List actividades = [];
     List avancesCualitativos = [];
     List factoresAtraso = [];
     List indicadoresAlcance = [];
 
-    if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'] != null){
-      for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'].length; cont++){
+    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            ['datos']['actividades'] !=
+        null) {
+      for (int cont = 0;
+          cont <
+              contenidoWebService[0]['proyectos']
+                          [posicionListaProyectosSeleccionado]['datos']
+                      ['actividades']
+                  .length;
+          cont++) {
         double cantidadEjecutada;
-        if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance'] != null){
-          cantidadEjecutada = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance']}');
-        }else{
+        if (contenidoWebService[0]['proyectos']
+                    [posicionListaProyectosSeleccionado]['datos']['actividades']
+                [cont]['txtActividadAvance'] !=
+            null) {
+          cantidadEjecutada = double.parse(
+              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance']}');
+        } else {
           cantidadEjecutada = 0.0;
         }
         var listaArmada = {
-          'actividadId' : int.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['actividadId']}'),
-          'cantidadEjecutada' : cantidadEjecutada
+          'actividadId': int.parse(
+              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['actividadId']}'),
+          'cantidadEjecutada': cantidadEjecutada
         };
         actividades.add(listaArmada);
       }
     }
 
-    if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'] != null){
-      for(int cont=0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'].length ; cont++){
+    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            ['datos']['avancesCualitativos'] !=
+        null) {
+      for (int cont = 0;
+          cont <
+              contenidoWebService[0]['proyectos']
+                          [posicionListaProyectosSeleccionado]['datos']
+                      ['avancesCualitativos']
+                  .length;
+          cont++) {
         String dificultad;
-        if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad'] == ''){
+        if (contenidoWebService[0]['proyectos']
+                        [posicionListaProyectosSeleccionado]['datos']
+                    ['avancesCualitativos'][cont]['dificultad'] ==
+                null ||
+            contenidoWebService[0]['proyectos']
+                        [posicionListaProyectosSeleccionado]['datos']
+                    ['avancesCualitativos'][cont]['dificultad'] ==
+                '') {
           dificultad = '';
-        }else{
-          dificultad = '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad']}';
+        } else {
+          dificultad =
+              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad']}';
         }
 
         String logros;
-        if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'] == ''){
+        if (contenidoWebService[0]['proyectos']
+                        [posicionListaProyectosSeleccionado]['datos']
+                    ['avancesCualitativos'][cont]['logro'] ==
+                null ||
+            contenidoWebService[0]['proyectos']
+                        [posicionListaProyectosSeleccionado]['datos']
+                    ['avancesCualitativos'][cont]['logro'] ==
+                '') {
           logros = '';
-        }else{
-          logros = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['logro'];
+        } else {
+          logros = contenidoWebService[0]['proyectos']
+                  [posicionListaProyectosSeleccionado]['datos']
+              ['avancesCualitativos'][cont]['logro'];
         }
 
         var listaArmada = {
-          'aspectoEvaluarId'            : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['aspectoEvaluarId'],
-          'dificultadesAspectoEvaluar'  : dificultad,
-          'logrosAspectoEvaluar'        : logros,
+          'aspectoEvaluarId': contenidoWebService[0]['proyectos']
+                  [posicionListaProyectosSeleccionado]['datos']
+              ['avancesCualitativos'][cont]['aspectoEvaluarId'],
+          'dificultadesAspectoEvaluar': dificultad,
+          'logrosAspectoEvaluar': logros,
         };
-        
+
         avancesCualitativos.add(listaArmada);
       }
     }
 
-    if( contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'] != null ){
-      for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'].length; cont++){
+    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            ['datos']['factoresAtrasoSeleccionados'] !=
+        null) {
+      for (int cont = 0;
+          cont <
+              contenidoWebService[0]['proyectos']
+                          [posicionListaProyectosSeleccionado]['datos']
+                      ['factoresAtrasoSeleccionados']
+                  .length;
+          cont++) {
         factoresAtraso.add({
-          'factorAtrasoId' : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'][cont]['factorAtrasoId']
+          'factorAtrasoId': contenidoWebService[0]['proyectos']
+                  [posicionListaProyectosSeleccionado]['datos']
+              ['factoresAtrasoSeleccionados'][cont]['factorAtrasoId']
         });
       }
     }
-    
-    if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'] != null){
-      for(int cont = 0; cont < contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'].length; cont++){
+
+    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            ['datos']['indicadoresAlcance'] !=
+        null) {
+      for (int cont = 0;
+          cont <
+              contenidoWebService[0]['proyectos']
+                          [posicionListaProyectosSeleccionado]['datos']
+                      ['indicadoresAlcance']
+                  .length;
+          cont++) {
         double cantidadEjecucion;
-        if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] == null || contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] == ''){
+        if (contenidoWebService[0]['proyectos']
+                            [posicionListaProyectosSeleccionado]['datos']
+                        ['indicadoresAlcance'][cont]
+                    ['txtEjecucionIndicadorAlcance'] ==
+                null ||
+            contenidoWebService[0]['proyectos']
+                            [posicionListaProyectosSeleccionado]['datos']
+                        ['indicadoresAlcance'][cont]
+                    ['txtEjecucionIndicadorAlcance'] ==
+                '') {
           cantidadEjecucion = 0.0;
-        }else{
-          cantidadEjecucion = double.parse('${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance']}');
+        } else {
+          cantidadEjecucion = double.parse(
+              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance']}');
         }
         var listaArmada = {
-          'indicadorAlcanceId'  : contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['indicadorAlcanceId'],
-          'cantidadEjecucion' : cantidadEjecucion,
+          'indicadorAlcanceId': contenidoWebService[0]['proyectos']
+                  [posicionListaProyectosSeleccionado]['datos']
+              ['indicadoresAlcance'][cont]['indicadorAlcanceId'],
+          'cantidadEjecucion': cantidadEjecucion,
         };
         indicadoresAlcance.add(listaArmada);
       }
@@ -154,79 +212,92 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
     var body = {
       "actividades": actividades,
       "aspectosEvaluar": avancesCualitativos,
-      "codigoproyecto": contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['codigoproyecto'],
-      "descripcion": contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['txtComentario'],
+      "codigoproyecto": contenidoWebService[0]['proyectos']
+          [posicionListaProyectosSeleccionado]['codigoproyecto'],
+      "descripcion": contenidoWebService[0]['proyectos']
+          [posicionListaProyectosSeleccionado]['datos']['txtComentario'],
       "factoresAtraso": factoresAtraso,
       "fotoPrincipal": {
-        "image": contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['fileFotoPrincipal'],
+        "image": contenidoWebService[0]['proyectos']
+            [posicionListaProyectosSeleccionado]['datos']['fileFotoPrincipal'],
         "nombre": "fotoPrincipal",
         "tipo": "jpeg"
       },
-      "imagenesComplementarias": contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['filesFotosComplementarias'],
+      "imagenesComplementarias": contenidoWebService[0]['proyectos']
+              [posicionListaProyectosSeleccionado]['datos']
+          ['filesFotosComplementarias'],
       "indicadoresAlcance": indicadoresAlcance,
-      "periodoId": contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['periodoIdSeleccionado'],
+      "periodoId": contenidoWebService[0]['proyectos']
+              [posicionListaProyectosSeleccionado]['datos']
+          ['periodoIdSeleccionado'],
       "usuario": contenidoWebService[0]['usuario']['nombreUsu']
     };
 
-    String tokenUsu  = contenidoWebService[0]['usuario']['tokenUsu'];
+    String tokenUsu = contenidoWebService[0]['usuario']['tokenUsu'];
 
-    try{
+    try {
       var response = await http.post(
-        url, 
+        url,
         body: jsonEncode(body),
         headers: {
           "Content-type": "application/json",
-          'Authorization' : tokenUsu
+          'Authorization': tokenUsu
         },
       );
 
       print('============ LOG ERROR =============');
       print(url);
 
-      if(response.statusCode == 200 || response.statusCode == 201 ){
+      if (response.statusCode == 200 || response.statusCode == 201) {
         setState(() {
           correcto = true;
         });
         cambiarPasoProyecto(0);
         print('SE PUDO');
-        print(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['fileFotoPrincipal']);
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = 0;
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] = false;
+        print(contenidoWebService[0]['proyectos']
+            [posicionListaProyectosSeleccionado]['datos']['fileFotoPrincipal']);
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            ['paso'] = 0;
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            ['porPublicar'] = false;
         await obtenerListaProyectos();
         await actualizarProyectos();
-        await obtenerDatosProyecto(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['codigoproyecto'], false);
-        if(pasaron10Segundos == true){
+        await obtenerDatosProyecto(
+            contenidoWebService[0]['proyectos']
+                [posicionListaProyectosSeleccionado]['codigoproyecto'],
+            false);
+        if (pasaron10Segundos == true) {
           Navigator.push(
-            context, 
-            MaterialPageRoute(
-              builder: (context) => Felicitaciones()
-            ),
+            context,
+            MaterialPageRoute(builder: (context) => Felicitaciones()),
           );
         }
-      }else{
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] = true;
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = 5;
+      } else {
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            ['porPublicar'] = true;
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            ['paso'] = 5;
         cambiarPasoProyecto(5);
         Navigator.push(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => NoInternet()
-          ),
+          context,
+          MaterialPageRoute(builder: (context) => NoInternet()),
         );
       }
-    }catch(erro){
-      print(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso']);
-      print(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso']);
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porPublicar'] = true;
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = 5;
+    } catch (erro) {
+      print(contenidoWebService[0]['proyectos']
+          [posicionListaProyectosSeleccionado]['paso']);
+      print(contenidoWebService[0]['proyectos']
+          [posicionListaProyectosSeleccionado]['paso']);
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+          ['porPublicar'] = true;
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+          ['paso'] = 5;
       cambiarPasoProyecto(5);
       Navigator.push(
-        context, 
-        MaterialPageRoute(
-          builder: (context) => NoInternet()
-        ),
+        context,
+        MaterialPageRoute(builder: (context) => NoInternet()),
       );
-    }    
+    }
   }
 
   @override
@@ -234,55 +305,63 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
     _controller.dispose();
     super.dispose();
   }
-  
-  Future<Widget> getRootPage() async =>
-  Felicitaciones();
+
+  Future<Widget> getRootPage() async => Felicitaciones();
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/img/Desglose/Preloader/bg-preloader.jpg"),
-            fit: BoxFit.cover
-          ),
-        ),
-        child: Stack(
+         color:Color(0xff2196F3),
+          child: Stack(
             children: <Widget>[
-              Center(
-                child: new CircularPercentIndicator(
-                  radius: 140.0,
-                  lineWidth: 2.0,
-                  percent: double.parse('$i')/100,
-                  center: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "$i",
-                        style: TextStyle( 
-                          fontFamily: 'montserrat',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 35,
-                          color: Colors.white,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                      child: CircularPercentIndicator(
+                    radius: 120.sp,
+                    lineWidth: 6.sp,
+                    percent: double.parse('$i') / 100,
+                    center: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "$i",
+                          style: TextStyle(
+                            fontFamily: 'montserrat',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.sp,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "%",
-                        style: TextStyle( 
-                          fontFamily: 'montserrat',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.white,
+                        Text(
+                          "%",
+                          style: TextStyle(
+                            fontFamily: 'montserrat',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.sp,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.start,
                         ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
+                      ],
+                    ),
+                    progressColor: Color(0xff90CBF9),
+                    animateFromLastPercent: true,
+                  )),
+                  SizedBox(height: 23.sp),
+                  Text(
+                    "Estamos cargando tu proyecto",
+                    style: TextStyle(
+                      fontFamily: 'montserrat',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15.sp,
+                      color: Colors.white,
+                    ),
                   ),
-                  progressColor: Colors.white,
-                  animateFromLastPercent: true,
-                )
+                ],
               ),
-              
+
               /*Positioned(
                 width: MediaQuery.of(context).size.width/2,
                 height: 100.0,
@@ -298,40 +377,23 @@ class _CargandoFinalizarState extends State<CargandoFinalizar> with SingleTicker
                 )
               )*/
             ],
-          )
-      ),
+          )),
     );
-    
   }
-  
-  Widget aro(Widget contenido, int rgb)
-  {
+
+  Widget aro(Widget contenido, int rgb) {
     return Container(
-      height: MediaQuery.of(context).size.height/1.8,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Color.fromRGBO(rgb, rgb, rgb, 0.1),
-        border: Border(
-          top: BorderSide(
-            width: 40.0, 
-            color: Colors.transparent
-          ),
-          left: BorderSide(
-            width: 40.0, 
-            color: Colors.transparent
-          ),
-          right: BorderSide(
-            width: 40.0, 
-            color: Colors.transparent
-          ),
-          bottom: BorderSide(
-            width: 40.0, 
-            color: Colors.transparent
+        height: MediaQuery.of(context).size.height / 1.8,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color.fromRGBO(rgb, rgb, rgb, 0.1),
+          border: Border(
+            top: BorderSide(width: 40.0, color: Colors.transparent),
+            left: BorderSide(width: 40.0, color: Colors.transparent),
+            right: BorderSide(width: 40.0, color: Colors.transparent),
+            bottom: BorderSide(width: 40.0, color: Colors.transparent),
           ),
         ),
-        
-      ),
-      child: contenido
-    );
+        child: contenido);
   }
 }

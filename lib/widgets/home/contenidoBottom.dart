@@ -1,168 +1,119 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget contenidoBottom(
-  context,
-  Color colorFondo,
-  bool dosBotones,
-  bool primerBotonDesactivado,
-  bool segundoBotonDesactivado,
-  String txtPrimerBoton,
-  String txtSegundoBoton,
-  accionPrimerBoton,
-  accionSegundoBoton
-  )
-{
-  return Row(
-    children: <Widget>[
-      if(dosBotones == true)
-      Expanded(
-        child: btnCancelar(
-          context,
-          colorFondo,
-          txtPrimerBoton,
-          accionPrimerBoton,
-          primerBotonDesactivado
-        ),
-      ),
-      Expanded(
-        child: btnSiguiente(
-          context,
-          colorFondo,
-          txtSegundoBoton,
-          accionSegundoBoton,
-          segundoBotonDesactivado
-        ),
-      )
-    ],
-  );
-}
-
-
-Widget btnCancelar(
-  context,
-  colorFondo,
-  texto,
-  accion,
-  desactivado
-  )
-{
-  return GestureDetector(
-    onTap: (){
-      accion();
-    },
-    child: Container(
-      padding: EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        color: colorFondo,
-        border: Border.all(
-          color: colorFondo,
-        ),
-      ),
-      child: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only( 
-            topLeft:     Radius.circular(50.0),
-            topRight:    Radius.circular(50.0),
-            bottomLeft:  Radius.circular(50.0),
-            bottomRight: Radius.circular(50.0),
+    {BuildContext context,
+    Color colorFondo,
+    bool dosBotones,
+    bool primerBotonDesactivado,
+    bool segundoBotonDesactivado,
+    String txtPrimerBoton,
+    String txtSegundoBoton,
+    dynamic accionPrimerBoton,
+    dynamic accionSegundoBoton}) {
+  return Container(
+    margin: EdgeInsets.only(
+        bottom: 16.77.sp,
+        left: dosBotones ? 46.19.w : 28.sp,
+        right: dosBotones ? 46.19.w : 28.sp),
+    child: Row(
+      children: <Widget>[
+        if (dosBotones)
+          Expanded(
+            child: btnCancelar(context, colorFondo, txtPrimerBoton,
+                accionPrimerBoton, primerBotonDesactivado),
           ),
-          gradient: LinearGradient(
-            colors: <Color>[
-              Colors.white,
-              Colors.white,
-              Colors.white,
-            ],
+        if (dosBotones)
+          SizedBox(
+            width: 11.8.w,
           ),
-          border: Border(
-            top: BorderSide(width: 0.5, color: Colors.red),
-            left: BorderSide(width: 0.5, color: Colors.red),
-            right: BorderSide(width: 0.5, color: Colors.red),
-            bottom: BorderSide(width: 0.5, color: Colors.red),
-          ),
-        ),
-        padding: EdgeInsets.only(left:20.0, right: 20.0, top: 10.0, bottom: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                '$texto',
-                textAlign: TextAlign.center,
-              ),
-            )
-          ],
+        Expanded(
+          child: btnSiguiente(context, colorFondo, txtSegundoBoton,
+              accionSegundoBoton, segundoBotonDesactivado),
         )
-      ),
-    )
+      ],
+    ),
   );
 }
 
+Widget btnCancelar(context, colorFondo, texto, accion, desactivado) {
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(30.sp),
+    child: Material(
+      color: Colors.white,
+      child: InkWell(
+          onTap: () {
+            accion();
+          },
+          child: Container(
+            width: 154.95.h,
+            height: 42.3.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30.sp),
+              border: Border.all(
+                color: Color(0xffc1272d),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    '$texto',
+                    style: TextStyle(
+                        color: Color(0xff808080),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13.27.sp),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
+          )),
+    ),
+  );
+}
 
-Widget btnSiguiente(
-  context,
-  colorFondo,
-  texto,
-  accion,
-  desactivado
-  )
-{
-  Color colorBoton = AppTheme.verdeClaro;
-  if(desactivado == true){
-    colorBoton = Colors.grey;
+Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
+  Color colorBoton = Color(0xff22B573);
+  if (desactivado == true) {
+   colorBoton = Color(0xff808080);
   }
 
-  return GestureDetector(
-    onTap: (){
-      accion();
-    },
-    child: Container(
-      padding: EdgeInsets.all(10.0),
-      // color: AppTheme.bottomPrincipal,
-      decoration: BoxDecoration(
-        color: colorFondo,
-        border: Border.all(
-          color: colorFondo,
-        ),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only( 
-            topLeft:     Radius.circular(50.0),
-            topRight:    Radius.circular(50.0),
-            bottomLeft:  Radius.circular(50.0),
-            bottomRight: Radius.circular(50.0),
-          ),
-          gradient: LinearGradient(
-            colors: <Color>[
-              colorBoton,
-              colorBoton
-            ],
-          ),
-        ),
-        padding: EdgeInsets.only(
-          left:20.0, 
-          right: 20.0, 
-          top: 10.0, 
-          bottom: 10.0
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                '$texto',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(30.sp),
+    child: Material(
+      color: colorBoton,
+      child: InkWell(
+          onTap: () {
+            accion();
+          },
+          child: Container(
+            width: texto != "Siguiente Paso" ? 154.95.w : 361.58.w,
+            height: texto != "Siguiente Paso" ? 58.55.h : 42.3.h,
+            // color: AppTheme.bottomPrincipal,
+
+            child: Container(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    '$texto',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: texto != "Siguiente Paso"
+                            ? FontWeight.w700
+                            : FontWeight.w600,
+                        fontSize:
+                            texto != "Siguiente Paso" ? 14.2.sp : 13.27.sp),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-                
-              )
-            )
-          ],
-        )
-      ),
-    )
+              ],
+            )),
+          )),
+    ),
   );
 }

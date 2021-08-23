@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
 import 'package:appalimentacion/globales/transicion.dart';
@@ -6,8 +7,11 @@ import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/proyecto/home.dart';
 import 'package:appalimentacion/vistas/reportarAvance/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+
+import '../../theme/color_theme.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -18,33 +22,37 @@ class ProyectosContenido extends StatelessWidget {
       children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only( 
-            top: MediaQuery.of(context).size.height/11
-          ),
+          margin: EdgeInsets.only(top: 107.sp),
           child: Stack(
             children: <Widget>[
               Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height/7.5,
-                margin: EdgeInsets.only(top: 40.0,right: 20, left: 20,),
+                width: 358.w,
+                height: 126.h,
+                margin:
+                    EdgeInsets.only(top: 50.0.sp, right: 28.sp, left: 28.sp),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(20.sp)),
                   boxShadow: [
                     BoxShadow(
-                      color: titleColor.withOpacity(.1),
-                      blurRadius: 20,
-                      spreadRadius: 10
+                      color: Color(0xffC1C8D9).withOpacity(.3),
+                      blurRadius: 26.sp,
+                      offset: Offset(3.sp, 4.sp),
                     ),
-                  ]
+                  ],
                 ),
                 child: Container(
-                  padding: EdgeInsets.only(top:42.0),
+                  padding: EdgeInsets.only(top: 55.0.sp),
                   child: Column(
                     children: <Widget>[
                       Text(
                         'Bienvenido',
-                        style: AppTheme.h2,
+                        style: TextStyle(
+                          fontFamily: "montserrat",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.sp,
+                          color: Color(0xFF000000),
+                        ),
                       ),
                       SizedBox(
                         height: 5.0,
@@ -52,70 +60,75 @@ class ProyectosContenido extends StatelessWidget {
                       Text(
                         contenidoWebService[0]['usuario']['nombreUsu'],
                         // 'Usuario Admin',
-                        style: AppTheme.parrafo,
+                        style: TextStyle(
+                          fontFamily: "montserrat",
+                          fontWeight: FontWeight.w200,
+                          fontSize: 15.sp,
+                          color: Color(0xFF566B8C),
+                        ),
                       )
                     ],
                   ),
-                )
+                ),
               ),
               Container(
                 color: Colors.transparent,
-                width: MediaQuery.of(context).size.width,
+                width: double.infinity,
                 child: Center(
                   child: Container(
+                    margin: EdgeInsets.only(top: 15.sp),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          height: 95,
-                          width: 100,
+                          height: 77.sp,
+                          width: 77.sp,
                           decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/img/Desglose/Home/img-perfil.png'), 
-                              fit: BoxFit.fill
-                            ),
+                            color: Colors.red,
                             borderRadius: BorderRadius.circular(100),
+                            border:
+                                Border.all(color: Colors.white, width: 5.sp),
                           ),
+                          child: Image.asset('assets/new/home/profile.png',
+                              fit: BoxFit.fill),
                         ),
                       ],
-                    )
-                  )
-                )
+                    ),
+                  ),
+                ),
               ),
-            ],    
+            ],
           ),
         ),
-        
-        SizedBox(
-          height: 10,
-        ),
-
         Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height/3.5,
-            left: 20.0, 
-            right: 20.0
-          ),
-          // color: Colors.black,
-          child: ListView(
-            children: <Widget>[
-              Container(
-                child: Column(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(top: 280.sp, left: 20.0, right: 20.0),
+            // color: Colors.black,
+            child: ListView(
+              physics: BouncingScrollPhysics(),
+              children: <Widget>[
+                Container(
+                    child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Row(
                       children: <Widget>[
                         Text(
-                          'Mis Proyectos ', 
-                          style: AppTheme.h1
+                          'Mis Proyectos ',
+                          style: TextStyle(
+                            fontFamily: "mulish",
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20.sp,
+                            color: Color(0xFF000000),
+                          ),
                         ),
                         Text(
-                          '(${contenidoWebService[0]['proyectos'].length} proyectos)', 
+                          '(${contenidoWebService[0]['proyectos'].length} proyectos)',
                           style: TextStyle(
-                            fontSize: 18,
-                            color: AppTheme.segundo,
-                            fontWeight: FontWeight.w700,
+                            fontFamily: "mulish",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20.sp,
+                            color: ColorTheme.primary,
                           ),
                         ),
                       ],
@@ -124,337 +137,341 @@ class ProyectosContenido extends StatelessWidget {
                       height: 6,
                     ),
                     Text(
-                      'Selecciona un proyecto', 
-                      style: AppTheme.parrafo
+                      'Selecciona un proyecto',
+                      style: TextStyle(
+                        fontFamily: "montserrat",
+                        fontWeight: FontWeight.w200,
+                        fontSize: 15.sp,
+                        color: Color(0xFF566B8C),
+                      ),
                     ),
                     SizedBox(
                       height: 20,
                     ),
-                    for(int cont = 0; cont < contenidoWebService[0]['proyectos'].length; cont++)
+                    for (int cont = 0;
+                        cont < contenidoWebService[0]['proyectos'].length;
+                        cont++)
                       proyecto(
-                        context,
-                        cont,
-                        contenidoWebService[0]['proyectos'][cont]['codigoproyecto'],
-                        contenidoWebService[0]['proyectos'][cont]['nombrecategoria'],
-                        contenidoWebService[0]['proyectos'][cont]['nombreproyecto'],
-                        contenidoWebService[0]['proyectos'][cont]['valorejecutado'],
-                        contenidoWebService[0]['proyectos'][cont]['valorproyecto'],
-                        // false,
-                        contenidoWebService[0]['proyectos'][cont]['porPublicar'],
-                        'icn-linea-1',
-                        contenidoWebService[0]['proyectos'][cont]['semaforoproyecto'],
-                        contenidoWebService[0]['proyectos'][cont]['colorcategoria'],
-                        contenidoWebService[0]['proyectos'][cont]['imagencategoria']
-                      ),
-                    if(contenidoWebService[0]['proyectos'].length == 0)
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(bottom: 10.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                      ),
-                      padding: EdgeInsets.all(20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  height: 150.0,
-                                  margin: EdgeInsets.only(bottom:20.0, top: 20.0, right: 20.0),
-                                  child: Image.asset(
-                                    'assets/img/Desglose/Demas/img-noimage.png'
-                                  ),
-                                )
-                              ),
-                            ],
+                          context,
+                          cont,
+                          contenidoWebService[0]['proyectos'][cont]
+                              ['codigoproyecto'],
+                          contenidoWebService[0]['proyectos'][cont]
+                              ['nombrecategoria'],
+                          contenidoWebService[0]['proyectos'][cont]
+                              ['nombreproyecto'],
+                          contenidoWebService[0]['proyectos'][cont]
+                              ['valorejecutado'],
+                          contenidoWebService[0]['proyectos'][cont]
+                              ['valorproyecto'],
+                          // false,
+                          contenidoWebService[0]['proyectos'][cont]
+                              ['porPublicar'],
+                          'icn-linea-1',
+                          contenidoWebService[0]['proyectos'][cont]
+                              ['semaforoproyecto'],
+                          contenidoWebService[0]['proyectos'][cont]
+                              ['colorcategoria'],
+                          contenidoWebService[0]['proyectos'][cont]
+                              ['imagencategoria']),
+                    if (contenidoWebService[0]['proyectos'].length == 0)
+                      Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.only(bottom: 10.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
                           ),
-                          Text(
-                            'Aún no tienes proyectos',
-                            style: AppTheme.comentarioPlomo,
-                          )
-                        ],
-                      )
-                    )
+                          padding: EdgeInsets.all(20.0),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Expanded(
+                                      child: Container(
+                                    height: 150.0,
+                                    margin: EdgeInsets.only(
+                                        bottom: 20.0, top: 20.0, right: 20.0),
+                                    child: Image.asset(
+                                        'assets/img/Desglose/Demas/img-noimage.png'),
+                                  )),
+                                ],
+                              ),
+                              Text(
+                                'Aún no tienes proyectos',
+                                style: AppTheme.comentarioPlomo,
+                              )
+                            ],
+                          ))
                   ],
-                )
-              ),
-            ],
-          )
-        ), 
+                )),
+              ],
+            )),
       ],
-    ); 
+    );
   }
 
   Widget proyecto(
-    context,
-    posicion,
-    idProyecto, 
-    titulo, 
-    descripcion, 
-    valorEjecutado,
-    valorProyecto,
-    faltaPublicar, 
-    nombreIcono, 
-    nombreSemaforo,
-    colorTitulo,
-    imagencategoria
-  )
-  {
-    int porcentaje = ((100*valorEjecutado)/valorProyecto).round();
+      context,
+      posicion,
+      idProyecto,
+      titulo,
+      descripcion,
+      valorEjecutado,
+      valorProyecto,
+      faltaPublicar,
+      nombreIcono,
+      nombreSemaforo,
+      colorTitulo,
+      imagencategoria) {
+    int porcentaje = ((100 * valorEjecutado) / valorProyecto).round();
 
     String iconoSemaforo = 'semaforo-3';
-    if(nombreSemaforo == 'rojo'){
+    if (nombreSemaforo == 'rojo') {
       iconoSemaforo = 'semaforo-3';
-    }else if(nombreSemaforo == 'amarillo'){
+    } else if (nombreSemaforo == 'amarillo') {
       iconoSemaforo = 'semaforo-2';
-    }else if(nombreSemaforo == 'verde'){
+    } else if (nombreSemaforo == 'verde') {
       iconoSemaforo = 'semaforo-1';
     }
 
     colorTitulo = colorTitulo.split("#");
-    colorTitulo = "0XFF"+colorTitulo[1];
+    colorTitulo = "0XFF" + colorTitulo[1];
 
     // VALOR EN MILLONES
-    var valorProyectoRedondeado = valorProyecto/1000000;
-    valorProyectoRedondeado = double.parse((valorProyectoRedondeado).toStringAsFixed(1));
+    var valorProyectoRedondeado = valorProyecto / 1000000;
+    valorProyectoRedondeado =
+        double.parse((valorProyectoRedondeado).toStringAsFixed(1));
 
     var imagen;
 
-    if(conexionInternet == true){
-      imagen = Image.network(
-        '$imagencategoria'
-      );
+    if (conexionInternet == true) {
+      imagen = Image.network('$imagencategoria');
       // imagen = Image.asset(
       //   'assets/img/Desglose/Demas/question.png',
       // );
-    }else{
+    } else {
       imagen = Image.asset(
         'assets/img/Desglose/Demas/question.png',
       );
     }
 
-    return GestureDetector(
-      onTap: () async{
-        _seleccionarProyecto(
-          context,
-          posicion,
-          idProyecto,
-          nombreIcono
-        );
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.only(bottom: 10.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-        ),
-        padding: EdgeInsets.only(top:10.0, bottom: 10.0, left: 10.0, right: 10.0),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: imagen
-                ),
-                Expanded(
-                  flex: 4,
-                  child: Container(
-                    padding: EdgeInsets.only(left:10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+    return ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+      clipBehavior: Clip.antiAlias,
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+            onTap: () async {
+              _seleccionarProyecto(context, posicion, idProyecto, nombreIcono);
+            },
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(bottom: 1.sp, top: 1.sp),
+                padding: EdgeInsets.only(
+                    top: 24.sp, bottom: 24.sp, left: 28.sp, right: 4.sp),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                '$titulo',
-                                style: TextStyle( 
-                                  fontFamily: 'montserrat',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 13,
-                                  letterSpacing: 0.4,
-                                  height: 0.9,
-                                  color: Color(int.parse(colorTitulo))
-                                ),
-                                // style: AppTheme.tituloParrafo
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 3.5  ,
-                        ),
-                        Text(
-                          '$descripcion', 
-                          style: TextStyle( 
-                            fontFamily: "montserrat",
-                            fontWeight: FontWeight.w600,
-                            fontSize: 9,
-                            color: Color(0xFF556a8d)
-                          )
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 5,
-                              child: Column(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 5.0,
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Container(
-                                        width: 90.0,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            right: BorderSide(width: 0.3, color: Color(0xFFFF000000)),
+                        Expanded(flex: 1, child: imagen),
+                        Expanded(
+                            flex: 4,
+                            child: Container(
+                                padding: EdgeInsets.only(left: 10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 4,
+                                          child: Text(
+                                            '$titulo'.toUpperCase(),
+                                            style: TextStyle(
+                                                fontFamily: 'montserrat',
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 8.sp,
+                                                letterSpacing: 0.4,
+                                                height: 0.9,
+                                                color: Color(
+                                                    int.parse(colorTitulo))),
+                                            // style: AppTheme.tituloParrafo
                                           ),
                                         ),
-                                        child: Text(
-                                            '\$ $valorProyectoRedondeado'+'M', 
-                                            style: AppTheme.comentarioPlomo
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 3.5,
+                                    ),
+                                    Text('$descripcion',
+                                        style: TextStyle(
+                                            fontFamily: "montserrat",
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12.sp,
+                                            color: Color(0xFF000000))),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 5,
+                                          child: Column(
+                                            children: <Widget>[
+                                              SizedBox(
+                                                height: 5.0,
+                                              ),
+                                              Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: 90.0,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      border: Border(
+                                                        right: BorderSide(
+                                                          width: 0.3,
+                                                          color:
+                                                              Color(0xFF000000),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    child: Text(
+                                                      '\$ $valorProyectoRedondeado' +
+                                                          'M',
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            "montserrat",
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 15.sp,
+                                                        letterSpacing: 0.4,
+                                                        height: 0.9,
+                                                        color:
+                                                            Color(0xFF808080),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        border: Border(
+                                                          right: BorderSide(
+                                                              width: 0.3,
+                                                              color: Color(
+                                                                  0xFFFF000000)),
+                                                        ),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          '$porcentaje' + '%',
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "montserrat",
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize: 15.sp,
+                                                            letterSpacing: 0.4,
+                                                            height: 0.9,
+                                                            color: Color(
+                                                                0xFF808080),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                      child: Center(
+                                                          child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.sp),
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    child: Image.asset(
+                                                      'assets/img/Desglose/Home/$iconoSemaforo.png',
+                                                      height: 19.sp,
+                                                      width: 50.95.sp,
+                                                    ),
+                                                  ))),
+                                                ],
+                                              )
+                                            ],
                                           ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                            border: Border(
-                                              right: BorderSide(width: 0.3, color: Color(0xFFFF000000)),
-                                            ),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              '$porcentaje'+'%', 
-                                              style: AppTheme.comentarioPlomo
-                                            ),
-                                          )
-                                        )
-                                      ),
-                                      Expanded(
-                                        child: Center(
-                                          child: Image.asset(
-                                            'assets/img/Desglose/Home/${iconoSemaforo}.png',
-                                            height: 15.0,
-                                          )
-                                        )
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            // Expanded(
-                            //   flex: 1,
-                            //   child: Text(''),
-                            // )
-                          ],
-                        ),
+                                        ),
+                                        // Expanded(
+                                        //   flex: 1,
+                                        //   child: Text(''),
+                                        // )
+                                      ],
+                                    ),
+                                  ],
+                                ))),
                       ],
-                    )
-                  )
-                ),
-              ],
-            ),
-
-            if(faltaPublicar != null)
-            if(faltaPublicar == true)
-            Container(
-              margin: EdgeInsets.only(
-                top:5.0,
-                bottom: 5.0
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Image.asset(
-                      'assets/img/Desglose/Home/btn-por-publicar.png'
-                    )
-                  )
-                ],
-              ),
-            )
-          ],
-        )
-      )
+                    ),
+                    if (faltaPublicar != null)
+                      if (faltaPublicar == true)
+                        Container(
+                          margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                  child: Image.asset(
+                                      'assets/img/Desglose/Home/btn-por-publicar.png'))
+                            ],
+                          ),
+                        )
+                  ],
+                ))),
+      ),
     );
   }
 
-  _seleccionarProyecto(context, posicion, idProyecto, nombreIcono)
-  async{
+  _seleccionarProyecto(context, posicion, idProyecto, nombreIcono) async {
     posicionListaProyectosSeleccionado = posicion;
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if(contenidoWebService[0]['proyectos'][posicion]['paso'] == null){
+    if (contenidoWebService[0]['proyectos'][posicion]['paso'] == null) {
       contenidoWebService[0]['proyectos'][posicion]['paso'] = 0;
       prefs.setString('contenidoWebService', jsonEncode(contenidoWebService));
-    }else{
-
-    }
+    } else {}
     print('PASO ACTUAL:');
     print(contenidoWebService[0]['proyectos'][posicion]['paso']);
 
     var respuesta = await obtenerDatosProyecto(idProyecto, true);
-    if(respuesta){
+    if (respuesta) {
       switch (contenidoWebService[0]['proyectos'][posicion]['paso']) {
         case 0:
-          cambiarPagina(
-            context,
-            Proyecto()
-          );
+          cambiarPagina(context, Proyecto());
           break;
         case 1:
-          cambiarPagina(
-            context, 
-            ReportarAvance()
-          );
+          cambiarPagina(context, ReportarAvance());
           break;
         default:
-        cambiarPagina(
-          context, 
-          ReportarAvance()
-        );
+          cambiarPagina(context, ReportarAvance());
       }
-    }else{
+    } else {
       print('.---------------.');
       print(contenidoWebService[0]['proyectos'][posicion]['datos']);
-      if(contenidoWebService[0]['proyectos'][posicion]['datos'] != null){
+      if (contenidoWebService[0]['proyectos'][posicion]['datos'] != null) {
         switch (contenidoWebService[0]['proyectos'][posicion]['paso']) {
           case 0:
-            cambiarPagina(
-              context,
-              Proyecto()
-            );
+            cambiarPagina(context, Proyecto());
             break;
           case 1:
-            cambiarPagina(
-              context, 
-              ReportarAvance()
-            );
+            cambiarPagina(context, ReportarAvance());
             break;
           default:
-          cambiarPagina(
-            context, 
-            ReportarAvance()
-          );
+            cambiarPagina(context, ReportarAvance());
         }
-      }else{
+      } else {
         Toast.show(
-          "Lo sentimos, este proyecto no fue sincronizado anteriormente", 
-          context, 
-          duration: 3, 
-          gravity:  Toast.BOTTOM
-        );
+            "Lo sentimos, este proyecto no fue sincronizado anteriormente",
+            context,
+            duration: 3,
+            gravity: Toast.BOTTOM);
       }
       //miomio
     }
   }
 }
-
-
-

@@ -1,24 +1,25 @@
+import 'package:appalimentacion/globales/add_button_green.dart';
 import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/custemed_app_bar.dart';
 import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
+import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/factorAtraso/widgets/campoSeleecionar.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/factorAtraso/widgets/factorRegistrado.dart';
 import 'package:appalimentacion/vistas/reportarAvance/home.dart';
 import 'package:appalimentacion/widgets/home/contenidoBottom.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IndexFactorAtraso extends StatefulWidget {
-  
   IndexFactorAtraso({Key key}) : super(key: key);
-  
+
   @override
   IndexFactorAtrasoState createState() => IndexFactorAtrasoState();
 }
 
 class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
-
   // Factores Registrados
   int posicionPeriodoReportado = 0;
   int idTipoFactorAtrasoSeleccionado = 0;
@@ -28,29 +29,33 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
   List listaFactoresRegistrados = [];
   bool bool_avanzarSiguientePaso = true;
 
-  registrarFactor()
-  {
-    if(idTipoFactorAtrasoSeleccionado != 0 && idFactorAtrasoSeleccionado != 0 ){
+  registrarFactor() {
+    if (idTipoFactorAtrasoSeleccionado != 0 &&
+        idFactorAtrasoSeleccionado != 0) {
       setState(() {
         bool_avanzarSiguientePaso = false;
         listaFactoresRegistrados.add({
-            'tipoFactorAtrasoId' : idTipoFactorAtrasoSeleccionado,
-            'tipoFactor'   : '$tipoFactorSeleccionado',
-            'factorAtrasoId' : idFactorAtrasoSeleccionado,
-            'factor'       : '$factorSeleccionado'
-          });
+          'tipoFactorAtrasoId': idTipoFactorAtrasoSeleccionado,
+          'tipoFactor': '$tipoFactorSeleccionado',
+          'factorAtrasoId': idFactorAtrasoSeleccionado,
+          'factor': '$factorSeleccionado'
+        });
       });
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'] = listaFactoresRegistrados;
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+          ['datos']['factoresAtrasoSeleccionados'] = listaFactoresRegistrados;
     }
   }
 
   @override
-  void initState()
-  {
-    if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'] != null){
+  void initState() {
+    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            ['datos']['factoresAtrasoSeleccionados'] !=
+        null) {
       setState(() {
-        listaFactoresRegistrados = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'];
-        if(listaFactoresRegistrados.length > 0){
+        listaFactoresRegistrados = contenidoWebService[0]['proyectos']
+                [posicionListaProyectosSeleccionado]['datos']
+            ['factoresAtrasoSeleccionados'];
+        if (listaFactoresRegistrados.length > 0) {
           bool_avanzarSiguientePaso = false;
         }
       });
@@ -61,235 +66,152 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: <Color>[
-              Color(0xff0c81ab),
-              Color(0xff2eac78)
-            ],
-          ),
+          gradient: ColorTheme.backgroundGradient,
         ),
-        child: ListView(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(
-                left: 20.0,
-                right: 20.0,
-                top: MediaQuery.of(context).size.height/10
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(
-                      FontAwesomeIcons.arrowLeft,
-                      color: Colors.white,
-                    ), 
-                    onPressed: (){
-                      cambiarPasoProyecto(
-                        2
-                      );
-                      cambiarPagina(
-                        context, 
-                        ReportarAvance()
-                      );
-                    }
-                  ),
-                  Image.asset(
-                    'assets/img/Desglose/ReporteAvance/icn-stop.png',
-                    width: 45,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 10.0,
-                      bottom: 10.0
+        child: Column(
+          children: [
+            customedAppBar(
+              title: '',
+              onPressed: () {
+                cambiarPasoProyecto(2);
+                cambiarPagina(context, ReportarAvance());
+              },
+            ),
+            Expanded(
+              child: Container(
+                margin:
+                    EdgeInsets.symmetric(horizontal: 28.sp),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/img/Desglose/ReporteAvance/icn-stop.png',
+                      width: 45,
                     ),
-                    child: Text(
-                      'Stop! Este proyecto \npresenta factores de atraso.',
-                      style: AppTheme.h1Blanco,
-                    )
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 10.0
-                    ),
-                    child: Text(
-                      'Ingresa los factores de atraso',
-                      style: AppTheme.parrafoBlancoNegrita,
-                    )
-                  ),
-
-                  campoSeleccionar(
-                    '$tipoFactorSeleccionado',
-                    'tipoFactorAtraso',
-                    posicionPeriodoReportado,
-                    idTipoFactorAtrasoSeleccionado,
-                    false,
-                    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['tiposFactorAtraso'],
-                    (nuevaPosicion){
+                    Padding(
+                        padding: EdgeInsets.only(top: 10.0.sp, bottom: 10.0.sp),
+                        child: Text(
+                          'Stop! Este proyecto \npresenta factores de atraso.',
+                          style: AppTheme.h1Blanco,
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(bottom: 10.0.sp),
+                        child: Text(
+                          'Ingresa los factores de atraso',
+                          style: AppTheme.parrafoBlancoNegrita,
+                        )),
+                    campoSeleccionar(
+                        '$tipoFactorSeleccionado',
+                        'tipoFactorAtraso',
+                        posicionPeriodoReportado,
+                        idTipoFactorAtrasoSeleccionado,
+                        false,
+                        contenidoWebService[0]['proyectos']
+                                [posicionListaProyectosSeleccionado]['datos']
+                            ['tiposFactorAtraso'], (nuevaPosicion) {
                       setState(() {
                         posicionPeriodoReportado = nuevaPosicion;
-                        tipoFactorSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['tiposFactorAtraso'][nuevaPosicion]['tipoFactorAtraso'];
-                        idTipoFactorAtrasoSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['tiposFactorAtraso'][nuevaPosicion]['tipoFactorAtrasoId'];
+                        tipoFactorSeleccionado = contenidoWebService[0]
+                                        ['proyectos']
+                                    [posicionListaProyectosSeleccionado]
+                                ['datos']['tiposFactorAtraso'][nuevaPosicion]
+                            ['tipoFactorAtraso'];
+                        idTipoFactorAtrasoSeleccionado = contenidoWebService[0]
+                                        ['proyectos']
+                                    [posicionListaProyectosSeleccionado]
+                                ['datos']['tiposFactorAtraso'][nuevaPosicion]
+                            ['tipoFactorAtrasoId'];
                       });
-                    }
-                  ),
-
-                  campoSeleccionar(
-                    '$factorSeleccionado',
-                    'factorAtraso',
-                    posicionPeriodoReportado,
-                    idTipoFactorAtrasoSeleccionado,
-                    true,
-                    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtraso'],
-                    (nuevaPosicion){
+                    }),
+                    campoSeleccionar(
+                        '$factorSeleccionado',
+                        'factorAtraso',
+                        posicionPeriodoReportado,
+                        idTipoFactorAtrasoSeleccionado,
+                        true,
+                        contenidoWebService[0]['proyectos']
+                                [posicionListaProyectosSeleccionado]['datos']
+                            ['factoresAtraso'], (nuevaPosicion) {
                       setState(() {
                         posicionPeriodoReportado = nuevaPosicion;
-                        factorSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtraso'][nuevaPosicion]['factorAtraso'];
-                        idFactorAtrasoSeleccionado = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtraso'][nuevaPosicion]['factorAtrasoId'];
+                        factorSeleccionado = contenidoWebService[0]['proyectos']
+                                [posicionListaProyectosSeleccionado]['datos']
+                            ['factoresAtraso'][nuevaPosicion]['factorAtraso'];
+                        idFactorAtrasoSeleccionado = contenidoWebService[0]
+                                    ['proyectos']
+                                [posicionListaProyectosSeleccionado]['datos']
+                            ['factoresAtraso'][nuevaPosicion]['factorAtrasoId'];
                       });
-                    }
-                  ),
-
-                  Container(
-                    padding: EdgeInsets.only(
-                      bottom: 30.0
-                    ),
-                    margin: EdgeInsets.only(
-                      bottom: 10.0
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          width: 0.5,
-                          color: Colors.white
-                        )
-                      )
-                    ),
-                    child: GestureDetector(
-                      onTap: (){
-                        registrarFactor();
-                      },
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only( 
-                            topLeft:     Radius.circular(10.0),
-                            topRight:    Radius.circular(10.0),
-                            bottomLeft:  Radius.circular(10.0),
-                            bottomRight: Radius.circular(10.0),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 5,
-                              spreadRadius: 0.01
-                            ),
-                          ],
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                            colors: <Color>[
-                              AppTheme.dieciochoavo,
-                              AppTheme.tercero
-                            ],
-                          ),
-                        ),
-                        margin: EdgeInsets.only(top:5.0, left:5.0),
-                        padding: EdgeInsets.only(left:20.0, right: 20.0, top: 10.0, bottom: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.center,
-                              child: Icon(
-                                FontAwesomeIcons.plusCircle,
-                                color: Colors.white,
-                                size: 17.0
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: 5.0
-                              ),
-                              child: Text(
-                                'Añadir',
-                                style: AppTheme.parrafoBlancoNegrita,
-                                textAlign: TextAlign.center,
-                              )
-                            )
-                          ],
-                        )
+                    }),
+                    SizedBox(height: 10.h),
+                    buildAddGreenButton(onTap: () {
+                      registrarFactor();
+                    }),
+                    SizedBox(height: 20.h),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 10.0.sp),
+                      child: Text(
+                        'Factores Registrados',
+                        style: AppTheme.parrafoBlancoNegrita,
                       ),
-                    )
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 10.0
                     ),
-                    child: Text(
-                      'Factores Registrados',
-                      style: AppTheme.parrafoBlancoNegrita,
+                    Expanded(
+                      child: Container(
+                        child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: listaFactoresRegistrados.length,
+                          itemBuilder: (BuildContext context, int cont) {
+                            return factorRegistrado(
+                              cont,
+                              listaFactoresRegistrados[cont]['tipoFactor'],
+                              listaFactoresRegistrados[cont]['factor'],
+                              () {
+                                listaFactoresRegistrados.removeAt(cont);
+                                setState(() {
+                                  listaFactoresRegistrados =
+                                      listaFactoresRegistrados;
+                                  if (listaFactoresRegistrados.length == 0) {
+                                    bool_avanzarSiguientePaso = true;
+                                  }
+                                });
+                                contenidoWebService[0]['proyectos']
+                                            [posicionListaProyectosSeleccionado]
+                                        [
+                                        'datos']['factoresAtrasoSeleccionados'] =
+                                    listaFactoresRegistrados;
+                              },
+                            );
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-
-                  for(int cont= 0; cont < listaFactoresRegistrados.length; cont++)
-                  factorRegistrado(
-                    cont,
-                    listaFactoresRegistrados[cont]['tipoFactor'],
-                    listaFactoresRegistrados[cont]['factor'],
-                    (){
-                      listaFactoresRegistrados.removeAt(cont); 
-                      setState(() {
-                        listaFactoresRegistrados = listaFactoresRegistrados;
-                        if(listaFactoresRegistrados.length == 0){
-                          bool_avanzarSiguientePaso = true;
-                        }
-                      });
-                      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['factoresAtrasoSeleccionados'] = listaFactoresRegistrados;
-                    }
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
+            contenidoBottom(
+              context: context,
+              colorFondo: Color(0xFF2089B6),
+              dosBotones: true,
+              primerBotonDesactivado: false,
+              segundoBotonDesactivado: bool_avanzarSiguientePaso,
+              txtPrimerBoton: "Cancelar",
+              txtSegundoBoton: "Siguiente Paso",
+              accionPrimerBoton: () {
+                cambiarPasoProyecto(2);
+                cambiarPagina(context, ReportarAvance());
+              },
+              accionSegundoBoton: () {
+                if (bool_avanzarSiguientePaso == false) {
+                  cambiarPasoProyecto(3);
+                  cambiarPagina(context, ReportarAvance());
+                }
+              },
+            ),
           ],
-        )
-      ),
-
-      bottomNavigationBar: contenidoBottom(
-        context,
-        Color(0xFF2089B6),
-        true,
-        false,
-        bool_avanzarSiguientePaso,
-        "Cancelar",
-        "Siguiente Paso",
-        (){
-          cambiarPasoProyecto(
-            2
-          );
-          cambiarPagina(
-            context, 
-            ReportarAvance()
-          );
-        },
-        (){
-          if(bool_avanzarSiguientePaso == false){
-            cambiarPasoProyecto(
-              3
-            );
-            cambiarPagina(
-              context, 
-              ReportarAvance()
-            );
-          }
-        }
+        ),
       ),
     );
   }
