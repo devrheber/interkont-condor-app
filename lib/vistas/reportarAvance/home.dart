@@ -125,6 +125,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
         });
       }
     }
+    setState(() {});
   }
 
   void anterior() async {

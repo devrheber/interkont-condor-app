@@ -1,4 +1,4 @@
-import 'package:appalimentacion/globales/custemed_app_bar.dart';
+import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/proyecto/home.dart';
@@ -73,47 +73,42 @@ class CardHeadReporteAvanceState extends State<CardHeadReporteAvance> {
       child: Row(
         children: [
           SizedBox(width: 16.72.sp),
-          Expanded(
-              flex: 1,
-              child: Container(
-                child: Image.asset(
-                  'assets/img/Desglose/Demas/icn-money.png',
-                  width: 31.62.sp,
-                  height: 31.62.sp,
-                ),
-              )),
-          SizedBox(width: 5.97.sp),
-          Expanded(
-            flex: 4,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(child: Container()),
-                Text(
-                  // '38%',
-                  percentage + '%',
-                  style: TextStyle(
-                    fontFamily: "montserrat",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 13.61.sp,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(
-                  height: 2.0,
-                ),
-                Text(
-                  'Valor ' + valor,
-                  style: TextStyle(
-                    fontFamily: "montserrat",
-                    fontWeight: FontWeight.w300,
-                    fontSize: 9.36.sp,
-                    color: Colors.white,
-                  ),
-                ),
-                Expanded(child: Container()),
-              ],
+          Container(
+            child: Image.asset(
+              'assets/img/Desglose/Demas/icn-money.png',
+              width: 31.62.sp,
+              height: 31.62.sp,
             ),
+          ),
+          SizedBox(width: 5.97.sp),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(child: Container()),
+              Text(
+                // '38%',
+                percentage + '%',
+                style: TextStyle(
+                  fontFamily: "montserrat",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15.61.sp,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                height: 2.0,
+              ),
+              Text(
+                'Valor ' + valor,
+                style: TextStyle(
+                  fontFamily: "montserrat",
+                  fontWeight: FontWeight.w300,
+                  fontSize: 11.36.sp,
+                  color: Colors.white,
+                ),
+              ),
+              Expanded(child: Container()),
+            ],
           ),
           SizedBox(width: 16.72.sp),
         ],

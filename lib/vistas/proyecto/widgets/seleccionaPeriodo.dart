@@ -66,24 +66,25 @@ Widget seleccionaPeriodo(context, int posicionPeriodoReportado,
               child: DropdownButtonHideUnderline(
                 child: DropdownButton(
                     hint: Padding(
-                        padding: EdgeInsets.only(left: 10.0),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'del ',
-                              style: preposition,
-                            ),
-                            Text(
-                                // valores[posicionPeriodoReportado]['fechaIniPeriodo'],
-                                '$fechaIniPeriodo',
-                                style: dates),
-                            Text(' hasta el ', style: preposition),
-                            Text(
-                                // valores[posicionPeriodoReportado]['fechaFinPeriodo'],
-                                '$fechaFinPeriodo',
-                                style: dates),
-                          ],
-                        )),
+                      padding: EdgeInsets.only(left: 10.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'del ',
+                            style: preposition,
+                          ),
+                          Text(
+                              // valores[posicionPeriodoReportado]['fechaIniPeriodo'],
+                              '$fechaIniPeriodo',
+                              style: dates),
+                          Text(' hasta el ', style: preposition),
+                          Text(
+                              // valores[posicionPeriodoReportado]['fechaFinPeriodo'],
+                              '$fechaFinPeriodo',
+                              style: dates),
+                        ],
+                      ),
+                    ),
                     items: nuevosValores
                         .map((value) => DropdownMenuItem(
                               child: Row(
@@ -98,7 +99,8 @@ Widget seleccionaPeriodo(context, int posicionPeriodoReportado,
                               ),
                               value: value,
                             ))
-                        .toList(),
+                        .toList(), 
+                    onTap: () => print("object"),
                     onChanged: accion),
               ))
         ],

@@ -56,12 +56,12 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
             Expanded(
                 child: DropdownButtonHideUnderline(
               child: DropdownButton(
-                iconSize: 15.74.sp ,
+                iconSize: 16.74.sp ,
                 hint: Text(
                   '$textoSeleccionado',
                   style: TextStyle(
                     fontFamily: "montserrat",
-                    fontSize: 11.22.sp,
+                    fontSize: 13.22.sp,
                     fontWeight: FontWeight.w500,
                     color: Color(0xff384C68),
                   ),
@@ -76,7 +76,7 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
                                 value,
                                 style: TextStyle(
                                   fontFamily: "montserrat",
-                                  fontSize: 11.22.sp,
+                                  fontSize: 13.22.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xff384C68),
                                 ),

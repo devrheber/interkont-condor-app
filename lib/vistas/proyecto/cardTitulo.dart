@@ -1,5 +1,5 @@
 import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/globales/custemed_app_bar.dart';
+import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
@@ -142,154 +142,155 @@ class CardTituloState extends State<CardTitulo> {
 
   Container buildCardTitulo() {
     return Container(
-        width: double.infinity,
-        height: 204.h,
-        padding: EdgeInsets.only(top: 1.0, bottom: 10.0),
-        margin: EdgeInsets.only(top: 40.h, right: 28.sp, left: 28.sp),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(20.sp)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xffC1C8D9).withOpacity(.3),
-              blurRadius: 26.sp,
-              offset: Offset(3.sp, 4.sp),
+      width: double.infinity,
+      height: 204.h,
+      padding: EdgeInsets.only(top: 1.0, bottom: 10.0),
+      margin: EdgeInsets.only(top: 40.h, right: 28.sp, left: 28.sp),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(20.sp)),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xffC1C8D9).withOpacity(.3),
+            blurRadius: 26.sp,
+            offset: Offset(3.sp, 4.sp),
+          ),
+        ],
+      ),
+      child: Container(
+        padding: EdgeInsets.only(top: 20.0),
+        child: ListView(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 42.sp, right: 42.sp),
+              child: Text(
+                '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['nombreproyecto']}'
+                    .toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'montserrat',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                  color: Color(0xff556A8D),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 7.h,
+            ),
+            if (contenidoWebService[0]['proyectos']
+                    [posicionListaProyectosSeleccionado]['ultimaFechaSincro'] ==
+                null)
+              Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Últ. sincronización ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15.sp,
+                          color: Color(0xff566B8C),
+                        ),
+                      ),
+                      Image.asset(
+                        'assets/img/Desglose/Demas/icn-alert.png',
+                        height: 14.sp,
+                      ),
+                      Text(
+                        ' Nunca',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: "montserrat",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15.sp,
+                          color: Color(0xffC1272D),
+                        ),
+                      ),
+                    ],
+                  )),
+            if (contenidoWebService[0]['proyectos']
+                            [posicionListaProyectosSeleccionado]
+                        ['ultimaFechaSincro'] !=
+                    null &&
+                widget.ultimaSincro == null)
+              Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Últ. sincronización ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15.sp,
+                          color: Color(0xff566B8C),
+                        ),
+                      ),
+                      Text(
+                          '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['ultimaFechaSincro']}',
+                          textAlign: TextAlign.center,
+                          style: AppTheme.parrafoCelesteNegrita),
+                    ],
+                  )),
+            if (widget.ultimaSincro != null)
+              Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Últ. sincronización ',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15.sp,
+                          color: Color(0xff566B8C),
+                        ),
+                      ),
+                      Image.asset(
+                        'assets/new/home/check.png',
+                        height: 14.sp,
+                      ),
+                      Text(
+                        ' Justo Ahora',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: "montserrat",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15.sp,
+                          color: Color(0xff22B573),
+                        ),
+                      ),
+                    ],
+                  )),
+            SizedBox(
+              height: 7.h,
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 19.sp, right: 19.sp),
+              child: Center(
+                child: Text(
+                  '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['objeto']}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: "montserrat",
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12.sp,
+                    color: Color(0xff505050),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
-        child: Container(
-            padding: EdgeInsets.only(top: 20.0),
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(left: 42.sp, right: 42.sp),
-                  child: Text(
-                    '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['nombreproyecto']}'
-                        .toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'montserrat',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16.sp,
-                      color: Color(0xff556A8D),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 7.h,
-                ),
-                if (contenidoWebService[0]['proyectos']
-                            [posicionListaProyectosSeleccionado]
-                        ['ultimaFechaSincro'] ==
-                    null)
-                  Padding(
-                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'Últ. sincronización ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'montserrat',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15.sp,
-                              color: Color(0xff566B8C),
-                            ),
-                          ),
-                          Image.asset(
-                            'assets/img/Desglose/Demas/icn-alert.png',
-                            height: 14.sp,
-                          ),
-                          Text(
-                            ' Nunca',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: "montserrat",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15.sp,
-                              color: Color(0xffC1272D),
-                            ),
-                          ),
-                        ],
-                      )),
-                if (contenidoWebService[0]['proyectos']
-                                [posicionListaProyectosSeleccionado]
-                            ['ultimaFechaSincro'] !=
-                        null &&
-                    widget.ultimaSincro == null)
-                  Padding(
-                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'Últ. sincronización ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'montserrat',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15.sp,
-                              color: Color(0xff566B8C),
-                            ),
-                          ),
-                          Text(
-                              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['ultimaFechaSincro']}',
-                              textAlign: TextAlign.center,
-                              style: AppTheme.parrafoCelesteNegrita),
-                        ],
-                      )),
-                if (widget.ultimaSincro != null)
-                  Padding(
-                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'Últ. sincronización ',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'montserrat',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15.sp,
-                              color: Color(0xff566B8C),
-                            ),
-                          ),
-                          Image.asset(
-                            'assets/new/home/check.png',
-                            height: 14.sp,
-                          ),
-                          Text(
-                            ' Justo Ahora',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: "montserrat",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15.sp,
-                              color: Color(0xff22B573),
-                            ),
-                          ),
-                        ],
-                      )),
-                SizedBox(
-                  height: 7.h,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 19.sp, right: 19.sp),
-                  child: Center(
-                    child: Text(
-                      '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['objeto']}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: "montserrat",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12.sp,
-                        color: Color(0xff505050),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )));
+      ),
+    );
   }
 }

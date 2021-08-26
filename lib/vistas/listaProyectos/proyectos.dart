@@ -16,10 +16,13 @@ import '../../theme/color_theme.dart';
 final titleColor = Color(0xff444444);
 
 class ProyectosContenido extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
-    return Stack(
+ 
+    return Stack( 
       children: <Widget>[
+        
         Container(
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 107.sp),
@@ -55,7 +58,7 @@ class ProyectosContenido extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 5.0,
+                        height: 5.0.sp,
                       ),
                       Text(
                         contenidoWebService[0]['usuario']['nombreUsu'],
@@ -293,9 +296,10 @@ class ProyectosContenido extends StatelessWidget {
                                             style: TextStyle(
                                                 fontFamily: 'montserrat',
                                                 fontWeight: FontWeight.w700,
-                                                fontSize: 8.sp,
+                                                fontSize: 10.sp,
+                                                
                                                 letterSpacing: 0.4,
-                                                height: 0.9,
+                                                
                                                 color: Color(
                                                     int.parse(colorTitulo))),
                                             // style: AppTheme.tituloParrafo
@@ -310,7 +314,7 @@ class ProyectosContenido extends StatelessWidget {
                                         style: TextStyle(
                                             fontFamily: "montserrat",
                                             fontWeight: FontWeight.w400,
-                                            fontSize: 12.sp,
+                                            fontSize: 13.sp,
                                             color: Color(0xFF000000))),
                                     Row(
                                       children: <Widget>[

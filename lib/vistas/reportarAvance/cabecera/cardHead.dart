@@ -7,9 +7,9 @@ Widget pasos({int pasoSeleccionado}) {
   // pasoSeleccionado = 1;
   return Container(
       width: double.infinity,
-      height: 76.h,
+      height: 90.h,
       margin: EdgeInsets.only(top: 164.h, right: 28.sp, left: 28.sp),
-      padding: EdgeInsets.symmetric(horizontal: 13.w),
+      padding: EdgeInsets.symmetric(horizontal: 5.sp),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -20,6 +20,7 @@ Widget pasos({int pasoSeleccionado}) {
                 spreadRadius: 10),
           ]),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           paso(
             texto: 'Ingrese el avance',
@@ -49,22 +50,23 @@ Widget paso({String texto, int index, int paso}) {
   Color circleBgColor = Colors.white;
   Color textColor = Color(0xff556A8D);
 
-  FontWeight fontWeight = FontWeight.w700;
+  FontWeight fontWeight = FontWeight.w900;
 
   if (index <= paso) {
     circleBgColor = Color(0xff745FF2);
   } else {
     circleBgColor = Color(0xff556A8D);
   }
-
-  if (index == paso) {
-    textColor = Colors.black;
-  }
+ 
+  // if (index == paso) {
+  //   textColor = Colors.black;
+  // }
 
   return Expanded(
       child: AnimatedContainer(
     duration: Duration(milliseconds: 1400),
     decoration: BoxDecoration(
+    
       border: Border(
         bottom: BorderSide(
             width: 1.0,
@@ -73,10 +75,10 @@ Widget paso({String texto, int index, int paso}) {
     ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        AnimatedContainer(
-            duration: Duration(milliseconds: 1400),
-            width: 28.w,
+        Container(
+            width: 28.w, 
             height: 28.w,
             alignment: Alignment.center,
             margin: EdgeInsets.only(bottom: 4.0.sp),
@@ -89,21 +91,20 @@ Widget paso({String texto, int index, int paso}) {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: "montserrat",
-                fontSize: 13.61.sp,
+                fontSize: 14.61.sp,
                 color: Colors.white,
                 fontWeight: fontWeight,
               ),
             )),
         Container(
-          width: 66.w,
           child: Text(
             '$texto',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 10.sp,
+              fontSize: 12.sp,
               color: textColor,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
             ),
           ),
         )

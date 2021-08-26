@@ -6,7 +6,7 @@ Text buildTextSubtitle2({@required String text}) {
     text,
     style: TextStyle(
       fontFamily: 'montserrat',
-      fontSize: 12.27.sp,
+      fontSize: 14.sp,
       color: Color(0xFF556A8D),
       fontWeight: FontWeight.w400,
     ),
@@ -18,7 +18,7 @@ Text buildTextSubtitle({@required String text}) {
     text,
     style: TextStyle(
       fontFamily: 'montserrat',
-      fontSize: 14.sp,
+      fontSize: 15.sp,
       color: Color(0xFF566B8C),
       fontWeight: FontWeight.w500,
     ),

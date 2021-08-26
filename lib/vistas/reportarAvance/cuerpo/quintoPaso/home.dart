@@ -1,61 +1,86 @@
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/quintoPaso/cardContenido.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
+var proyectos =    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado];
+
+var valorejecutado =   proyectos['valorejecutado'] == null ? 0 : proyectos['valorejecutado'];
+var valorproyecto =    proyectos['valorproyecto'] == null ? 0 : proyectos['valorproyecto'];
+
+var nuevoValorEjecutado = proyectos['datos']['nuevoValorEjecutado'] == null    ? 0    : proyectos['datos']['nuevoValorEjecutado'];
+
+var porcentajeProyectado = proyectos['porcentajeProyectado'] == null    ? 0    : proyectos['porcentajeProyectado'];
+
+var porcentajeValorProyectadoSeleccionado =  proyectos['datos']['porcentajeValorProyectadoSeleccionado'] == null      ? 0     : proyectos['datos']['porcentajeValorProyectadoSeleccionado'];
+
+@override
 class CardCuerpoQuintoPaso extends StatelessWidget {
-  NumberFormat f = new NumberFormat("#,##0.0", "es_AR");
-  NumberFormat f2 = new NumberFormat("#,##0.00", "es_AR");
-  @override
   Widget build(BuildContext context) {
+    NumberFormat f = new NumberFormat("#,##0.0", "es_AR");
+    NumberFormat f2 = new NumberFormat("#,##0.00", "es_AR");
     return Stack(
       children: <Widget>[
         Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height/5.6, 
-            left: 20.0, 
-            right: 20.0
-          ),
+          width: double.infinity,
+          margin: EdgeInsets.only(top: 164.h, left: 20.sp, right: 20.sp),
           // color: Colors.black,
           child: Column(
             children: <Widget>[
               cardContenidoQuintoPaso(
-                context, 
+                context,
                 'Antes',
                 'Asi va',
-                '${f.format((100*(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorejecutado']/contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])).round())}',
-                '${((100*(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorejecutado']/contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])).round())}',
-                '${f2.format(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorejecutado'])}',
+                porcentajeAsiVa(f),
+                porcentajeAsiVaDos(),
+                dineroAsiVa(f2),
                 'Deberia ir',
-                '${f.format(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porcentajeProyectado'])}',
-                '${f2.format((contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porcentajeProyectado']/100)*contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])}',
+                porcentajeDeberiaIr(f),
+                dineroDeberiaIr(f2),
                 true,
-                ''
+                '',
               ),
-              
               SizedBox(
-                height: 10.0,
+                height: 12.sp,
               ),
-
               cardContenidoQuintoPaso(
-                context, 
+                context,
                 'Ahora',
                 'Asi va en',
-                '${f.format((contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['nuevoValorEjecutado']/contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])*100)}',
-                '${((contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['nuevoValorEjecutado']/contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])*100)}',
-                '${f2.format(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['nuevoValorEjecutado'])}',
+                porcentajeAsiVaEn(f),
+                porcentajeAsiVaEnDos(),
+                dineroAsiVaEn(f2),
                 'Deberia ir en',
-                '${f.format(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'])}',
-                '${f2.format((contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado']/100)*contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])}',
+                porcentajeDeberiaIrEn(f),
+                dineroDeberiaIrEn(f2),
                 false,
-                ''
+                '',
               ),
-              
-            ]
-          )
-        )
+            ],
+          ),
+        ),
       ],
     );
   }
+
+  String dineroDeberiaIrEn(NumberFormat f2) =>      '${f2.format((porcentajeValorProyectadoSeleccionado / 100) * valorproyecto)}';
+
+  String porcentajeDeberiaIrEn(NumberFormat f) =>      '${f.format(porcentajeValorProyectadoSeleccionado)}';
+
+  String dineroAsiVaEn(NumberFormat f2) => '${f2.format(nuevoValorEjecutado)}';
+
+  String porcentajeAsiVaEnDos() =>      '${((nuevoValorEjecutado / valorproyecto) * 100)}';
+
+  String dineroDeberiaIr(NumberFormat f2) => '${f2.format((porcentajeProyectado / 100) * valorproyecto)}';
+
+  String porcentajeDeberiaIr(NumberFormat f) => '${f.format(porcentajeProyectado)}';
+
+  String dineroAsiVa(NumberFormat f2) => '${f2.format(valorejecutado)}';
+
+  String porcentajeAsiVaDos() => '${((100 * (valorejecutado / valorproyecto)).round())}';
+
+  String porcentajeAsiVa(NumberFormat f) => '${f.format((100 * (valorejecutado / valorproyecto)).round())}';
+
+  String porcentajeAsiVaEn(NumberFormat f) => '${f.format((nuevoValorEjecutado / valorproyecto) * 100)}';
 }

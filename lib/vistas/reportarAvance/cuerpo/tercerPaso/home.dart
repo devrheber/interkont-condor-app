@@ -85,7 +85,7 @@ class CardCuerpoTercerPasoState extends State<CardCuerpoTercerPaso> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 18.sp),
+                    SizedBox(height: 18.sp), 
                     CarouselSlider(
                       enableInfiniteScroll: false,
                       enlargeCenterPage: true,

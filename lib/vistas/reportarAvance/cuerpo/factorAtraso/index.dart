@@ -1,6 +1,6 @@
 import 'package:appalimentacion/globales/add_button_green.dart';
 import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/globales/custemed_app_bar.dart';
+import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';

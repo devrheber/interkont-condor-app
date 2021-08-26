@@ -27,13 +27,9 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
           Row(
             children: <Widget>[
               Container(
-                // child: Icon(
-                //   FontAwesomeIcons.comments,
-                //   size: 20,
-                //   color: AppTheme.primario,
-                // ),
+
                 child: Image.asset('assets/new/home/comments.png',
-                    width: 13.85.w, height: 13.85.w),
+                    width: 18.85.w, height: 18.85.w),
               ),
               SizedBox(width: 11.8.sp),
               Expanded(
@@ -41,7 +37,7 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
                   '$textoTitulo',
                   style: TextStyle(
                     color: Color(0xff556A8D),
-                    fontSize: 12.27.sp,
+                    fontSize: 15.27.sp,
                     fontFamily: "montserrat",
                     fontWeight: FontWeight.w500,
                   ),
@@ -53,14 +49,14 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
             child: Container(
               padding: EdgeInsets.only(top: 10.0),
               child: TextField(
-                textInputAction: TextInputAction.send,
+                textInputAction: TextInputAction.send, 
                 controller: controllerCuartoPasoTxtComentarios,
                 onChanged: accion,
                 maxLines: 4,
                  style: TextStyle(
                 fontFamily: 'montserrat',
                 fontWeight: FontWeight.w500,
-                fontSize: 12.sp,
+                fontSize: 14.sp,
                 color: Color(0xff556A8D),
               ),
                 decoration: InputDecoration.collapsed(
@@ -68,7 +64,7 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
                   hintStyle: TextStyle(
                     fontFamily: 'montserrat',
                     fontWeight: FontWeight.w400,
-                    fontSize: 12.sp,
+                    fontSize: 14.sp,
                     color: Color(0xff556A8D).withOpacity(0.8),
                   ),
                 ),

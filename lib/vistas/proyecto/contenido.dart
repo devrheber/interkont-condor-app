@@ -63,11 +63,11 @@ class ContenidoProyectoState extends State<ContenidoProyecto> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        CardCuerpo(ultimaSincro: ultimaSincro),
         CardTitulo(
           ultimaSincro: ultimaSincro,
           activarUltimaSincronizacion: activarUltimaSincronizacion,
         ),
+        CardCuerpo(ultimaSincro: ultimaSincro),
       ],
     );
   }

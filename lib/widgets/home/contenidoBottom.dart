@@ -91,7 +91,7 @@ Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
           },
           child: Container(
             width: texto != "Siguiente Paso" ? 154.95.w : 361.58.w,
-            height: texto != "Siguiente Paso" ? 58.55.h : 42.3.h,
+            height:    42.3.h,
             // color: AppTheme.bottomPrincipal,
 
             child: Container(

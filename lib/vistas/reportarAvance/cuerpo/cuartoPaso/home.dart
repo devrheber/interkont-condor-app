@@ -27,7 +27,9 @@ class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
             margin: EdgeInsets.only(
               top: 230.h,
             ),
-            child: ListView(children: <Widget>[
+            child: ListView(
+              physics: BouncingScrollPhysics(),
+              children: <Widget>[
               Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
