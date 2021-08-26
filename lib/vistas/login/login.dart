@@ -48,8 +48,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // txt_usuario = 'interkont@2';
-    // txt_contrasena = '45911804';
+    txt_usuario = 'interkont@2';
+    txt_contrasena = '45911804';
     return new Scaffold(
       body: Container(
         height: double.infinity,
@@ -209,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
     String url = "$urlGlobalApiCondor/login";
     prefs = await SharedPreferences.getInstance();
 
-    var body = {'usuario': "${txt_usuario}", 'contrasena': "${txt_contrasena}"};
+    var body = {"usuario": "$txt_usuario", "contrasena": "$txt_contrasena"};
 
     try {
       HttpClient client = new HttpClient();
@@ -220,7 +220,7 @@ class _LoginPageState extends State<LoginPage> {
       request.add(utf8.encode(json.encode(body)));
       HttpClientResponse response = await request.close();
       print('------------');
-      print(response);
+      print(response); 
       print('------------');
       print('------------');
       print(response.statusCode);
@@ -237,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
       if (respuesta == true) {
         contenidoWebService[0]['usuario']['tokenUsu'] =
             response.headers['authorization'][0];
-        contenidoWebService[0]['usuario']['nombreUsu'] = "${txt_usuario}";
+        contenidoWebService[0]['usuario']['nombreUsu'] = "$txt_usuario";
         await obtenerListaProyectos();
         await prefs.setString(
             'contenidoWebService', jsonEncode(contenidoWebService));

@@ -5,18 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final titleColor = Color(0xff444444);
 
-Widget cardContenidoQuintoPaso(
-    context,
-    String titulo,
-    String asivaTxt,
-    String porcentajeAsiVa,
-    String porcentajeAsiVaDos,
-    String dineroAsiVa,
-    String deberiaIrTxt,
-    String porcentajeDeberiaIr,
-    String dineroDeberiaIr,
-    bool esAntes,
-    String semaforo) {
+Widget cardContenidoQuintoPaso({
+  String titulo,
+  String asivaTxt,
+  String porcentajeAsiVa,
+  String porcentajeAsiVaDos,
+  String dineroAsiVa,
+  String deberiaIrTxt,
+  String porcentajeDeberiaIr,
+  String dineroDeberiaIr,
+  bool esAntes,
+  String semaforo,
+}) {
   String nombreSemaforo = 'rojo';
   if (esAntes) {
     nombreSemaforo = contenidoWebService[0]['proyectos']
@@ -150,17 +150,15 @@ Widget celdas(
           ),
           semaforo == true
               ? Container(
-                  
                   child: Row(
-                         children: <Widget>[
-                      Image.asset(
-                        'assets/img/Desglose/Home/${iconoSemaforo}.png',
-                        height: 19.0.sp,
-                      )
-                    ],
-                  ))
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/img/Desglose/Home/${iconoSemaforo}.png',
+                      height: 19.0.sp,
+                    )
+                  ],
+                ))
               : Container(
-               
                   height: 24.sp,
                   width: 80.sp,
                   child: Row(
@@ -179,7 +177,6 @@ Widget celdas(
           semaforo == false
               ? Expanded(
                   child: Container(
-                 
                     child: Text(
                       '$txtTercero',
                       style: TextStyle(
