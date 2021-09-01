@@ -16,7 +16,7 @@ void main() => runApp(
       ScreenUtilInit(
         designSize: Size(414, 896),
         builder: () {
-          return MaterialApp(
+          return MaterialApp( 
             debugShowCheckedModeBanner: false,
             home: TodoApp(),
             theme: ThemeData(
