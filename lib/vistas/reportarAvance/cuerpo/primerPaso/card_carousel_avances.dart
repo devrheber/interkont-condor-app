@@ -83,11 +83,11 @@ Widget cardCarousel1(
                     child: TextField(
                         // textInputAction: TextInputAction.done,
                         textInputAction: TextInputAction.send,
+                        keyboardType: TextInputType.numberWithOptions(
+                            decimal: true, signed: true),
                         controller: controllerPrimerPasoTxtAvance,
                         onChanged: accion,
                         textAlign: TextAlign.center,
-                        keyboardType: TextInputType.numberWithOptions(
-                            decimal: true, signed: true),
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'montserrat',
