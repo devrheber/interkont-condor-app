@@ -14,40 +14,23 @@ Widget customedAppBar(
         : EdgeInsets.only(right: 14.sp, left: 14.sp, top: 50.h),
     child: Column(
       children: [
-        Stack(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 25.sp,
+        Expanded(
+          child: Stack(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: 25.sp,
+                    ),
+                    onPressed: onPressed,
                   ),
-                  onPressed: onPressed,
-                ),
-                last
-                    ? Container()
-                    : Text(
-                        title,
-                        style: TextStyle(
-                          fontFamily: "montserrat",
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18.sp,
-                          color: Colors.white,
-                        ),
-                      ),
-              ],
-            ),
-            last
-                ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 20.h),
-                        child: Text(
+                  last
+                      ? Container()
+                      : Text(
                           title,
                           style: TextStyle(
                             fontFamily: "montserrat",
@@ -56,11 +39,30 @@ Widget customedAppBar(
                             color: Colors.white,
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                : Container(),
-          ],
+                ],
+              ),
+              last 
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(top: 20.h),
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                              fontFamily: "montserrat",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(),
+            ],
+          ),
         ),
         last
             ? Row(

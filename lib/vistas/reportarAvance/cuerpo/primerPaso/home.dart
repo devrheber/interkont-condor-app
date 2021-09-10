@@ -28,7 +28,7 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
   @protected
   void initState() {
     super.initState();
-
+    loadToAvoidNullOperator(); 
     if (keyboardVisibilitySubscriberId == null) {
       print('escuchar teclado ');
       keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
@@ -94,15 +94,15 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
                     },
                     onPressed: () => setState(() {})),
               ),
- 
+
               SizedBox(height: 26.23.sp),
 
-              CarouselSlider(
-                enableInfiniteScroll: false,
-                enlargeCenterPage: true,
-                height: 435.0.h,
-                items: <Widget>[
-                  for (int cont = 0;
+             CarouselSlider(
+                      enableInfiniteScroll: false,
+                      enlargeCenterPage: true,
+                      height: 435.0.h,
+                      items: <Widget>[
+                        for (int cont = 0;
                       cont <
                           contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades']
                               .length;
@@ -168,8 +168,8 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
                               calcularValorEjecutado();
                             }
                           })
-                ],
-              ),
+                      ],
+                    ),
 
               // CarouselAvances(
               //   txtBuscar: txtBuscarAvance,
@@ -179,5 +179,12 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
         ),
       ],
     );
+  }
+
+  Future<void> loadToAvoidNullOperator() async {
+    await Future.delayed(Duration(seconds: 2));
+    setState(() {
+     
+    });
   }
 }

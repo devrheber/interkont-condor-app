@@ -17,46 +17,37 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  beauty_textfield: ^0.0.1
+  carousel_slider: ^1.4.1
+  cupertino_icons: ^0.1.2
+  date_format: ^1.0.8
   flutter:
     sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
-  beauty_textfield: ^0.0.1
-  font_awesome_flutter: ^8.8.1
-  rounded_loading_button: ^1.0.4
-  shared_preferences:
-  carousel_slider: ^1.4.1
-  image_picker:
- 
-  percent_indicator: ^2.1.1
-  http: any
-  path_provider:
-  intl: ^0.16.1
-  keyboard_visibility: ^0.5.6 
-  date_format: ^1.0.8
-  toast:
   flutter_screenutil: ^4.0.4+1
+  font_awesome_flutter: ^8.8.1
+  http: any
+  image_picker: ^0.8.4 
+  intl: ^0.16.1
+  keyboard_visibility: ^0.5.6
   page_transition: ^1.1.7+6
-
+  path_provider: ^2.0.3
+  percent_indicator: ^2.1.1
+  rounded_loading_button: ^1.0.4
+  shared_preferences: ^2.0.7
+  toast: null
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.8.1"
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.8.1"
-
 
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/new/icon/icon.png" 
-  
-
+  image_path: "assets/new/icon/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
 
@@ -75,12 +66,10 @@ flutter:
     - assets/img/Desglose/Login/
     - assets/img/Desglose/Preloader/
     - assets/img/Desglose/ReporteAvance/
-#  - new images
+    #  - new images
     - assets/new/login/
-    - assets/new/splash/ 
+    - assets/new/splash/
     - assets/new/home/
-
-
 
   fonts:
 
@@ -99,15 +88,10 @@ flutter:
         - asset: assets/fonts/mulish/Mulish-Regular.ttf
         - asset: assets/fonts/mulish/Mulish-SemiBold.ttf
           weight: 600
-              
-          
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

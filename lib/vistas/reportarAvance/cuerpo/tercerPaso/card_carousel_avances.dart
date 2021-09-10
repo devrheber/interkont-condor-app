@@ -20,7 +20,6 @@ Widget cardCarousel3(
   }
 
   return Container(
-    
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -38,7 +37,6 @@ Widget cardCarousel3(
         top: 30.64.sp,
         bottom: 38.95.sp,
       ),
-      
       child: ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
@@ -83,7 +81,8 @@ Widget cardCarousel3(
                 Expanded(
                   child: TextField(
                       textInputAction: TextInputAction.send,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.numberWithOptions(
+                          decimal: true, signed: true),
                       controller: controllerTercerPasoTxtEjecucion,
                       onChanged: accion,
                       textAlign: TextAlign.center,
@@ -105,7 +104,7 @@ Widget cardCarousel3(
               ],
             ),
           ),
-                  SizedBox(height: 50.88.sp),
+          SizedBox(height: 50.88.sp),
           Column(
             children: <Widget>[
               celdas('Unidad de medida', unidadMedida, false),

@@ -23,7 +23,8 @@ class _MostrarFotoSubidaState extends State<MostrarFotoSubida> {
   List<File> listaImagenes = [];
   String base64Image;
   Future obtenerImagenCamara() async {
-    listaImagenes.add(await ImagePicker.pickImage(source: ImageSource.camera));
+    final picked = await ImagePicker().pickImage(source: ImageSource.camera);
+    listaImagenes.add(File(picked.path));
     setState(() {
       listaImagenes = listaImagenes;
       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
@@ -33,7 +34,8 @@ class _MostrarFotoSubidaState extends State<MostrarFotoSubida> {
   }
 
   Future obtenerImagenGaleria() async {
-    listaImagenes.add(await ImagePicker.pickImage(source: ImageSource.gallery));
+    final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+    listaImagenes.add(File(picked.path));
     setState(() {
       listaImagenes = listaImagenes;
       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]

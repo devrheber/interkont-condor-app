@@ -236,8 +236,9 @@ class _CargandoFinalizarState extends State<CargandoFinalizar>
     String tokenUsu = contenidoWebService[0]['usuario']['tokenUsu'];
 
     try {
+      var uri = Uri.parse(url);
       var response = await http.post(
-        url,
+        uri,
         body: jsonEncode(body),
         headers: {
           "Content-type": "application/json",

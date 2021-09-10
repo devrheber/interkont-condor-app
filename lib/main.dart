@@ -8,25 +8,32 @@ import 'package:appalimentacion/vistas/login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(
-      ScreenUtilInit(
-        designSize: Size(414, 896),
-        builder: () {
-          return MaterialApp( 
-            debugShowCheckedModeBanner: false,
-            home: TodoApp(),
-            theme: ThemeData(
-              fontFamily: 'WorkSans',
-              textTheme: AppTheme.textTheme,
-            ),
-          );
-        },
-      ),
-    );
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  runApp(
+    ScreenUtilInit(
+      designSize: Size(414, 896),
+      builder: () {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: TodoApp(),
+          theme: ThemeData(
+            fontFamily: 'WorkSans',
+            textTheme: AppTheme.textTheme,
+          ),
+        );
+      },
+    ),
+  );
+}
 
 class TodoApp extends StatefulWidget {
   @override
@@ -92,7 +99,6 @@ class _TodoAppState extends State<TodoApp> {
               },
             ),
             (Route<dynamic> route) => false);
-      
       },
     );
   }

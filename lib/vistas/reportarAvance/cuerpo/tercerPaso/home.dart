@@ -90,7 +90,7 @@ class CardCuerpoTercerPasoState extends State<CardCuerpoTercerPaso> {
                       enableInfiniteScroll: false,
                       enlargeCenterPage: true,
                       height: 350.h,
-                      items: <Widget>[
+                      items: <Widget>[ 
                         for (int cont = 0;
                             cont <
                                 contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
