@@ -75,7 +75,16 @@ class ReportarAvanceState extends State<ReportarAvance> {
     return _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId3);
   }
 
-  void siguiente() async { 
+  void siguiente() async {
+    bool checkPhoto = true;
+    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+                ['datos']['fileFotoPrincipal'] ==
+            '' ||
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+                ['datos']['fileFotoPrincipal'] ==
+            null) {
+      checkPhoto = false;
+    }
     if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
                 ['datos']['porcentajeValorEjecutado']
             .round() >
@@ -86,19 +95,10 @@ class ReportarAvanceState extends State<ReportarAvance> {
           duration: 5,
           gravity: Toast.BOTTOM);
     } else if (bool_estSegundoBtn_reportarAvance == true && numeroPaso == 4) {
-    } else if (numeroPaso == 4) {
-      if (contenidoWebService[0]['proyectos']
-                      [posicionListaProyectosSeleccionado]['datos']
-                  ['fileFotoPrincipal'] ==
-              '' ||
-          contenidoWebService[0]['proyectos']
-                      [posicionListaProyectosSeleccionado]['datos']
-                  ['fileFotoPrincipal'] ==
-              null) {
-        Toast.show("Es necesario una foto principal", context,
-            duration: 5, gravity: Toast.BOTTOM);
-      }
-    }  else {
+    } else if (numeroPaso == 4 && !checkPhoto) {
+      Toast.show("Es necesario una foto principal", context,
+          duration: 5, gravity: Toast.BOTTOM);
+    } else {
       actualizarPaso(numeroPaso + 1);
       setState(() {
         bool_estSegundoBtn_reportarAvance = false;
@@ -233,3 +233,4 @@ class ReportarAvanceState extends State<ReportarAvance> {
             accionSegundoBoton: accionSegundoBoton));
   }
 }
+ 
