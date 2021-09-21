@@ -75,7 +75,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
     return _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId3);
   }
 
-  void siguiente() async {
+  void siguiente() async { 
     if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
                 ['datos']['porcentajeValorEjecutado']
             .round() >
@@ -89,10 +89,13 @@ class ReportarAvanceState extends State<ReportarAvance> {
     } else if (contenidoWebService[0]['proyectos']
                     [posicionListaProyectosSeleccionado]['datos']
                 ['fileFotoPrincipal'] ==
-            null &&
-        numeroPaso == 4) {
-      Toast.show("Es necesario una foto principal", context,
-          duration: 5, gravity: Toast.BOTTOM);
+            '' ||
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+                ['datos']['fileFotoPrincipal'] ==
+            null) {
+      if (numeroPaso == 4)
+        Toast.show("Es necesario una foto principal", context,
+            duration: 5, gravity: Toast.BOTTOM);
     } else {
       actualizarPaso(numeroPaso + 1);
       setState(() {

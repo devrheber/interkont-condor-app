@@ -24,6 +24,8 @@ class _MostrarFotosSubidasState extends State<MostrarFotosSubidas> {
     listaImagenes
         .add({'image': File(picked.path), 'posicion': listaImagenes.length});
 
+
+
     setState(() {
       listaImagenes = listaImagenes;
       var listaArmada = {
