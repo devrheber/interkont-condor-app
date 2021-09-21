@@ -19,10 +19,10 @@ class _MostrarFotosSubidasState extends State<MostrarFotosSubidas> {
   List listaImagenes = [];
 
   Future obtenerImagenCamara() async {
-    listaImagenes.add({
-      'image': await ImagePicker().pickImage(source: ImageSource.camera),
-      'posicion': listaImagenes.length
-    });
+    final picked = await ImagePicker().pickImage(source: ImageSource.camera);
+
+    listaImagenes
+        .add({'image': File(picked.path), 'posicion': listaImagenes.length});
 
     setState(() {
       listaImagenes = listaImagenes;
@@ -48,10 +48,10 @@ class _MostrarFotosSubidasState extends State<MostrarFotosSubidas> {
   }
 
   Future obtenerImagenGaleria() async {
-    listaImagenes.add({
-      'image': await ImagePicker().pickImage(source: ImageSource.gallery),
-      'posicion': listaImagenes.length
-    });
+    final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    listaImagenes
+        .add({'image': File(picked.path), 'posicion': listaImagenes.length});
     setState(() {
       listaImagenes = listaImagenes;
       var listaArmada = {
