@@ -1,204 +1,118 @@
-import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:appalimentacion/globales/transicion.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/proyecto/home.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cabecera/cardHead.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CardHeadReporteAvance extends StatefulWidget {
   final int numeroPaso;
-  CardHeadReporteAvance({Key key, this.numeroPaso,}) : super(key: key);
-  
-  @override
- CardHeadReporteAvanceState createState() => CardHeadReporteAvanceState();
+  CardHeadReporteAvance({
+    Key key,
+    this.numeroPaso,
+  }) : super(key: key);
 
+  @override
+  CardHeadReporteAvanceState createState() => CardHeadReporteAvanceState();
 }
 
 class CardHeadReporteAvanceState extends State<CardHeadReporteAvance> {
-
 // class CardHeadReporteAvance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 30.0,
-          margin: EdgeInsets.only( 
-            top: MediaQuery.of(context).size.height/18
-          ),
-          child: Container(
-            margin: EdgeInsets.only(right: 20, left: 20),
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ), 
-                  onPressed: (){
-                    cambiarPagina(
-                      context, 
-                      Proyecto()
-                    );
-                  }
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left:5.0, top:6.0),
-                  child: Text(
-                    'Reportar Avance',
-                    style: AppTheme.h1Blanco
-                  ),
-                )
-                
-              ],
-            ),
-          )
+        customedAppBar(
+          title: 'Reportar Avance',
+          onPressed: () {
+            cambiarPagina(context, Proyecto());
+          },
         ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height/12,
-          margin: EdgeInsets.only( 
-            top: MediaQuery.of(context).size.height/10, 
-            right: 20.0, 
-            left: 20.0
-          ),
-          child: Container(
-            child: Row(
-              children: <Widget>[ 
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.all(5.0),
-                    padding: EdgeInsets.only(
-                      top: 5.0,
-                      left: 5.0,
-                      right: 5.0,
-                      bottom: 2.0
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(38, 38, 38, 0.1),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: titleColor.withOpacity(.1),
-                          blurRadius: 20,
-                          spreadRadius: 10
-                        ),
-                      ]
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            child: Image.asset(
-                              'assets/img/Desglose/Demas/icn-money.png',
-                              width: 30.0,
-                            ),
-                          )
-                        ),
-                        Padding(
-                          padding:EdgeInsets.only(right:10.0)
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: Padding(
-                            padding: EdgeInsets.only(top:8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  // '38%',
-                                  "${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'].round()}"+'%',
-                                  style: AppTheme.h2Blanco
-                                ),
-                                SizedBox(
-                                  height: 2.0,
-                                ),
-                                Text(
-                                  'Valor Proyectado',
-                                  style: AppTheme.parrafoBlanco,
-                                ),
-                              ],
-                            )
-                          )
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.all(5.0),
-                    padding: EdgeInsets.only(
-                      top: 5.0,
-                      left: 5.0,
-                      right: 5.0,
-                      bottom: 2.0
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(38, 38, 38, 0.1),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: titleColor.withOpacity(.1),
-                          blurRadius: 20,
-                          spreadRadius: 10
-                        ),
-                      ]
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            child: Image.asset(
-                              'assets/img/Desglose/Demas/icn-money.png',
-                              width: 30.0,
-                            ),
-                          )
-                        ),
-                        Padding(
-                          padding:EdgeInsets.only(right:10.0)
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: Padding(
-                            padding: EdgeInsets.only(top:8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  // '45%',
-                                  "${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado'].round()}"+'%',
-                                  style: AppTheme.h2Blanco
-                                ),
-                                SizedBox(
-                                  height: 2.0,
-                                ),
-                                Text(
-                                  'Valor Ejecutado',
-                                  style: AppTheme.parrafoBlanco,
-                                ),
-                              ],
-                            )
-                          )
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            )
-          )
-        ),
-
-        pasos(
-          context,
-          widget.numeroPaso
-        )
+        buildContainerPorcentajesRow(),
+        pasos(pasoSeleccionado: widget.numeroPaso),
       ],
+    );
+  }
+
+  Widget buildContainerPorcentajesRow() {
+    return Container(
+      width: double.infinity,
+      height: 50.54.sp,
+      margin: EdgeInsets.symmetric(vertical: 104.sp, horizontal: 28.sp),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          buildPorcentaje(
+              valor: "Proyectado",
+              percentage:
+                  "${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'].round()}"),
+          Expanded(child: Container()),
+          buildPorcentaje(
+              valor: "Ejecutado",
+              percentage:
+                  "${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado'].round()}"),
+        ],
+      ),
+    );
+  }
+
+  Container buildPorcentaje({String percentage, String valor}) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.all(Radius.circular(10.sp)),
+          boxShadow: [
+            BoxShadow(
+                color: titleColor.withOpacity(.1),
+                blurRadius: 20,
+                spreadRadius: 10),
+          ]),
+      width: 173.4.w,
+      height: 50.54.h,
+      child: Row(
+        children: [
+          SizedBox(width: 16.72.sp),
+          Container(
+            child: Image.asset(
+              'assets/img/Desglose/Demas/icn-money.png',
+              width: 31.62.sp,
+              height: 31.62.sp,
+            ),
+          ),
+          SizedBox(width: 5.97.sp),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(child: Container()),
+              Text(
+                // '38%',
+                percentage + '%',
+                style: TextStyle(
+                  fontFamily: "montserrat",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15.61.sp,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                height: 2.0,
+              ),
+              Text(
+                'Valor ' + valor,
+                style: TextStyle(
+                  fontFamily: "montserrat",
+                  fontWeight: FontWeight.w300,
+                  fontSize: 11.36.sp,
+                  color: Colors.white,
+                ),
+              ),
+              Expanded(child: Container()),
+            ],
+          ),
+          SizedBox(width: 16.72.sp),
+        ],
+      ),
     );
   }
 }

@@ -1,16 +1,16 @@
-import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/title_subtitle.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/cajonTexto.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/mostrarFotoPrincipal.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/mostrarFotosSubidas.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final titleColor = Color(0xff444444);
 
 class CardCuerpoCuartoPaso extends StatefulWidget {
-  
   CardCuerpoCuartoPaso({Key key}) : super(key: key);
-  
+
   @override
   CardCuerpoCuartoPasoState createState() => CardCuerpoCuartoPasoState();
 }
@@ -23,67 +23,54 @@ class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
     return Stack(
       children: <Widget>[
         Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height/3.3, 
-            left: 20.0, 
-            right: 20.0
-          ),
-          child: ListView(
-            children: <Widget>[
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(
+              top: 230.h,
+            ),
+            child:
+                ListView(physics: BouncingScrollPhysics(), children: <Widget>[
               Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(right: 5.0, left:5.0, bottom: 10.0),
+                      margin: EdgeInsets.symmetric(horizontal: 31.sp),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            'Descripción & Documentos',
-                            style: TextStyle(
-                              fontFamily: 'montserrat',
-                              fontSize: 17,
-                              color: Color(0xFF334660),
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                          buildTextTitle(text: 'Descripción & Documentos'),
+                          SizedBox(height: 2.sp),
                           cajonTextoComentarios(
-                            context, 
-                            'Comentarios', 
+                            context,
+                            'Comentarios',
                             'Aca puede agregar una descripción del avance..',
-                            (value){
-                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['txtComentario'] = value;
-                              if(value.length > 1){
+                            (value) {
+                              contenidoWebService[0]['proyectos']
+                                      [posicionListaProyectosSeleccionado]
+                                  ['datos']['txtComentario'] = value;
+                              if (value.length > 1) {
                                 bool_estSegundoBtn_reportarAvance = false;
-                              }else{
+                              } else {
                                 bool_estSegundoBtn_reportarAvance = true;
                               }
-                              
                             },
                           ),
-                          SizedBox(
-                            height: 10.0,
+                          SizedBox(height: 22.8.sp),
+                          buildTextSubtitle2(
+                            text:
+                                'Agregar una foto principal del avance (Obligatorio)',
                           ),
-                          Text(
-                            'Agregar una foto principal del avance (Obligatorio)',
-                            style: AppTheme.parrafo
-                          ),
+                          SizedBox(height: 23.15.sp),
                           MostrarFotoSubida(),
-                          SizedBox(
-                            height: 10.0,
+                          SizedBox(height: 22.8.sp),
+                          buildTextSubtitle2(
+                            text: 'Agregar fotos complementarias (Max 5)',
                           ),
-                          Text(
-                            'Agregar fotos complementarias (Max 5)',
-                            style: AppTheme.parrafo
+                          buildTextSubtitle2(
+                            text:
+                                'Tambien puedes tomar una foto a tus documentos',
                           ),
-                          Text(
-                            'Tambien puedes tomar una foto a tus documentos',
-                            style: AppTheme.parrafo
-                          ),
-                          
-
+                          SizedBox(height: 23.15.sp),
                           MostrarFotosSubidas()
                         ],
                       ),
@@ -91,9 +78,7 @@ class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
                   ],
                 ),
               ),
-            ]
-          )
-        )
+            ]))
       ],
     );
   }

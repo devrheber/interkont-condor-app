@@ -1,47 +1,45 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
-import 'package:appalimentacion/vistas/login.dart';
-import 'package:appalimentacion/widgets/respuestaHttp.dart';
-import 'package:http/http.dart' as http;
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
+import 'package:appalimentacion/vistas/login/login.dart';
+import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Preload extends StatefulWidget{
-
+class Preload extends StatefulWidget {
   final String txt_usuario;
   final String txt_contrasena;
 
   Preload({Key key, this.txt_contrasena, this.txt_usuario}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _PreloadState();
-
 }
 
 class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
-  
   AnimationController _controller;
   AnimationController _controllerPeque;
   Animation<double> animation;
   double i = 100;
 
   SharedPreferences prefs;
-  validarLogin()
-  async{
-    String url ="$urlGlobal/cobra-ws-condor/login";
+  validarLogin() async {
+    // String url = "$urlGlobal/siente3-ws/login";
+     String url = "$urlGlobalApiCondor/login"; 
     prefs = await SharedPreferences.getInstance();
-    
+
     var body = {
-      'usuario':"${widget.txt_usuario}", 
-      'contrasena':"${widget.txt_contrasena}"
+      'usuario': "${widget.txt_usuario}",
+      'contrasena': "${widget.txt_contrasena}"
     };
 
-    try{
+    try {
       HttpClient client = new HttpClient();
-      client.badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
-      var request = await client.postUrl(Uri.parse(url)); 
+      client.badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+      var request = await client.postUrl(Uri.parse(url));
       request.headers.set('content-type', 'application/json');
       request.add(utf8.encode(json.encode(body)));
       HttpClientResponse response = await request.close();
@@ -51,7 +49,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
       print('------------');
       print(response.statusCode);
       print('------------');
-      print('------------');
+      print('------------'); 
       print(response.headers);
       print('------------');
       print('------------');
@@ -60,40 +58,37 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
       var respuesta = await respuestaHttp(response.statusCode);
 
       await prefs.setInt('estadoLogin', response.statusCode);
-      if(respuesta == true ){
-        contenidoWebService[0]['usuario']['tokenUsu'] = response.headers['authorization'][0];
-        contenidoWebService[0]['usuario']['nombreUsu'] = "${widget.txt_usuario}";
+      if (respuesta == true) {
+        contenidoWebService[0]['usuario']['tokenUsu'] =
+            response.headers['authorization'][0];
+        contenidoWebService[0]['usuario']['nombreUsu'] =
+            "${widget.txt_usuario}";
         await obtenerListaProyectos();
-        await prefs.setString('contenidoWebService', jsonEncode(contenidoWebService));
+        await prefs.setString(
+            'contenidoWebService', jsonEncode(contenidoWebService));
         Navigator.push(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => ListaProyectos()
-          ),
+          context,
+          MaterialPageRoute(builder: (context) => ListaProyectos()),
         );
-      }else{
+      } else {
         Navigator.push(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => LoginPage()
-          ),
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
         );
       }
-    }catch(erro){
+    } catch (erro) {
       print('-------');
       print(erro);
       await prefs.setInt('estadoLogin', 800);
       Navigator.push(
-        context, 
-        MaterialPageRoute(
-          builder: (context) => LoginPage()
-        ),
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
       );
     }
   }
-  
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     animacion();
     super.initState();
@@ -105,41 +100,40 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
     );
   }
 
-  animacion()
-  {
+  animacion() {
     print(_controller);
-    if(_controller != null)
-    {
+    if (_controller != null) {
       setState(() {
         _controller = null;
       });
     }
-    _controller = AnimationController(duration:const Duration(seconds: 5), vsync: this);
+    _controller =
+        AnimationController(duration: const Duration(seconds: 5), vsync: this);
     animation = Tween<double>(begin: 0, end: 500).animate(_controller)
-    ..addListener((){
-      if(double.parse('${animation.value.toStringAsFixed(0)}') % 50 == 0){
-        if(i == 200){
-          setState(() {
-            i = 100;
-          });
-        }else{
-          setState(() {
-            i = 200;
-          });
+      ..addListener(() {
+        print(animation.value);
+        if (double.parse('${animation.value.toStringAsFixed(0)}') % 50 == 0) {
+          if (i == 200) {
+            setState(() {
+              i = 100;
+            });
+          } else {
+            setState(() {
+              i = 200;
+            });
+          }
         }
-      }
-    });
+      });
     _controller.forward();
   }
 
-  animacionPeque()
-  {
-    animation =Tween<double>(begin: 0, end: 500).animate(_controller)
-    ..addListener((){
-      setState((){
-        i = double.parse('${animation.value.toStringAsFixed(0)}');
+  animacionPeque() {
+    animation = Tween<double>(begin: 0, end: 500).animate(_controller)
+      ..addListener(() {
+        setState(() {
+          i = double.parse('${animation.value.toStringAsFixed(0)}');
+        });
       });
-    });
     _controller.forward();
   }
 
@@ -148,20 +142,20 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
     _controller.dispose();
     super.dispose();
   }
-  
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/img/Desglose/Preloader/bg-preloader.jpg"),
-            fit: BoxFit.cover
-          ),
+              image:
+                  AssetImage("assets/img/Desglose/Preloader/bg-preloader.gif"),
+              fit: BoxFit.cover),
         ),
-        child: Stack(
+        /* child: Stack(
           children: <Widget>[
             Center(
               child: GestureDetector(
@@ -208,7 +202,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
               )
             )
           ],
-        )
+        ) */
       ),
       // bottomNavigationBar: Container(
       //   color: AppTheme.primero,
@@ -225,13 +219,9 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
       //   )
       // ),
     );
-    
   }
-  
-  Widget aro(Widget contenido, int rgb)
-  {
-    return Container(
-      child: contenido
-    );
+
+  Widget aro(Widget contenido, int rgb) {
+    return Container(child: contenido);
   }
 }

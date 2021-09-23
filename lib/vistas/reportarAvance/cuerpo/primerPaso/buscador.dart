@@ -1,82 +1,87 @@
-import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final titleColor = Color(0xff444444);
 
-Widget buscador(context, accion)
-{
+Widget buscador( {dynamic onChanged, dynamic onPressed}) {
   return Row(
     children: <Widget>[
       Expanded(
         flex: 2,
         child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 40.0,
-          padding: EdgeInsets.all(5.0),
+          width: double.infinity,
+          height: 35.77.sp,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(10)
-            ),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           child: Row(
             children: <Widget>[
-              Icon(
-                Icons.search
-              ),
+              SizedBox(width: 11.23.w),
+              Image.asset("assets/new/home/search.png",
+                  height: 12.08.h, width: 12.03.h),
+              SizedBox(width: 8.23.w),
               Expanded(
-                child: TextField(
-                  textInputAction: TextInputAction.send,
-                  decoration: InputDecoration.collapsed(hintText: "Buscar por palabra clave..", ),
-                  onChanged: accion
+                child: Container(
+                  width: 237.57.sp,
+                  child: TextField(
+                      textInputAction: TextInputAction.send,
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        fontFamily: "montserrat",
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff566B8C),
+                      ),
+                      decoration: InputDecoration.collapsed(
+                        hintText: "Buscar por palabra clave...",
+                        hintStyle: TextStyle(
+                          fontSize: 13.sp,
+                          fontFamily: "montserrat",
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff556a8d),
+                        ),
+                      ),
+                      onChanged: onChanged),
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ),
       ),
-      // Expanded(
-      //   flex: 1,
-      //   child: GestureDetector(
-      //     onTap: (){
-            
-      //     },
-      //     child: Container(
-      //       decoration: const BoxDecoration(
-      //         borderRadius: BorderRadius.only(  
-      //           topLeft:     Radius.circular(15.0),
-      //           topRight:    Radius.circular(15.0),
-      //           bottomLeft:  Radius.circular(15.0),
-      //           bottomRight: Radius.circular(15.0),
-      //         ),
-      //         gradient: LinearGradient(
-      //           begin: Alignment.bottomLeft,
-      //           end: Alignment.topRight,
-      //           colors: <Color>[
-      //             AppTheme.dieciochoavo,
-      //             AppTheme.tercero
-      //           ],
-      //         ),
-      //       ),
-      //       margin: EdgeInsets.only(left:5.0),
-      //       padding: EdgeInsets.only(left:20.0, right: 20.0, top: 10.0, bottom: 10.0),
-      //       child: Row(
-      //         mainAxisAlignment: MainAxisAlignment.center,
-      //         children: <Widget>[
-      //           Expanded(
-      //             child: Text(
-      //               'Buscar',
-      //               style: TextStyle(
-      //                 color: Colors.white
-      //               ),
-      //               textAlign: TextAlign.center,
-      //             )
-      //           )
-      //         ],
-      //       )
-      //     ),
-      //   )
-      // )
+      SizedBox(width: 7.73.w),
+      Expanded(
+        child: Container(
+          height: 35.77.sp,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.sp),
+          ),
+          child: RaisedButton(
+            elevation: 0,
+            onPressed: onPressed,
+            padding: EdgeInsets.all(0.0),
+            child: Ink(
+              decoration: BoxDecoration(
+                gradient: ColorTheme.buttonGradient,
+              ),
+              child: Container(
+                // constraints: BoxConstraints(maxWidth: 250.0, minHeight: 20.0),
+
+                alignment: Alignment.center,
+                child: Text(
+                  "Buscar",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 13.sp,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     ],
   );
 }

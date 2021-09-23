@@ -1,61 +1,76 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final titleColor = Color(0xff444444);
-Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion )
-{
-  TextEditingController controllerCuartoPasoTxtComentarios = TextEditingController();
-  if(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['txtComentario'] != null){
-    controllerCuartoPasoTxtComentarios.text = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['txtComentario'];
+Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
+  TextEditingController controllerCuartoPasoTxtComentarios =
+      TextEditingController();
+  if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+          ['datos']['txtComentario'] !=
+      null) {
+    controllerCuartoPasoTxtComentarios.text = contenidoWebService[0]
+            ['proyectos'][posicionListaProyectosSeleccionado]['datos']
+        ['txtComentario'];
   }
   return Container(
-    width: MediaQuery.of(context).size.width,
-    height: 120.0,
-    margin: EdgeInsets.only(top:10.0),
-    padding: EdgeInsets.only(left:15.0, right: 15, top:10),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.all(Radius.circular(10)),
-    ),
-    child: Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only( right:10.0,),
-              child: Icon(
-                FontAwesomeIcons.comments,
-                size: 20,
-                color: AppTheme.primario,
+      width: MediaQuery.of(context).size.width,
+      height: 106.2.h,
+      margin: EdgeInsets.only(top: 35.sp),
+      padding: EdgeInsets.only(left: 15.0.sp, right: 15.sp, top: 13.27.sp),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+
+                child: Image.asset('assets/new/home/comments.png',
+                    width: 18.85.w, height: 18.85.w),
+              ),
+              SizedBox(width: 11.8.sp),
+              Expanded(
+                child: Text(
+                  '$textoTitulo',
+                  style: TextStyle(
+                    color: Color(0xff556A8D),
+                    fontSize: 15.27.sp,
+                    fontFamily: "montserrat",
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              )
+            ],
+          ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.only(top: 10.0),
+              child: TextField(
+                textInputAction: TextInputAction.send, 
+                controller: controllerCuartoPasoTxtComentarios,
+                onChanged: accion,
+                maxLines: 4,
+                 style: TextStyle(
+                fontFamily: 'montserrat',
+                fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
+                color: Color(0xff556A8D),
+              ),
+                decoration: InputDecoration.collapsed(
+                  hintText: "$textoHint",
+                  hintStyle: TextStyle(
+                    fontFamily: 'montserrat',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.sp,
+                    color: Color(0xff556A8D).withOpacity(0.8),
+                  ),
+                ),
               ),
             ),
-            Expanded(
-              child: Text(
-                '$textoTitulo'
-              )
-            )
-          ],
-        ),
-
-        Container(
-          padding: EdgeInsets.only(top:10.0),
-          child: TextField(
-            textInputAction: TextInputAction.send,
-            controller: controllerCuartoPasoTxtComentarios,
-            onChanged: accion,
-            maxLines: 4,
-            decoration: InputDecoration.collapsed(
-              hintText: "$textoHint",
-              hintStyle: TextStyle(
-                fontWeight: FontWeight.w100,
-                fontSize: 10
-              )
-            )
           )
-        )
-      ],
-    )
-  );
+        ],
+      ));
 }
