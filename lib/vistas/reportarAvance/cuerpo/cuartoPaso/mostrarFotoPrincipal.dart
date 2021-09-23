@@ -8,6 +8,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
+MemoryImage imageFromBase64String(String base64String) {
+  return MemoryImage(
+    base64Decode(base64String),
+  );
+}
+
 class MostrarFotoSubida extends StatefulWidget {
   final int numeroFotos;
 
@@ -17,37 +23,36 @@ class MostrarFotoSubida extends StatefulWidget {
 }
 
 class _MostrarFotoSubidaState extends State<MostrarFotoSubida> {
+  File pickerImage;
+
   @override
   void initState() {}
 
-  List<File> listaImagenes = [];
   String base64Image;
   Future obtenerImagenCamara() async {
     final picked = await ImagePicker().pickImage(source: ImageSource.camera);
-    listaImagenes.add(File(picked.path));
+
+    pickerImage = File(picked.path);
+
     setState(() {
-      listaImagenes = listaImagenes;
       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
               ['datos']['fileFotoPrincipal'] =
-          base64Encode(listaImagenes[0].readAsBytesSync());
+          base64Encode(pickerImage.readAsBytesSync());
     });
   }
 
   Future obtenerImagenGaleria() async {
     final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
-    listaImagenes.add(File(picked.path));
+    pickerImage = File(picked.path);
     setState(() {
-      listaImagenes = listaImagenes;
       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
               ['datos']['fileFotoPrincipal'] =
-          base64Encode(listaImagenes[0].readAsBytesSync());
+          base64Encode(pickerImage.readAsBytesSync());
     });
   }
 
-  void removerImagen(imagen) {
-    listaImagenes.remove(imagen);
+  void removerImagen() {
     setState(() {
-      listaImagenes = listaImagenes;
       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
           ['datos']['fileFotoPrincipal'] = '';
     });
@@ -82,26 +87,24 @@ class _MostrarFotoSubidaState extends State<MostrarFotoSubida> {
     return Container(
       child: Wrap(
         children: <Widget>[
-          for (int cont = 0; cont < listaImagenes.length; cont++)
-            cajonImagen(listaImagenes[cont]),
-          if (listaImagenes.length == 0) cajonImagen(null),
+          for (int cont = 0; cont < 1; cont++) cajonImagen(),
         ],
       ),
     );
   }
 
   // onPressed: obtenerImagenCamara,
-  Widget cajonImagen(imagenSeleccionada) {
-    File imagen = null;
-    if (imagenSeleccionada != null) {
-      imagen = imagenSeleccionada;
-    }
-
+  Widget cajonImagen() {
+    bool noImage = contenidoWebService[0]['proyectos']
+                    [posicionListaProyectosSeleccionado]['datos']
+                ['fileFotoPrincipal'] ==
+            null ||
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+                ['datos']['fileFotoPrincipal'] ==
+            "";
     return GestureDetector(
       onTap: () {
-        imagen == null
-            ? seleccionarGaleriaCamara(context)
-            : removerImagen(imagen);
+        noImage ? seleccionarGaleriaCamara(context) : removerImagen();
       },
       child: Container(
           width: 102.11.sp,
@@ -111,11 +114,13 @@ class _MostrarFotoSubidaState extends State<MostrarFotoSubida> {
             borderRadius: BorderRadius.circular(15.0),
             color: Colors.transparent,
             image: DecorationImage(
-                image: imagen == null
+                image: noImage
                     ? AssetImage(
                         'assets/img/Desglose/Demas/btn-add.png',
                       )
-                    : FileImage(imagen),
+                    : imageFromBase64String(contenidoWebService[0]['proyectos']
+                            [posicionListaProyectosSeleccionado]['datos']
+                        ['fileFotoPrincipal']),
                 fit: BoxFit.cover),
           ),
           child: Row(
@@ -123,7 +128,7 @@ class _MostrarFotoSubidaState extends State<MostrarFotoSubida> {
             verticalDirection: VerticalDirection.up,
             textDirection: TextDirection.rtl,
             children: <Widget>[
-              imagen == null
+              noImage
                   ? Text('')
                   : Container(
                       decoration: BoxDecoration(
