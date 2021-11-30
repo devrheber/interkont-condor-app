@@ -4,16 +4,15 @@ import 'dart:io';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
 import 'package:appalimentacion/globales/logo.dart';
+import 'package:appalimentacion/globales/sized_box.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
+import 'package:appalimentacion/vistas/login/local_widgets/textfield.dart';
 import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import './local_widgets/textfield.dart';
-import '../../globales/sized_box.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -23,12 +22,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String txt_usuario = '';
-  String txt_contrasena = '';
+  String usuario = '';
+  String contrasena = '';
   SharedPreferences prefs;
   bool loading = false;
 
-  int estadoLogin = null;
+  int estadoLogin;
 
   @override
   void initState() {
@@ -80,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                             imageIcon: 'assets/new/login/account_circle.png',
                             keyboardType: TextInputType.emailAddress,
                             onChanged: (texto) {
-                              txt_usuario = texto;
+                              usuario = texto;
                             },
                           ),
                           buildCustomedTextfield(
@@ -88,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: "Contraseña",
                             keyboardType: TextInputType.visiblePassword,
                             onChanged: (texto) {
-                              txt_contrasena = texto;
+                              contrasena = texto;
                             },
                             imageIcon: 'assets/new/login/lock_circle.png',
                           ),
@@ -143,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           estadoLogin != null && estadoLogin != 200
                               ? Column(
-                                  children: <Widget>[ 
+                                  children: <Widget>[
                                     Container(
                                       height: 53.sp,
                                       child: Text(
@@ -200,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   validarLogin() async {
-    // String url = "$urlGlobal/siente3-ws/login";
+    
     setState(() {
       estadoLogin = null;
       loading = true;
@@ -208,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
     String url = "$urlGlobalApiCondor/login";
     prefs = await SharedPreferences.getInstance();
 
-    var body = {"usuario": "$txt_usuario", "contrasena": "$txt_contrasena"};
+    var body = {"usuario": "$usuario", "contrasena": "$contrasena"};
 
     try {
       HttpClient client = new HttpClient();
@@ -219,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
       request.add(utf8.encode(json.encode(body)));
       HttpClientResponse response = await request.close();
       print('------------');
-      print(response); 
+      print(response);
       print('------------');
       print('------------');
       print(response.statusCode);
@@ -236,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
       if (respuesta == true) {
         contenidoWebService[0]['usuario']['tokenUsu'] =
             response.headers['authorization'][0];
-        contenidoWebService[0]['usuario']['nombreUsu'] = "$txt_usuario";
+        contenidoWebService[0]['usuario']['nombreUsu'] = "$usuario";
         await obtenerListaProyectos();
         await prefs.setString(
             'contenidoWebService', jsonEncode(contenidoWebService));
