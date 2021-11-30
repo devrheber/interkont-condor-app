@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
 import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
 import 'package:appalimentacion/globales/logo.dart';
+import 'package:appalimentacion/globales/ssl_solution.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:appalimentacion/vistas/login/login.dart';
@@ -15,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+   HttpOverrides.global = MyHttpOverrides();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
@@ -34,6 +38,7 @@ void main() {
     ),
   );
 }
+
 
 class TodoApp extends StatefulWidget {
   @override
@@ -120,3 +125,4 @@ class _TodoAppState extends State<TodoApp> {
     );
   }
 }
+ 

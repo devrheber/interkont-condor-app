@@ -7,7 +7,6 @@ import 'package:appalimentacion/globales/logo.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
-import 'package:appalimentacion/vistas/preload.dart';
 import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,8 +47,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    txt_usuario = 'interkont@2';
-    txt_contrasena = '45911804';
+    // txt_usuario = 'interkont@2';
+    // txt_contrasena = '45911804';
     return new Scaffold(
       body: Container(
         height: double.infinity,
@@ -105,14 +104,14 @@ class _LoginPageState extends State<LoginPage> {
                               elevation: 0,
                               onPressed: () {
                                 return validarLogin();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Preload(
-                                        txt_usuario: txt_usuario,
-                                        txt_contrasena: txt_contrasena),
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => Preload(
+                                //         txt_usuario: txt_usuario,
+                                //         txt_contrasena: txt_contrasena),
+                                //   ),
+                                // );
                               },
                               padding: EdgeInsets.all(0.0),
                               child: Ink(
@@ -144,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           estadoLogin != null && estadoLogin != 200
                               ? Column(
-                                  children: <Widget>[
+                                  children: <Widget>[ 
                                     Container(
                                       height: 53.sp,
                                       child: Text(
