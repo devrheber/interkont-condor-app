@@ -94,14 +94,14 @@ class ReportarAvanceState extends State<ReportarAvance> {
           context,
           duration: 5,
           gravity: Toast.BOTTOM);
-    } else if (bool_estSegundoBtn_reportarAvance == true && numeroPaso == 4) {
+    } else if (boolestSegundoBtnreportarAvance == true && numeroPaso == 4) {
     } else if (numeroPaso == 4 && !checkPhoto) {
       Toast.show("Es necesario una foto principal", context,
           duration: 5, gravity: Toast.BOTTOM);
     } else {
       actualizarPaso(numeroPaso + 1);
       setState(() {
-        bool_estSegundoBtn_reportarAvance = false;
+        boolestSegundoBtnreportarAvance = false;
       });
       cambiarPasoProyecto(numeroPaso + 1);
       print(numeroPaso);
@@ -112,7 +112,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
           numeroPaso == 4) {
         print('bool_estSegundoBtn_reportarAvance');
         setState(() {
-          bool_estSegundoBtn_reportarAvance = true;
+          boolestSegundoBtnreportarAvance = true;
         });
       } else if (contenidoWebService[0]['proyectos']
                       [posicionListaProyectosSeleccionado]['datos']
@@ -126,7 +126,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
               1) {
         print('bool_estSegundoBtn_reportarAvance');
         setState(() {
-          bool_estSegundoBtn_reportarAvance = true;
+          boolestSegundoBtnreportarAvance = true;
         });
       }
     }
@@ -135,7 +135,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
 
   void anterior() async {
     setState(() {
-      bool_estSegundoBtn_reportarAvance = false;
+      boolestSegundoBtnreportarAvance = false;
     });
     actualizarPaso(numeroPaso - 1);
     cambiarPasoProyecto(numeroPaso - 1);
@@ -157,7 +157,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
               duration: 5, gravity: Toast.BOTTOM);
           cambiarPagina(context, ListaProyectos());
           setState(() {
-            bool_estSegundoBtn_reportarAvance = false;
+            boolestSegundoBtnreportarAvance = false;
           });
           actualizarPaso(0);
           cambiarPasoProyecto(0);
@@ -226,7 +226,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
             colorFondo: AppTheme.bottomPrincipal,
             dosBotones: true,
             primerBotonDesactivado: false,
-            segundoBotonDesactivado: bool_estSegundoBtn_reportarAvance,
+            segundoBotonDesactivado: boolestSegundoBtnreportarAvance,
             txtPrimerBoton: "$txtPrimerBoton",
             txtSegundoBoton: "$txtSegundoBoton",
             accionPrimerBoton: accionPrimerBoton,

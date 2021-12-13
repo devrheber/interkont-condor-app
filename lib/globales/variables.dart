@@ -1,7 +1,7 @@
 library my_prj.variables;
 
 // String urlGlobal = 'https://sienteapp.gestiondelriesgo.gov.co';
-String urlGlobal = 'httpsFLUTT://backendavanzame.minenergia.gov.co/avanzame-ws';
+String urlGlobal = 'https://backendavanzame.minenergia.gov.co';
 // String urlGlobal = 'http://13.59.62.87:7074';
 // String urlGlobal = 'https://sienteapp.gestiondelriesgo.gov.co';
 
@@ -17,7 +17,7 @@ int keyboardVisibilitySubscriberId;
 int keyboardVisibilitySubscriberId2;
 int keyboardVisibilitySubscriberId3; // DE TODA LA CARPETA DE REPORTAR AVANCE
 bool conexionInternet = true;
-bool bool_estSegundoBtn_reportarAvance = false;
+bool boolestSegundoBtnreportarAvance = false;
 String numeroVersion = "1.0.0";
 List contenidoWebService = [
   {
