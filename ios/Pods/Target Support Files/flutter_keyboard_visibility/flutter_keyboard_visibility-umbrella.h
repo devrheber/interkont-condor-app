@@ -10,8 +10,8 @@
 #endif
 #endif
 
-#import "Reachability.h"
+#import "FlutterKeyboardVisibilityPlugin.h"
 
-FOUNDATION_EXPORT double ReachabilityVersionNumber;
-FOUNDATION_EXPORT const unsigned char ReachabilityVersionString[];
+FOUNDATION_EXPORT double flutter_keyboard_visibilityVersionNumber;
+FOUNDATION_EXPORT const unsigned char flutter_keyboard_visibilityVersionString[];
 

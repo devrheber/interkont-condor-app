@@ -176,23 +176,20 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/flutter_keyboard_visibility/flutter_keyboard_visibility.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/image_picker/image_picker.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/keyboard_visibility/keyboard_visibility.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences/shared_preferences.framework"
 fi
 if [[ "$CONFIGURATION" == "Profile" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/flutter_keyboard_visibility/flutter_keyboard_visibility.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/image_picker/image_picker.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/keyboard_visibility/keyboard_visibility.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences/shared_preferences.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/flutter_keyboard_visibility/flutter_keyboard_visibility.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/image_picker/image_picker.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/keyboard_visibility/keyboard_visibility.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/shared_preferences/shared_preferences.framework"
 fi

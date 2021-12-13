@@ -14,17 +14,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Reachability.xcscheme</key>
+		<key>flutter_keyboard_visibility.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>image_picker.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>keyboard_visibility.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
