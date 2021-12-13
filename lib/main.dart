@@ -18,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-   HttpOverrides.global = MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
@@ -38,7 +38,6 @@ void main() {
     ),
   );
 }
-
 
 class TodoApp extends StatefulWidget {
   @override
@@ -125,4 +124,3 @@ class _TodoAppState extends State<TodoApp> {
     );
   }
 }
- 

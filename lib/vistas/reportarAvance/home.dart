@@ -10,7 +10,7 @@ import 'package:appalimentacion/vistas/reportarAvance/cuerpo/factorAtraso/index.
 import 'package:appalimentacion/widgets/home/contenidoBottom.dart';
 import 'package:appalimentacion/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+//import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
@@ -28,8 +28,8 @@ class ReportarAvanceState extends State<ReportarAvance> {
   var accionPrimerBoton = () {};
   var accionSegundoBoton = () {};
   int numeroPaso = 0;
-  KeyboardVisibilityNotification _keyboardVisibility =
-      new KeyboardVisibilityNotification();
+  //KeyboardVisibilityNotification _keyboardVisibility =
+        //new KeyboardVisibilityNotification();
 
   void obtenerVariablesSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
@@ -43,36 +43,36 @@ class ReportarAvanceState extends State<ReportarAvance> {
     // print(numeroPaso);
     super.initState();
     obtenerVariablesSharedPreferences();
-    if (keyboardVisibilitySubscriberId3 == null) {
-      print('escuchar teclado ');
-      keyboardVisibilitySubscriberId3 = _keyboardVisibility.addNewListener(
-        onChange: (bool visible) {
-          if (numeroPaso == 4 || numeroPaso == 1) {
-            if (visible == false) {
-              print('$visible');
-              setState(() {});
-            }
-          }
-        },
-      );
-    } else if (keyboardVisibilitySubscriberId3 != null) {
-      _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId3);
-      keyboardVisibilitySubscriberId3 = _keyboardVisibility.addNewListener(
-        onChange: (bool visible) {
-          if (numeroPaso == 4 || numeroPaso == 1) {
-            if (visible == false) {
-              print('$visible');
-              setState(() {});
-            }
-          }
-        },
-      );
-    }
+    // if (keyboardVisibilitySubscriberId3 == null) {
+    //   print('escuchar teclado ');
+    //   keyboardVisibilitySubscriberId3 = _keyboardVisibility.addNewListener(
+    //     onChange: (bool visible) {
+    //       if (numeroPaso == 4 || numeroPaso == 1) {
+    //         if (visible == false) {
+    //           print('$visible');
+    //           setState(() {});
+    //         }
+    //       }
+    //     },
+    //   );
+    // } else if (keyboardVisibilitySubscriberId3 != null) {
+    //   _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId3);
+    //   keyboardVisibilitySubscriberId3 = _keyboardVisibility.addNewListener(
+    //     onChange: (bool visible) {
+    //       if (numeroPaso == 4 || numeroPaso == 1) {
+    //         if (visible == false) {
+    //           print('$visible');
+    //           setState(() {});
+    //         }
+    //       }
+    //     },
+    //   );
+    // }
   }
 
   @protected
   void dispose() {
-    return _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId3);
+    // return _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId3);
   }
 
   void siguiente() async {
