@@ -1,7 +1,7 @@
 library my_prj.variables;
 
 // String urlGlobal = 'https://sienteapp.gestiondelriesgo.gov.co';
-String urlGlobal = 'http://backendavanzame.minenergia.gov.co/avanzame-ws';
+String urlGlobal = 'httpsFLUTT://backendavanzame.minenergia.gov.co/avanzame-ws';
 // String urlGlobal = 'http://13.59.62.87:7074';
 // String urlGlobal = 'https://sienteapp.gestiondelriesgo.gov.co';
 

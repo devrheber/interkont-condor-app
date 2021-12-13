@@ -6,7 +6,7 @@ import 'package:appalimentacion/vistas/reportarAvance/cuerpo/primerPaso/card_car
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+//import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:toast/toast.dart';
 
 final titleColor = Color(0xff444444);
@@ -21,43 +21,42 @@ class CardCuerpoPrimerPaso extends StatefulWidget {
 class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
   // Ingrese cantidad de avance por actividad
   String txtBuscarAvance = '';
-  KeyboardVisibilityNotification _keyboardVisibility =
-      new KeyboardVisibilityNotification();
+ 
   String otros;
 
   @protected
   void initState() {
     super.initState();
     loadToAvoidNullOperator(); 
-    if (keyboardVisibilitySubscriberId == null) {
-      print('escuchar teclado ');
-      keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
-        onChange: (bool visible) {
-          print(visible);
-          if (visible == false) {
-            print('ejecutar');
-            print('$visible');
-            setState(() {
-              otros = 'asd';
-            });
-          }
-        },
-      );
-    } else {
-      _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId);
-      keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
-        onChange: (bool visible) {
-          print(visible);
-          if (visible == false) {
-            print('ejecutar');
-            print('$visible');
-            setState(() {
-              otros = 'asd';
-            });
-          }
-        },
-      );
-    }
+    // if (keyboardVisibilitySubscriberId == null) {
+    //   print('escuchar teclado ');
+    //   keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
+    //     onChange: (bool visible) {
+    //       print(visible);
+    //       if (visible == false) {
+    //         print('ejecutar');
+    //         print('$visible');
+    //         setState(() {
+    //           otros = 'asd';
+    //         });
+    //       }
+    //     },
+    //   );
+    // } else {
+    //   _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId);
+    //   keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
+    //     onChange: (bool visible) {
+    //       print(visible);
+    //       if (visible == false) {
+    //         print('ejecutar');
+    //         print('$visible');
+    //         setState(() {
+    //           otros = 'asd';
+    //         });
+    //       }
+    //     },
+    //   );
+    // }
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:appalimentacion/vistas/reportarAvance/cuerpo/tercerPaso/card_car
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+//import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:toast/toast.dart';
 
 final titleColor = Color(0xff444444);
@@ -21,37 +21,37 @@ class CardCuerpoTercerPasoState extends State<CardCuerpoTercerPaso> {
   // Indicador de alcance
   String txtBuscarAlcance = '';
 
-  KeyboardVisibilityNotification _keyboardVisibility =
-      new KeyboardVisibilityNotification();
+  //KeyboardVisibilityNotification _keyboardVisibility =
+        //new KeyboardVisibilityNotification();
   @protected
   void initState() {
     super.initState();
 
-    if (keyboardVisibilitySubscriberId2 == null) {
-      print('escuchar teclado ');
-      keyboardVisibilitySubscriberId2 = _keyboardVisibility.addNewListener(
-        onChange: (bool visible) {
-          print(visible);
-          if (visible == false) {
-            print('ejecutar');
-            print('$visible');
-            setState(() {});
-          }
-        },
-      );
-    } else {
-      _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId2);
-      keyboardVisibilitySubscriberId2 = _keyboardVisibility.addNewListener(
-        onChange: (bool visible) {
-          print(visible);
-          if (visible == false) {
-            print('ejecutar');
-            print('$visible');
-            setState(() {});
-          }
-        },
-      );
-    }
+    // if (keyboardVisibilitySubscriberId2 == null) {
+    //   print('escuchar teclado ');
+    //   keyboardVisibilitySubscriberId2 = _keyboardVisibility.addNewListener(
+    //     onChange: (bool visible) {
+    //       print(visible);
+    //       if (visible == false) {
+    //         print('ejecutar');
+    //         print('$visible');
+    //         setState(() {});
+    //       }
+    //     },
+    //   );
+    // } else {
+    //   _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId2);
+    //   keyboardVisibilitySubscriberId2 = _keyboardVisibility.addNewListener(
+    //     onChange: (bool visible) {
+    //       print(visible);
+    //       if (visible == false) {
+    //         print('ejecutar');
+    //         print('$visible');
+    //         setState(() {});
+    //       }
+    //     },
+    //   );
+    // }
   }
 
   @override
