@@ -8,11 +8,8 @@ import 'package:appalimentacion/globales/ssl_solution.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:appalimentacion/vistas/login/login.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
