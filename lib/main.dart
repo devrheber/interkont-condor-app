@@ -1,4 +1,3 @@
- 
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
 import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
@@ -13,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 

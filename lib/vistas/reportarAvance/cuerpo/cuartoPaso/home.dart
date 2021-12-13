@@ -50,9 +50,9 @@ class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
                                       [posicionListaProyectosSeleccionado]
                                   ['datos']['txtComentario'] = value;
                               if (value.length > 1) {
-                                bool_estSegundoBtn_reportarAvance = false;
+                                boolestSegundoBtnreportarAvance = false;
                               } else {
-                                bool_estSegundoBtn_reportarAvance = true;
+                                boolestSegundoBtnreportarAvance = true;
                               }
                             },
                           ),
