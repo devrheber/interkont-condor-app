@@ -1,45 +1,36 @@
 library my_prj.variables;
 
-// String urlGlobal = 'https://sienteapp.gestiondelriesgo.gov.co';
-String urlGlobal = 'https://backendavanzame.minenergia.gov.co';
-// String urlGlobal = 'http://13.59.62.87:7074';
-// String urlGlobal = 'https://sienteapp.gestiondelriesgo.gov.co';
-
-// String urlGlobal = 'https://sienteapp.gestiondelriesgo.gov.co';
-// String urlGlobal = 'https://appcondor.car.gov.co';
-// String urlGlobalApiCondor = urlGlobal + '/siente3-ws';
-String urlGlobalApiCondor = urlGlobal + '/avanzame-ws';
-// String urlGlobalApiCondor = urlGlobal + '/siente3-ws';
-int posicionListaProyectosSeleccionado = 0;
-String txtBtnDesplegableAvanceCualitativo = '';
+bool boolestSegundoBtnreportarAvance = false;
+bool conexionInternet = true;
 int idAspectoEvaluar;
 int keyboardVisibilitySubscriberId;
 int keyboardVisibilitySubscriberId2;
 int keyboardVisibilitySubscriberId3; // DE TODA LA CARPETA DE REPORTAR AVANCE
-bool conexionInternet = true;
-bool boolestSegundoBtnreportarAvance = false;
+int posicionListaProyectosSeleccionado = 0;
 String numeroVersion = "1.0.0";
+String txtBtnDesplegableAvanceCualitativo = '';
+String urlGlobalApiCondor =  'https://backendavanzame.minenergia.gov.co/avanzame-ws';
 List contenidoWebService = [
   {
     'usuario': {'idUsu': '0', 'nombreUsu': 'demo', 'tokenUsu': 'token'},
     'proyectos': [
       {
-        "codigoproyecto": '',
-        "nombreproyecto": '',
-        "valorproyecto": '',
-        "valorejecutado": '',
-        "porcentajeProyectado": '',
-        "semaforoproyecto": '',
         "codigocategoria": '',
-        "imagencategoria": '',
+        "codigoproyecto": '',
         "colorcategoria": '',
-        "nombrecategoria": '',
-        "objeto": '',
         "contratista": '',
-        "pendienteAprobacion": '',
+        "imagencategoria": '',
+        "nombrecategoria": '',
+        "nombreproyecto": '',
+        "objeto": '',
         "paso": '', //CACHE
-        "ultimaFechaSincro": '', //CACHE
+        "pendienteAprobacion": '',
+        "porcentajeProyectado": '',
         "porPublicar": '', //CACHE
+        "semaforoproyecto": '',
+        "ultimaFechaSincro": '', //CACHE
+        "valorejecutado": '',
+        "valorproyecto": '',
         "datos": {
           "limitePorcentajeAtraso": '',
           "periodoIdSeleccionado": '', //CACHE
