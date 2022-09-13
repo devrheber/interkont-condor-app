@@ -1,6 +1,6 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=d:\flutter"
+export "FLUTTER_ROOT=C:\Users\USUARIO HP\fvm\versions\2.10.5"
 export "FLUTTER_APPLICATION_PATH=D:\RODMENSOFT\interkont-condor-app"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_TARGET=lib\main.dart"

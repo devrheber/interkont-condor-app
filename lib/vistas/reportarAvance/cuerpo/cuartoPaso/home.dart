@@ -39,7 +39,7 @@ class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          buildTextTitle(text: 'Descripción & Documentos'),
+                          TextTitle(text: 'Descripción & Documentos'),
                           SizedBox(height: 2.sp),
                           cajonTextoComentarios(
                             context,
@@ -57,18 +57,18 @@ class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
                             },
                           ),
                           SizedBox(height: 22.8.sp),
-                          buildTextSubtitle2(
+                          TextSubtitle2(
                             text:
                                 'Agregar una foto principal del avance (Obligatorio)',
                           ),
                           SizedBox(height: 23.15.sp),
                           MostrarFotoSubida(),
                             SizedBox(height: 22.8.sp),
-                            buildTextSubtitle2(
+                            TextSubtitle2(
                             text:
                                 'Agregar fotos complementarias (Max 5)',
                           ),
-                            buildTextSubtitle2(
+                            TextSubtitle2(
                             text:
                                 'Tambien puedes tomar una foto a tus documentos',
                           ),

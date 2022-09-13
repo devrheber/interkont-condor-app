@@ -112,7 +112,7 @@ class _TodoAppState extends State<TodoApp> {
             gradient: ColorTheme.backgroundGradient,
           ),
           child: Center(
-            child: buildLogoImg(),
+            child: LogoImg(),
           )),
     );
   }

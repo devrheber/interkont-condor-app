@@ -21,46 +21,20 @@ class CardCuerpoPrimerPaso extends StatefulWidget {
 class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
   // Ingrese cantidad de avance por actividad
   String txtBuscarAvance = '';
- 
+
   String otros;
 
   @protected
   void initState() {
     super.initState();
-    loadToAvoidNullOperator(); 
-    // if (keyboardVisibilitySubscriberId == null) {
-    //   print('escuchar teclado ');
-    //   keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
-    //     onChange: (bool visible) {
-    //       print(visible);
-    //       if (visible == false) {
-    //         print('ejecutar');
-    //         print('$visible');
-    //         setState(() {
-    //           otros = 'asd';
-    //         });
-    //       }
-    //     },
-    //   );
-    // } else {
-    //   _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId);
-    //   keyboardVisibilitySubscriberId = _keyboardVisibility.addNewListener(
-    //     onChange: (bool visible) {
-    //       print(visible);
-    //       if (visible == false) {
-    //         print('ejecutar');
-    //         print('$visible');
-    //         setState(() {
-    //           otros = 'asd';
-    //         });
-    //       }
-    //     },
-    //   );
-    // }
+    loadToAvoidNullOperator();
   }
 
   @override
   Widget build(BuildContext context) {
+    var proyectos = contenidoWebService[0]['proyectos'];
+    var actividades =
+        proyectos[posicionListaProyectosSeleccionado]['datos']['actividades'];
     return Stack(
       children: <Widget>[
         Container(
@@ -77,9 +51,9 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    buildTextTitle(text: 'Ingrese el avance'),
+                    TextTitle(text: 'Ingrese el avance'),
                     SizedBox(height: 2.sp),
-                    buildTextSubtitle(
+                    TextSubtitle(
                         text: 'Ingrese cantidad de avance por actividad'),
                   ],
                 ),
@@ -93,86 +67,51 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
                     },
                     onPressed: () => setState(() {})),
               ),
-
               SizedBox(height: 26.23.sp),
-
-             CarouselSlider(
-                      enableInfiniteScroll: false,
-                      enlargeCenterPage: true,
-                      height: 435.0.h,
-                      items: <Widget>[
-                        for (int cont = 0;
-                      cont <
-                          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades']
-                              .length;
-                      cont++)
-                    // if(lista[cont]['descripcionActividad'].indexOf(widget.txtBuscar.toUpperCase()) != -1 || lista[cont]['descripcionActividad'].indexOf(widget.txtBuscar.toLowerCase()) != -1  )
-                    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['descripcionActividad'].indexOf(txtBuscarAvance.toUpperCase()) != -1 ||
-                        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['descripcionActividad'].indexOf(txtBuscarAvance.toLowerCase()) !=
-                            -1)
+              CarouselSlider(
+                enableInfiniteScroll: false,
+                enlargeCenterPage: true,
+                height: 435.0.h,
+                items: <Widget>[
+                  for (int cont = 0; cont < actividades.length; cont++)
+                    if (descripcionActividad(actividades, cont))
                       cardCarousel1(
-                          () {
-                            // print(cont);
-                            if (cont == 0) {}
-                            // contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado']
-                          },
-                          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']
-                              ['actividades'][cont]['descripcionActividad'],
-                          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-                              ['datos']['actividades'][cont]['unidadMedida'],
-                          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-                              ['datos']['actividades'][cont]['valorUnitario'],
-                          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']
-                              ['actividades'][cont]['cantidadProgramada'],
-                          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-                              ['datos']['actividades'][cont]['valorProgramado'],
-                          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutada'],
-                          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorEjecutado'],
-                          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['porcentajeAvance'],
-                          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance'],
-                          (value) {
-                            if (double.parse('$value') < 0) {
-                              Toast.show(
-                                  "Lo sentimos, solo aceptamos numeros positivos",
-                                  context,
-                                  duration: 3,
-                                  gravity: Toast.BOTTOM);
-                            } else {
-                              print('positivo');
-                              contenidoWebService[0]['proyectos']
-                                          [posicionListaProyectosSeleccionado]
-                                      ['datos']['actividades'][cont]
-                                  ['txtActividadAvance'] = value;
-                              contenidoWebService[0]['proyectos']
-                                          [posicionListaProyectosSeleccionado]
-                                      ['datos']['actividades'][cont]
-                                  ['cantidadEjecutada'] = double.parse(
-                                      '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutadaInicial']}') +
-                                  double.parse('$value');
-                              contenidoWebService[0]['proyectos']
-                                          [posicionListaProyectosSeleccionado]
-                                      ['datos']['actividades'][cont]
-                                  ['valorEjecutado'] = double.parse(
-                                      '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['cantidadEjecutada']}') *
-                                  double.parse(
-                                      '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorUnitario']}');
-                              contenidoWebService[0]['proyectos']
-                                          [posicionListaProyectosSeleccionado]
-                                      ['datos']['actividades'][cont]
-                                  ['porcentajeAvance'] = double.parse(
-                                      '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorEjecutado']}') /
-                                  double.parse(
-                                      '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['valorProgramado']}') *
-                                  100;
-                              calcularValorEjecutado();
-                            }
-                          })
-                      ],
-                    ),
-
-              // CarouselAvances(
-              //   txtBuscar: txtBuscarAvance,
-              // )
+                        () {
+                          if (cont == 0) {}
+                        },
+                        actividades[cont]['descripcionActividad'],
+                        actividades[cont]['unidadMedida'],
+                        actividades[cont]['valorUnitario'],
+                        actividades[cont]['cantidadProgramada'],
+                        actividades[cont]['valorProgramado'],
+                        actividades[cont]['cantidadEjecutada'],
+                        actividades[cont]['valorEjecutado'],
+                        actividades[cont]['porcentajeAvance'],
+                        actividades[cont]['txtActividadAvance'],
+                        (value) {
+                          if (double.parse('$value') < 0) {
+                            Toast.show(
+                                "Lo sentimos, solo aceptamos numeros positivos",
+                                context,
+                                duration: 3,
+                                gravity: Toast.BOTTOM);
+                          } else {
+                            print('positivo');
+                            actividades[cont]['txtActividadAvance'] = value;
+                            actividades[cont]['cantidadEjecutada'] =
+                                sumCantidadEjecutadaValue(
+                                    actividades, cont, value);
+                            actividades[cont]['valorEjecutado'] =
+                                multCantidadEjecutadaValorUnitario(
+                                    actividades, cont);
+                            actividades[cont]['porcentajeAvance'] =
+                                calcPorcentajeAvanzado(actividades, cont);
+                            calcularValorEjecutado();
+                          }
+                        },
+                      )
+                ],
+              ),
             ],
           ),
         ),
@@ -180,10 +119,33 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
     );
   }
 
+  double calcPorcentajeAvanzado(actividades, int cont) {
+    return double.parse('${actividades[cont]['valorEjecutado']}') /
+        double.parse('${actividades[cont]['valorProgramado']}') *
+        100;
+  }
+
+  double multCantidadEjecutadaValorUnitario(actividades, int cont) {
+    return double.parse('${actividades[cont]['cantidadEjecutada']}') *
+        double.parse('${actividades[cont]['valorUnitario']}');
+  }
+
+  double sumCantidadEjecutadaValue(actividades, int cont, value) {
+    return double.parse('${actividades[cont]['cantidadEjecutadaInicial']}') +
+        double.parse('$value');
+  }
+
+  bool descripcionActividad(dynamic actividades, int cont) {
+    return actividades[cont]['descripcionActividad']
+                .indexOf(txtBuscarAvance.toUpperCase()) !=
+            -1 ||
+        actividades[cont]['descripcionActividad']
+                .indexOf(txtBuscarAvance.toLowerCase()) !=
+            -1;
+  }
+
   Future<void> loadToAvoidNullOperator() async {
     await Future.delayed(Duration(seconds: 2));
-    setState(() {
-     
-    });
+    setState(() {});
   }
 }

@@ -9,7 +9,8 @@ int keyboardVisibilitySubscriberId3; // DE TODA LA CARPETA DE REPORTAR AVANCE
 int posicionListaProyectosSeleccionado = 0;
 String numeroVersion = "1.0.0";
 String txtBtnDesplegableAvanceCualitativo = '';
-String urlGlobalApiCondor =  'https://backendavanzame.minenergia.gov.co/avanzame-ws';
+String urlGlobalApiCondor =  'https://avanzamepruebas.minenergia.gov.co/avanzame-ws';
+// String urlGlobalApiCondor =  'https://backendavanzame.minenergia.gov.co/avanzame-ws';
 List contenidoWebService = [
   {
     'usuario': {'idUsu': '0', 'nombreUsu': 'demo', 'tokenUsu': 'token'},

@@ -57,16 +57,16 @@ class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    buildTextTitle(text: 'Avance Cualitativo'),
+                    TextTitle(text: 'Avance Cualitativo'),
                     SizedBox(height: 2.sp),
-                    buildTextSubtitle(
+                    TextSubtitle(
                         text: '¿Qué logros y dificultades se presentaron?'),
                     SizedBox(height: 18.sp),
                     SeleccionarAvance(),
                     cajonTexto(
                         'Ingrese los logros',
                         'Acá puede agregar los logros que obtuvo el proyecto...',
-                        true, (texto) {
+                        true, (texto) { 
                       setState(
                         () {
                           txtLogro = texto;

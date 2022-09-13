@@ -77,9 +77,9 @@ class CardCuerpoTercerPasoState extends State<CardCuerpoTercerPaso> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          buildTextTitle(text: 'Indicador de alcance'),
+                          TextTitle(text: 'Indicador de alcance'),
                           SizedBox(height: 2.sp),
-                          buildTextSubtitle(
+                          TextSubtitle(
                               text:
                                   'Ingrese indicadores de alcance en el periodo'),
                         ],

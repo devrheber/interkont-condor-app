@@ -22,8 +22,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String usuario = '';
-  String contrasena = '';
+  TextEditingController usuario = TextEditingController();
+  TextEditingController contrasena = TextEditingController();
   SharedPreferences prefs;
   bool loading = false;
 
@@ -32,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+
     obtener();
   }
 
@@ -40,14 +41,13 @@ class _LoginPageState extends State<LoginPage> {
     print('Estado login:');
     print(prefs.getInt('estadoLogin'));
     setState(() {
-      // estadoLogin = prefs.getInt('estadoLogin');
+      usuario.text = 'interkont@2';
+      contrasena.text = '45911804';
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // txt_usuario = 'interkont@2';
-    // txt_contrasena = '45911804';
     return new Scaffold(
       body: Container(
         height: double.infinity,
@@ -67,31 +67,35 @@ class _LoginPageState extends State<LoginPage> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          buildSizedBox(height: 169.0),
-                          buildLogoImg(
+                          BuildSizedBox(height: 169.0),
+                          LogoImg(
                             assetImageRoute: "assets/new/login/logo.png",
                             width: 234,
                             height: 209.95,
                           ),
-                          buildSizedBox(height: 99.05),
-                          buildCustomedTextfield(
-                            hintText: "Usuario",
-                            imageIcon: 'assets/new/login/account_circle.png',
-                            keyboardType: TextInputType.emailAddress,
-                            onChanged: (texto) {
-                              usuario = texto;
-                            },
+                          BuildSizedBox(height: 99.05),
+                          Container(
+                            child: CustomedTextField(
+                              controller: usuario,
+                              hintText: "Usuario",
+                              imageIcon: 'assets/new/login/account_circle.png',
+                              keyboardType: TextInputType.emailAddress,
+                              onChanged: (texto) {
+                                // usuario = texto;
+                              },
+                            ),
                           ),
-                          buildCustomedTextfield(
+                          CustomedTextField(
+                            controller: contrasena,
                             obscureText: true,
                             hintText: "Contraseña",
                             keyboardType: TextInputType.visiblePassword,
                             onChanged: (texto) {
-                              contrasena = texto;
+                              // contrasena = texto;
                             },
                             imageIcon: 'assets/new/login/lock_circle.png',
                           ),
-                          buildSizedBox(height: 12),
+                          BuildSizedBox(height: 12),
                           Container(
                             height: 58.sp,
                             width: 350.sp,
@@ -99,10 +103,9 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.sp),
                             ),
-                            child: RaisedButton(
-                              elevation: 0,
+                            child: ElevatedButton(
                               onPressed: () {
-                                return validarLogin();
+                                validarLogin();
                                 // Navigator.push(
                                 //   context,
                                 //   MaterialPageRoute(
@@ -112,7 +115,13 @@ class _LoginPageState extends State<LoginPage> {
                                 //   ),
                                 // );
                               },
-                              padding: EdgeInsets.all(0.0),
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.sp),
+                                ),
+                              ),
+                              // padding: EdgeInsets.all(0.0),
                               child: Ink(
                                 decoration: BoxDecoration(
                                   gradient: ColorTheme.buttonGradient,
@@ -157,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             height: 43.sp,
                           ),
-                          buildFooterImg(
+                          FooterImg(
                             width: 259.57,
                             height: 87,
                           ),
@@ -199,7 +208,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   validarLogin() async {
-    
     setState(() {
       estadoLogin = null;
       loading = true;
@@ -207,10 +215,13 @@ class _LoginPageState extends State<LoginPage> {
     String url = "$urlGlobalApiCondor/login";
     prefs = await SharedPreferences.getInstance();
 
-    var body = {"usuario": "$usuario", "contrasena": "$contrasena"};
+    var body = {
+      "usuario": "${usuario.text}",
+      "contrasena": "${contrasena.text}"
+    };
 
     try {
-      HttpClient client = new HttpClient();
+      HttpClient client = new HttpClient(); 
       client.badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
       var request = await client.postUrl(Uri.parse(url));
@@ -235,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
       if (respuesta == true) {
         contenidoWebService[0]['usuario']['tokenUsu'] =
             response.headers['authorization'][0];
-        contenidoWebService[0]['usuario']['nombreUsu'] = "$usuario";
+        contenidoWebService[0]['usuario']['nombreUsu'] = "${usuario.text}";
         await obtenerListaProyectos();
         await prefs.setString(
             'contenidoWebService', jsonEncode(contenidoWebService));
