@@ -91,10 +91,18 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
                         (value) {
                           if (double.parse('$value') < 0) {
                             Toast.show(
-                                "Lo sentimos, solo aceptamos numeros positivos",
-                                context,
-                                duration: 3,
-                                gravity: Toast.BOTTOM);
+                              "Lo sentimos, solo aceptamos numeros positivos",
+                              context,
+                              duration: 3,
+                              gravity: Toast.BOTTOM,
+                            );
+                          } else if (double.parse('$value') > 100) {
+                            Toast.show( 
+                              "El valor ejecutado de la actividad no puede superar el 100%",
+                              context,
+                              duration: 3,
+                              gravity: Toast.BOTTOM,
+                            );
                           } else {
                             print('positivo');
                             actividades[cont]['txtActividadAvance'] = value;

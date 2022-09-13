@@ -1,3 +1,4 @@
+import 'package:appalimentacion/helpers/decimal_formatter.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,7 +54,7 @@ Widget cardCarousel1(
             textAlign: TextAlign.center),
         SizedBox(height: 16.93.sp),
         Text(
-          'Ingresa el avance',
+          'Ingresa el % de avance para el presente reporte',
           style: TextStyle(
             fontSize: 12.18.sp,
             color: Colors.white,
@@ -89,6 +90,9 @@ Widget cardCarousel1(
                       decimal: true,
                       signed: false,
                     ),
+                    inputFormatters: [
+                      DecimalTextInputFormatter(decimalRange: 2),
+                    ],
                     controller: controllerPrimerPasoTxtAvance,
                     onChanged: accion,
                     textAlign: TextAlign.center,
@@ -110,43 +114,64 @@ Widget cardCarousel1(
             ],
           ),
         ),
-        SizedBox(height: 50.88.sp),
+        Spacer(),
         Column(
           children: <Widget>[
             _Celdas(
-              label: 'Unidad de medida',
-              value: unidadMedida,
+              label: 'Ejecutado Actual',
+              value: '55%',
               isNumericVariable: false,
             ),
             _Celdas(
-              label: 'Valor Unitario',
-              value: '\$ $valorUnitario',
-            ),
-            _Celdas(
-              label: 'Cant. Programada',
-              value: '$cantidadProgramada',
-            ),
-            _Celdas(
-              label: 'Valor Programado',
-              value: '\$ $valorProgramado',
-            ),
-            _Celdas(
-              label: 'Cant. Ejecutada',
-              value: '$cantidadEjecutada',
-              bold: true,
-            ),
-            _Celdas(
-              label: 'Valor Ejecutado',
-              value: '\$ $valorEjecutado',
-              bold: true,
+              label: 'Avance del presente reporte',
+              value: '30%',
+              isNumericVariable: false,
             ),
             _Celdas(
               label: 'Avance a hoy',
-              value: '$porcentajeAvance %',
-              bold: true,
+              value: '75%',
+              isNumericVariable: false,
             ),
+            _Celdas(
+              label: 'Faltante por ejecutar',
+              value: '15%',
+              isNumericVariable: false,
+            ),
+            // _Celdas(
+            //   label: 'Unidad de medida',
+            //   value: unidadMedida,
+            //   isNumericVariable: false,
+            // ),
+            // _Celdas(
+            //   label: 'Valor Unitario',
+            //   value: '\$ $valorUnitario',
+            // ),
+            // _Celdas(
+            //   label: 'Cant. Programada',
+            //   value: '$cantidadProgramada',
+            // ),
+            // _Celdas(
+            //   label: 'Valor Programado',
+            //   value: '\$ $valorProgramado',
+            // ),
+            // _Celdas(
+            //   label: 'Cant. Ejecutada',
+            //   value: '$cantidadEjecutada',
+            //   bold: true,
+            // ),
+            // _Celdas(
+            //   label: 'Valor Ejecutado',
+            //   value: '\$ $valorEjecutado',
+            //   bold: true,
+            // ),
+            // _Celdas(
+            //   label: 'Avance a hoy',
+            //   value: '$porcentajeAvance %',
+            //   bold: true,
+            // ),
           ],
-        )
+        ),
+        Spacer(),
       ],
     ),
   );
@@ -203,6 +228,7 @@ class _Celdas extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
+            flex: 3,
             child: Text(
               label,
               style: TextStyle(
