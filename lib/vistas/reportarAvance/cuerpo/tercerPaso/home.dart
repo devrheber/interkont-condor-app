@@ -1,7 +1,8 @@
+import 'package:appalimentacion/theme/color_theme.dart';
+import 'package:appalimentacion/vistas/reportarAvance/cuerpo/tercerPaso/local_widgets/rendimiento_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-//import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../globales/title_subtitle.dart';
@@ -18,45 +19,20 @@ class CardCuerpoTercerPaso extends StatefulWidget {
 }
 
 class CardCuerpoTercerPasoState extends State<CardCuerpoTercerPaso> {
-// class CardCuerpoTercerPaso extends StatelessWidget {
-  // Indicador de alcance
   String txtBuscarAlcance = '';
-
-  //KeyboardVisibilityNotification _keyboardVisibility =
-        //new KeyboardVisibilityNotification();
+  TextEditingController fechaReintegroController = TextEditingController();
+  TextEditingController valorGeneradoController = TextEditingController();
+  TextEditingController valorMesActualController = TextEditingController();
+  TextEditingController valorMesVencidoController = TextEditingController();
   @protected
   void initState() {
     super.initState();
-
-    // if (keyboardVisibilitySubscriberId2 == null) {
-    //   print('escuchar teclado ');
-    //   keyboardVisibilitySubscriberId2 = _keyboardVisibility.addNewListener(
-    //     onChange: (bool visible) {
-    //       print(visible);
-    //       if (visible == false) {
-    //         print('ejecutar');
-    //         print('$visible');
-    //         setState(() {});
-    //       }
-    //     },
-    //   );
-    // } else {
-    //   _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId2);
-    //   keyboardVisibilitySubscriberId2 = _keyboardVisibility.addNewListener(
-    //     onChange: (bool visible) {
-    //       print(visible);
-    //       if (visible == false) {
-    //         print('ejecutar');
-    //         print('$visible');
-    //         setState(() {});
-    //       }
-    //     },
-    //   );
-    // }
   }
 
   @override
   Widget build(BuildContext context) {
+    var indAlcance = contenidoWebService[0]['proyectos']
+        [posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'];
     return Stack(
       children: <Widget>[
         Container(
@@ -86,63 +62,98 @@ class CardCuerpoTercerPasoState extends State<CardCuerpoTercerPaso> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 18.sp), 
-                    CarouselSlider(
-                       options: CarouselOptions(
-       enableInfiniteScroll: false,
-                      enlargeCenterPage: true,
-                      height: 350.h,
-      ),
-                    
-                      items: <Widget>[ 
-                        for (int cont = 0;
-                            cont <
-                                contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-                                        ['datos']['indicadoresAlcance']
-                                    .length;
-                            cont++)
-                          cardCarousel3(
-                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-                                      ['datos']['indicadoresAlcance'][cont]
-                                  ['descripcionIndicadorAlcance'],
-                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']
-                                  ['indicadoresAlcance'][cont]['unidadMedida'],
-                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-                                      ['datos']['indicadoresAlcance'][cont]
-                                  ['cantidadProgramada'],
-                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']
-                                  ['indicadoresAlcance'][cont]['cantidadEjecutada'],
-                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['porcentajeAvance'],
-                              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'], (value) {
-                            if (double.parse('$value') < 0) {
-                              Toast.show(
-                                  "Lo sentimos, solo aceptamos numeros positivos",
-                                  context,
-                                  duration: 3,
-                                  gravity: Toast.BOTTOM);
-                            } else {
-                              contenidoWebService[0]['proyectos']
-                                          [posicionListaProyectosSeleccionado]
-                                      ['datos']['indicadoresAlcance'][cont]
-                                  ['txtEjecucionIndicadorAlcance'] = value;
-                              contenidoWebService[0]['proyectos']
-                                          [posicionListaProyectosSeleccionado]
-                                      ['datos']['indicadoresAlcance'][cont]
-                                  ['cantidadEjecutada'] = double.parse(
-                                      '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadEjecutadaInicial']}') +
-                                  double.parse('$value');
-                              contenidoWebService[0]['proyectos']
-                                          [posicionListaProyectosSeleccionado]
-                                      ['datos']['indicadoresAlcance'][cont]
-                                  ['porcentajeAvance'] = double.parse(
-                                      '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadEjecutada']}') /
-                                  double.parse(
-                                      '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['cantidadProgramada']}') *
-                                  100;
-                            }
-                          })
-                      ],
-                    )
+                    SizedBox(height: 18.sp),
+                    Visibility(
+                      visible: indAlcance.isNotEmpty,
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          enableInfiniteScroll: false,
+                          enlargeCenterPage: true,
+                          height: 350.h,
+                        ),
+                        items: <Widget>[
+                          ...indAlcance.map(
+                            (alcance) {
+                              return cardCarousel3(
+                                alcance['descripcionIndicadorAlcance'],
+                                alcance['unidadMedida'],
+                                alcance['cantidadProgramada'],
+                                alcance['cantidadEjecutada'],
+                                alcance['porcentajeAvance'],
+                                alcance['txtEjecucionIndicadorAlcance'],
+                                (value) {
+                                  if (double.parse('$value') < 0) {
+                                    Toast.show(
+                                        "Lo sentimos, solo aceptamos numeros positivos",
+                                        context,
+                                        duration: 3,
+                                        gravity: Toast.BOTTOM);
+                                  }
+                                  alcance['txtEjecucionIndicadorAlcance'] =
+                                      value;
+                                  var cantidadEjecutadaInicial =
+                                      alcance['cantidadEjecutadaInicial'];
+                                  alcance['cantidadEjecutada'] = double.parse(
+                                          '$cantidadEjecutadaInicial') +
+                                      double.parse('$value');
+                                  var cantidadEjecutada =
+                                      alcance['cantidadEjecutada'];
+                                  var cantidadProgramada =
+                                      alcance['cantidadProgramada'];
+                                  alcance['porcentajeAvance'] =
+                                      double.parse('$cantidadEjecutada') /
+                                          double.parse('$cantidadProgramada') *
+                                          100;
+                                },
+                              );
+                            },
+                          ).toList(),
+                        ],
+                      ),
+                    ),
+                    RendimientoCard(
+
+                        //* quitar el simbolo de la moneda y punto decimal
+                        //* if (!isDate) {
+                        //*   var valueWithoutSymbol = value.replaceAll('\COP', '');
+                        //*   var valueWithoutSymbolAndDecimal =
+                        //*       valueWithoutSymbol.replaceAll('.', '');
+                        //*   var valueWithoutSymbolAndDecimalAndComma =
+                        //*       valueWithoutSymbolAndDecimal.replaceAll(',', '.');
+                        //*   print(valueWithoutSymbolAndDecimalAndComma);
+                        //* }
+                        //***************************************************/
+                        fechaReintegroController: fechaReintegroController,
+                        valorGeneradoController: valorGeneradoController,
+                        valorMesActualController: valorMesActualController,
+                        valorMesVencidoController: valorMesVencidoController,
+                        onFechaReintegroTap: () async {
+                          await showDatePicker(
+                            context: context,
+                            locale: const Locale('es', 'CO'),
+                            builder: (BuildContext context, Widget child) {
+                              return Theme(
+                                data: ThemeData.light().copyWith(
+                                  colorScheme:
+                                      const ColorScheme.light().copyWith(
+                                    primary: ColorTheme.primaryTint,
+                                  ),
+                                ),
+                                child: child,
+                              );
+                            },
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2101),
+                          ).then((date) {
+                            if (date == null) return;
+                            String fecha = date.toString().split(' ')[0];
+                            List<String> fechaSplit = fecha.split('-');
+                            String fechaFormateada =
+                                '${fechaSplit[2]}/${fechaSplit[1]}/${fechaSplit[0]}';
+                            fechaReintegroController.text = fechaFormateada;
+                          });
+                        }),
                   ],
                 ),
               ),

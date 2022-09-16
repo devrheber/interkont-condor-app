@@ -1,10 +1,11 @@
+import 'package:appalimentacion/utils/assets/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LogoImg extends StatelessWidget {
   const LogoImg({
     Key key,
-    this.assetImageRoute = 'assets/new/splash/logo.gif',
+    this.assetImageRoute = Assets.assetsNewSplashLogoAnimated,
     this.width = 142.0,
     this.height = 142.0,
   }) : super(key: key);
@@ -23,17 +24,16 @@ class LogoImg extends StatelessWidget {
   }
 }
 
-
 class FooterImg extends StatelessWidget {
   const FooterImg({
     Key key,
-    this.assetImageRoute = 'assets/new/login/footer.png',
+    this.assetImageRoute = Assets.assetsNewLoginFooter,
     this.width = 142.0,
     this.height = 142.0,
   }) : super(key: key);
   final String assetImageRoute;
   final double width;
-  final double height; 
+  final double height;
 
   @override
   Widget build(BuildContext context) {

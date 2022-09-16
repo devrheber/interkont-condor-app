@@ -1,3 +1,5 @@
+import 'package:appalimentacion/translation/localizations_delegates.dart';
+import 'package:appalimentacion/translation/supported_locales.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +25,8 @@ void main() {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: TodoApp(),
+          localizationsDelegates: LocalizationDelegates.delegates,
+          supportedLocales: SupportedLocales.locale,
           theme: ThemeData(
             fontFamily: 'WorkSans',
             textTheme: AppTheme.textTheme,

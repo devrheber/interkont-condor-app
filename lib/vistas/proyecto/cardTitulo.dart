@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:appalimentacion/utils/assets/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -314,7 +315,7 @@ class SyncImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      "assets/new/home/sync.png",
+      Assets.assetsNewHomeSync,
       width: 19.2.sp,
       height: 19.2.sp,
     );

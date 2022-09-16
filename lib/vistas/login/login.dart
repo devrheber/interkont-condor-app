@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:appalimentacion/utils/assets/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -70,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                         children: <Widget>[
                           BuildSizedBox(height: 169.0),
                           LogoImg(
-                            assetImageRoute: "assets/new/login/logo.png",
+                            assetImageRoute: Assets.assetsNewLoginLogo,
                             width: 234,
                             height: 209.95,
                           ),
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: CustomedTextField(
                               controller: usuario,
                               hintText: "Usuario",
-                              imageIcon: 'assets/new/login/account_circle.png',
+                              imageIcon: Assets.assetsNewLoginAccountCircle,
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (texto) {
                                 // usuario = texto;
@@ -94,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                             onChanged: (texto) {
                               // contrasena = texto;
                             },
-                            imageIcon: 'assets/new/login/lock_circle.png',
+                            imageIcon: Assets.assetsNewLoginLockCircle,
                           ),
                           BuildSizedBox(height: 12),
                           Container(

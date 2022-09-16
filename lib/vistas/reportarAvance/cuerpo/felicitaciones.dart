@@ -39,7 +39,7 @@ class _FelicitacionesState extends State<Felicitaciones> {
               children: <Widget>[
                 SizedBox(height: 100.h),
                 Image(
-                  image: AssetImage('assets/new/home/congrats.png'),
+                  image: AssetImage('assets/new/home/congrats_check.png'),
                   width: 44.sp,
                   height: 44.sp,
                 ),

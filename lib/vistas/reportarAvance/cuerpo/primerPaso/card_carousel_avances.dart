@@ -5,33 +5,9 @@ import 'package:intl/intl.dart';
 import '../../../../helpers/decimal_formatter.dart';
 import '../../../../theme/color_theme.dart';
 
-// Widget cardCarousel1(
-//     void Function() calcularPorcentajeValorEjecutado,
-//     String descripcionActividad,
-//     String unidadMedida,
-//     double valorUnitario,
-//     double cantidadProgramada,
-//     double valorProgramado,
-//     double cantidadEjecutada,
-//     double valorEjecutado,
-//     double porcentajeAvance,
-//     String txtActividadAvance,
-//     void Function(String) accion) {
-//   calcularPorcentajeValorEjecutado();
-//   TextEditingController controllerPrimerPasoTxtAvance = TextEditingController();
-
-//   if (txtActividadAvance != null && txtActividadAvance != '') {
-//     controllerPrimerPasoTxtAvance.text = txtActividadAvance;
-//   } else {}
-
-//   return CardCarouselAvances(
-//       controllerPrimerPasoTxtAvance: controllerPrimerPasoTxtAvance);
-// }
-
 class CardCarouselAvances extends StatelessWidget {
   const CardCarouselAvances({
     Key key,
-    
     @required this.calcularPorcentajeValorEjecutado,
     @required this.descripcionActividad,
     @required this.unidadMedida,
@@ -45,7 +21,6 @@ class CardCarouselAvances extends StatelessWidget {
     @required this.accion,
   }) : super(key: key);
 
- 
   final void Function() calcularPorcentajeValorEjecutado;
   final String descripcionActividad;
   final String unidadMedida;
@@ -60,10 +35,11 @@ class CardCarouselAvances extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controllerPrimerPasoTxtAvance = TextEditingController();
-      if (txtActividadAvance != null && txtActividadAvance != '') {
-    controllerPrimerPasoTxtAvance.text = txtActividadAvance;
-  }
+    TextEditingController controllerPrimerPasoTxtAvance =
+        TextEditingController();
+    if (txtActividadAvance != null && txtActividadAvance != '') {
+      controllerPrimerPasoTxtAvance.text = txtActividadAvance;
+    }
     return Container(
       decoration: BoxDecoration(
         boxShadow: [

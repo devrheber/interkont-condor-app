@@ -91,7 +91,7 @@ class _FactorWidget extends StatelessWidget {
         ),
         Expanded(
           flex: 4,
-          child: Text(
+          child: Text( 
             text,
             style: AppTheme.parrafoBlanco,
             textAlign: TextAlign.justify,

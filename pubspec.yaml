@@ -15,22 +15,25 @@ version: 1.0.1+4
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
- 
+
 dependencies:
   auto_size_text: ^2.1.0
   beauty_textfield: ^0.0.1
   cached_network_image: ^2.3.1
   carousel_slider: ^3.0.0
   cupertino_icons: ^0.1.2
+  currency_text_input_formatter: ^1.0.5
   date_format: ^1.0.8
   flutter:
     sdk: flutter
   flutter_keyboard_visibility: ^5.1.0
+  flutter_localizations:
+    sdk: flutter
   flutter_screenutil: ^4.0.4+1
   font_awesome_flutter: ^8.8.1
   http: any
   image_picker: ^0.8.4
-  intl: ^0.16.1
+  intl: ^0.17.0
   page_transition: ^1.1.7+6
   path_provider: ^2.0.3
   percent_indicator: ^2.1.1
@@ -38,9 +41,8 @@ dependencies:
   shared_preferences: ^2.0.7
   toast: ^0.1.5
 
-dependency_overrides:
-  platform: ^3.1.0
-
+# dependency_overrides:
+#   platform: ^3.1.0
 dev_dependencies:
   flutter_launcher_icons: "^0.8.1"
   flutter_test:
@@ -50,6 +52,12 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/new/icon/ios_icon.png"
+
+flutter_assets:
+  assets_path: assets/
+  output_path: lib/utils/assets
+  package: module_home
+  compress_images: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
