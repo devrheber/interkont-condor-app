@@ -1,12 +1,12 @@
-import 'package:appalimentacion/globales/funciones/logout.dart';
-import 'package:appalimentacion/globales/transicion.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../globales/funciones/logout.dart';
+import '../../globales/transicion.dart';
+import '../../globales/variables.dart';
 import '../../theme/color_theme.dart';
+import '../../vistas/login/login.dart';
 
 class FondoHome extends StatefulWidget {
   final Widget contenido;
@@ -37,7 +37,7 @@ class FondoHomeState extends State<FondoHome> {
             children: <Widget>[
               Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.transparent,
                       border: Border(
                           bottom: BorderSide(color: Colors.black, width: 0.1))),
                   child: Row(
@@ -94,8 +94,10 @@ class FondoHomeState extends State<FondoHome> {
                       color: Color(0xFF566B8C),
                     ),
                   ),
-                  onTap: () {
-                    logout();
+                  onTap: () async { 
+                    //cerrar drawerkey
+                    Navigator.pop(context);
+                    await logout();
                     cambiarPagina(context, LoginPage());
                   },
                 ),
@@ -114,7 +116,6 @@ class FondoHomeState extends State<FondoHome> {
                     bottomLeft: Radius.circular(15.sp),
                     bottomRight: Radius.circular(15.sp)),
                 gradient: ColorTheme.backgroundGradient,
-             
               ),
             ),
             widget.contenido,

@@ -1,4 +1,4 @@
-import 'package:appalimentacion/globales/variables.dart';
+import '../variables.dart';
 
 calcularValorEjecutado()
 {

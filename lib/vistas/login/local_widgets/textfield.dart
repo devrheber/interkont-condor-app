@@ -1,6 +1,7 @@
-import 'package:appalimentacion/globales/sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../globales/sized_box.dart';
 
 class CustomedTextField extends StatelessWidget {
   final TextEditingController controller;

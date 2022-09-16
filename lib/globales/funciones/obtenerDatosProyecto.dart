@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
-import 'package:appalimentacion/widgets/respuestaHttp.dart';
-import 'package:http/http.dart' as http;
-import 'package:appalimentacion/globales/variables.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../widgets/respuestaHttp.dart';
+import '../variables.dart';
+import 'actualizarProyectos.dart';
 
 obtenerDatosProyecto(codigoProyecto, bool actualizarCache)
 async {

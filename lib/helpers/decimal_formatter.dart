@@ -42,9 +42,9 @@ class DecimalTextInputFormatter extends TextInputFormatter {
           baseOffset: math.min(truncated.length, truncated.length + 1),
           extentOffset: math.min(truncated.length, truncated.length + 1),
         );
-      }
+      } 
     }
-    if (value.contains(" ") || value.contains("-")) {
+    if (value.contains(" ") || value.contains("-") || (double.tryParse(value) != null && double.parse(value) > 100)) {
       truncated = oldValue.text;
       newSelection = oldValue.selection;
     }

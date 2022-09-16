@@ -1,9 +1,10 @@
 
 import 'dart:convert';
-import 'package:appalimentacion/globales/funciones/calcularValorEjecutado.dart';
-import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
-import 'package:appalimentacion/globales/variables.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../variables.dart';
+import 'calcularValorEjecutado.dart';
 
 void actualizarProyectos()
 async{

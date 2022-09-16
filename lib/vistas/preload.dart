@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/listaProyectos/home.dart';
-import 'package:appalimentacion/vistas/login/login.dart';
-import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../globales/funciones/obtenerListaProyectos.dart';
+import '../globales/variables.dart';
+import '../widgets/respuestaHttp.dart';
+import 'listaProyectos/home.dart';
+import 'login/login.dart';
 
 class Preload extends StatefulWidget {
   final String txt_usuario;
@@ -147,7 +148,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width,
+        width: double.infinity,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(

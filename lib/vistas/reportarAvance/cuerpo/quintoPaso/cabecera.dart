@@ -1,8 +1,9 @@
-import 'package:appalimentacion/globales/customed_app_bar.dart';
-import 'package:appalimentacion/globales/funciones/calcularValorEjecutado.dart';
-import 'package:appalimentacion/globales/transicion.dart';
-import 'package:appalimentacion/vistas/proyecto/home.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../globales/customed_app_bar.dart';
+import '../../../../globales/funciones/calcularValorEjecutado.dart';
+import '../../../../globales/transicion.dart';
+import '../../../proyecto/home.dart';
 
 class CardHeadReporteAvanceQuintoPaso extends StatefulWidget {
   final int numeroPaso;

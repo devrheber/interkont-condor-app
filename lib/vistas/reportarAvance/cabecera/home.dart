@@ -1,10 +1,11 @@
-import 'package:appalimentacion/globales/customed_app_bar.dart';
-import 'package:appalimentacion/globales/transicion.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/proyecto/home.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cabecera/cardHead.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../globales/customed_app_bar.dart';
+import '../../../globales/transicion.dart';
+import '../../../globales/variables.dart';
+import '../../proyecto/home.dart';
+import 'cardHead.dart';
 
 class CardHeadReporteAvance extends StatefulWidget {
   final int numeroPaso;

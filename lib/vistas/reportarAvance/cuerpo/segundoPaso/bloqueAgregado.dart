@@ -10,7 +10,7 @@ Widget bloqueAgregado(
     color: Color(0xff556a8d),
   );
   return Container(
-      width: MediaQuery.of(context).size.width,
+      width: double.infinity,
       margin: EdgeInsets.only(top: 10.0),
       padding: EdgeInsets.only(
         left: 18.26.sp,

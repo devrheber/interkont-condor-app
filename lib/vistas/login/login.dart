@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
-import 'package:appalimentacion/globales/logo.dart';
-import 'package:appalimentacion/globales/sized_box.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/theme/color_theme.dart';
-import 'package:appalimentacion/vistas/listaProyectos/home.dart';
-import 'package:appalimentacion/vistas/login/local_widgets/textfield.dart';
-import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../globales/colores.dart';
+import '../../globales/funciones/obtenerListaProyectos.dart';
+import '../../globales/logo.dart';
+import '../../globales/sized_box.dart';
+import '../../globales/variables.dart';
+import '../../theme/color_theme.dart';
+import '../../widgets/respuestaHttp.dart';
+import '../listaProyectos/home.dart';
+import 'local_widgets/textfield.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -42,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
     print(prefs.getInt('estadoLogin'));
     setState(() {
       usuario.text = 'interkont@2';
-      contrasena.text = '45911804';
+      contrasena.text = 'Int4rkont*_22'; 
     });
   }
 
@@ -216,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
     prefs = await SharedPreferences.getInstance();
 
     var body = {
-      "usuario": "${usuario.text}",
+      "usuario": "${usuario.text}", 
       "contrasena": "${contrasena.text}"
     };
 

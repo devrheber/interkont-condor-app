@@ -1,60 +1,71 @@
-import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
-import 'package:appalimentacion/globales/funciones/cambiarFormatoFecha.dart';
-import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
-import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/proyecto/cardTitulo.dart';
-import 'package:appalimentacion/vistas/proyecto/cuerpo.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
+import '../../globales/funciones/actualizarProyectos.dart';
+import '../../globales/funciones/cambiarFormatoFecha.dart';
+import '../../globales/funciones/obtenerDatosProyecto.dart';
+import '../../globales/funciones/obtenerListaProyectos.dart';
+import '../../globales/variables.dart';
+import 'cardTitulo.dart';
+import 'cuerpo.dart';
+
 final titleColor = Color(0xff444444);
 
 class ContenidoProyecto extends StatefulWidget {
-  final actualizarEstadoHome;
-  ContenidoProyecto({Key key, this.actualizarEstadoHome}) : super(key: key);
+  ContenidoProyecto({
+    Key key,
+  }) : super(key: key);
 
   @override
   ContenidoProyectoState createState() => ContenidoProyectoState();
 }
 
-class ContenidoProyectoState extends State<ContenidoProyecto> {
+class ContenidoProyectoState extends State<ContenidoProyecto>
+    with TickerProviderStateMixin {
   int ultimaSincro;
-
-  activarUltimaSincronizacion() async {
+  AnimationController _animationController;
+  void activarUltimaSincronizacion() async {
+    //**CUANDO EL CONTROLADOR SE ESTÁ ANIMANDO RETORNA NULL PARA QUE NO SE EJECUTE EL CÓDIGO DE ABAJO
+    if (_animationController != null && _animationController.isAnimating)
+      return;
+    String ultimaSincroFecha = contenidoWebService[0]['proyectos']
+        [posicionListaProyectosSeleccionado]['ultimaFechaSincro'];
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    );
+    setState(() {});
+    _animationController.repeat();
     await obtenerListaProyectos();
-    await actualizarProyectos();
+    actualizarProyectos();
     var respuesta = await obtenerDatosProyecto(
         contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
             ['codigoproyecto'],
         true);
+    _animationController.reset();
+    _animationController.stop();
+    //**SE DESTRUYE EL CONTROLADOR PARA QUE SE PUEDA VOLVER A INICIAR LA ANIMACION CUANDO SE VUELVA A LLAMAR EL METODO
+    _animationController.dispose();
+    setState(() {});
     if (respuesta) {
       setState(() {
         ultimaSincro = 1;
         var fechaActual = DateTime.now();
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-                ['ultimaFechaSincro'] =
-            '${cambiarFormatoFecha(formatDate(fechaActual, [
-          M,
-          " ",
-          d,
-          " ",
-          yyyy,
-          " ",
-          H,
-          ':',
-          nn
-        ]))}';
+        var formats = [M, " ", d, " ", yyyy, " ", H, ':', nn];
+        ultimaSincroFecha =
+            '${cambiarFormatoFecha(formatDate(fechaActual, formats))}';
       });
-      widget.actualizarEstadoHome();
+      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+          ['ultimaFechaSincro'] = ultimaSincroFecha;
+      setState(() {});
       Toast.show("Proyecto sincronizado correctamente!", context,
           duration: 3, gravity: Toast.BOTTOM);
     } else {
       Toast.show(
           "Lo sentimos, debe estar conectado a internet para sincronizar el proyecto",
           context,
-          duration: 3,
+          duration: 3, 
           gravity: Toast.BOTTOM);
     }
   }
@@ -64,6 +75,7 @@ class ContenidoProyectoState extends State<ContenidoProyecto> {
     return Stack(
       children: <Widget>[
         CardTitulo(
+          animationController: _animationController,
           ultimaSincro: ultimaSincro,
           activarUltimaSincronizacion: activarUltimaSincronizacion,
         ),

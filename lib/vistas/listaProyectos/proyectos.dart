@@ -1,30 +1,30 @@
 import 'dart:convert';
 
-import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
-import 'package:appalimentacion/globales/transicion.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/proyecto/home.dart';
-import 'package:appalimentacion/vistas/reportarAvance/home.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
+import '../../globales/colores.dart';
+import '../../globales/funciones/obtenerDatosProyecto.dart';
+import '../../globales/transicion.dart';
+import '../../globales/variables.dart';
 import '../../theme/color_theme.dart';
+import '../../widgets/cargando.dart';
+import '../proyecto/home.dart';
+import '../reportarAvance/home.dart';
 
 final titleColor = Color(0xff444444);
 
 class ProyectosContenido extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
- 
-    return Stack( 
+    return Stack(
       children: <Widget>[
-        
         Container(
-          width: MediaQuery.of(context).size.width,
+          width: double.infinity,
           margin: EdgeInsets.only(top: 107.sp),
           child: Stack(
             children: <Widget>[
@@ -104,7 +104,7 @@ class ProyectosContenido extends StatelessWidget {
           ),
         ),
         Container(
-            width: MediaQuery.of(context).size.width,
+            width: double.infinity,
             margin: EdgeInsets.only(top: 280.sp, left: 20.0, right: 20.0),
             // color: Colors.black,
             child: ListView(
@@ -179,7 +179,7 @@ class ProyectosContenido extends StatelessWidget {
                               ['imagencategoria']),
                     if (contenidoWebService[0]['proyectos'].length == 0)
                       Container(
-                          width: MediaQuery.of(context).size.width,
+                          width: double.infinity,
                           margin: EdgeInsets.only(bottom: 10.0),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -246,18 +246,18 @@ class ProyectosContenido extends StatelessWidget {
     valorProyectoRedondeado =
         double.parse((valorProyectoRedondeado).toStringAsFixed(1));
 
-    var imagen;
+    Widget imagen;
 
-    if (conexionInternet == true) {
-      imagen = Image.network('$imagencategoria');
-      // imagen = Image.asset(
-      //   'assets/img/Desglose/Demas/question.png',
-      // );
-    } else {
-      imagen = Image.asset(
-        'assets/img/Desglose/Demas/question.png',
-      );
-    }
+    Widget noImage = Image.asset(
+      'assets/img/Desglose/Demas/question.png',
+    );
+    imagen = conexionInternet
+        ? CachedNetworkImage(
+            imageUrl: imagencategoria,
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          )
+        : noImage;
 
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(15.sp)),
@@ -265,168 +265,174 @@ class ProyectosContenido extends StatelessWidget {
       child: Material(
         color: Colors.white,
         child: InkWell(
-            onTap: () async {
-              _seleccionarProyecto(context, posicion, idProyecto, nombreIcono);
-            },
-            child: Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(bottom: 1.sp, top: 1.sp),
-                padding: EdgeInsets.only(
-                    top: 24.sp, bottom: 24.sp, left: 28.sp, right: 4.sp),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          onTap: () async {
+            _seleccionarProyecto(context, posicion, idProyecto, nombreIcono);
+          },
+          child: Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(bottom: 1.sp, top: 1.sp),
+            padding: EdgeInsets.only(
+                top: 24.sp, bottom: 24.sp, left: 28.sp, right: 4.sp),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(flex: 1, child: imagen),
-                        Expanded(
-                            flex: 4,
-                            child: Container(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 4,
-                                          child: Text(
-                                            '$titulo'.toUpperCase(),
-                                            style: TextStyle(
-                                                fontFamily: 'montserrat',
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 10.sp,
-                                                
-                                                letterSpacing: 0.4,
-                                                
-                                                color: Color(
-                                                    int.parse(colorTitulo))),
-                                            // style: AppTheme.tituloParrafo
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 3.5,
-                                    ),
-                                    Text('$descripcion',
-                                        style: TextStyle(
-                                            fontFamily: "montserrat",
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 13.sp,
-                                            color: Color(0xFF000000))),
-                                    Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 5,
-                                          child: Column(
-                                            children: <Widget>[
-                                              SizedBox(
-                                                height: 5.0,
-                                              ),
-                                              Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    width: 90.0,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      border: Border(
-                                                        right: BorderSide(
-                                                          width: 0.3,
-                                                          color:
-                                                              Color(0xFF000000),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    child: Text(
-                                                      '\$ $valorProyectoRedondeado' +
-                                                          'M',
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            "montserrat",
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 15.sp,
-                                                        letterSpacing: 0.4,
-                                                        height: 0.9,
-                                                        color:
-                                                            Color(0xFF808080),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        border: Border(
-                                                          right: BorderSide(
-                                                              width: 0.3,
-                                                              color: Color(
-                                                                  0xFFFF000000)),
-                                                        ),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text(
-                                                          '$porcentaje' + '%',
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                "montserrat",
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 15.sp,
-                                                            letterSpacing: 0.4,
-                                                            height: 0.9,
-                                                            color: Color(
-                                                                0xFF808080),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                      child: Center(
-                                                          child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.sp),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    child: Image.asset(
-                                                      'assets/img/Desglose/Home/$iconoSemaforo.png',
-                                                      height: 19.sp,
-                                                      width: 50.95.sp,
-                                                    ),
-                                                  ))),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        // Expanded(
-                                        //   flex: 1,
-                                        //   child: Text(''),
-                                        // )
-                                      ],
-                                    ),
-                                  ],
-                                ))),
-                      ],
+                    Spacer(),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 50, maxHeight: 50),
+                      child: ClipOval(
+                        child: imagen,
+                      ),
                     ),
-                    if (faltaPublicar != null)
-                      if (faltaPublicar == true)
-                        Container(
-                          margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                  child: Image.asset(
-                                      'assets/img/Desglose/Home/btn-por-publicar.png'))
-                            ],
-                          ),
-                        )
+                    Spacer(),
+                    Expanded(
+                      flex: 50,
+                      child: Container(
+                        padding: EdgeInsets.only(left: 10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 4,
+                                  child: Text(
+                                    '$titulo'.toUpperCase(),
+                                    style: TextStyle(
+                                      fontFamily: 'montserrat',
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 10.sp,
+                                      letterSpacing: 0.4,
+                                      color: Color(
+                                        int.parse(colorTitulo),
+                                      ),
+                                    ),
+                                    // style: AppTheme.tituloParrafo
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 3.5,
+                            ),
+                            Text(
+                              '$descripcion',
+                              style: TextStyle(
+                                fontFamily: "montserrat",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 13.sp,
+                                color: Color(0xFF000000),
+                              ),
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 5,
+                                  child: Column(
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                            width: 90.0,
+                                            decoration: const BoxDecoration(
+                                              border: Border(
+                                                right: BorderSide(
+                                                  width: 0.3,
+                                                  color: Color(0xFF000000),
+                                                ),
+                                              ),
+                                            ),
+                                            child: AutoSizeText(
+                                              '\$ $valorProyectoRedondeado' +
+                                                  'M',
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontFamily: "montserrat",
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 15.sp,
+                                                letterSpacing: 0.4,
+                                                height: 0.9,
+                                                color: Color(0xFF808080),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                border: Border(
+                                                  right: BorderSide(
+                                                    width: 0.3,
+                                                    color: Color(0xFFFF000000),
+                                                  ),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '$porcentaje' + '%',
+                                                  style: TextStyle(
+                                                    fontFamily: "montserrat",
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 15.sp,
+                                                    letterSpacing: 0.4,
+                                                    height: 0.9,
+                                                    color: Color(0xFF808080),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Center(
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(5.sp),
+                                                clipBehavior: Clip.antiAlias,
+                                                child: Image.asset(
+                                                  'assets/img/Desglose/Home/$iconoSemaforo.png',
+                                                  height: 19.sp,
+                                                  width: 50.95.sp,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                // Expanded(
+                                //   flex: 1,
+                                //   child: Text(''),
+                                // )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
-                ))),
+                ),
+                if (faltaPublicar != null)
+                  if (faltaPublicar == true)
+                    Container(
+                      margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                              child: Image.asset(
+                                  'assets/img/Desglose/Home/btn-por-publicar.png'))
+                        ],
+                      ),
+                    )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -441,8 +447,11 @@ class ProyectosContenido extends StatelessWidget {
     } else {}
     print('PASO ACTUAL:');
     print(contenidoWebService[0]['proyectos'][posicion]['paso']);
-
+    //crear un dialogo cargando circular
+    loadingDialog(context);
+    //remover el dialogo anterior
     var respuesta = await obtenerDatosProyecto(idProyecto, true);
+    Navigator.of(context).pop();
     if (respuesta) {
       switch (contenidoWebService[0]['proyectos'][posicion]['paso']) {
         case 0:

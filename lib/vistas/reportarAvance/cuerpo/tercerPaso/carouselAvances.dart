@@ -1,13 +1,18 @@
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/tercerPaso/card_carousel_avances.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../globales/variables.dart';
+import 'card_carousel_avances.dart';
+
 Widget carouselAlcance(context) {
   return CarouselSlider(
-    enableInfiniteScroll: false,
-    enlargeCenterPage: true,
+     options: CarouselOptions(
+        enableInfiniteScroll: false,
+        enlargeCenterPage: true,
     height: 260.0,
+      ),
+
+   
     items: <Widget>[
       for (int cont = 0;
           cont <

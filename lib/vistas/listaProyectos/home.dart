@@ -1,6 +1,7 @@
-import 'package:appalimentacion/vistas/listaProyectos/proyectos.dart';
-import 'package:appalimentacion/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
+
+import '../../widgets/home/fondoHome.dart';
+import 'proyectos.dart';
 
 class ListaProyectos extends StatelessWidget {
   @override

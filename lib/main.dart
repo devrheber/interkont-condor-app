@@ -1,14 +1,15 @@
-import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
-import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
-import 'package:appalimentacion/globales/logo.dart';
-import 'package:appalimentacion/theme/color_theme.dart';
-import 'package:appalimentacion/vistas/listaProyectos/home.dart';
-import 'package:appalimentacion/vistas/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'globales/colores.dart';
+import 'globales/funciones/actualizarProyectos.dart';
+import 'globales/funciones/obtenerListaProyectos.dart';
+import 'globales/logo.dart';
+import 'theme/color_theme.dart';
+import 'vistas/listaProyectos/home.dart';
+import 'vistas/login/login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

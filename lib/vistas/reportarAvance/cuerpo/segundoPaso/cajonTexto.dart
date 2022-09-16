@@ -1,6 +1,7 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../globales/colores.dart';
 
 final titleColor = Color(0xff444444);
 

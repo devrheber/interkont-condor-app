@@ -1,6 +1,7 @@
 
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../globales/colores.dart';
 
 Widget campoSeleccionar(String txtHint, String nombreObj, int posicionPeriodoReportado, idTipoFactorAtrasoSeleccionado, bool esFactorAtraso, valores, accion)
 {

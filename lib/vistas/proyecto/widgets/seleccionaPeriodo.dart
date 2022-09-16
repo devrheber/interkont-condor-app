@@ -1,6 +1,7 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../globales/colores.dart';
 
 Widget seleccionaPeriodo(context, int posicionPeriodoReportado,
     int idPeriodoSeleccionado, valores, accion) {
@@ -34,7 +35,7 @@ Widget seleccionaPeriodo(context, int posicionPeriodoReportado,
     fontSize: 13.sp,
   );
   return Container(
-      width: MediaQuery.of(context).size.width,
+      width: double.infinity,
       height: 58.0.sp,
       margin: EdgeInsets.only(
         bottom: 10.0,

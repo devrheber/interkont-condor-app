@@ -1,8 +1,9 @@
 
 import 'dart:convert';
 
-import 'package:appalimentacion/globales/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../variables.dart';
 
 void cambiarPasoProyecto(int numeroPaso)
 async{

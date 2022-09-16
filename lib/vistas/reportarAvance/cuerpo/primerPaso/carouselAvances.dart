@@ -1,7 +1,8 @@
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/primerPaso/card_carousel_avances.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../globales/variables.dart';
+import 'card_carousel_avances.dart';
 
 class CarouselAvances extends StatefulWidget {
   final String txtBuscar;
@@ -30,33 +31,33 @@ class CarouselAvancesState extends State<CarouselAvances> {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
-      enableInfiniteScroll: false,
-      enlargeCenterPage: true,
-      height: 330.0,
+      options: CarouselOptions(
+        enableInfiniteScroll: false,
+        enlargeCenterPage: true,
+        height: 330.0,
+      ),
       items: <Widget>[
         for (int cont = 0; cont < lista.length; cont++)
           // if(lista[cont]['descripcionActividad'].indexOf(widget.txtBuscar.toUpperCase()) != -1 || lista[cont]['descripcionActividad'].indexOf(widget.txtBuscar.toLowerCase()) != -1  )
           if (lista[cont]['descripcionActividad'].indexOf(widget.txtBuscar) !=
               -1)
-            cardCarousel1(
-                () {},
-                lista[cont]['descripcionActividad'],
-                lista[cont]['unidadMedida'],
-                lista[cont]['valorUnitario'],
-                lista[cont]['cantidadProgramada'],
-                lista[cont]['valorProgramado'],
-                lista[cont]['cantidadEjecutada'],
-                lista[cont]['valorEjecutado'],
-                lista[cont]['porcentajeAvance'],
-                lista[cont]['txtActividadAvance'], (value) {
-              contenidoWebService[0]['proyectos']
-                      [posicionListaProyectosSeleccionado]['datos']
-                  ['actividades'][cont]['txtActividadAvance'] = value;
-
-              // setState(() {
-              //   lista[cont]['cantidadEjecutada'] = double.parse('${listaDos[cont]['cantidadEjecutada']}')+double.parse(value);
-              // });
-            })
+            CardCarouselAvances(
+              calcularPorcentajeValorEjecutado: () {},
+              descripcionActividad: lista[cont]['descripcionActividad'],
+              unidadMedida: lista[cont]['unidadMedida'],
+              valorUnitario: lista[cont]['valorUnitario'],
+              cantidadProgramada: lista[cont]['cantidadProgramada'],
+              valorProgramado: lista[cont]['valorProgramado'],
+              cantidadEjecutada: lista[cont]['cantidadEjecutada'],
+              valorEjecutado: lista[cont]['valorEjecutado'],
+              porcentajeAvance: lista[cont]['porcentajeAvance'],
+              txtActividadAvance: lista[cont]['txtActividadAvance'],
+              accion: (value) {
+                contenidoWebService[0]['proyectos']
+                        [posicionListaProyectosSeleccionado]['datos']
+                    ['actividades'][cont]['txtActividadAvance'] = value;
+              },
+            ),
       ],
     );
   }

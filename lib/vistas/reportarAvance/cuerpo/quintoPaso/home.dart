@@ -1,8 +1,9 @@
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/quintoPaso/cardContenido.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../globales/variables.dart';
+import 'cardContenido.dart';
 
 var proyectos =
     contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado];

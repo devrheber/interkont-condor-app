@@ -1,11 +1,12 @@
-import 'package:appalimentacion/globales/title_subtitle.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/tercerPaso/card_carousel_avances.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:toast/toast.dart';
+
+import '../../../../globales/title_subtitle.dart';
+import '../../../../globales/variables.dart';
+import 'card_carousel_avances.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -59,7 +60,7 @@ class CardCuerpoTercerPasoState extends State<CardCuerpoTercerPaso> {
     return Stack(
       children: <Widget>[
         Container(
-          width: MediaQuery.of(context).size.width,
+          width: double.infinity,
           margin: EdgeInsets.only(
             top: 230.h,
           ),
@@ -87,9 +88,12 @@ class CardCuerpoTercerPasoState extends State<CardCuerpoTercerPaso> {
                     ),
                     SizedBox(height: 18.sp), 
                     CarouselSlider(
-                      enableInfiniteScroll: false,
+                       options: CarouselOptions(
+       enableInfiniteScroll: false,
                       enlargeCenterPage: true,
                       height: 350.h,
+      ),
+                    
                       items: <Widget>[ 
                         for (int cont = 0;
                             cont <

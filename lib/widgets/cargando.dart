@@ -1,55 +1,26 @@
-
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 
-class carga{
-  static void cargando(BuildContext context, String texto) {
-    funcionCargando(context, texto);
-  }
-  static Future<void> funcionCargando(BuildContext context, String texto) {
-    return showDialog<void>(
+Future<dynamic> loadingDialog(context) {
+  return showDialog(
       context: context,
-      barrierDismissible: true, // user must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(texto,
-            style: TextStyle(
-              fontSize: 20,
-              color: AppTheme.darkText,
-              fontWeight: FontWeight.w700,
-              ),
-            textAlign: TextAlign.center,
-            ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Container(
-                  height: 50.0,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(AppTheme.segundo),
-                          ),
-                  ),
-                )
+        return Dialog(
+          child: Container(
+            height: 100.0,
+            width: 100.0,
+            child: Column(
+              children: [
+                Spacer(),
+                Text('Cargando...'),
+                Spacer(),
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0XFF735EF0)),
+                ),
+                Spacer(),
               ],
             ),
           ),
         );
-      },
-    );
-  }
-}
-
-class CargandoData extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 20.0),
-      child: Center(
-        child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
-              ),
-      ),
-    );
-  }
+      });
 }

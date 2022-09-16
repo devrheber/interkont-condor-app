@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/proyecto/widgets/seleccionaPeriodo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../globales/colores.dart';
+import '../../globales/variables.dart';
+import 'widgets/seleccionaPeriodo.dart';
 
 class CardCuerpo extends StatefulWidget {
   final int ultimaSincro;
@@ -93,20 +94,19 @@ class CardCuerpoState extends State<CardCuerpo> {
     });
   }
 
-  NumberFormat f2 = new NumberFormat("#,##0.00", "es_AR");
-
   @override
   Widget build(BuildContext context) {
     return Container(
-  
       child: Stack(
         children: <Widget>[
-          contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+          contenidoWebService[0]['proyectos']
+                          [posicionListaProyectosSeleccionado]
                       ['ultimaFechaSincro'] ==
                   null
               ? Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(top: 335.h, left: 28.sp, right: 28.sp),
+                  width: double.infinity,
+                  margin:
+                      EdgeInsets.only(top: 335.h, left: 28.sp, right: 28.sp),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(15.sp)),
@@ -139,7 +139,7 @@ class CardCuerpoState extends State<CardCuerpo> {
                   ))
               : Text(''),
           Container(
-              width: MediaQuery.of(context).size.width,
+              width: double.infinity,
               margin: EdgeInsets.only(
                 top: contenidoWebService[0]['proyectos']
                                 [posicionListaProyectosSeleccionado]
@@ -154,8 +154,7 @@ class CardCuerpoState extends State<CardCuerpo> {
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-       
-                      resumen(context),
+                      _Summary(porcentajeAsiVa: porcentajeAsiVa),
                       SizedBox(
                         height: 10.h,
                       ),
@@ -191,7 +190,7 @@ class CardCuerpoState extends State<CardCuerpo> {
                               ['pendienteAprobacion'] ==
                           true
                       ? Container(
-                          width: MediaQuery.of(context).size.width,
+                          width: double.infinity,
                           height: 50.0.h,
                           // margin: EdgeInsets.only(
                           //   top: MediaQuery.of(context).size.height/2.5,
@@ -213,7 +212,8 @@ class CardCuerpoState extends State<CardCuerpo> {
                             children: <Widget>[
                               Container(
                                 height: 20.0,
-                                margin: EdgeInsets.only(bottom: 5.0, right: 10.0),
+                                margin:
+                                    EdgeInsets.only(bottom: 5.0, right: 10.0),
                                 child: Image.asset(
                                   'assets/img/Desglose/Demas/icn-alert.png',
                                   // width: 100.0,
@@ -234,102 +234,132 @@ class CardCuerpoState extends State<CardCuerpo> {
       ),
     );
   }
+}
 
-  Widget resumen(context) {
-    return GestureDetector(
-        onTap: () {},
-        child: Container(
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(bottom: 10.0, left: 28.sp, right: 28.sp),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20.sp)),
-            ),
-            padding: EdgeInsets.only(
-                top: 10.0, bottom: 20.0, left: 30.0, right: 30.0),
-            child: Column(
-              children: <Widget>[
-                celdas(
-                    'Presupuesto',
-                    '\$ ${f2.format(contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['valorproyecto'])}',
-                    false),
-                celdas('Asi va', '$porcentajeAsiVa%', false),
-                celdas(
-                    'Asi deberia ir',
-                    '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['porcentajeProyectado'].round()}%',
-                    false),
-                celdas(
-                    'Contratista',
-                    '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['contratista']}',
-                    false),
-                celdas(
-                    'Semaforo',
-                    '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['semaforoproyecto']}',
-                    true),
-              ],
-            )));
+class _Summary extends StatelessWidget {
+  const _Summary({
+    Key key,
+    @required this.porcentajeAsiVa,
+  }) : super(key: key);
+
+  final int porcentajeAsiVa;
+
+  @override
+  Widget build(BuildContext context) {
+    final NumberFormat f2 = NumberFormat("#,##0.00", "es_AR");
+    final dynamic proyectos =
+        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado];
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(bottom: 10.0, left: 28.sp, right: 28.sp),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(20.sp)),
+      ),
+      padding:
+          EdgeInsets.only(top: 10.0, bottom: 20.0, left: 30.0, right: 30.0),
+      child: Column(
+        children: <Widget>[
+          _Celdas(
+            leftText: 'Presupuesto',
+            rightText: '\$ ${f2.format(proyectos['valorproyecto'])}',
+          ),
+          _Celdas(
+            leftText: 'Asi va',
+            rightText: '$porcentajeAsiVa%',
+          ),
+          _Celdas(
+            leftText: 'Asi deberia ir',
+            rightText: '${proyectos['porcentajeProyectado'].round()}%',
+          ),
+          _Celdas(
+            leftText: 'Contratista',
+            rightText: '${proyectos['contratista']}',
+          ),
+          _Celdas(
+            leftText: 'Semaforo',
+            rightText: '${proyectos['semaforoproyecto']}',
+            semaforo: true,
+          ),
+        ],
+      ),
+    );
   }
+}
 
-  Widget celdas(txtPrimero, txtSegundo, semaforo) {
-    // SI LA VARIABLE "SEMAFORO" ESTA EN TRUE SIGNIFICA QUE ES LA ULTIMA CELDA,
-    // POR LO TANTO NO TIENE BORDE EN BOTTOM Y SU PADDING EN BOTTOM ES MENOR
-    String iconoSemaforo = 'semaforo-3';
+class _Celdas extends StatelessWidget {
+  const _Celdas({
+    Key key,
+    this.semaforo = false,
+    this.leftText,
+    this.rightText,
+  }) : super(key: key);
+
+  final bool semaforo;
+  final String leftText;
+  final String rightText;
+
+  String get iconoSemaforo {
     if (semaforo == true) {
-      if (txtSegundo == 'rojo') {
-        iconoSemaforo = 'semaforo-3';
-      } else if (txtSegundo == 'amarillo') {
-        iconoSemaforo = 'semaforo-2';
-      } else if (txtSegundo == 'verde') {
-        iconoSemaforo = 'semaforo-1';
+      if (rightText == 'amarillo') {
+        return 'semaforo-2';
+      }
+      if (rightText == 'verde') {
+        return 'semaforo-1';
       }
     }
+    return 'semaforo-3';
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-        padding: semaforo == true
-            ? EdgeInsets.only(top: 10.0)
-            : EdgeInsets.only(bottom: 10.0, top: 10.0),
-        decoration: BoxDecoration(
-          border: Border(
-              bottom: semaforo != true
-                  ? BorderSide(width: 0.3, color: Colors.black)
-                  : BorderSide(width: 0.0, color: Colors.white)),
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                '$txtPrimero',
-                style: TextStyle(
-                  fontFamily: "montserrat",
-                  fontSize: 14.sp,
-                  color: Color(0xff333333),
-                  fontWeight: FontWeight.w400,
-                ),
+      padding: semaforo
+          ? EdgeInsets.only(top: 10.0)
+          : EdgeInsets.only(bottom: 10.0, top: 10.0),
+      decoration: BoxDecoration(
+        border: Border(
+            bottom: !semaforo
+                ? BorderSide(width: 0.3, color: Colors.black)
+                : BorderSide(width: 0.0, color: Colors.white)),
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              '$leftText',
+              style: TextStyle(
+                fontFamily: "montserrat",
+                fontSize: 14.sp,
+                color: Color(0xff333333),
+                fontWeight: FontWeight.w400,
               ),
             ),
-            Expanded(
-              child: semaforo == true
-                  ? Container(
-                      height: 20.0,
-                      child: Row(
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/img/Desglose/Home/' +
-                                iconoSemaforo +
-                                '.png',
-                          ),
-                        ],
-                      ))
-                  : Text(
-                      '$txtSegundo',
-                      style: TextStyle(
-                        fontSize: 13.93.sp,
-                        fontFamily: "montserrat",
-                        color: Color(0xff808080),
-                        fontWeight: FontWeight.w400,
-                      ),
+          ),
+          Expanded(
+            child: semaforo
+                ? Container(
+                    height: 20.0,
+                    child: Row(
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/img/Desglose/Home/' + iconoSemaforo + '.png',
+                        ),
+                      ],
                     ),
-            ),
-          ],
-        ));
+                  )
+                : Text(
+                    rightText == 'null' ? '---' : '$rightText',
+                    style: TextStyle(
+                      fontSize: 13.93.sp,
+                      fontFamily: "montserrat",
+                      color: Color(0xff808080),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+          ),
+        ],
+      ),
+    );
   }
 }

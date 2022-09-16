@@ -1,10 +1,11 @@
-import 'package:appalimentacion/globales/title_subtitle.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/cajonTexto.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/mostrarFotoPrincipal.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/mostrarFotosSubidas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../globales/title_subtitle.dart';
+import '../../../../globales/variables.dart';
+import 'cajonTexto.dart';
+import 'mostrarFotoPrincipal.dart';
+import 'mostrarFotosSubidas.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -23,7 +24,7 @@ class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
     return Stack(
       children: <Widget>[
         Container(
-            width: MediaQuery.of(context).size.width,
+            width: double.infinity,
             margin: EdgeInsets.only(
               top: 230.h,
             ),

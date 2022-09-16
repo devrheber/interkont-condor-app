@@ -15,10 +15,12 @@ version: 1.0.1+4
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
-
+ 
 dependencies:
+  auto_size_text: ^2.1.0
   beauty_textfield: ^0.0.1
-  carousel_slider: ^1.4.1
+  cached_network_image: ^2.3.1
+  carousel_slider: ^3.0.0
   cupertino_icons: ^0.1.2
   date_format: ^1.0.8
   flutter:
@@ -35,7 +37,7 @@ dependencies:
   rounded_loading_button: ^1.0.4
   shared_preferences: ^2.0.7
   toast: ^0.1.5
-  
+
 dependency_overrides:
   platform: ^3.1.0
 

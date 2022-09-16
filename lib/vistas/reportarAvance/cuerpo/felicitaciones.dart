@@ -1,7 +1,8 @@
-import 'package:appalimentacion/theme/color_theme.dart';
-import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../theme/color_theme.dart';
+import '../../listaProyectos/home.dart';
 
 class Felicitaciones extends StatefulWidget {
   Felicitaciones({Key key}) : super(key: key);

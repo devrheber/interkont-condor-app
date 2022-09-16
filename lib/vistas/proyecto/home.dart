@@ -1,13 +1,14 @@
-import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
-import 'package:appalimentacion/globales/transicion.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/proyecto/contenido.dart';
-import 'package:appalimentacion/vistas/reportarAvance/home.dart';
-import 'package:appalimentacion/widgets/home/contenidoBottom.dart';
-import 'package:appalimentacion/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+
+import '../../globales/funciones/cambiarPasoProyecto.dart';
+import '../../globales/transicion.dart';
+import '../../globales/variables.dart';
+import '../../widgets/home/contenidoBottom.dart';
+import '../../widgets/home/fondoHome.dart';
+import '../reportarAvance/home.dart';
+import 'contenido.dart';
 
 class Proyecto extends StatefulWidget {
   Proyecto({Key key}) : super(key: key);
@@ -30,15 +31,13 @@ class ProyectoState extends State<Proyecto> {
     activarVariablesPreferences();
   }
 
-  void actualizarEstadoProyecto() {
-    setState(() {});
-  }
+   
 
   @override
   Widget build(BuildContext context) {
     return FondoHome(
         contenido: ContenidoProyecto(
-          actualizarEstadoHome: actualizarEstadoProyecto,
+         
         ),
         bottomNavigationBar: true,
         // context

@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../widgets/respuestaHttp.dart';
+import '../variables.dart';
 
 Future<void> obtenerListaProyectos() async {
   String url = "$urlGlobalApiCondor/vista-lista";

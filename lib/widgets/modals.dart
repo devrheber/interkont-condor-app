@@ -1,6 +1,7 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../globales/colores.dart';
 
 class modalMensaje{
   static void mensaje(

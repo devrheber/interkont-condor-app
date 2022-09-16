@@ -1,16 +1,17 @@
-import 'package:appalimentacion/globales/add_button_green.dart';
-import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/globales/customed_app_bar.dart';
-import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
-import 'package:appalimentacion/globales/transicion.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/theme/color_theme.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/factorAtraso/widgets/campoSeleecionar.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/factorAtraso/widgets/factorRegistrado.dart';
-import 'package:appalimentacion/vistas/reportarAvance/home.dart';
-import 'package:appalimentacion/widgets/home/contenidoBottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../globales/add_button_green.dart';
+import '../../../../globales/colores.dart';
+import '../../../../globales/customed_app_bar.dart';
+import '../../../../globales/funciones/cambiarPasoProyecto.dart';
+import '../../../../globales/transicion.dart';
+import '../../../../globales/variables.dart';
+import '../../../../theme/color_theme.dart';
+import '../../../../widgets/home/contenidoBottom.dart';
+import '../../home.dart';
+import 'widgets/campoSeleecionar.dart';
+import 'widgets/factorRegistrado.dart';
 
 class IndexFactorAtraso extends StatefulWidget {
   IndexFactorAtraso({Key key}) : super(key: key);
@@ -29,6 +30,8 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
   List listaFactoresRegistrados = [];
   bool bool_avanzarSiguientePaso = true;
 
+  TextEditingController descripcionAtraso = TextEditingController();
+
   registrarFactor() {
     if (idTipoFactorAtrasoSeleccionado != 0 &&
         idFactorAtrasoSeleccionado != 0) {
@@ -38,11 +41,13 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
           'tipoFactorAtrasoId': idTipoFactorAtrasoSeleccionado,
           'tipoFactor': '$tipoFactorSeleccionado',
           'factorAtrasoId': idFactorAtrasoSeleccionado,
-          'factor': '$factorSeleccionado'
+          'factor': '$factorSeleccionado',
+          'descripcion': '${descripcionAtraso.text}',
         });
       });
       contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
           ['datos']['factoresAtrasoSeleccionados'] = listaFactoresRegistrados;
+      descripcionAtraso.clear();
     }
   }
 
@@ -80,8 +85,7 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
             ),
             Expanded(
               child: Container(
-                margin:
-                    EdgeInsets.symmetric(horizontal: 28.sp),
+                margin: EdgeInsets.symmetric(horizontal: 28.sp),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -145,6 +149,39 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                       });
                     }),
                     SizedBox(height: 10.h),
+                    Container(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
+                      // margin: EdgeInsets.only(bottom: 5.0),
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(1, 1, 1, 0.1),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: TextField(
+                        textInputAction: TextInputAction.send,
+                        controller: descripcionAtraso,
+                        // onChanged: accion,
+                        maxLines: 4,
+                        maxLength: 500,
+
+                        style: AppTheme.parrafoBlanco,
+                        toolbarOptions: ToolbarOptions(
+                          copy: true,
+                          cut: true,
+                          paste: true,
+                          selectAll: true,
+                        ),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.zero,
+                          counterStyle: AppTheme.parrafoBlanco,
+                          border: InputBorder.none,
+                          hintText:
+                              "Ingrese una descripción del factor de atraso",
+                          hintStyle: AppTheme.parrafoBlanco,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
                     buildAddGreenButton(onTap: () {
                       registrarFactor();
                     }),
@@ -163,11 +200,14 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                           shrinkWrap: true,
                           itemCount: listaFactoresRegistrados.length,
                           itemBuilder: (BuildContext context, int cont) {
-                            return factorRegistrado(
-                              cont,
-                              listaFactoresRegistrados[cont]['tipoFactor'],
-                              listaFactoresRegistrados[cont]['factor'],
-                              () {
+                            return FactorRegistrado(
+                              posicion: cont,
+                              tipo: listaFactoresRegistrados[cont]
+                                  ['tipoFactor'],
+                              factor: listaFactoresRegistrados[cont]['factor'],
+                              description: listaFactoresRegistrados[cont] 
+                                  ['descripcion'],
+                              onTap: () {
                                 listaFactoresRegistrados.removeAt(cont);
                                 setState(() {
                                   listaFactoresRegistrados =

@@ -1,11 +1,12 @@
-import 'package:appalimentacion/globales/add_button_green.dart';
-import 'package:appalimentacion/globales/title_subtitle.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/segundoPaso/bloqueAgregado.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/segundoPaso/cajonTexto.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/segundoPaso/seleccionarAvance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../globales/add_button_green.dart';
+import '../../../../globales/title_subtitle.dart';
+import '../../../../globales/variables.dart';
+import 'bloqueAgregado.dart';
+import 'cajonTexto.dart';
+import 'seleccionarAvance.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -43,7 +44,7 @@ class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
     return Stack(
       children: <Widget>[
         Container(
-          width: MediaQuery.of(context).size.width,
+          width: double.infinity,
           margin: EdgeInsets.only(
             top: 230.h,
           ),

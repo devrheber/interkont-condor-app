@@ -1,6 +1,7 @@
-import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/vistas/listaProyectos/home.dart';
 import 'package:flutter/material.dart';
+
+import '../../../globales/colores.dart';
+import '../../listaProyectos/home.dart';
 
 class NoInternet extends StatefulWidget {
 

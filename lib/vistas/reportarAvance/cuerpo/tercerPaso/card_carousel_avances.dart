@@ -1,7 +1,8 @@
-import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../theme/color_theme.dart';
 
 Widget cardCarousel3(
     descripcionIndicadorAlcance,

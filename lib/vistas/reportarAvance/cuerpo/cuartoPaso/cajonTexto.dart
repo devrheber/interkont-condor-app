@@ -1,6 +1,7 @@
-import 'package:appalimentacion/globales/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../globales/variables.dart';
 
 final titleColor = Color(0xff444444);
 Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
@@ -14,7 +15,7 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
         ['txtComentario'];
   }
   return Container(
-      width: MediaQuery.of(context).size.width,
+      width: double.infinity,
       height: 106.2.h,
       margin: EdgeInsets.only(top: 35.sp),
       padding: EdgeInsets.only(left: 15.0.sp, right: 15.sp, top: 13.27.sp),

@@ -1,6 +1,7 @@
-import 'package:appalimentacion/globales/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../globales/variables.dart';
 
 final titleColor = Color(0xff384C68);
 
@@ -38,10 +39,9 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width,
+        width: double.infinity,
         height: 43.sp,
         margin: EdgeInsets.only(top: 10.0),
-        
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -50,13 +50,13 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
           children: <Widget>[
             SizedBox(width: 16.57.sp),
             Container(
-              child: iconoCorrespondiente(textoSeleccionado),
+              child: _IconImage(text: textoSeleccionado),
             ),
             SizedBox(width: 9.47.sp),
             Expanded(
                 child: DropdownButtonHideUnderline(
               child: DropdownButton(
-                iconSize: 16.74.sp ,
+                iconSize: 16.74.sp,
                 hint: Text(
                   '$textoSeleccionado',
                   style: TextStyle(
@@ -70,8 +70,8 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
                     .map((value) => DropdownMenuItem(
                           child: Row(
                             children: <Widget>[
-                              iconoCorrespondiente(value),
-                               SizedBox(width: 9.47.sp),
+                              _IconImage(text: value),
+                              SizedBox(width: 9.47.sp),
                               Text(
                                 value,
                                 style: TextStyle(
@@ -103,37 +103,28 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
           ],
         ));
   }
+}
 
-  Widget iconoCorrespondiente(texto) {
-    if (texto == 'Administrativo')
-      return Image(
-        image: AssetImage('assets/img/Desglose/ReporteAvance/icn-al-1.png'),
-        width: 24.sp,
-        height: 24.sp,
-      );
-    if (texto == 'Financiero')
-      return Image(
-        image: AssetImage('assets/img/Desglose/ReporteAvance/icn-al-2.png'),
-        width: 24.sp,
-        height: 24.sp,
-      );
-    if (texto == 'Técnico')
-      return Image(
-        image: AssetImage('assets/img/Desglose/ReporteAvance/icn-al-3.png'),
-        width: 24.sp,
-        height: 24.sp,
-      );
-    if (texto == 'Jurídico')
-      return Image(
-        image: AssetImage('assets/img/Desglose/ReporteAvance/icn-al-4.png'),
-        width: 24.sp,
-        height: 24.sp,
-      );
-    if (texto == 'Social')
-      return Image(
-        image: AssetImage('assets/img/Desglose/ReporteAvance/icn-al-5.png'),
-        width: 24.sp,
-        height: 24.sp,
-      );
+class _IconImage extends StatelessWidget {
+  const _IconImage({
+    Key key,
+    @required this.text,
+  }) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    String icon = 'icn-al-1.png';
+    if (text == 'Administrativo') icon = 'icn-al-1.png';
+    if (text == 'Financiero') icon = 'icn-al-2.png';
+    if (text == 'Técnico') icon = 'icn-al-3.png';
+    if (text == 'Jurídico') icon = 'icn-al-4.png';
+    if (text == 'Social') icon = 'icn-al-5.png';
+    return Image(
+      image: AssetImage('assets/img/Desglose/ReporteAvance/$icon'),
+      width: 24.sp,
+      height: 24.sp,
+    );
   }
 }

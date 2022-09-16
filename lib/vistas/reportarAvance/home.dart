@@ -1,18 +1,19 @@
-import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
-import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
-import 'package:appalimentacion/globales/transicion.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/listaProyectos/home.dart';
-import 'package:appalimentacion/vistas/reportarAvance/contenido.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cargando.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/factorAtraso/index.dart';
-import 'package:appalimentacion/widgets/home/contenidoBottom.dart';
-import 'package:appalimentacion/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
 //import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+
+import '../../globales/colores.dart';
+import '../../globales/funciones/cambiarPasoProyecto.dart';
+import '../../globales/funciones/obtenerDatosProyecto.dart';
+import '../../globales/transicion.dart';
+import '../../globales/variables.dart';
+import '../../widgets/home/contenidoBottom.dart';
+import '../../widgets/home/fondoHome.dart';
+import '../listaProyectos/home.dart';
+import 'contenido.dart';
+import 'cuerpo/cargando.dart';
+import 'cuerpo/factorAtraso/index.dart';
 
 class ReportarAvance extends StatefulWidget {
   ReportarAvance({Key key}) : super(key: key);

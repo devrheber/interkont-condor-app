@@ -1,11 +1,12 @@
-import 'package:appalimentacion/vistas/reportarAvance/cabecera/home.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/home.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/primerPaso/home.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/quintoPaso/cabecera.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/quintoPaso/home.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/segundoPaso/home.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/tercerPaso/home.dart';
 import 'package:flutter/material.dart';
+
+import 'cabecera/home.dart';
+import 'cuerpo/cuartoPaso/home.dart';
+import 'cuerpo/primerPaso/home.dart';
+import 'cuerpo/quintoPaso/cabecera.dart';
+import 'cuerpo/quintoPaso/home.dart';
+import 'cuerpo/segundoPaso/home.dart';
+import 'cuerpo/tercerPaso/home.dart';
 
 final titleColor = Color(0xff444444);
 

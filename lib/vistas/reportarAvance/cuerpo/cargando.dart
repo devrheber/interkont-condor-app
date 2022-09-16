@@ -1,17 +1,18 @@
 import 'dart:convert';
 
-import 'package:appalimentacion/globales/funciones/actualizarProyectos.dart';
-import 'package:appalimentacion/globales/funciones/cambiarPasoProyecto.dart';
-import 'package:appalimentacion/globales/funciones/obtenerDatosProyecto.dart';
-import 'package:appalimentacion/globales/funciones/obtenerListaProyectos.dart';
-import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/felicitaciones.dart';
-import 'package:appalimentacion/vistas/reportarAvance/cuerpo/noInternet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:toast/toast.dart';
+
+import '../../../globales/funciones/actualizarProyectos.dart';
+import '../../../globales/funciones/cambiarPasoProyecto.dart';
+import '../../../globales/funciones/obtenerDatosProyecto.dart';
+import '../../../globales/funciones/obtenerListaProyectos.dart';
+import '../../../globales/variables.dart';
+import 'felicitaciones.dart';
+import 'noInternet.dart';
 
 class CargandoFinalizar extends StatefulWidget {
   @override

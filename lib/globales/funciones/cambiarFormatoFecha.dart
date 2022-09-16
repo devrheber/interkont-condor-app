@@ -1,10 +1,7 @@
 cambiarFormatoFecha(fecha)
 {
   var listaFecha = fecha.split(" ");
-  listaFecha[0];
-  listaFecha[1];
-  listaFecha[2];
-  listaFecha[3];
+ 
 
   switch (listaFecha[0]) {
     case 'Jan': listaFecha[0] = 'Enero'; break;
