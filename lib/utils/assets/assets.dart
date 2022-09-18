@@ -217,6 +217,10 @@ class Assets {
   /// assets/img/Desglose/Demas/logopublicar.png
   static const String assetsImgDesgloseDemasLogopublicar = "assets/img/Desglose/Demas/logopublicar.png";
 
+  /// Assets for assetsImgDesgloseDemasPdf
+  /// assets/img/Desglose/Demas/pdf.png
+  static const String assetsImgDesgloseDemasPdf = "assets/img/Desglose/Demas/pdf.png";
+
   /// Assets for assetsImgDesgloseDemasQuestion
   /// assets/img/Desglose/Demas/question.png
   static const String assetsImgDesgloseDemasQuestion = "assets/img/Desglose/Demas/question.png";

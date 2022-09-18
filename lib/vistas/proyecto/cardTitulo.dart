@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:appalimentacion/utils/assets/assets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -58,6 +59,8 @@ class _CircleImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var imagencategoria = contenidoWebService[0]['proyectos']
+        [posicionListaProyectosSeleccionado]['imagencategoria'];
     return Container(
       color: Colors.transparent,
       width: double.infinity,
@@ -70,17 +73,21 @@ class _CircleImageCard extends StatelessWidget {
                 height: 77.sp,
                 width: 77.sp,
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: conexionInternet == true
-                            ? NetworkImage(
-                                '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['imagencategoria']}',
-                              )
-                            : AssetImage(
-                                'assets/img/Desglose/Demas/question.png',
-                              ),
-                        fit: BoxFit.fitWidth),
-                    border: Border.all(color: Colors.white, width: 5)),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 5),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: imagencategoria,
+                  height: 77.sp,
+                  width: 77.sp, 
+                  fit: BoxFit.fitWidth,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Image.asset(
+                    'assets/img/Desglose/Demas/question.png',
+                    height: 77.sp,
+                    width: 77.sp,
+                  ),
+                ),
               ),
             ],
           ),

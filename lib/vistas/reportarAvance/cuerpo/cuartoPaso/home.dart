@@ -1,11 +1,13 @@
+import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/documentos_adicionales.dart';
+import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/informe_admin_interventor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../globales/title_subtitle.dart';
 import '../../../../globales/variables.dart';
 import 'cajonTexto.dart';
-import 'mostrarFotoPrincipal.dart';
-import 'mostrarFotosSubidas.dart';
+import 'foto_principal.dart';
+import 'fotos_complementarias.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -28,9 +30,8 @@ class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
             margin: EdgeInsets.only(
               top: 230.h,
             ),
-            child: ListView(
-              physics: BouncingScrollPhysics(),
-              children: <Widget>[
+            child:
+                ListView(physics: BouncingScrollPhysics(), children: <Widget>[
               Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,23 +60,32 @@ class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
                           ),
                           SizedBox(height: 22.8.sp),
                           TextSubtitle2(
-                            text:
-                                'Agregar una foto principal del avance (Obligatorio)',
+                            text: 'Agregar una foto principal del avance',
+                            isRequired: true,
                           ),
                           SizedBox(height: 23.15.sp),
-                          MostrarFotoSubida(),
-                            SizedBox(height: 22.8.sp),
-                            TextSubtitle2(
+                          FotoPrincipal(),
+                          SizedBox(height: 22.8.sp),
+                          TextSubtitle2(
                             text:
-                                'Agregar fotos complementarias (Max 5)',
+                                'Agregar el informe de Administrador/Interventor',
+                            isRequired: true,
                           ),
-                            TextSubtitle2(
+                          SizedBox(height: 22.8.sp),
+                          InformeAdminInterventor(),
+                          SizedBox(height: 22.8.sp),
+                          TextSubtitle2(
+                            text: 'Agregar Documentos adicionales',
+                          ),
+                          SizedBox(height: 22.8.sp),
+                          DocumentosAdicionales(),
+                          SizedBox(height: 22.8.sp),
+                          TextSubtitle2(
                             text:
-                                'Tambien puedes tomar una foto a tus documentos',
+                                'Agregar fotos complementarias (Max 5)\nTambien puedes tomar una foto a tus documentos',
                           ),
-                            SizedBox(height: 23.15.sp),
-                                
-                          MostrarFotosSubidas()
+                          SizedBox(height: 23.15.sp),
+                          FotosComplementarias()
                         ],
                       ),
                     ),

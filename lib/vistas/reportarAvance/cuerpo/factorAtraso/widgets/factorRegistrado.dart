@@ -77,27 +77,30 @@ class _FactorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 5.0),
-            child: Text(
-              title,
-              style: AppTheme.parrafoBlancoNegrita,
+    return Container(
+       margin: EdgeInsets.symmetric(vertical: 5.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Container(
+             
+              child: Text(
+                title,
+                style: AppTheme.parrafoBlancoNegrita,
+              ),
             ),
           ),
-        ),
-        Expanded(
-          flex: 4,
-          child: Text( 
-            text,
-            style: AppTheme.parrafoBlanco,
-            textAlign: TextAlign.justify,
-          ),
-        )
-      ],
+          Expanded(
+            flex: 4,
+            child: Text( 
+              text,
+              style: AppTheme.parrafoBlanco,
+              textAlign: TextAlign.justify,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

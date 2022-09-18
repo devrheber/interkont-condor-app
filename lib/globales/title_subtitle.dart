@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextSubtitle2 extends StatelessWidget {
-  const TextSubtitle2({
-    Key key,
-    @required this.text,
-  }) : super(key: key);
+  const TextSubtitle2({Key key, @required this.text, this.isRequired = false})
+      : super(key: key);
   final String text;
+  final bool isRequired;
   @override
   Widget build(BuildContext context) {
+    var newText = text;
+    if (isRequired) {
+      newText = '$text (Obligatorio)';
+    }
     return Text(
       // 'Ingrese cantidad de avance por actividad $otros',
-      text,
+      newText,
       style: TextStyle(
         fontFamily: 'montserrat',
         fontSize: 14.sp,
