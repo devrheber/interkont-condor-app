@@ -14,13 +14,13 @@ class SeleccionarAvance extends StatefulWidget {
 
 class _SeleccionarAvanceState extends State<SeleccionarAvance> {
   String textoSeleccionado = contenidoWebService[0]['proyectos']
-          [posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]
+          [posListaProySelec]['datos']['apectosEvaluar'][0]
       ['descripcionAspectoEvaluar'];
 
   List<String> valoresSelect = [];
   // int aspectoEvaluarId = contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]['aspectoEvaluarId'];
   List valores = contenidoWebService[0]['proyectos']
-      [posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'];
+      [posListaProySelec]['datos']['apectosEvaluar'];
   // contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'];
 
   @override
@@ -29,10 +29,10 @@ class _SeleccionarAvanceState extends State<SeleccionarAvance> {
       valoresSelect.add(valores[cont]['descripcionAspectoEvaluar']);
     }
     idAspectoEvaluar = contenidoWebService[0]['proyectos']
-            [posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]
+            [posListaProySelec]['datos']['apectosEvaluar'][0]
         ['aspectoEvaluarId'];
     txtBtnDesplegableAvanceCualitativo = contenidoWebService[0]['proyectos']
-            [posicionListaProyectosSeleccionado]['datos']['apectosEvaluar'][0]
+            [posListaProySelec]['datos']['apectosEvaluar'][0]
         ['descripcionAspectoEvaluar'];
   }
 

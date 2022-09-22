@@ -6,7 +6,7 @@ import '../../../../globales/variables.dart';
 import 'cardContenido.dart';
 
 var proyectos =
-    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado];
+    contenidoWebService[0]['proyectos'][posListaProySelec];
 
 var valorejecutado =
     proyectos['valorejecutado'] == null ? 0 : proyectos['valorejecutado'];

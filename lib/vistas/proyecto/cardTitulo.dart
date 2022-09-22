@@ -60,7 +60,7 @@ class _CircleImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var imagencategoria = contenidoWebService[0]['proyectos']
-        [posicionListaProyectosSeleccionado]['imagencategoria'];
+        [posListaProySelec]['imagencategoria'];
     return Container(
       color: Colors.transparent,
       width: double.infinity,
@@ -108,7 +108,7 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var fechaUltimaSinc = contenidoWebService[0]['proyectos']
-        [posicionListaProyectosSeleccionado]['ultimaFechaSincro'];
+        [posListaProySelec]['ultimaFechaSincro'];
     print(fechaUltimaSinc);
     var text = Text(
       fechaUltimaSinc == null
@@ -156,7 +156,7 @@ class _Title extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(left: 42.sp, right: 42.sp),
               child: Text(
-                '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['nombreproyecto']}'
+                '${contenidoWebService[0]['proyectos'][posListaProySelec]['nombreproyecto']}'
                     .toUpperCase(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -203,7 +203,7 @@ class _Title extends StatelessWidget {
               padding: EdgeInsets.only(left: 19.sp, right: 19.sp),
               child: Center(
                 child: Text(
-                  '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['objeto']}',
+                  '${contenidoWebService[0]['proyectos'][posListaProySelec]['objeto']}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: "montserrat",

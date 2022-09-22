@@ -28,12 +28,12 @@ class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
 
   @override
   void initState() {
-    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['avancesCualitativos'] !=
         null) {
       setState(() {
         listaLogrosDificultades = contenidoWebService[0]['proyectos']
-                [posicionListaProyectosSeleccionado]['datos']
+                [posListaProySelec]['datos']
             ['avancesCualitativos'];
       });
     }
@@ -101,7 +101,7 @@ class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
                           listaLogrosDificultades = listaLogrosDificultades;
                         });
                         contenidoWebService[0]['proyectos']
-                                [posicionListaProyectosSeleccionado]['datos']
+                                [posListaProySelec]['datos']
                             ['avancesCualitativos'] = listaLogrosDificultades;
                       })
                   ],
@@ -130,7 +130,7 @@ class CardCuerpoSegundoPasoState extends State<CardCuerpoSegundoPaso> {
         txtDificultad = '';
       });
 
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+      contenidoWebService[0]['proyectos'][posListaProySelec]
           ['datos']['avancesCualitativos'] = listaLogrosDificultades;
     }
   }

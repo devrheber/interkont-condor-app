@@ -8,7 +8,7 @@ import '../variables.dart';
 void cambiarPasoProyecto(int numeroPaso)
 async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['paso'] = numeroPaso;
+  contenidoWebService[0]['proyectos'][posListaProySelec]['paso'] = numeroPaso;
   prefs.setString('contenidoWebService', jsonEncode(contenidoWebService));
 
 }

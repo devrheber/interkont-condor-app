@@ -48,14 +48,14 @@ class ProyectoState extends State<Proyecto> {
             dosBotones: false,
             primerBotonDesactivado: false,
             segundoBotonDesactivado: contenidoWebService[0]['proyectos']
-                [posicionListaProyectosSeleccionado]['pendienteAprobacion'],
+                [posListaProySelec]['pendienteAprobacion'],
             txtPrimerBoton: null,
             txtSegundoBoton: 'Reportar Avance',
             accionPrimerBoton: null,
             accionSegundoBoton: () {
                 
               if (contenidoWebService[0]['proyectos']
-                          [posicionListaProyectosSeleccionado]
+                          [posListaProySelec]
                       ['pendienteAprobacion'] ==
                   true) {
                 // setState(() {
@@ -67,7 +67,7 @@ class ProyectoState extends State<Proyecto> {
                     duration: 5,
                     gravity: Toast.BOTTOM);
               } else if (contenidoWebService[0]['proyectos']
-                          [posicionListaProyectosSeleccionado]['datos']
+                          [posListaProySelec]['datos']
                       ['periodoIdSeleccionado'] ==
                   null) {
                 Toast.show(

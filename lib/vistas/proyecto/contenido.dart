@@ -30,7 +30,7 @@ class ContenidoProyectoState extends State<ContenidoProyecto>
     if (_animationController != null && _animationController.isAnimating)
       return;
     String ultimaSincroFecha = contenidoWebService[0]['proyectos']
-        [posicionListaProyectosSeleccionado]['ultimaFechaSincro'];
+        [posListaProySelec]['ultimaFechaSincro'];
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
@@ -40,7 +40,7 @@ class ContenidoProyectoState extends State<ContenidoProyecto>
     await obtenerListaProyectos();
     actualizarProyectos();
     var respuesta = await obtenerDatosProyecto(
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+        contenidoWebService[0]['proyectos'][posListaProySelec]
             ['codigoproyecto'],
         true);
     _animationController.reset();
@@ -56,7 +56,7 @@ class ContenidoProyectoState extends State<ContenidoProyecto>
         ultimaSincroFecha =
             '${cambiarFormatoFecha(formatDate(fechaActual, formats))}';
       });
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+      contenidoWebService[0]['proyectos'][posListaProySelec]
           ['ultimaFechaSincro'] = ultimaSincroFecha;
       setState(() {});
       Toast.show("Proyecto sincronizado correctamente!", context,

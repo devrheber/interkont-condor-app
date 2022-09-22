@@ -45,7 +45,7 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
           'descripcion': '${descripcionAtraso.text}',
         });
       });
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+      contenidoWebService[0]['proyectos'][posListaProySelec]
           ['datos']['factoresAtrasoSeleccionados'] = listaFactoresRegistrados;
       descripcionAtraso.clear();
     }
@@ -53,12 +53,12 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
 
   @override
   void initState() {
-    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['factoresAtrasoSeleccionados'] !=
         null) {
       setState(() {
         listaFactoresRegistrados = contenidoWebService[0]['proyectos']
-                [posicionListaProyectosSeleccionado]['datos']
+                [posListaProySelec]['datos']
             ['factoresAtrasoSeleccionados'];
         if (listaFactoresRegistrados.length > 0) {
           bool_avanzarSiguientePaso = false;
@@ -70,6 +70,7 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           gradient: ColorTheme.backgroundGradient,
@@ -112,18 +113,18 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                         idTipoFactorAtrasoSeleccionado,
                         false,
                         contenidoWebService[0]['proyectos']
-                                [posicionListaProyectosSeleccionado]['datos']
+                                [posListaProySelec]['datos']
                             ['tiposFactorAtraso'], (nuevaPosicion) {
                       setState(() {
                         posicionPeriodoReportado = nuevaPosicion;
                         tipoFactorSeleccionado = contenidoWebService[0]
                                         ['proyectos']
-                                    [posicionListaProyectosSeleccionado]
+                                    [posListaProySelec]
                                 ['datos']['tiposFactorAtraso'][nuevaPosicion]
                             ['tipoFactorAtraso'];
                         idTipoFactorAtrasoSeleccionado = contenidoWebService[0]
                                         ['proyectos']
-                                    [posicionListaProyectosSeleccionado]
+                                    [posListaProySelec]
                                 ['datos']['tiposFactorAtraso'][nuevaPosicion]
                             ['tipoFactorAtrasoId'];
                       });
@@ -135,16 +136,16 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                         idTipoFactorAtrasoSeleccionado,
                         true,
                         contenidoWebService[0]['proyectos']
-                                [posicionListaProyectosSeleccionado]['datos']
+                                [posListaProySelec]['datos']
                             ['factoresAtraso'], (nuevaPosicion) {
                       setState(() {
                         posicionPeriodoReportado = nuevaPosicion;
                         factorSeleccionado = contenidoWebService[0]['proyectos']
-                                [posicionListaProyectosSeleccionado]['datos']
+                                [posListaProySelec]['datos']
                             ['factoresAtraso'][nuevaPosicion]['factorAtraso'];
                         idFactorAtrasoSeleccionado = contenidoWebService[0]
                                     ['proyectos']
-                                [posicionListaProyectosSeleccionado]['datos']
+                                [posListaProySelec]['datos']
                             ['factoresAtraso'][nuevaPosicion]['factorAtrasoId'];
                       });
                     }),
@@ -217,7 +218,7 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                                   }
                                 });
                                 contenidoWebService[0]['proyectos']
-                                            [posicionListaProyectosSeleccionado]
+                                            [posListaProySelec]
                                         [
                                         'datos']['factoresAtrasoSeleccionados'] =
                                     listaFactoresRegistrados;

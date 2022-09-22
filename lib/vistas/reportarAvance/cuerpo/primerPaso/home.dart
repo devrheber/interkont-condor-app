@@ -32,9 +32,9 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
 
   var proyectos = contenidoWebService[0]['proyectos'];
   List<dynamic> actividades = contenidoWebService[0]['proyectos']
-      [posicionListaProyectosSeleccionado]['datos']['actividades'];
+      [posListaProySelec]['datos']['actividades'];
   List<dynamic> actividadesFilter = contenidoWebService[0]['proyectos']
-      [posicionListaProyectosSeleccionado]['datos']['actividades'];
+      [posListaProySelec]['datos']['actividades'];
   @override
   Widget build(BuildContext context) {
     return Stack(

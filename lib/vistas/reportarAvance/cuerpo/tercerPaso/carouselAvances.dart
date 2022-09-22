@@ -16,25 +16,25 @@ Widget carouselAlcance(context) {
     items: <Widget>[
       for (int cont = 0;
           cont <
-              contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+              contenidoWebService[0]['proyectos'][posListaProySelec]
                       ['datos']['indicadoresAlcance']
                   .length;
           cont++)
         cardCarousel3(
-            contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']
+            contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
                 ['indicadoresAlcance'][cont]['descripcionIndicadorAlcance'],
-            contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            contenidoWebService[0]['proyectos'][posListaProySelec]
                 ['datos']['indicadoresAlcance'][cont]['unidadMedida'],
-            contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            contenidoWebService[0]['proyectos'][posListaProySelec]
                 ['datos']['indicadoresAlcance'][cont]['cantidadProgramada'],
-            contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            contenidoWebService[0]['proyectos'][posListaProySelec]
                 ['datos']['indicadoresAlcance'][cont]['cantidadEjecutada'],
-            contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            contenidoWebService[0]['proyectos'][posListaProySelec]
                 ['datos']['indicadoresAlcance'][cont]['porcentajeAvance'],
-            contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']
+            contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
                 ['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'], (value) {
           contenidoWebService[0]['proyectos']
-                      [posicionListaProyectosSeleccionado]['datos']
+                      [posListaProySelec]['datos']
                   ['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance'] =
               value;
         })

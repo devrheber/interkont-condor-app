@@ -438,7 +438,7 @@ class ProyectosContenido extends StatelessWidget {
   }
 
   _seleccionarProyecto(context, posicion, idProyecto, nombreIcono) async {
-    posicionListaProyectosSeleccionado = posicion;
+    posListaProySelec = posicion;
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (contenidoWebService[0]['proyectos'][posicion]['paso'] == null) {

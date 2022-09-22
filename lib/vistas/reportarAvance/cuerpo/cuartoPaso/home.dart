@@ -49,7 +49,7 @@ class CardCuerpoCuartoPasoState extends State<CardCuerpoCuartoPaso> {
                             'Aca puede agregar una descripción del avance..',
                             (value) {
                               contenidoWebService[0]['proyectos']
-                                      [posicionListaProyectosSeleccionado]
+                                      [posListaProySelec]
                                   ['datos']['txtComentario'] = value;
                               if (value.length > 1) {
                                 boolestSegundoBtnreportarAvance = false;

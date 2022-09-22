@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:appalimentacion/utils/base64_to_file.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/local_widgets/imagen_caja.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/local_widgets/seleccionar_foto_documentos.dart';
 import 'package:flutter/material.dart';
@@ -19,40 +20,54 @@ class FotosComplementarias extends StatefulWidget {
 
 class _FotosComplementariasState extends State<FotosComplementarias> {
   List listaImagenes = [];
+  @override
+  void initState() {
+    super.initState();
+    {
+      loadImageToListaImagenes();
+    }
+  }
 
   Future obtenerImagen(ImageSource source) async {
-    final picked = await ImagePicker().getImage(source: source);
+    final picked = await ImagePicker().pickImage(source: source);
 
-    int currentPosition = listaImagenes.length;
-    listaImagenes
-        .add({'image': File(picked.path), 'posicion': currentPosition});
-    File image = listaImagenes[currentPosition]['image'];
+    var filesFotosComplementarias = contenidoWebService[0]['proyectos']
+        [posListaProySelec]['datos']['filesFotosComplementarias'];
+    if (filesFotosComplementarias == null) {
+      contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+          ['filesFotosComplementarias'] = [];
+    }
     Map<String, Object> listaArmada = {
-      "image": base64Encode(image.readAsBytesSync()),
+      "image": base64Encode(File(picked.path).readAsBytesSync()),
       "nombre": "imagenesComplementarias",
       "tipo": "jpeg",
-      "posicion": listaImagenes.length - 1
+      "posicion": filesFotosComplementarias.length,
     };
-    var filesFotosComplementarias = contenidoWebService[0]['proyectos']
-            [posicionListaProyectosSeleccionado]['datos']
-        ['filesFotosComplementarias'];
-
-    if (filesFotosComplementarias == null) {
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-          ['datos']['filesFotosComplementarias'] = [];
-    }
-    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-            ['datos']['filesFotosComplementarias']
+    contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+            ['filesFotosComplementarias']
         .add(listaArmada);
+    await loadImageToListaImagenes();
     setState(() {});
   }
 
-  void removerImagen(int posicion) {
+  Future<void> removerImagen(int posicion) async {
     //remover imagen de la lista y asignar posición anterior
-    listaImagenes.removeWhere((element) => element['posicion'] == posicion);
-    listaImagenes.forEach((element) {
-      element['posicion'] = listaImagenes.indexOf(element);
+    contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+            ['filesFotosComplementarias']
+        .removeWhere((element) => element['posicion'] == posicion);
+    contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+            ['filesFotosComplementarias']
+        .forEach((element) {
+      element['posicion'] = contenidoWebService[0]['proyectos']
+              [posListaProySelec]['datos']['filesFotosComplementarias']
+          .indexOf(element);
     });
+    listaImagenes.removeWhere((element) => element['posicion'] == posicion);
+    listaImagenes.forEach((element) { 
+      element['posicion'] = listaImagenes.indexOf(element);
+    }); 
+    await loadImageToListaImagenes();
+
     setState(() {});
   }
 
@@ -81,8 +96,33 @@ class _FotosComplementariasState extends State<FotosComplementarias> {
               onGalleryTap: () => obtenerImagen(ImageSource.gallery),
             );
           },
-        ), 
+        ),
       ],
     );
+  }
+
+  Future<void> loadImageToListaImagenes() async {
+    var filesFotosComplementarias = contenidoWebService[0]['proyectos']
+        [posListaProySelec]['datos']['filesFotosComplementarias'];
+
+    if (filesFotosComplementarias != null &&
+        filesFotosComplementarias.isNotEmpty) {
+      await filesFotosComplementarias.forEach((element) async {
+        var name = element['nombre'] + element['posicion'].toString();
+        var file = await base64StringToFile(
+            image: element['image'], name: name, extension: element['tipo']);
+        //* si listaImagenes contiene el mismo nombre de archivo, no lo agrega
+
+        if (!listaImagenes.any((imagen) => imagen['nombre'] == name)) {
+          listaImagenes.add({
+            "image": file,
+            "nombre": file.path.split('/').last.split('.').first,
+            "posicion": element['posicion']
+          });
+        }
+
+        setState(() {});
+      });
+    }
   }
 }

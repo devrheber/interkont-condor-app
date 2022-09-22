@@ -21,29 +21,29 @@ Widget cardContenidoQuintoPaso({
   String nombreSemaforo = 'rojo';
   if (esAntes) {
     nombreSemaforo = contenidoWebService[0]['proyectos']
-        [posicionListaProyectosSeleccionado]['semaforoproyecto'];
+        [posListaProySelec]['semaforoproyecto'];
   } else {
     var datoVerde = (100 -
         ((double.parse('$porcentajeAsiVaDos') /
                 contenidoWebService[0]['proyectos']
-                        [posicionListaProyectosSeleccionado]['datos']
+                        [posListaProySelec]['datos']
                     ['porcentajeValorProyectadoSeleccionado']) *
             100));
     if (datoVerde <=
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+        contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['limitePorcentajeAtraso']) {
       nombreSemaforo = 'verde';
     } else if (datoVerde >
             contenidoWebService[0]['proyectos']
-                    [posicionListaProyectosSeleccionado]['datos']
+                    [posListaProySelec]['datos']
                 ['limitePorcentajeAtraso'] &&
         datoVerde <=
             contenidoWebService[0]['proyectos']
-                    [posicionListaProyectosSeleccionado]['datos']
+                    [posListaProySelec]['datos']
                 ['limitePorcentajeAtrasoAmarillo']) {
       nombreSemaforo = 'amarillo';
     } else if (datoVerde >
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+        contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['limitePorcentajeAtrasoAmarillo']) {
       nombreSemaforo = 'rojo';
     }

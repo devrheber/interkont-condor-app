@@ -29,9 +29,9 @@ class CardCuerpoState extends State<CardCuerpo> {
   }
 
   double valorejecutado = contenidoWebService[0]['proyectos']
-      [posicionListaProyectosSeleccionado]['valorejecutado'];
+      [posListaProySelec]['valorejecutado'];
   double valorproyecto = contenidoWebService[0]['proyectos']
-      [posicionListaProyectosSeleccionado]['valorproyecto'];
+      [posListaProySelec]['valorproyecto'];
   int porcentajeAsiVa = 0;
 
   @override
@@ -39,36 +39,36 @@ class CardCuerpoState extends State<CardCuerpo> {
     setState(() {
       porcentajeAsiVa = ((100 * valorejecutado) / valorproyecto).round();
     });
-    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['periodoIdSeleccionado'] !=
         null) {
       setState(() {
         periodoIdSeleccionado = contenidoWebService[0]['proyectos']
-                [posicionListaProyectosSeleccionado]['datos']
+                [posListaProySelec]['datos']
             ['periodoIdSeleccionado'];
       });
     } else {
       if (contenidoWebService[0]['proyectos']
-                  [posicionListaProyectosSeleccionado]['datos']['periodos']
+                  [posListaProySelec]['datos']['periodos']
               .length >
           0) {
         setState(() {
           periodoIdSeleccionado = contenidoWebService[0]['proyectos']
-                  [posicionListaProyectosSeleccionado]['datos']['periodos'][0]
+                  [posListaProySelec]['datos']['periodos'][0]
               ['periodoId'];
         });
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+        contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['periodoIdSeleccionado'] = contenidoWebService[0]
-                ['proyectos'][posicionListaProyectosSeleccionado]['datos']
+                ['proyectos'][posListaProySelec]['datos']
             ['periodos'][0]['periodoId'];
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+        contenidoWebService[0]['proyectos'][posListaProySelec]
                 ['datos']['porcentajeValorProyectadoSeleccionado'] =
             contenidoWebService[0]['proyectos']
-                    [posicionListaProyectosSeleccionado]['datos']['periodos'][0]
+                    [posListaProySelec]['datos']['periodos'][0]
                 ['porcentajeProyectado'];
       }
     }
-    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    contenidoWebService[0]['proyectos'][posListaProySelec]
         ['datos']['porcentajeValorEjecutado'] = porcentajeAsiVa;
     activarVariablesPreferences();
   }
@@ -78,18 +78,18 @@ class CardCuerpoState extends State<CardCuerpo> {
   int periodoIdSeleccionado = 0;
 
   cambiarPosicionPeriodoReportado(nuevaPosicion) {
-    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    contenidoWebService[0]['proyectos'][posListaProySelec]
         ['datos']['periodoIdSeleccionado'] = contenidoWebService[0]['proyectos']
-            [posicionListaProyectosSeleccionado]['datos']['periodos']
+            [posListaProySelec]['datos']['periodos']
         [nuevaPosicion]['periodoId'];
-    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['porcentajeValorProyectadoSeleccionado'] =
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+        contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['periodos'][nuevaPosicion]['porcentajeProyectado'];
     setState(() {
       posicionPeriodoReportado = nuevaPosicion;
       periodoIdSeleccionado = contenidoWebService[0]['proyectos']
-              [posicionListaProyectosSeleccionado]['datos']['periodos']
+              [posListaProySelec]['datos']['periodos']
           [nuevaPosicion]['periodoId'];
     });
   }
@@ -100,7 +100,7 @@ class CardCuerpoState extends State<CardCuerpo> {
       child: Stack(
         children: <Widget>[
           contenidoWebService[0]['proyectos']
-                          [posicionListaProyectosSeleccionado]
+                          [posListaProySelec]
                       ['ultimaFechaSincro'] ==
                   null
               ? Container(
@@ -142,7 +142,7 @@ class CardCuerpoState extends State<CardCuerpo> {
               width: double.infinity,
               margin: EdgeInsets.only(
                 top: contenidoWebService[0]['proyectos']
-                                [posicionListaProyectosSeleccionado]
+                                [posListaProySelec]
                             ['ultimaFechaSincro'] ==
                         null
                     ? 400.h
@@ -179,14 +179,14 @@ class CardCuerpoState extends State<CardCuerpo> {
                           posicionPeriodoReportado,
                           periodoIdSeleccionado,
                           contenidoWebService[0]['proyectos']
-                                  [posicionListaProyectosSeleccionado]['datos']
+                                  [posListaProySelec]['datos']
                               ['periodos'], (posicion) {
                         cambiarPosicionPeriodoReportado(posicion);
                       }),
                     ],
                   )),
                   contenidoWebService[0]['proyectos']
-                                  [posicionListaProyectosSeleccionado]
+                                  [posListaProySelec]
                               ['pendienteAprobacion'] ==
                           true
                       ? Container(
@@ -248,7 +248,7 @@ class _Summary extends StatelessWidget {
   Widget build(BuildContext context) {
     final NumberFormat f2 = NumberFormat("#,##0.00", "es_AR");
     final dynamic proyectos =
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado];
+        contenidoWebService[0]['proyectos'][posListaProySelec];
     return Container(
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 10.0, left: 28.sp, right: 28.sp),

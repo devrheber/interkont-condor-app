@@ -35,7 +35,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
   void obtenerVariablesSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
     actualizarPaso(contenidoWebService[0]['proyectos']
-        [posicionListaProyectosSeleccionado]['paso']);
+        [posListaProySelec]['paso']);
     print(numeroPaso);
   }
 
@@ -71,22 +71,19 @@ class ReportarAvanceState extends State<ReportarAvance> {
     // }
   }
 
-  @protected
-  void dispose() {
-    // return _keyboardVisibility.removeListener(keyboardVisibilitySubscriberId3);
-  }
-
+  
+ 
   void siguiente() async {
     bool checkPhoto = true;
-    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]
                 ['datos']['fileFotoPrincipal'] ==
             '' ||
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+        contenidoWebService[0]['proyectos'][posListaProySelec]
                 ['datos']['fileFotoPrincipal'] ==
             null) {
       checkPhoto = false;
     }
-    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]
                 ['datos']['porcentajeValorEjecutado']
             .round() >
         100) {
@@ -107,7 +104,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
       cambiarPasoProyecto(numeroPaso + 1);
       print(numeroPaso);
       if (contenidoWebService[0]['proyectos']
-                      [posicionListaProyectosSeleccionado]['datos']
+                      [posListaProySelec]['datos']
                   ['txtComentario'] ==
               null &&
           numeroPaso == 4) {
@@ -116,12 +113,12 @@ class ReportarAvanceState extends State<ReportarAvance> {
           boolestSegundoBtnreportarAvance = true;
         });
       } else if (contenidoWebService[0]['proyectos']
-                      [posicionListaProyectosSeleccionado]['datos']
+                      [posListaProySelec]['datos']
                   ['txtComentario'] !=
               null &&
           numeroPaso == 4 &&
           contenidoWebService[0]['proyectos']
-                          [posicionListaProyectosSeleccionado]['datos']
+                          [posListaProySelec]['datos']
                       ['txtComentario']
                   .length <
               1) {
@@ -152,7 +149,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
         accionPrimerBoton = () {
           obtenerDatosProyecto(
               contenidoWebService[0]['proyectos']
-                  [posicionListaProyectosSeleccionado]['codigoproyecto'],
+                  [posListaProySelec]['codigoproyecto'],
               false);
           Toast.show("El avance ha sido cancelado", context,
               duration: 5, gravity: Toast.BOTTOM);
@@ -174,15 +171,15 @@ class ReportarAvanceState extends State<ReportarAvance> {
         };
         accionSegundoBoton = () {
           if (((contenidoWebService[0]['proyectos']
-                                  [posicionListaProyectosSeleccionado]['datos']
+                                  [posListaProySelec]['datos']
                               ['porcentajeValorProyectadoSeleccionado'] /
                           contenidoWebService[0]['proyectos']
-                                  [posicionListaProyectosSeleccionado]['datos']
+                                  [posListaProySelec]['datos']
                               ['porcentajeValorEjecutado']) *
                       100) -
                   100 >
               contenidoWebService[0]['proyectos']
-                      [posicionListaProyectosSeleccionado]['datos']
+                      [posListaProySelec]['datos']
                   ['limitePorcentajeAtraso']) {
             cambiarPasoProyecto(2);
             cambiarPagina(context, IndexFactorAtraso());

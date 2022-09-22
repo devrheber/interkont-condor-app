@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:appalimentacion/globales/ssl_solution.dart';
 import 'package:appalimentacion/translation/localizations_delegates.dart';
 import 'package:appalimentacion/translation/supported_locales.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,8 @@ import 'vistas/login/login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
+ 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 

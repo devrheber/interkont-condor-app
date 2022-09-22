@@ -72,79 +72,79 @@ class _CargandoFinalizarState extends State<CargandoFinalizar>
     List factoresAtraso = [];
     List indicadoresAlcance = [];
 
-    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['actividades'] !=
         null) {
       for (int cont = 0;
           cont <
               contenidoWebService[0]['proyectos']
-                          [posicionListaProyectosSeleccionado]['datos']
+                          [posListaProySelec]['datos']
                       ['actividades']
                   .length;
           cont++) {
         double cantidadEjecutada;
         if (contenidoWebService[0]['proyectos']
-                    [posicionListaProyectosSeleccionado]['datos']['actividades']
+                    [posListaProySelec]['datos']['actividades']
                 [cont]['txtActividadAvance'] !=
             null) {
           cantidadEjecutada = double.parse(
-              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['txtActividadAvance']}');
+              '${contenidoWebService[0]['proyectos'][posListaProySelec]['datos']['actividades'][cont]['txtActividadAvance']}');
         } else {
           cantidadEjecutada = 0.0;
         }
         var listaArmada = {
           'actividadId': int.parse(
-              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['actividades'][cont]['actividadId']}'),
+              '${contenidoWebService[0]['proyectos'][posListaProySelec]['datos']['actividades'][cont]['actividadId']}'),
           'cantidadEjecutada': cantidadEjecutada
         };
         actividades.add(listaArmada);
       }
     }
 
-    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['avancesCualitativos'] !=
         null) {
       for (int cont = 0;
           cont <
               contenidoWebService[0]['proyectos']
-                          [posicionListaProyectosSeleccionado]['datos']
+                          [posListaProySelec]['datos']
                       ['avancesCualitativos']
                   .length;
           cont++) {
         String dificultad;
         if (contenidoWebService[0]['proyectos']
-                        [posicionListaProyectosSeleccionado]['datos']
+                        [posListaProySelec]['datos']
                     ['avancesCualitativos'][cont]['dificultad'] ==
                 null ||
             contenidoWebService[0]['proyectos']
-                        [posicionListaProyectosSeleccionado]['datos']
+                        [posListaProySelec]['datos']
                     ['avancesCualitativos'][cont]['dificultad'] ==
                 '') {
           dificultad = '';
         } else {
           dificultad =
-              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['avancesCualitativos'][cont]['dificultad']}';
+              '${contenidoWebService[0]['proyectos'][posListaProySelec]['datos']['avancesCualitativos'][cont]['dificultad']}';
         }
 
         String logros;
         if (contenidoWebService[0]['proyectos']
-                        [posicionListaProyectosSeleccionado]['datos']
+                        [posListaProySelec]['datos']
                     ['avancesCualitativos'][cont]['logro'] ==
                 null ||
             contenidoWebService[0]['proyectos']
-                        [posicionListaProyectosSeleccionado]['datos']
+                        [posListaProySelec]['datos']
                     ['avancesCualitativos'][cont]['logro'] ==
                 '') {
           logros = '';
         } else {
           logros = contenidoWebService[0]['proyectos']
-                  [posicionListaProyectosSeleccionado]['datos']
+                  [posListaProySelec]['datos']
               ['avancesCualitativos'][cont]['logro'];
         }
 
         var listaArmada = {
           'aspectoEvaluarId': contenidoWebService[0]['proyectos']
-                  [posicionListaProyectosSeleccionado]['datos']
+                  [posListaProySelec]['datos']
               ['avancesCualitativos'][cont]['aspectoEvaluarId'],
           'dificultadesAspectoEvaluar': dificultad,
           'logrosAspectoEvaluar': logros,
@@ -154,53 +154,53 @@ class _CargandoFinalizarState extends State<CargandoFinalizar>
       }
     }
 
-    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['factoresAtrasoSeleccionados'] !=
         null) {
       for (int cont = 0;
           cont <
               contenidoWebService[0]['proyectos']
-                          [posicionListaProyectosSeleccionado]['datos']
+                          [posListaProySelec]['datos']
                       ['factoresAtrasoSeleccionados']
                   .length;
           cont++) {
         factoresAtraso.add({
           'factorAtrasoId': contenidoWebService[0]['proyectos']
-                  [posicionListaProyectosSeleccionado]['datos']
+                  [posListaProySelec]['datos']
               ['factoresAtrasoSeleccionados'][cont]['factorAtrasoId']
         });
       }
     }
 
-    if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]
             ['datos']['indicadoresAlcance'] !=
         null) {
       for (int cont = 0;
           cont <
               contenidoWebService[0]['proyectos']
-                          [posicionListaProyectosSeleccionado]['datos']
+                          [posListaProySelec]['datos']
                       ['indicadoresAlcance']
                   .length;
           cont++) {
         double cantidadEjecucion;
         if (contenidoWebService[0]['proyectos']
-                            [posicionListaProyectosSeleccionado]['datos']
+                            [posListaProySelec]['datos']
                         ['indicadoresAlcance'][cont]
                     ['txtEjecucionIndicadorAlcance'] ==
                 null ||
             contenidoWebService[0]['proyectos']
-                            [posicionListaProyectosSeleccionado]['datos']
+                            [posListaProySelec]['datos']
                         ['indicadoresAlcance'][cont]
                     ['txtEjecucionIndicadorAlcance'] ==
                 '') {
           cantidadEjecucion = 0.0;
         } else {
           cantidadEjecucion = double.parse(
-              '${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance']}');
+              '${contenidoWebService[0]['proyectos'][posListaProySelec]['datos']['indicadoresAlcance'][cont]['txtEjecucionIndicadorAlcance']}');
         }
         var listaArmada = {
           'indicadorAlcanceId': contenidoWebService[0]['proyectos']
-                  [posicionListaProyectosSeleccionado]['datos']
+                  [posListaProySelec]['datos']
               ['indicadoresAlcance'][cont]['indicadorAlcanceId'],
           'cantidadEjecucion': cantidadEjecucion,
         };
@@ -214,22 +214,22 @@ class _CargandoFinalizarState extends State<CargandoFinalizar>
       "actividades": actividades,
       "aspectosEvaluar": avancesCualitativos,
       "codigoproyecto": contenidoWebService[0]['proyectos']
-          [posicionListaProyectosSeleccionado]['codigoproyecto'],
+          [posListaProySelec]['codigoproyecto'],
       "descripcion": contenidoWebService[0]['proyectos']
-          [posicionListaProyectosSeleccionado]['datos']['txtComentario'],
+          [posListaProySelec]['datos']['txtComentario'],
       "factoresAtraso": factoresAtraso,
       "fotoPrincipal": {
         "image": contenidoWebService[0]['proyectos']
-            [posicionListaProyectosSeleccionado]['datos']['fileFotoPrincipal'],
+            [posListaProySelec]['datos']['fileFotoPrincipal'],
         "nombre": "fotoPrincipal",
         "tipo": "jpeg"
       },
       "imagenesComplementarias": contenidoWebService[0]['proyectos']
-              [posicionListaProyectosSeleccionado]['datos']
+              [posListaProySelec]['datos']
           ['filesFotosComplementarias'],
       "indicadoresAlcance": indicadoresAlcance,
       "periodoId": contenidoWebService[0]['proyectos']
-              [posicionListaProyectosSeleccionado]['datos']
+              [posListaProySelec]['datos']
           ['periodoIdSeleccionado'],
       "usuario": contenidoWebService[0]['usuario']['nombreUsu']
     };
@@ -257,16 +257,16 @@ class _CargandoFinalizarState extends State<CargandoFinalizar>
         cambiarPasoProyecto(0);
         print('SE PUDO');
         print(contenidoWebService[0]['proyectos']
-            [posicionListaProyectosSeleccionado]['datos']['fileFotoPrincipal']);
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+            [posListaProySelec]['datos']['fileFotoPrincipal']);
+        contenidoWebService[0]['proyectos'][posListaProySelec]
             ['paso'] = 0;
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+        contenidoWebService[0]['proyectos'][posListaProySelec]
             ['porPublicar'] = false;
         await obtenerListaProyectos();
         await actualizarProyectos();
         await obtenerDatosProyecto(
             contenidoWebService[0]['proyectos']
-                [posicionListaProyectosSeleccionado]['codigoproyecto'],
+                [posListaProySelec]['codigoproyecto'],
             false);
         if (pasaron10Segundos == true) {
           Navigator.push(
@@ -275,9 +275,9 @@ class _CargandoFinalizarState extends State<CargandoFinalizar>
           );
         }
       } else {
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+        contenidoWebService[0]['proyectos'][posListaProySelec]
             ['porPublicar'] = true;
-        contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+        contenidoWebService[0]['proyectos'][posListaProySelec]
             ['paso'] = 5;
         cambiarPasoProyecto(5);
         Navigator.push(
@@ -287,12 +287,12 @@ class _CargandoFinalizarState extends State<CargandoFinalizar>
       }
     } catch (erro) {
       print(contenidoWebService[0]['proyectos']
-          [posicionListaProyectosSeleccionado]['paso']);
+          [posListaProySelec]['paso']);
       print(contenidoWebService[0]['proyectos']
-          [posicionListaProyectosSeleccionado]['paso']);
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+          [posListaProySelec]['paso']);
+      contenidoWebService[0]['proyectos'][posListaProySelec]
           ['porPublicar'] = true;
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+      contenidoWebService[0]['proyectos'][posListaProySelec]
           ['paso'] = 5;
       cambiarPasoProyecto(5);
       Navigator.push(

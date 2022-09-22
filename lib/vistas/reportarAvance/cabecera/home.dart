@@ -47,12 +47,12 @@ class CardHeadReporteAvanceState extends State<CardHeadReporteAvance> {
           buildPorcentaje(
               valor: "Proyectado",
               percentage:
-                  "${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorProyectadoSeleccionado'].round()}"),
+                  "${contenidoWebService[0]['proyectos'][posListaProySelec]['datos']['porcentajeValorProyectadoSeleccionado'].round()}"),
           Expanded(child: Container()),
           buildPorcentaje(
               valor: "Ejecutado",
               percentage:
-                  "${contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos']['porcentajeValorEjecutado'].round()}"),
+                  "${contenidoWebService[0]['proyectos'][posListaProySelec]['datos']['porcentajeValorEjecutado'].round()}"),
         ],
       ),
     );

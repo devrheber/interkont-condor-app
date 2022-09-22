@@ -32,7 +32,7 @@ class CardCuerpoTercerPasoState extends State<CardCuerpoTercerPaso> {
   @override
   Widget build(BuildContext context) {
     var indAlcance = contenidoWebService[0]['proyectos']
-        [posicionListaProyectosSeleccionado]['datos']['indicadoresAlcance'];
+        [posListaProySelec]['datos']['indicadoresAlcance'];
     return Stack(
       children: <Widget>[
         Container(

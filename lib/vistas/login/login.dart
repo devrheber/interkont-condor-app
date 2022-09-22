@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
     print(prefs.getInt('estadoLogin'));
     setState(() {
       usuario.text = 'interkont@2';
-      contrasena.text = 'Int4rkont*_22'; 
+      contrasena.text = 'Int4rkont*_22';
     });
   }
 
@@ -218,30 +218,19 @@ class _LoginPageState extends State<LoginPage> {
     prefs = await SharedPreferences.getInstance();
 
     var body = {
-      "usuario": "${usuario.text}", 
+      "usuario": "${usuario.text}",
       "contrasena": "${contrasena.text}"
     };
 
     try {
-      HttpClient client = new HttpClient(); 
+      HttpClient client = new HttpClient();
       client.badCertificateCallback =
           ((X509Certificate cert, String host, int port) => true);
       var request = await client.postUrl(Uri.parse(url));
       request.headers.set('content-type', 'application/json');
       request.add(utf8.encode(json.encode(body)));
       HttpClientResponse response = await request.close();
-      print('------------');
-      print(response);
-      print('------------');
-      print('------------');
-      print(response.statusCode);
-      print('------------');
-      print('------------');
-      print(response.headers);
-      print('------------');
-      print('------------');
-      print(response.headers['authorization'][0]);
-      print('------------');
+
       var respuesta = await respuestaHttp(response.statusCode);
 
       await prefs.setInt('estadoLogin', response.statusCode);

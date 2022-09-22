@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:appalimentacion/utils/base64_to_file.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/local_widgets/imagen_caja.dart';
 import 'package:appalimentacion/vistas/reportarAvance/cuerpo/cuartoPaso/local_widgets/seleccionar_foto_documentos.dart';
 import 'package:flutter/material.dart';
@@ -20,22 +21,36 @@ class _FotoPrincipalState extends State<FotoPrincipal> {
   List<File> listaImagenes = [];
 
   String base64Image;
+  @override
+  void initState() {
+    super.initState();
+    loadImageToListaImagenes();
+  }
+
+  Future<void> loadImageToListaImagenes() async {
+    String fileFotoPrincipal = contenidoWebService[0]['proyectos']
+        [posListaProySelec]['datos']['fileFotoPrincipal'];
+    File file = await base64StringToFile(
+      image: fileFotoPrincipal,
+      name: 'fotoPrincipal',
+    );
+    if (file != null) listaImagenes.add(file);
+    setState(() {});
+  }
 
   Future<void> obtenerImagen(ImageSource source) async {
-    final picked = await ImagePicker().getImage(source: source);
-    listaImagenes.add(File(picked.path));
-    File image = listaImagenes.first;
+    final picked = await ImagePicker().pickImage(source: source);
 
-    contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-        ['datos']['fileFotoPrincipal'] = base64Encode(image.readAsBytesSync());
-
-    setState(() {});
+    contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+            ['fileFotoPrincipal'] =
+        base64Encode(File(picked.path).readAsBytesSync());
+    await loadImageToListaImagenes();
   }
 
   void removerImagen() {
     setState(() {
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
-          ['datos']['fileFotoPrincipal'] = null;
+      contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+          ['fileFotoPrincipal'] = null;
       listaImagenes.clear();
     });
   }

@@ -38,7 +38,7 @@ async {
 
     var respuesta = await respuestaHttp(response.statusCode);
     if(respuesta == true){
-      contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]['datos'] = jsonDecode(cuerpoBody);
+      contenidoWebService[0]['proyectos'][posListaProySelec]['datos'] = jsonDecode(cuerpoBody);
       if(actualizarCache == true){
         actualizarPasosProyecto();
       }else{

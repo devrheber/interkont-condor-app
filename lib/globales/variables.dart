@@ -6,7 +6,7 @@ int idAspectoEvaluar;
 int keyboardVisibilitySubscriberId;
 int keyboardVisibilitySubscriberId2;
 int keyboardVisibilitySubscriberId3; // DE TODA LA CARPETA DE REPORTAR AVANCE
-int posicionListaProyectosSeleccionado = 0;
+int posListaProySelec = 0;
 String numeroVersion = "1.0.0";
 String txtBtnDesplegableAvanceCualitativo = '';
 String urlGlobalApiCondor =  'https://avanzamepruebas.minenergia.gov.co/avanzame-ws';

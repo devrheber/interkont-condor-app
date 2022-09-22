@@ -7,11 +7,11 @@ final titleColor = Color(0xff444444);
 Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
   TextEditingController controllerCuartoPasoTxtComentarios =
       TextEditingController();
-  if (contenidoWebService[0]['proyectos'][posicionListaProyectosSeleccionado]
+  if (contenidoWebService[0]['proyectos'][posListaProySelec]
           ['datos']['txtComentario'] !=
       null) {
     controllerCuartoPasoTxtComentarios.text = contenidoWebService[0]
-            ['proyectos'][posicionListaProyectosSeleccionado]['datos']
+            ['proyectos'][posListaProySelec]['datos']
         ['txtComentario'];
   }
   return Container(

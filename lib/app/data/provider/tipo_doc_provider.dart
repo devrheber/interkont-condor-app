@@ -1,9 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:appalimentacion/app/ui/utils/api_routes.dart';
-import 'package:appalimentacion/main.dart';
 import 'package:dio/dio.dart';
-import 'package:get/instance_manager.dart';
 
 import '../../../globales/variables.dart';
 import '../model/tipo_doc_model.dart';
@@ -11,15 +10,37 @@ import '../model/tipo_doc_model.dart';
 class TipoDocApi {
   final String _url = urlGlobalApiCondor;
 
-  Future<List<TipoDoc>> getTipoDocWithDio() async {
-    final dio = Get.find<Dio>();
-    var authorization = contenidoWebService[0]['usuario']['tokenUsu'];
+  Future<List<TipoDoc>> getTipoDoc() async {
+    HttpClient client = HttpClient();
+
+    HttpClientRequest request =
+        await client.getUrl(Uri.parse(_url + ApiRoutes.tiposDocumento));
+    String authorization = contenidoWebService[0]['usuario']['tokenUsu'];
+    request.headers.set('content-type', 'application/json');
+    request.headers.set('Authorization', '$authorization');
+    HttpClientResponse response = await request.close();
 
     try {
-      var response = await dio.get(
-        ApiRoutes.tiposDocumento,
-        options: ApiOptions.options(prefs),
-      );
+      if (response.statusCode == 200) {
+        String responseBody = await response.transform(utf8.decoder).join();
+        return tipoDocFromJson(responseBody);
+      }
+      return [];
+    } on Error catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List<TipoDoc>> getTipoDocWithDio() async {
+    try {
+      String authorization = contenidoWebService[0]['usuario']['tokenUsu'];
+      Dio dio = Dio();
+      var response = await dio.get(_url + ApiRoutes.tiposDocumento,
+          options: Options(headers: {
+            'content-type': 'application/json',
+            'Authorization': '$authorization'
+          }));
       if (response.statusCode == 200) {
         return tipoDocFromJson(json.encode(response.data));
       }

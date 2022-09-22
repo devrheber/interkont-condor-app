@@ -14,13 +14,13 @@ class CarouselAvances extends StatefulWidget {
 
 class CarouselAvancesState extends State<CarouselAvances> {
   List lista = contenidoWebService[0]['proyectos']
-      [posicionListaProyectosSeleccionado]['datos']['actividades'];
+      [posListaProySelec]['datos']['actividades'];
   List listaDos = contenidoWebService[0]['proyectos']
-      [posicionListaProyectosSeleccionado]['datos']['actividades'];
+      [posListaProySelec]['datos']['actividades'];
 
   calcular(cont, value) {
     print(contenidoWebService[0]['proyectos']
-            [posicionListaProyectosSeleccionado]['datos']['actividades'][cont]
+            [posListaProySelec]['datos']['actividades'][cont]
         ['cantidadEjecutada']);
 
     setState(() {
@@ -54,7 +54,7 @@ class CarouselAvancesState extends State<CarouselAvances> {
               txtActividadAvance: lista[cont]['txtActividadAvance'],
               accion: (value) {
                 contenidoWebService[0]['proyectos']
-                        [posicionListaProyectosSeleccionado]['datos']
+                        [posListaProySelec]['datos']
                     ['actividades'][cont]['txtActividadAvance'] = value;
               },
             ),

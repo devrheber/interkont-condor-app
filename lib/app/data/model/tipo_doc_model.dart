@@ -9,26 +9,26 @@ String tipoDocToJson(List<TipoDoc> data) =>
 class TipoDoc {
   TipoDoc({
     this.id,
-    this.tipo,
+    this.nombre,
     this.obligatorio,
     this.intparametipdoc,
   });
 
   final int id;
-  final String tipo;
+  final String nombre;
   final bool obligatorio;
   final int intparametipdoc;
 
   factory TipoDoc.fromJson(Map<String, dynamic> json) => TipoDoc(
         id: json["id"],
-        tipo: json["tipo"],
+        nombre: json["tipo"],
         obligatorio: json["obligatorio"],
         intparametipdoc: json["intparametipdoc"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "tipo": tipo,
+        "tipo": nombre,
         "obligatorio": obligatorio,
         "intparametipdoc": intparametipdoc,
       };
