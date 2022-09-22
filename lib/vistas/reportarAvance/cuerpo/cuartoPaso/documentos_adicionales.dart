@@ -45,20 +45,30 @@ class _DocumentosAdicionalesState extends State<DocumentosAdicionales> {
       // runAlignment: WrapAlignment.start,
       // runSpacing: 20.sp,
       // spacing: 20.sp,
+      crossAxisAlignment: CrossAxisAlignment.start,
+
       children: <Widget>[
-        ...listaDocumentos.asMap().entries.map((image) {
-          return Container(
-            margin: EdgeInsets.only(bottom: 15),
-            child: ImagenCaja(
-              isDocumento: getTypeFile(image.value),
-              isMaxLimit: true,
-              file: image.value,
-              onRemoveImageTap: () {
-                removerDocumento(image.key);
-              },
-            ),
-          );
-        }).toList(),
+        Wrap(
+          alignment: WrapAlignment.start,
+          runAlignment: WrapAlignment.start,
+          runSpacing: 20.sp,
+          spacing: 20.sp,
+          children: [
+            ...listaDocumentos.asMap().entries.map((image) {
+              return Container(
+                margin: EdgeInsets.only(bottom: 15),
+                child: ImagenCaja(
+                  isDocumento: getTypeFile(image.value),
+                  isMaxLimit: true,
+                  file: image.value,
+                  onRemoveImageTap: () {
+                    removerDocumento(image.key);
+                  },
+                ),
+              );
+            }).toList(),
+          ],
+        ),
         Row(
           children: [
             ImagenCaja(
