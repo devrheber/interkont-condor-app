@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1043808644377",
+    "project_id": "fbase-avanzame",
+    "storage_bucket": "fbase-avanzame.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043808644377:android:f08d90ee85bcf21f90a988",
+        "android_client_info": {
+          "package_name": "avanzameplus.interkont.co"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043808644377-9a6vma2ihrjnqgmll9k7qaaitk6hlvqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE6v_i4WxdSvsH2z61TrWNYlIx61I4ctc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043808644377-9a6vma2ihrjnqgmll9k7qaaitk6hlvqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

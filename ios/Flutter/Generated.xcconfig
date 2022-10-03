@@ -1,8 +1,8 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=C:\Users\USUARIO HP\fvm\versions\2.10.5
-FLUTTER_APPLICATION_PATH=D:\RODMENSOFT\interkont-condor-app
+FLUTTER_ROOT=/home/jean/fvm/versions/2.10.5
+FLUTTER_APPLICATION_PATH=/home/jean/rodmensoft/interkont-condor-app
 COCOAPODS_PARALLEL_CODE_SIGN=true
-FLUTTER_TARGET=lib\main.dart
+FLUTTER_TARGET=lib/main.dart
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.1
 FLUTTER_BUILD_NUMBER=4
