@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:appalimentacion/globales/ssl_solution.dart';
 import 'package:appalimentacion/translation/localizations_delegates.dart';
 import 'package:appalimentacion/translation/supported_locales.dart';
+import 'package:appalimentacion/vistas/listaProyectos/vista_lista_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'globales/colores.dart';
@@ -19,28 +21,64 @@ import 'vistas/login/login.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
- 
+
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(
-    ScreenUtilInit(
-      designSize: Size(414, 896),
-      builder: () {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: TodoApp(),
-          localizationsDelegates: LocalizationDelegates.delegates,
-          supportedLocales: SupportedLocales.locale,
-          theme: ThemeData(
-            fontFamily: 'WorkSans',
-            textTheme: AppTheme.textTheme,
-          ),
-        );
-      },
-    ),
-  );
+//runApp(
+//     ScreenUtilInit(
+//       designSize: Size(414, 896),
+//       builder: () {
+//         return MaterialApp(
+//           debugShowCheckedModeBanner: false,
+//           home: TodoApp(),
+//           localizationsDelegates: LocalizationDelegates.delegates,
+//           supportedLocales: SupportedLocales.locale,
+//           theme: ThemeData(
+//             fontFamily: 'WorkSans',
+//             textTheme: AppTheme.textTheme,
+//           ),
+//         );
+//       },
+//     ),
+//   );
+// }
+
+  runApp(AppState());
 }
+
+class AppState extends StatelessWidget {
+  const AppState({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<VistaListaProvider>(
+          lazy: false,
+          create: (_) => VistaListaProvider(),
+        )
+      ],
+      child: ScreenUtilInit(
+        designSize: Size(414, 896),
+        builder: () {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: TodoApp(),
+            localizationsDelegates: LocalizationDelegates.delegates,
+            supportedLocales: SupportedLocales.locale,
+            theme: ThemeData(
+              fontFamily: 'WorkSans',
+              textTheme: AppTheme.textTheme,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+
 
 class TodoApp extends StatefulWidget {
   @override
@@ -49,49 +87,31 @@ class TodoApp extends StatefulWidget {
 
 class _TodoAppState extends State<TodoApp> {
   SharedPreferences prefs;
-  void obtenerListaProyectosSeleccionados() async {
-    prefs = await SharedPreferences.getInstance();
-    // obtenerDataGuardada();
-    if (prefs.getInt('estadoLogin') == 200) {
-      await obtenerListaProyectos();
-      await actualizarProyectos();
-    }
-  }
-
-  // void obtenerDataGuardada()
-  // async{  //CONTENIDO DE LA WEB SERVICES = LISTA DE PROYECTOS Y DATOS DEL USUARIO LOGEADO
-  //   if(prefs.getString('contenidoWebService') == null){
-  //     // contenidoWebService = [];
-  //   }else{
-  //     // contenidoWebService = jsonDecode(prefs.getString('contenidoWebService'));
-  //   }
-  // }
+  String userDataKey = '__user_data_key__';
+  
 
   @override
   void initState() {
     super.initState();
-    obtenerListaProyectosSeleccionados();
-
     Future.delayed(
       Duration(seconds: 4),
-      () {
-        if (prefs.getInt('estadoLogin') == null) {
-          setState(() {
-            _rootPage = LoginPage();
-          });
-        } else if (prefs.getInt('estadoLogin') == 200) {
-          setState(() {
-            _rootPage = ListaProyectos();
-          });
+      () async {
+        prefs = await SharedPreferences.getInstance();
+        final dataUserSession = prefs.getString(userDataKey);
+        if (dataUserSession != null) {
+          // } else if (prefs.getInt('estadoLogin') == 200) {
+          rootPage = ListaProyectos();
+          print(dataUserSession);
         } else {
-          setState(() {
-            _rootPage = LoginPage();
-          });
+          print('no hay datos de la sessión');
+          rootPage = LoginPage();
+
         }
+
         Navigator.of(context).pushAndRemoveUntil(
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) =>
-                  _rootPage,
+                  rootPage,
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 var begin = Offset(0.0, 1.0);
@@ -110,7 +130,7 @@ class _TodoAppState extends State<TodoApp> {
     );
   }
 
-  Widget _rootPage = LoginPage();
+  Widget rootPage = LoginPage();
 
   Future<Widget> getRootPage() async => LoginPage();
 
@@ -127,3 +147,90 @@ class _TodoAppState extends State<TodoApp> {
     );
   }
 }
+
+
+// class TodoApp extends StatefulWidget {
+//   @override
+//   State<StatefulWidget> createState() => _TodoAppState();
+// }
+
+// class _TodoAppState extends State<TodoApp> {
+//   SharedPreferences prefs;
+//   void obtenerListaProyectosSeleccionados() async {
+//     prefs = await SharedPreferences.getInstance();
+//     // obtenerDataGuardada();
+//     if (prefs.getInt('estadoLogin') == 200) {
+//       await obtenerListaProyectos();
+//       await actualizarProyectos();
+//     }
+//   }
+
+//   // void obtenerDataGuardada()
+//   // async{  //CONTENIDO DE LA WEB SERVICES = LISTA DE PROYECTOS Y DATOS DEL USUARIO LOGEADO
+//   //   if(prefs.getString('contenidoWebService') == null){
+//   //     // contenidoWebService = [];
+//   //   }else{
+//   //     // contenidoWebService = jsonDecode(prefs.getString('contenidoWebService'));
+//   //   }
+//   // }
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     obtenerListaProyectosSeleccionados();
+
+//     Future.delayed(
+//       Duration(seconds: 4),
+//       () {
+//         if (prefs.getInt('estadoLogin') == null) {
+//           setState(() {
+//             _rootPage = LoginPage();
+//           });
+//         } else if (prefs.getInt('estadoLogin') == 200) {
+//           setState(() {
+//             _rootPage = ListaProyectos();
+//           });
+//         } else {
+//           setState(() {
+//             _rootPage = LoginPage();
+//           });
+//         }
+//         Navigator.of(context).pushAndRemoveUntil(
+//             PageRouteBuilder(
+//               pageBuilder: (context, animation, secondaryAnimation) =>
+//                   _rootPage,
+//               transitionsBuilder:
+//                   (context, animation, secondaryAnimation, child) {
+//                 var begin = Offset(0.0, 1.0);
+//                 var end = Offset.zero;
+//                 var curve = Curves.ease;
+//                 var tween = Tween(begin: begin, end: end)
+//                     .chain(CurveTween(curve: curve));
+//                 return SlideTransition(
+//                   position: animation.drive(tween),
+//                   child: child,
+//                 );
+//               },
+//             ),
+//             (Route<dynamic> route) => false);
+//       },
+//     );
+//   }
+
+//   Widget _rootPage = LoginPage();
+
+//   Future<Widget> getRootPage() async => LoginPage();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Container(
+//           decoration: BoxDecoration(
+//             gradient: ColorTheme.backgroundGradient,
+//           ),
+//           child: Center(
+//             child: LogoImg(),
+//           )),
+//     );
+//   }
+// }

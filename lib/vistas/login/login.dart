@@ -241,8 +241,14 @@ class _LoginPageState extends State<LoginPage> {
         await obtenerListaProyectos();
         await prefs.setString(
             'contenidoWebService', jsonEncode(contenidoWebService));
-
-        Navigator.push(
+        const String userDataKey = '__user_data_key__';
+        await prefs.setString(
+            userDataKey,
+            jsonEncode({
+              'username': usuario.text,
+              'user_token': response.headers['authorization'][0],
+            }));
+        await Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ListaProyectos()),
         );

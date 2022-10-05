@@ -27,7 +27,8 @@ class CardHeadReporteAvanceState extends State<CardHeadReporteAvance> {
         customedAppBar(
           title: 'Reportar Avance',
           onPressed: () {
-            cambiarPagina(context, Proyecto());
+            // cambiarPagina(context, Proyecto());
+            cambiarPagina(context, ProyectoScreen());
           },
         ),
         buildContainerPorcentajesRow(),

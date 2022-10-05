@@ -1,14 +1,23 @@
+import 'package:appalimentacion/app/data/model/datos_alimentacion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../globales/colores.dart';
 
-Widget seleccionaPeriodo(context, int posicionPeriodoReportado,
-    int idPeriodoSeleccionado, valores, accion) {
+// Widget seleccionaPeriodo(context, int posicionPeriodoReportado,
+//     int idPeriodoSeleccionado, valores, accion) {
+
+Widget seleccionaPeriodo(
+    {context,
+    int posicionPeriodoReportado,
+    int idPeriodoSeleccionado,
+    List<Periodo> valores,
+    accion}) {
   List<int> nuevosValores = [];
   for (int cont = 0; cont < valores.length; cont++) {
     nuevosValores.add(cont);
-    if (valores[cont]['periodoId'] == idPeriodoSeleccionado) {
+    // if (valores[cont]['periodoId'] == idPeriodoSeleccionado) {
+    if (valores[cont].periodoId == idPeriodoSeleccionado) {
       accion(cont);
     }
   }
@@ -18,8 +27,10 @@ Widget seleccionaPeriodo(context, int posicionPeriodoReportado,
     fechaIniPeriodo = '';
     fechaFinPeriodo = '';
   } else {
-    fechaIniPeriodo = '${valores[posicionPeriodoReportado]['fechaIniPeriodo']}';
-    fechaFinPeriodo = '${valores[posicionPeriodoReportado]['fechaFinPeriodo']}';
+    // fechaIniPeriodo = '${valores[posicionPeriodoReportado]['fechaIniPeriodo']}';
+    //   fechaFinPeriodo = '${valores[posicionPeriodoReportado]['fechaFinPeriodo']}';
+    fechaIniPeriodo = '${valores[posicionPeriodoReportado].fechaIniPeriodo}';
+    fechaFinPeriodo = '${valores[posicionPeriodoReportado].fechaFinPeriodo}';
   }
 
   var preposition = TextStyle(
@@ -91,10 +102,12 @@ Widget seleccionaPeriodo(context, int posicionPeriodoReportado,
                               child: Row(
                                 children: <Widget>[
                                   Text('del ', style: AppTheme.parrafo),
-                                  Text(valores[value]['fechaIniPeriodo'],
+                                  // Text(valores[value]['fechaIniPeriodo'],
+                                  Text(valores[value].fechaIniPeriodo,
                                       style: AppTheme.parrafoNegrita),
                                   Text(' hasta el ', style: AppTheme.parrafo),
-                                  Text(valores[value]['fechaFinPeriodo'],
+                                  // Text(valores[value]['fechaFinPeriodo'],
+                                  Text(valores[value].fechaFinPeriodo,
                                       style: AppTheme.parrafoNegrita),
                                 ],
                               ),

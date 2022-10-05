@@ -232,3 +232,31 @@ class ReportarAvanceState extends State<ReportarAvance> {
   }
 }
  
+class ReportarAvanceScreen extends StatelessWidget {
+  ReportarAvanceScreen({Key key}) : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return FondoHome(
+      //
+      contenido: ContenidoReportarAvance(numeroPaso: 1 ),
+      bottomNavigationBar: true,
+      contenidoBottom: contenidoBottom(
+        context: context,
+        colorFondo: AppTheme.bottomPrincipal,
+        dosBotones: true,
+        primerBotonDesactivado: false,
+        segundoBotonDesactivado: boolestSegundoBtnreportarAvance,
+        // TODO
+        txtPrimerBoton: "primer botón",
+        // TODO
+        txtSegundoBoton: "segundo botón",
+        // TODO
+        accionPrimerBoton: () {},
+        // TODO
+        accionSegundoBoton: () {},
+      ),
+    );
+  }
+}

@@ -13,7 +13,7 @@ String urlGlobalApiCondor =  'https://avanzamepruebas.minenergia.gov.co/avanzame
 // String urlGlobalApiCondor =  'https://backendavanzame.minenergia.gov.co/avanzame-ws';
 List contenidoWebService = [
   {
-    'usuario': {'idUsu': '0', 'nombreUsu': 'demo', 'tokenUsu': 'token'},
+    // 'usuario': {'idUsu': '0', 'nombreUsu': 'demo', 'tokenUsu': 'token'},
     'proyectos': [
       {
         "codigocategoria": '',

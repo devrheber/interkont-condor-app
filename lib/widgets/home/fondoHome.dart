@@ -1,10 +1,11 @@
+import 'package:appalimentacion/vistas/listaProyectos/vista_lista_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../../globales/funciones/logout.dart';
 import '../../globales/transicion.dart';
-import '../../globales/variables.dart';
 import '../../theme/color_theme.dart';
 import '../../vistas/login/login.dart';
 
@@ -30,6 +31,8 @@ class FondoHomeState extends State<FondoHome> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<VistaListaProvider>(context, listen: false);
+
     return Scaffold(
         key: _drawerKey,
         drawer: Drawer(
@@ -66,8 +69,9 @@ class FondoHomeState extends State<FondoHome> {
                             ),
                           ),
                           Text(
-                            contenidoWebService[0]['usuario']['nombreUsu'],
-                            // 'Usuario Admin',
+                           // contenidoWebService[0]['usuario']['nombreUsu'],
+                          //   // 'Usuario Admin',
+                          provider.userDataSession['username'],
                             style: TextStyle(
                               fontFamily: "montserrat",
                               fontWeight: FontWeight.w200,

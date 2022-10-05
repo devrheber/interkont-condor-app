@@ -1,3 +1,4 @@
+import 'package:appalimentacion/app/data/model/datos_alimentacion.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -183,5 +184,89 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
   Future<void> loadToAvoidNullOperator() async {
     await Future.delayed(Duration(seconds: 2));
     setState(() {});
+  }
+}
+
+class FirstStepBody extends StatefulWidget {
+  FirstStepBody({
+    Key key,
+    @required this.activities,
+  }) : super(key: key);
+
+  final List<Actividad> activities;
+
+  @override
+  FirstStepBodyState createState() => FirstStepBodyState();
+}
+
+class FirstStepBodyState extends State<FirstStepBody> {
+  // Ingrese cantidad de avance por actividad
+  String txtBuscarAvance = '';
+
+  String otros;
+
+  DatosAlimentacion detail;
+  List<Actividad> activities;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: double.infinity,
+          margin: EdgeInsets.only(
+            top: 230.h,
+          ),
+          // color: Colors.black,
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 31.sp),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    TextTitle(text: 'Ingrese el avance'),
+                    SizedBox(height: 2.sp),
+                    TextSubtitle(
+                        text: 'Ingrese cantidad de avance por actividad'),
+                  ],
+                ),
+              ),
+              SizedBox(height: 18.sp),
+              Padding(
+                padding: EdgeInsets.only(left: 30.0.sp, right: 34.sp),
+                child: buscador(onChanged: (value) {
+                  if (value.isEmpty) {
+                    setState(() {
+                      // actividadesFilter = actividades;
+                    });
+                  }
+                  txtBuscarAvance = value;
+                }, onPressed: () {
+                  // TODO
+                  // filter();
+                }),
+              ),
+              SizedBox(height: 26.23.sp),
+              CarouselSlider(
+                options: CarouselOptions(
+                  enableInfiniteScroll: false,
+                  scrollPhysics: const BouncingScrollPhysics(),
+                  enlargeCenterPage: true,
+                  height: 435.0.h,
+                ),
+                items: <Widget>[
+                  for (final activity in activities)
+                    CardCarouselAvancesForm(
+                      activity: activity,
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
