@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:appalimentacion/app/data/model/datos_alimentacion.dart';
 import 'package:appalimentacion/app/data/model/local_project.dart';
 import 'package:appalimentacion/app/data/model/project.dart';
-import 'package:appalimentacion/vistas/listaProyectos/vista_lista_provider.dart';
+import 'package:appalimentacion/vistas/listaProyectos/projects_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -238,22 +238,24 @@ class BodyCard extends StatefulWidget {
   BodyCard({
     Key key,
     @required this.ultimaSincro,
-    @required this.localProject,
+    @required this.projectCache,
+    @required this.project,
   }) : super(key: key);
 
   final int ultimaSincro;
-  final LocalProject localProject;
+  final ProjectCache projectCache;
+  final Project project;
 
   @override
   BodyCardState createState() => BodyCardState();
 }
 
 class BodyCardState extends State<BodyCard> {
-  LocalProject localProject;
+  ProjectCache projectCache;
   Project project;
   DatosAlimentacion detail;
 
-  VistaListaProvider provider;
+  ProjectsProvider provider;
 
   // class CardCuerpoState extends State<CardCuerpo> {
   // SharedPreferences prefs;
@@ -333,7 +335,7 @@ class BodyCardState extends State<BodyCard> {
   // }
 
   cambiarPosicionPeriodoReportado(nuevaPosicion) {
-    localProject = localProject.copyWith(
+    projectCache = projectCache.copyWith(
       periodoIdSeleccionado: detail.periodos[nuevaPosicion].periodoId,
       porcentajeValorProyectadoSeleccionado:
           detail.periodos[nuevaPosicion].porcentajeProyectado,
@@ -348,9 +350,9 @@ class BodyCardState extends State<BodyCard> {
   @override
   void initState() {
     super.initState();
-    provider = context.read<VistaListaProvider>();
-    localProject = widget.localProject;
-    project = localProject.project;
+    provider = context.read<ProjectsProvider>();
+    projectCache = widget.projectCache;
+    project = widget.project;
     detail = provider.projectDetails['${provider.codeProjectSelected}'];
   }
 
@@ -359,11 +361,11 @@ class BodyCardState extends State<BodyCard> {
     return Container(
       child: Stack(
         children: <Widget>[
-         // contenidoWebService[0]['proyectos']
-        //                   [posListaProySelec]
-        //               ['ultimaFechaSincro'] ==
-        //           null
-          localProject.ultimaFechaSincro == null
+          // contenidoWebService[0]['proyectos']
+          //                   [posListaProySelec]
+          //               ['ultimaFechaSincro'] ==
+          //           null
+          projectCache.ultimaFechaSincro == null
               ? Container(
                   width: double.infinity,
                   margin:
@@ -403,12 +405,12 @@ class BodyCardState extends State<BodyCard> {
               width: double.infinity,
               margin: EdgeInsets.only(
                 // top: contenidoWebService[0]['proyectos']
-              //                   [posListaProySelec]
-              //               ['ultimaFechaSincro'] ==
-              //           null
-              //       ? 400.h
-              //       : 400.h,
-                top: localProject.ultimaFechaSincro == null ? 400.h : 400.h,
+                //                   [posListaProySelec]
+                //               ['ultimaFechaSincro'] ==
+                //           null
+                //       ? 400.h
+                //       : 400.h,
+                top: projectCache.ultimaFechaSincro == null ? 400.h : 400.h,
               ),
               child: Column(
                 children: <Widget>[
@@ -417,8 +419,9 @@ class BodyCardState extends State<BodyCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       // _Summary(porcentajeAsiVa: porcentajeAsiVa),
-                      _Summary(porcentajeAsiVa: project.asiVaPorcentaje,
-                      project: project,
+                      _Summary(
+                        porcentajeAsiVa: project.asiVaPorcentaje,
+                        project: project,
                       ),
                       SizedBox(
                         height: 10.h,
@@ -497,8 +500,6 @@ class BodyCardState extends State<BodyCard> {
   }
 }
 
-
-
 class _Summary extends StatelessWidget {
   const _Summary({
     Key key,
@@ -514,7 +515,7 @@ class _Summary extends StatelessWidget {
     final NumberFormat f2 = NumberFormat("#,##0.00", "es_AR");
     // final dynamic proyectos =
     //     contenidoWebService[0]['proyectos'][posListaProySelec];
-    
+
     return Container(
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 10.0, left: 28.sp, right: 28.sp),

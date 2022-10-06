@@ -17,10 +17,12 @@ final titleColor = Color(0xff444444);
 class ProjectContent extends StatefulWidget {
   ProjectContent({
     Key key,
-    @required this.localProject,
+    @required this.projectCache,
+    @required this.project,
   }) : super(key: key);
 
-  final LocalProject localProject;
+  final ProjectCache projectCache;
+  final Project project;
 
   @override
   ProjectContentState createState() => ProjectContentState();
@@ -28,7 +30,7 @@ class ProjectContent extends StatefulWidget {
 
 class ProjectContentState extends State<ProjectContent>
     with TickerProviderStateMixin {
-  LocalProject localProject;
+  ProjectCache projectCache;
 
   int ultimaSincro;
   AnimationController _animationController;
@@ -66,8 +68,8 @@ class ProjectContentState extends State<ProjectContent>
             '${cambiarFormatoFecha(formatDate(fechaActual, formats))}';
       });
       // TODO Provider debe tener un metodo para actualizar este campo
-      localProject =
-          localProject.copyWith(ultimaFechaSincro: ultimaSincroFecha);
+      projectCache =
+          projectCache.copyWith(ultimaFechaSincro: ultimaSincroFecha);
       setState(() {});
       Toast.show("Proyecto sincronizado correctamente!", context,
           duration: 3, gravity: Toast.BOTTOM);
@@ -82,7 +84,7 @@ class ProjectContentState extends State<ProjectContent>
 
   @override
   void initState() {
-    localProject = widget.localProject;
+    projectCache = widget.projectCache;
     super.initState();
   }
 
@@ -94,11 +96,13 @@ class ProjectContentState extends State<ProjectContent>
           animationController: _animationController,
           ultimaSincro: ultimaSincro,
           activarUltimaSincronizacion: activarUltimaSincronizacion,
-          localProject: localProject,
+          project: widget.project,
+          projectCache: projectCache,
         ),
         BodyCard(
           ultimaSincro: ultimaSincro,
-          localProject: localProject,
+          project: widget.project,
+          projectCache: projectCache,
         ),
       ],
     );

@@ -1,9 +1,21 @@
+import 'package:appalimentacion/vistas/listaProyectos/projects_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/home/fondoHome.dart';
 import 'proyectos.dart';
 
 class ListaProyectos extends StatelessWidget {
+  const ListaProyectos._();
+
+  static Widget init() => ChangeNotifierProvider(
+        lazy: false,
+        create: (context) => ProjectsProvider(
+          prefs: context.read(),
+        ),
+        child: const ListaProyectos._(),
+      );
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

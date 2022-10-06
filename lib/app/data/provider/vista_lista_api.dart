@@ -35,7 +35,7 @@ class VistaListaApi {
 
       var respuesta = await respuestaHttp(response.statusCode);
       if (respuesta == true) {
-        contenidoWebService[0]['proyectos'] = jsonDecode(cuerpoBody);
+        // contenidoWebService[0]['proyectos'] = jsonDecode(cuerpoBody);
         final projects = vistaListaResponseFromJson(cuerpoBody);
         return projects;
       }

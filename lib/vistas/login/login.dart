@@ -1,23 +1,27 @@
-import 'dart:convert';
-import 'dart:io';
-
+import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
 import 'package:appalimentacion/utils/assets/assets.dart';
+import 'package:appalimentacion/vistas/login/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:provider/provider.dart';
 import '../../globales/colores.dart';
-import '../../globales/funciones/obtenerListaProyectos.dart';
 import '../../globales/logo.dart';
 import '../../globales/sized_box.dart';
-import '../../globales/variables.dart';
 import '../../theme/color_theme.dart';
-import '../../widgets/respuestaHttp.dart';
 import '../listaProyectos/home.dart';
 import 'local_widgets/textfield.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
+  const LoginPage._();
+
+  static Widget init() => ChangeNotifierProvider(
+        lazy: false,
+        create: (context) => LoginProvider(
+          prefs: context.read(),
+          loginRepository: context.read(),
+        ),
+        child: const LoginPage._(),
+      );
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -26,10 +30,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController usuario = TextEditingController();
   TextEditingController contrasena = TextEditingController();
-  SharedPreferences prefs;
-  bool loading = false;
-
-  int estadoLogin;
 
   @override
   void initState() {
@@ -39,9 +39,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void obtener() async {
-    prefs = await SharedPreferences.getInstance();
-    print('Estado login:');
-    print(prefs.getInt('estadoLogin'));
     setState(() {
       usuario.text = 'interkont@2';
       contrasena.text = 'Int4rkont*_22';
@@ -50,7 +47,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    final loginProvider = context.read<LoginProvider>();
+    return Scaffold(
       body: Container(
         height: double.infinity,
         decoration: BoxDecoration(
@@ -69,13 +67,13 @@ class _LoginPageState extends State<LoginPage> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          BuildSizedBox(height: 169.0),
-                          LogoImg(
+                          const BuildSizedBox(height: 169.0),
+                          const LogoImg(
                             assetImageRoute: Assets.assetsNewLoginLogo,
                             width: 234,
                             height: 209.95,
                           ),
-                          BuildSizedBox(height: 99.05),
+                          const BuildSizedBox(height: 99.05),
                           Container(
                             child: CustomedTextField(
                               controller: usuario,
@@ -97,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             imageIcon: Assets.assetsNewLoginLockCircle,
                           ),
-                          BuildSizedBox(height: 12),
+                          const BuildSizedBox(height: 12),
                           Container(
                             height: 58.sp,
                             width: 350.sp,
@@ -106,8 +104,25 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(10.sp),
                             ),
                             child: ElevatedButton(
-                              onPressed: () {
-                                validarLogin();
+                              onPressed: () async {
+                                final user = await context
+                                    .read<LoginProvider>()
+                                    .login(
+                                        username: usuario.text,
+                                        password: contrasena.text);
+
+                                if (user != null) {
+                                  context
+                                      .read<AuthenticationProvider>()
+                                      .updateUser(user);
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ListaProyectos.init()),
+                                  );
+                                }
+                                // validarLogin();
                                 // Navigator.push(
                                 //   context,
                                 //   MaterialPageRoute(
@@ -134,24 +149,24 @@ class _LoginPageState extends State<LoginPage> {
                                   alignment: Alignment.center,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ...loadingLogin(loading),
-                                      loading
-                                          ? Container()
-                                          : Text(
+                                    children: loginProvider.loading
+                                        ? loadingLogin()
+                                        : [
+                                            Text(
                                               "Ingresar",
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 13.sp,
                                               ),
                                             )
-                                    ],
+                                          ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          estadoLogin != null && estadoLogin != 200
+                          loginProvider.estadoLogin != null &&
+                                  loginProvider.estadoLogin != 200
                               ? Column(
                                   children: <Widget>[
                                     Container(
@@ -165,13 +180,8 @@ class _LoginPageState extends State<LoginPage> {
                                   ],
                                 )
                               : Container(height: 53.sp, child: Text('')),
-                          SizedBox(
-                            height: 43.sp,
-                          ),
-                          FooterImg(
-                            width: 259.57,
-                            height: 87,
-                          ),
+                          SizedBox(height: 43.sp),
+                          const FooterImg(width: 259.57, height: 87),
                         ],
                       )
                     ],
@@ -185,8 +195,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  List<Widget> loadingLogin(bool loading) {
-    if (!loading) return [];
+  List<Widget> loadingLogin() {
     return [
       Container(
         height: 15.sp,
@@ -207,75 +216,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     ];
-  }
-
-  validarLogin() async {
-    setState(() {
-      estadoLogin = null;
-      loading = true;
-    });
-    String url = "$urlGlobalApiCondor/login";
-    prefs = await SharedPreferences.getInstance();
-
-    var body = {
-      "usuario": "${usuario.text}",
-      "contrasena": "${contrasena.text}"
-    };
-
-    try {
-      HttpClient client = new HttpClient();
-      client.badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-      var request = await client.postUrl(Uri.parse(url));
-      request.headers.set('content-type', 'application/json');
-      request.add(utf8.encode(json.encode(body)));
-      HttpClientResponse response = await request.close();
-
-      var respuesta = await respuestaHttp(response.statusCode);
-
-      await prefs.setInt('estadoLogin', response.statusCode);
-      if (respuesta == true) {
-        contenidoWebService[0]['usuario']['tokenUsu'] =
-            response.headers['authorization'][0];
-        contenidoWebService[0]['usuario']['nombreUsu'] = "${usuario.text}";
-        await obtenerListaProyectos();
-        await prefs.setString(
-            'contenidoWebService', jsonEncode(contenidoWebService));
-        const String userDataKey = '__user_data_key__';
-        await prefs.setString(
-            userDataKey,
-            jsonEncode({
-              'username': usuario.text,
-              'user_token': response.headers['authorization'][0],
-            }));
-        await Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ListaProyectos()),
-        );
-      } else {
-        setState(() {
-          loading = false;
-        });
-      }
-      // else {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => LoginPage()),
-      //   );
-      // }
-    } catch (erro) {
-      setState(() {
-        estadoLogin = 800;
-        loading = false;
-      });
-      print('-------');
-      print(erro);
-
-      await prefs.setInt('estadoLogin', 800);
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => LoginPage()),
-      // );
-    }
   }
 }

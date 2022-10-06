@@ -3,15 +3,14 @@ import 'dart:convert';
 import 'package:appalimentacion/app/data/model/project.dart';
 import 'package:flutter/foundation.dart';
 
-List<LocalProject> localProjectFromJson(String str) => List<LocalProject>.from(
-    json.decode(str).map((x) => LocalProject.fromJson(x)));
+List<ProjectCache> projectsCacheFromJson(String str) => List<ProjectCache>.from(
+    json.decode(str).map((x) => ProjectCache.fromJson(x)));
 
-String localProjectsToJson(List<LocalProject> data) =>
+String projectsCacheToJson(List<ProjectCache> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class LocalProject {
-  const LocalProject({
-    @required this.project,
+class ProjectCache {
+  const ProjectCache({
     @required this.stepNumber,
     this.porPublicar,
     this.ultimaFechaSincro,
@@ -20,7 +19,6 @@ class LocalProject {
     this.porcentajeValorEjecutado,
   });
 
-  final Project project;
   final int stepNumber;
   final dynamic porPublicar;
   final dynamic ultimaFechaSincro;
@@ -29,8 +27,7 @@ class LocalProject {
   final dynamic porcentajeValorProyectadoSeleccionado;
   final dynamic porcentajeValorEjecutado;
 
-  factory LocalProject.fromJson(Map<String, dynamic> json) => LocalProject(
-        project: Project.fromJson(json['project']),
+  factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         stepNumber: json['strep_number'],
         porPublicar: json['porPublicar'],
         ultimaFechaSincro: json['ultimaFechaSincro'],
@@ -40,7 +37,6 @@ class LocalProject {
       );
 
   Map<String, dynamic> toJson() => {
-        'project': project.toJson(),
         'strep_number': stepNumber,
         'porPublicar': porPublicar,
         'periodoIdSeleccionado': periodoIdSeleccionado,
@@ -49,7 +45,7 @@ class LocalProject {
         'porcentajeValorEjecutado': porcentajeValorEjecutado,
       };
 
-  copyWith({
+  ProjectCache copyWith({
     Project project,
     int stepNumber,
     dynamic porPublicar,
@@ -58,8 +54,7 @@ class LocalProject {
     dynamic porcentajeValorProyectadoSeleccionado,
     dynamic porcentajeValorEjecutado,
   }) {
-    return LocalProject(
-      project: project ?? this.project,
+    return ProjectCache(
       stepNumber: stepNumber ?? this.stepNumber,
       porPublicar: porPublicar ?? this.porPublicar,
       ultimaFechaSincro: ultimaFechaSincro ?? this.ultimaFechaSincro,

@@ -1,10 +1,9 @@
-import 'package:appalimentacion/vistas/listaProyectos/vista_lista_provider.dart';
+import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
-import '../../globales/funciones/logout.dart';
+import 'package:toast/toast.dart';
 import '../../globales/transicion.dart';
 import '../../theme/color_theme.dart';
 import '../../vistas/login/login.dart';
@@ -31,8 +30,6 @@ class FondoHomeState extends State<FondoHome> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<VistaListaProvider>(context, listen: false);
-
     return Scaffold(
         key: _drawerKey,
         drawer: Drawer(
@@ -69,9 +66,12 @@ class FondoHomeState extends State<FondoHome> {
                             ),
                           ),
                           Text(
-                           // contenidoWebService[0]['usuario']['nombreUsu'],
-                          //   // 'Usuario Admin',
-                          provider.userDataSession['username'],
+                            // contenidoWebService[0]['usuario']['nombreUsu'],
+                            //   // 'Usuario Admin',
+                            context
+                                .read<AuthenticationProvider>()
+                                .user
+                                .username,
                             style: TextStyle(
                               fontFamily: "montserrat",
                               fontWeight: FontWeight.w200,
@@ -98,11 +98,19 @@ class FondoHomeState extends State<FondoHome> {
                       color: Color(0xFF566B8C),
                     ),
                   ),
-                  onTap: () async { 
+                  onTap: () async {
                     //cerrar drawerkey
                     Navigator.pop(context);
-                    await logout();
-                    cambiarPagina(context, LoginPage());
+                    final authProvider = Provider.of<AuthenticationProvider>(
+                        context,
+                        listen: false);
+                    final result = await authProvider.logout();
+                    if (result) {
+                      cambiarPagina(context, LoginPage.init());
+                    } else {
+                      Toast.show('Ocurrió un error al intentar cerrar sessión',
+                          context);
+                    }
                   },
                 ),
               ),

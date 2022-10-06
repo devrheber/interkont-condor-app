@@ -68,7 +68,7 @@ class _NoInternetState extends State<NoInternet> {
                 Navigator.push(
                   context, 
                   MaterialPageRoute(
-                    builder: (context) => ListaProyectos()
+                    builder: (context) => ListaProyectos.init()
                   ),
                 );
               },

@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:appalimentacion/app/data/provider/user_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../globales/funciones/obtenerListaProyectos.dart';
@@ -28,7 +30,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
   SharedPreferences prefs;
   validarLogin() async {
     // String url = "$urlGlobal/siente3-ws/login";
-     String url = "$urlGlobalApiCondor/login"; 
+    String url = "$urlGlobalApiCondor/login";
     prefs = await SharedPreferences.getInstance();
 
     var body = {
@@ -50,7 +52,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
       print('------------');
       print(response.statusCode);
       print('------------');
-      print('------------'); 
+      print('------------');
       print(response.headers);
       print('------------');
       print('------------');
@@ -69,12 +71,14 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
             'contenidoWebService', jsonEncode(contenidoWebService));
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ListaProyectos()),
+          MaterialPageRoute(builder: (context) => ListaProyectos.init()),
         );
       } else {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
+          MaterialPageRoute(
+              builder: (context) =>
+                  LoginPage.init()),
         );
       }
     } catch (erro) {
@@ -83,7 +87,9 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
       await prefs.setInt('estadoLogin', 800);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(
+            builder: (context) =>
+                LoginPage.init()),
       );
     }
   }

@@ -1,17 +1,15 @@
-import 'dart:convert';
-
 import 'package:appalimentacion/app/data/model/local_project.dart';
-import 'package:appalimentacion/vistas/listaProyectos/vista_lista_provider.dart';
+import 'package:appalimentacion/app/data/model/project.dart';
+import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
+import 'package:appalimentacion/vistas/listaProyectos/projects_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 import '../../globales/colores.dart';
-import '../../globales/funciones/obtenerDatosProyecto.dart';
 import '../../globales/transicion.dart';
 import '../../globales/variables.dart';
 import '../../theme/color_theme.dart';
@@ -24,8 +22,8 @@ final titleColor = Color(0xff444444);
 class ProyectosContenido extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final VistaListaProvider vistaListaProvider =
-        Provider.of<VistaListaProvider>(context);
+    final vistaListaProvider =
+        Provider.of<ProjectsProvider>(context, listen: false);
     return Stack(
       children: <Widget>[
         Container(
@@ -66,7 +64,7 @@ class ProyectosContenido extends StatelessWidget {
                         height: 5.0.sp,
                       ),
                       Text(
-                        vistaListaProvider.userDataSession['username'],
+                        context.read<AuthenticationProvider>().user.username,
                         style: TextStyle(
                           fontFamily: "montserrat",
                           fontWeight: FontWeight.w200,
@@ -155,7 +153,7 @@ class ProyectosContenido extends StatelessWidget {
                       height: 20,
                     ),
                     for (final localProject in vistaListaProvider.localProjects)
-                      ProjectCard(localProject: localProject),
+                      ProjectCard(project: localProject),
                     if (contenidoWebService[0]['proyectos'].length == 0)
                       Container(
                           width: double.infinity,
@@ -392,228 +390,228 @@ class ProyectosContenido extends StatelessWidget {
 //     );
 //   }
 
-  // Widget proyecto(
-  //     {context,
-  //     posicion,
-  //     idProyecto,
-  //     titulo,
-  //     descripcion,
-  //     valorEjecutado,
-  //     valorProyecto,
-  //     faltaPublicar,
-  //     nombreIcono,
-  //     nombreSemaforo,
-  //     colorTitulo,
-  //     imagencategoria}) {
-  //   int porcentaje = ((100 * valorEjecutado) / valorProyecto).round();
+// Widget proyecto(
+//     {context,
+//     posicion,
+//     idProyecto,
+//     titulo,
+//     descripcion,
+//     valorEjecutado,
+//     valorProyecto,
+//     faltaPublicar,
+//     nombreIcono,
+//     nombreSemaforo,
+//     colorTitulo,
+//     imagencategoria}) {
+//   int porcentaje = ((100 * valorEjecutado) / valorProyecto).round();
 
-  //   String iconoSemaforo = 'semaforo-3';
-  //   if (nombreSemaforo == 'rojo') {
-  //     iconoSemaforo = 'semaforo-3';
-  //   } else if (nombreSemaforo == 'amarillo') {
-  //     iconoSemaforo = 'semaforo-2';
-  //   } else if (nombreSemaforo == 'verde') {
-  //     iconoSemaforo = 'semaforo-1';
-  //   }
+//   String iconoSemaforo = 'semaforo-3';
+//   if (nombreSemaforo == 'rojo') {
+//     iconoSemaforo = 'semaforo-3';
+//   } else if (nombreSemaforo == 'amarillo') {
+//     iconoSemaforo = 'semaforo-2';
+//   } else if (nombreSemaforo == 'verde') {
+//     iconoSemaforo = 'semaforo-1';
+//   }
 
-  //   colorTitulo = colorTitulo.split("#");
-  //   colorTitulo = "0XFF" + colorTitulo[1];
+//   colorTitulo = colorTitulo.split("#");
+//   colorTitulo = "0XFF" + colorTitulo[1];
 
-  //   // VALOR EN MILLONES
-  //   var valorProyectoRedondeado = valorProyecto / 1000000;
-  //   valorProyectoRedondeado =
-  //       double.parse((valorProyectoRedondeado).toStringAsFixed(1));
+//   // VALOR EN MILLONES
+//   var valorProyectoRedondeado = valorProyecto / 1000000;
+//   valorProyectoRedondeado =
+//       double.parse((valorProyectoRedondeado).toStringAsFixed(1));
 
-  //   Widget imagen;
+//   Widget imagen;
 
-  //   Widget noImage = Image.asset(
-  //     'assets/img/Desglose/Demas/question.png',
-  //   );
-  //   imagen = conexionInternet
-  //       ? CachedNetworkImage(
-  //           imageUrl: imagencategoria,
-  //           placeholder: (context, url) => CircularProgressIndicator(),
-  //           errorWidget: (context, url, error) => Icon(Icons.error),
-  //         )
-  //       : noImage;
+//   Widget noImage = Image.asset(
+//     'assets/img/Desglose/Demas/question.png',
+//   );
+//   imagen = conexionInternet
+//       ? CachedNetworkImage(
+//           imageUrl: imagencategoria,
+//           placeholder: (context, url) => CircularProgressIndicator(),
+//           errorWidget: (context, url, error) => Icon(Icons.error),
+//         )
+//       : noImage;
 
-  //   return ClipRRect(
-  //     borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-  //     clipBehavior: Clip.antiAlias,
-  //     child: Material(
-  //       color: Colors.white,
-  //       child: InkWell(
-  //         onTap: () async {
-  //           _seleccionarProyecto(context, posicion, idProyecto, nombreIcono);
-  //         },
-  //         child: Container(
-  //           width: double.infinity,
-  //           margin: EdgeInsets.only(bottom: 1.sp, top: 1.sp),
-  //           padding: EdgeInsets.only(
-  //               top: 24.sp, bottom: 24.sp, left: 28.sp, right: 4.sp),
-  //           child: Column(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             children: <Widget>[
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: <Widget>[
-  //                   Spacer(),
-  //                   ConstrainedBox(
-  //                     constraints: BoxConstraints(maxWidth: 50, maxHeight: 50),
-  //                     child: ClipOval(
-  //                       child: imagen,
-  //                     ),
-  //                   ),
-  //                   Spacer(),
-  //                   Expanded(
-  //                     flex: 50,
-  //                     child: Container(
-  //                       padding: EdgeInsets.only(left: 10.0),
-  //                       child: Column(
-  //                         crossAxisAlignment: CrossAxisAlignment.start,
-  //                         children: <Widget>[
-  //                           Row(
-  //                             children: <Widget>[
-  //                               Expanded(
-  //                                 flex: 4,
-  //                                 child: Text(
-  //                                   '$titulo'.toUpperCase(),
-  //                                   style: TextStyle(
-  //                                     fontFamily: 'montserrat',
-  //                                     fontWeight: FontWeight.w700,
-  //                                     fontSize: 10.sp,
-  //                                     letterSpacing: 0.4,
-  //                                     color: Color(
-  //                                       int.parse(colorTitulo),
-  //                                     ),
-  //                                   ),
-  //                                   // style: AppTheme.tituloParrafo
-  //                                 ),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                           SizedBox(
-  //                             height: 3.5,
-  //                           ),
-  //                           Text(
-  //                             '$descripcion',
-  //                             style: TextStyle(
-  //                               fontFamily: "montserrat",
-  //                               fontWeight: FontWeight.w400,
-  //                               fontSize: 13.sp,
-  //                               color: Color(0xFF000000),
-  //                             ),
-  //                           ),
-  //                           Row(
-  //                             children: <Widget>[
-  //                               Expanded(
-  //                                 flex: 5,
-  //                                 child: Column(
-  //                                   children: <Widget>[
-  //                                     SizedBox(
-  //                                       height: 5.0,
-  //                                     ),
-  //                                     Row(
-  //                                       children: <Widget>[
-  //                                         Container(
-  //                                           width: 90.0,
-  //                                           decoration: const BoxDecoration(
-  //                                             border: Border(
-  //                                               right: BorderSide(
-  //                                                 width: 0.3,
-  //                                                 color: Color(0xFF000000),
-  //                                               ),
-  //                                             ),
-  //                                           ),
-  //                                           child: AutoSizeText(
-  //                                             '\$ $valorProyectoRedondeado' +
-  //                                                 'M',
-  //                                             maxLines: 1,
-  //                                             style: TextStyle(
-  //                                               fontFamily: "montserrat",
-  //                                               fontWeight: FontWeight.w400,
-  //                                               fontSize: 15.sp,
-  //                                               letterSpacing: 0.4,
-  //                                               height: 0.9,
-  //                                               color: Color(0xFF808080),
-  //                                             ),
-  //                                           ),
-  //                                         ),
-  //                                         Expanded(
-  //                                           child: Container(
-  //                                             decoration: const BoxDecoration(
-  //                                               border: Border(
-  //                                                 right: BorderSide(
-  //                                                   width: 0.3,
-  //                                                   color: Color(0xFFFF000000),
-  //                                                 ),
-  //                                               ),
-  //                                             ),
-  //                                             child: Center(
-  //                                               child: Text(
-  //                                                 '$porcentaje' + '%',
-  //                                                 style: TextStyle(
-  //                                                   fontFamily: "montserrat",
-  //                                                   fontWeight: FontWeight.w400,
-  //                                                   fontSize: 15.sp,
-  //                                                   letterSpacing: 0.4,
-  //                                                   height: 0.9,
-  //                                                   color: Color(0xFF808080),
-  //                                                 ),
-  //                                               ),
-  //                                             ),
-  //                                           ),
-  //                                         ),
-  //                                         Expanded(
-  //                                           child: Center(
-  //                                             child: ClipRRect(
-  //                                               borderRadius:
-  //                                                   BorderRadius.circular(5.sp),
-  //                                               clipBehavior: Clip.antiAlias,
-  //                                               child: Image.asset(
-  //                                                 'assets/img/Desglose/Home/$iconoSemaforo.png',
-  //                                                 height: 19.sp,
-  //                                                 width: 50.95.sp,
-  //                                               ),
-  //                                             ),
-  //                                           ),
-  //                                         ),
-  //                                       ],
-  //                                     )
-  //                                   ],
-  //                                 ),
-  //                               ),
-  //                               // Expanded(
-  //                               //   flex: 1,
-  //                               //   child: Text(''),
-  //                               // )
-  //                             ],
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //               if (faltaPublicar != null)
-  //                 if (faltaPublicar == true)
-  //                   Container(
-  //                     margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-  //                     child: Row(
-  //                       children: <Widget>[
-  //                         Expanded(
-  //                             child: Image.asset(
-  //                                 'assets/img/Desglose/Home/btn-por-publicar.png'))
-  //                       ],
-  //                     ),
-  //                   )
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+//   return ClipRRect(
+//     borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+//     clipBehavior: Clip.antiAlias,
+//     child: Material(
+//       color: Colors.white,
+//       child: InkWell(
+//         onTap: () async {
+//           _seleccionarProyecto(context, posicion, idProyecto, nombreIcono);
+//         },
+//         child: Container(
+//           width: double.infinity,
+//           margin: EdgeInsets.only(bottom: 1.sp, top: 1.sp),
+//           padding: EdgeInsets.only(
+//               top: 24.sp, bottom: 24.sp, left: 28.sp, right: 4.sp),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: <Widget>[
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: <Widget>[
+//                   Spacer(),
+//                   ConstrainedBox(
+//                     constraints: BoxConstraints(maxWidth: 50, maxHeight: 50),
+//                     child: ClipOval(
+//                       child: imagen,
+//                     ),
+//                   ),
+//                   Spacer(),
+//                   Expanded(
+//                     flex: 50,
+//                     child: Container(
+//                       padding: EdgeInsets.only(left: 10.0),
+//                       child: Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: <Widget>[
+//                           Row(
+//                             children: <Widget>[
+//                               Expanded(
+//                                 flex: 4,
+//                                 child: Text(
+//                                   '$titulo'.toUpperCase(),
+//                                   style: TextStyle(
+//                                     fontFamily: 'montserrat',
+//                                     fontWeight: FontWeight.w700,
+//                                     fontSize: 10.sp,
+//                                     letterSpacing: 0.4,
+//                                     color: Color(
+//                                       int.parse(colorTitulo),
+//                                     ),
+//                                   ),
+//                                   // style: AppTheme.tituloParrafo
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                           SizedBox(
+//                             height: 3.5,
+//                           ),
+//                           Text(
+//                             '$descripcion',
+//                             style: TextStyle(
+//                               fontFamily: "montserrat",
+//                               fontWeight: FontWeight.w400,
+//                               fontSize: 13.sp,
+//                               color: Color(0xFF000000),
+//                             ),
+//                           ),
+//                           Row(
+//                             children: <Widget>[
+//                               Expanded(
+//                                 flex: 5,
+//                                 child: Column(
+//                                   children: <Widget>[
+//                                     SizedBox(
+//                                       height: 5.0,
+//                                     ),
+//                                     Row(
+//                                       children: <Widget>[
+//                                         Container(
+//                                           width: 90.0,
+//                                           decoration: const BoxDecoration(
+//                                             border: Border(
+//                                               right: BorderSide(
+//                                                 width: 0.3,
+//                                                 color: Color(0xFF000000),
+//                                               ),
+//                                             ),
+//                                           ),
+//                                           child: AutoSizeText(
+//                                             '\$ $valorProyectoRedondeado' +
+//                                                 'M',
+//                                             maxLines: 1,
+//                                             style: TextStyle(
+//                                               fontFamily: "montserrat",
+//                                               fontWeight: FontWeight.w400,
+//                                               fontSize: 15.sp,
+//                                               letterSpacing: 0.4,
+//                                               height: 0.9,
+//                                               color: Color(0xFF808080),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                         Expanded(
+//                                           child: Container(
+//                                             decoration: const BoxDecoration(
+//                                               border: Border(
+//                                                 right: BorderSide(
+//                                                   width: 0.3,
+//                                                   color: Color(0xFFFF000000),
+//                                                 ),
+//                                               ),
+//                                             ),
+//                                             child: Center(
+//                                               child: Text(
+//                                                 '$porcentaje' + '%',
+//                                                 style: TextStyle(
+//                                                   fontFamily: "montserrat",
+//                                                   fontWeight: FontWeight.w400,
+//                                                   fontSize: 15.sp,
+//                                                   letterSpacing: 0.4,
+//                                                   height: 0.9,
+//                                                   color: Color(0xFF808080),
+//                                                 ),
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                         Expanded(
+//                                           child: Center(
+//                                             child: ClipRRect(
+//                                               borderRadius:
+//                                                   BorderRadius.circular(5.sp),
+//                                               clipBehavior: Clip.antiAlias,
+//                                               child: Image.asset(
+//                                                 'assets/img/Desglose/Home/$iconoSemaforo.png',
+//                                                 height: 19.sp,
+//                                                 width: 50.95.sp,
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       ],
+//                                     )
+//                                   ],
+//                                 ),
+//                               ),
+//                               // Expanded(
+//                               //   flex: 1,
+//                               //   child: Text(''),
+//                               // )
+//                             ],
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               if (faltaPublicar != null)
+//                 if (faltaPublicar == true)
+//                   Container(
+//                     margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
+//                     child: Row(
+//                       children: <Widget>[
+//                         Expanded(
+//                             child: Image.asset(
+//                                 'assets/img/Desglose/Home/btn-por-publicar.png'))
+//                       ],
+//                     ),
+//                   )
+//             ],
+//           ),
+//         ),
+//       ),
+//     ),
+//   );
+// }
 
 //   _seleccionarProyecto(context, posicion, idProyecto, nombreIcono) async {
 //     posListaProySelec = posicion;
@@ -666,16 +664,18 @@ class ProyectosContenido extends StatelessWidget {
 //     }
 //   }
 
-
 class ProjectCard extends StatelessWidget {
-  const ProjectCard({Key key, @required this.localProject}) : super(key: key);
+  const ProjectCard({
+    Key key,
+    @required this.project,
+  }) : super(key: key);
 
-  final LocalProject localProject;
+  final Project project;
 
   @override
   Widget build(BuildContext context) {
-    final project = localProject.project;
-
+    final projectCache = Provider.of<ProjectsProvider>(context)
+        .getProjectCache(project.codigoproyecto);
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(15.sp)),
       clipBehavior: Clip.antiAlias,
@@ -685,8 +685,8 @@ class ProjectCard extends StatelessWidget {
           onTap: () async {
             openProject(
               context,
-              idProyecto: project.codigoproyecto,
-              localProject: localProject,
+              project: project,
+              projectCache: projectCache,
             );
           },
           child: Container(
@@ -870,45 +870,46 @@ class ProjectCard extends StatelessWidget {
 
   Future<void> openProject(
     context, {
-    idProyecto,
     nombreIcono,
-    @required LocalProject localProject,
+    @required ProjectCache projectCache,
+    @required Project project,
   }) async {
-    if (localProject.stepNumber == null) {
-      localProject = localProject.copyWith(stepNumber: 0);
-      await Provider.of<VistaListaProvider>(context, listen: false)
+    if (projectCache.stepNumber == null) {
+      projectCache = projectCache.copyWith(stepNumber: 0);
+      await Provider.of<ProjectsProvider>(context, listen: false)
           .saveInLocalStorage();
     }
 
-    print('PASO ACTUAL: ${localProject.stepNumber}');
+    print('PASO ACTUAL: ${projectCache.stepNumber}');
 
     // Crear un diálogo cargando
     loadingDialog(context);
     // TODO Actualizar datos,
     // var respuesta = await obtenerDatosProyecto(idProyecto, true);
 
-    final provider = Provider.of<VistaListaProvider>(context, listen: false);
+    final provider = Provider.of<ProjectsProvider>(context, listen: false);
     await provider.getProjectDetails(
-      localProject.project.codigoproyecto,
+      project.codigoproyecto,
     );
     await provider.getLocalProjectDetail(
-      localProject.project.codigoproyecto,
+      project.codigoproyecto,
     );
 
-    await Provider.of<VistaListaProvider>(context, listen: false)
-          .saveInLocalStorage();
+    await Provider.of<ProjectsProvider>(context, listen: false)
+        .saveInLocalStorage();
 
     // Remover el dialogo anterior
     Navigator.of(context).pop();
 
     if (!(provider.error['error'] as bool)) {
       // Al obtener la data de internet
-      switch (localProject.stepNumber) {
+      switch (projectCache.stepNumber) {
         case 0:
           cambiarPagina(
               context,
               ProyectoScreen(
-                localProject: localProject,
+                projectCache: projectCache,
+                project: project,
               ));
           break;
         case 1:
@@ -919,13 +920,15 @@ class ProjectCard extends StatelessWidget {
       }
     } else {
       // TODO Trabajar con data guardada
-      if (provider.projectDetails['${localProject.project.codigoproyecto}'] !=
-          null) {
-        switch (localProject.stepNumber) {
+      if (provider.projectDetails['${project.codigoproyecto}'] != null) {
+        switch (projectCache.stepNumber) {
           case 0:
-            cambiarPagina(context, ProyectoScreen(
-            localProject: localProject,
-            ));
+            cambiarPagina(
+                context,
+                ProyectoScreen(
+                  projectCache: projectCache,
+                  project: project,
+                ));
             break;
           case 1:
             cambiarPagina(context, ReportarAvance());

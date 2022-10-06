@@ -15,11 +15,9 @@ class LogoImg extends StatelessWidget {
   final double height;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Hero(
-        tag: "logo",
-        child: Image.asset(assetImageRoute, width: width.sp, height: height.sp),
-      ),
+    return Hero(
+      tag: "logo",
+      child: Image.asset(assetImageRoute, width: width.sp, height: height.sp),
     );
   }
 }

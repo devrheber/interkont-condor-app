@@ -1,7 +1,7 @@
 import 'package:appalimentacion/app/data/model/datos_alimentacion.dart';
 import 'package:appalimentacion/app/data/model/local_project.dart';
 import 'package:appalimentacion/app/data/model/project.dart';
-import 'package:appalimentacion/vistas/listaProyectos/vista_lista_provider.dart';
+import 'package:appalimentacion/vistas/listaProyectos/projects_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -84,18 +84,21 @@ import 'contenido.dart';
 // }
 
 class ProyectoScreen extends StatelessWidget {
-  ProyectoScreen({Key key, @required this.localProject}) : super(key: key);
+  ProyectoScreen({
+    Key key,
+    @required this.project,
+    @required this.projectCache,
+  }) : super(key: key);
 
-  final LocalProject localProject;
+  final Project project;
+  final ProjectCache projectCache;
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<VistaListaProvider>(context, listen: false);
-
-    final project = localProject.project;
+    final provider = Provider.of<ProjectsProvider>(context, listen: false);
 
     return FondoHome(
-        contenido: ProjectContent(localProject: localProject),
+        contenido: ProjectContent(projectCache: projectCache),
         bottomNavigationBar: true,
         contenidoBottom: contenidoBottom(
             context: context,
@@ -113,7 +116,7 @@ class ProyectoScreen extends StatelessWidget {
                     context,
                     duration: 5,
                     gravity: Toast.BOTTOM);
-              } else if (localProject.periodoIdSeleccionado == null) {
+              } else if (projectCache.periodoIdSeleccionado == null) {
                 Toast.show(
                     "Lo sentimos, este proyecto no tiene periodos que reportar",
                     context,

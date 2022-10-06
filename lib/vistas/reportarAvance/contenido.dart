@@ -1,4 +1,4 @@
-import 'package:appalimentacion/vistas/listaProyectos/vista_lista_provider.dart';
+import 'package:appalimentacion/vistas/listaProyectos/projects_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +35,7 @@ class ContenidoReportarAvanceState extends State<ContenidoReportarAvance> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<VistaListaProvider>(context, listen: false);
+    final provider = Provider.of<ProjectsProvider>(context, listen: false);
 
     return Stack(
       children: <Widget>[

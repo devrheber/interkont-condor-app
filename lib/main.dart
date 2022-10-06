@@ -1,29 +1,31 @@
 import 'dart:io';
 
+import 'package:appalimentacion/app/data/provider/user_preferences.dart';
+import 'package:appalimentacion/data/login_remote.dart';
+import 'package:appalimentacion/domain/repository/login_repository.dart';
 import 'package:appalimentacion/globales/ssl_solution.dart';
 import 'package:appalimentacion/translation/localizations_delegates.dart';
 import 'package:appalimentacion/translation/supported_locales.dart';
-import 'package:appalimentacion/vistas/listaProyectos/vista_lista_provider.dart';
+import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'globales/colores.dart';
-import 'globales/funciones/actualizarProyectos.dart';
-import 'globales/funciones/obtenerListaProyectos.dart';
 import 'globales/logo.dart';
 import 'theme/color_theme.dart';
 import 'vistas/listaProyectos/home.dart';
 import 'vistas/login/login.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  final UserPreferences prefs = UserPreferences();
+  await prefs.initPrefs();
 
 //runApp(
 //     ScreenUtilInit(
@@ -44,19 +46,34 @@ void main() {
 //   );
 // }
 
-  runApp(AppState());
+  runApp(AppState(
+    prefs: prefs,
+  ));
 }
 
 class AppState extends StatelessWidget {
-  const AppState({Key key}) : super(key: key);
+  const AppState({
+    Key key,
+    @required this.prefs,
+  }) : super(key: key);
+
+  final UserPreferences prefs;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<VistaListaProvider>(
-          lazy: false,
-          create: (_) => VistaListaProvider(),
+        Provider<LoginRepository>(
+          create: (_) => LoginRemote(),
+        ),
+        Provider<UserPreferences>(
+          create: (_) => prefs,
+        ),
+        ChangeNotifierProvider<AuthenticationProvider>(
+          create: (_) => AuthenticationProvider(
+            loginRepository: LoginRemote(),
+            prefsRepository: prefs,
+          ),
         )
       ],
       child: ScreenUtilInit(
@@ -64,7 +81,7 @@ class AppState extends StatelessWidget {
         builder: () {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: TodoApp(),
+            home: App(),
             localizationsDelegates: LocalizationDelegates.delegates,
             supportedLocales: SupportedLocales.locale,
             theme: ThemeData(
@@ -78,61 +95,47 @@ class AppState extends StatelessWidget {
   }
 }
 
-
-
-class TodoApp extends StatefulWidget {
+class App extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _TodoAppState();
+  State<StatefulWidget> createState() => _AppState();
 }
 
-class _TodoAppState extends State<TodoApp> {
-  SharedPreferences prefs;
-  String userDataKey = '__user_data_key__';
-  
-
+class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-      Duration(seconds: 4),
-      () async {
-        prefs = await SharedPreferences.getInstance();
-        final dataUserSession = prefs.getString(userDataKey);
-        if (dataUserSession != null) {
-          // } else if (prefs.getInt('estadoLogin') == 200) {
-          rootPage = ListaProyectos();
-          print(dataUserSession);
-        } else {
-          print('no hay datos de la sessión');
-          rootPage = LoginPage();
-
-        }
-
-        Navigator.of(context).pushAndRemoveUntil(
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  rootPage,
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                var begin = Offset(0.0, 1.0);
-                var end = Offset.zero;
-                var curve = Curves.ease;
-                var tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-                return SlideTransition(
-                  position: animation.drive(tween),
-                  child: child,
-                );
-              },
-            ),
-            (Route<dynamic> route) => false);
-      },
-    );
+    Future.delayed(Duration(seconds: 4), () async {
+      await verifySession();
+    });
   }
 
-  Widget rootPage = LoginPage();
+  Future<void> verifySession() async {
+    Widget rootPage;
+    final authenticationProvider = context.read<AuthenticationProvider>();
 
-  Future<Widget> getRootPage() async => LoginPage();
+    if (authenticationProvider.user != null) {
+      rootPage = ListaProyectos.init();
+    } else {
+      rootPage = LoginPage.init();
+    }
+
+    Navigator.of(context).pushAndRemoveUntil(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => rootPage,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            var begin = Offset(0.0, 1.0);
+            var end = Offset.zero;
+            var curve = Curves.ease;
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          },
+        ),
+        (Route<dynamic> route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -153,7 +153,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
               false);
           Toast.show("El avance ha sido cancelado", context,
               duration: 5, gravity: Toast.BOTTOM);
-          cambiarPagina(context, ListaProyectos());
+          cambiarPagina(context, ListaProyectos.init());
           setState(() {
             boolestSegundoBtnreportarAvance = false;
           });

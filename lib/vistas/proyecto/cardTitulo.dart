@@ -1,12 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:appalimentacion/app/data/model/local_project.dart';
+import 'package:appalimentacion/app/data/model/project.dart';
 import 'package:appalimentacion/utils/assets/assets.dart';
-import 'package:appalimentacion/vistas/listaProyectos/vista_lista_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 import '../../globales/colores.dart';
 import '../../globales/customed_app_bar.dart';
@@ -17,19 +16,21 @@ import '../listaProyectos/home.dart';
 final titleColor = Color(0xff444444);
 
 class CardTitulo extends StatelessWidget {
-  const CardTitulo(
-      {Key key,
-      this.ultimaSincro,
-      this.activarUltimaSincronizacion,
-      // this.animationController})
-      // : super(key: key);
-      this.animationController,
-    @required this.localProject,
+  const CardTitulo({
+    Key key,
+    this.ultimaSincro,
+    this.activarUltimaSincronizacion,
+    // this.animationController})
+    // : super(key: key);
+    this.animationController,
+    @required this.project,
+    @required this.projectCache,
   }) : super(key: key);
   final int ultimaSincro;
   final void Function() activarUltimaSincronizacion;
   final AnimationController animationController;
-  final LocalProject localProject;
+  final Project project;
+  final ProjectCache projectCache;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -42,12 +43,12 @@ class CardTitulo extends StatelessWidget {
               // _Title(ultimaSincro: ultimaSincro),
               _Title(
                 ultimaSincro: ultimaSincro,
-                title: localProject.project.nombreproyecto,
-                subtitle: localProject.project.objeto,
-                fechaUltimaSinc: localProject.ultimaFechaSincro,
+                title: project.nombreproyecto,
+                subtitle: project.objeto,
+                fechaUltimaSinc: projectCache.ultimaFechaSincro,
               ),
               _CircleImageCard(
-                imgUrl: localProject.project.imagencategoria,
+                imgUrl: project.imagencategoria,
               ),
               _SyncButton(
                 activarUltimaSincronizacion: activarUltimaSincronizacion,
@@ -59,7 +60,7 @@ class CardTitulo extends StatelessWidget {
         customedAppBar(
           title: '',
           onPressed: () {
-            cambiarPagina(context, ListaProyectos());
+            cambiarPagina(context, ListaProyectos.init());
           },
         ),
       ],
@@ -77,8 +78,8 @@ class _CircleImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  // var imagencategoria = contenidoWebService[0]['proyectos']
-  //       [posListaProySelec]['imagencategoria'];
+    // var imagencategoria = contenidoWebService[0]['proyectos']
+    //       [posListaProySelec]['imagencategoria'];
     return Container(
       color: Colors.transparent,
       width: double.infinity,
@@ -98,7 +99,7 @@ class _CircleImageCard extends StatelessWidget {
                   // imageUrl: imagencategoria,
                   imageUrl: imgUrl,
                   height: 77.sp,
-                  width: 77.sp, 
+                  width: 77.sp,
                   fit: BoxFit.fitWidth,
                   placeholder: (context, url) => CircularProgressIndicator(),
                   errorWidget: (context, url, error) => Image.asset(
@@ -138,9 +139,9 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  // var fechaUltimaSinc = contenidoWebService[0]['proyectos']
-  //       [posListaProySelec]['ultimaFechaSincro'];
-  //   print(fechaUltimaSinc);
+    // var fechaUltimaSinc = contenidoWebService[0]['proyectos']
+    //       [posListaProySelec]['ultimaFechaSincro'];
+    //   print(fechaUltimaSinc);
     var text = Text(
       fechaUltimaSinc == null
           ? ' Nunca'
@@ -187,8 +188,8 @@ class _Title extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(left: 42.sp, right: 42.sp),
               child: Text(
-              // '${contenidoWebService[0]['proyectos'][posListaProySelec]['nombreproyecto']}'
-              //       .toUpperCase(),
+                // '${contenidoWebService[0]['proyectos'][posListaProySelec]['nombreproyecto']}'
+                //       .toUpperCase(),
                 title,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -235,7 +236,7 @@ class _Title extends StatelessWidget {
               padding: EdgeInsets.only(left: 19.sp, right: 19.sp),
               child: Center(
                 child: Text(
-                // '${contenidoWebService[0]['proyectos'][posListaProySelec]['objeto']}',
+                  // '${contenidoWebService[0]['proyectos'][posListaProySelec]['objeto']}',
                   subtitle,
                   textAlign: TextAlign.center,
                   style: TextStyle(
