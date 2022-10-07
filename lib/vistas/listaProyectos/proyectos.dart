@@ -1,5 +1,4 @@
-import 'package:appalimentacion/app/data/model/local_project.dart';
-import 'package:appalimentacion/app/data/model/project.dart';
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
 import 'package:appalimentacion/vistas/listaProyectos/projects_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -10,20 +9,17 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 import '../../globales/colores.dart';
-import '../../globales/transicion.dart';
 import '../../globales/variables.dart';
 import '../../theme/color_theme.dart';
 import '../../widgets/cargando.dart';
 import '../proyecto/home.dart';
-import '../reportarAvance/home.dart';
 
 final titleColor = Color(0xff444444);
 
 class ProyectosContenido extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final vistaListaProvider =
-        Provider.of<ProjectsProvider>(context, listen: false);
+    final projectsProvider = Provider.of<ProjectsProvider>(context);
     return Stack(
       children: <Widget>[
         Container(
@@ -106,13 +102,13 @@ class ProyectosContenido extends StatelessWidget {
           ),
         ),
         Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(top: 280.sp, left: 20.0, right: 20.0),
-            child: ListView(
-              physics: BouncingScrollPhysics(),
-              children: <Widget>[
-                Container(
-                    child: Column(
+          width: double.infinity,
+          margin: EdgeInsets.only(top: 280.sp, left: 20.0, right: 20.0),
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            children: <Widget>[
+              Container(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Row(
@@ -127,7 +123,7 @@ class ProyectosContenido extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '(${vistaListaProvider.localProjects.length} proyectos)',
+                          '(${projectsProvider.localProjects.length} proyectos)',
                           style: TextStyle(
                             fontFamily: "mulish",
                             fontWeight: FontWeight.w400,
@@ -135,11 +131,18 @@ class ProyectosContenido extends StatelessWidget {
                             color: ColorTheme.primary,
                           ),
                         ),
+                        const Expanded(child: SizedBox.shrink()),
+                        InkWell(
+                          onTap: () async {
+                            loadingDialog(context);
+                            projectsProvider.getProjects();
+                            Navigator.pop(context);
+                          },
+                          child: Icon(Icons.replay_outlined),
+                        )
                       ],
                     ),
-                    SizedBox(
-                      height: 6,
-                    ),
+                    SizedBox(height: 6.sp),
                     Text(
                       'Selecciona un proyecto',
                       style: TextStyle(
@@ -149,48 +152,53 @@ class ProyectosContenido extends StatelessWidget {
                         color: Color(0xFF566B8C),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    for (final localProject in vistaListaProvider.localProjects)
-                      ProjectCard(project: localProject),
-                    if (contenidoWebService[0]['proyectos'].length == 0)
+                    SizedBox(height: 20.sp),
+                    for (int i = 0;
+                        i < projectsProvider.localProjects.length;
+                        i++)
+                      ProjectCard(
+                          project: projectsProvider.localProjects[i], index: i),
+                    if (projectsProvider.localProjects.isEmpty)
                       Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(bottom: 10.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                          ),
-                          padding: EdgeInsets.all(20.0),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                      child: Container(
-                                    height: 150.0,
-                                    margin: EdgeInsets.only(
-                                        bottom: 20.0, top: 20.0, right: 20.0),
-                                    child: Image.asset(
-                                        'assets/img/Desglose/Demas/img-noimage.png'),
-                                  )),
-                                ],
-                              ),
-                              Text(
-                                'Aún no tienes proyectos',
-                                style: AppTheme.comentarioPlomo,
-                              )
-                            ],
-                          ))
+                        width: double.infinity,
+                        margin: EdgeInsets.only(bottom: 10.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                        ),
+                        padding: EdgeInsets.all(20.0),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: Container(
+                                  height: 150.0,
+                                  margin: EdgeInsets.only(
+                                      bottom: 20.0, top: 20.0, right: 20.0),
+                                  child: Image.asset(
+                                      'assets/img/Desglose/Demas/img-noimage.png'),
+                                )),
+                              ],
+                            ),
+                            const Text(
+                              'Aún no tienes proyectos',
+                              style: AppTheme.comentarioPlomo,
+                            )
+                          ],
+                        ),
+                      )
                   ],
-                )),
-              ],
-            )),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
 }
+
 // class ProyectosContenido extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
@@ -665,17 +673,15 @@ class ProyectosContenido extends StatelessWidget {
 //   }
 
 class ProjectCard extends StatelessWidget {
-  const ProjectCard({
-    Key key,
-    @required this.project,
-  }) : super(key: key);
+  const ProjectCard({Key key, @required this.project, @required this.index})
+      : super(key: key);
 
   final Project project;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    final projectCache = Provider.of<ProjectsProvider>(context)
-        .getProjectCache(project.codigoproyecto);
+    final provider = context.read<ProjectsProvider>();
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(15.sp)),
       clipBehavior: Clip.antiAlias,
@@ -686,7 +692,7 @@ class ProjectCard extends StatelessWidget {
             openProject(
               context,
               project: project,
-              projectCache: projectCache,
+              index: index,
             );
           },
           child: Container(
@@ -740,7 +746,6 @@ class ProjectCard extends StatelessWidget {
                                         project.titleColor,
                                       ),
                                     ),
-                                    // style: AppTheme.tituloParrafo
                                   ),
                                 ),
                               ],
@@ -835,10 +840,6 @@ class ProjectCard extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                // Expanded(
-                                //   flex: 1,
-                                //   child: Text(''),
-                                // )
                               ],
                             ),
                           ],
@@ -847,19 +848,22 @@ class ProjectCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                // TODO
-                // if (faltaPublicar != null)
-                //   if (faltaPublicar == true)
-                // Container(
-                //   margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                //   child: Row(
-                //     children: <Widget>[
-                //       Expanded(
-                //           child: Image.asset(
-                //               'assets/img/Desglose/Home/btn-por-publicar.png'))
-                //     ],
-                //   ),
-                // )
+                if (provider
+                        .cache[project.codigoproyecto.toString()].porPublicar !=
+                    null)
+                  if (provider.cache[project.codigoproyecto.toString()]
+                          .porPublicar ==
+                      true)
+                    Container(
+                      margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                              child: Image.asset(
+                                  'assets/img/Desglose/Home/btn-por-publicar.png'))
+                        ],
+                      ),
+                    )
               ],
             ),
           ),
@@ -871,78 +875,33 @@ class ProjectCard extends StatelessWidget {
   Future<void> openProject(
     context, {
     nombreIcono,
-    @required ProjectCache projectCache,
     @required Project project,
+    @required int index,
   }) async {
-    if (projectCache.stepNumber == null) {
-      projectCache = projectCache.copyWith(stepNumber: 0);
-      await Provider.of<ProjectsProvider>(context, listen: false)
-          .saveInLocalStorage();
-    }
-
-    print('PASO ACTUAL: ${projectCache.stepNumber}');
-
-    // Crear un diálogo cargando
-    loadingDialog(context);
-    // TODO Actualizar datos,
-    // var respuesta = await obtenerDatosProyecto(idProyecto, true);
-
     final provider = Provider.of<ProjectsProvider>(context, listen: false);
-    await provider.getProjectDetails(
-      project.codigoproyecto,
-    );
-    await provider.getLocalProjectDetail(
-      project.codigoproyecto,
-    );
 
-    await Provider.of<ProjectsProvider>(context, listen: false)
-        .saveInLocalStorage();
+    loadingDialog(context);
+    final detail =
+        await provider.getProjectDetail(project.codigoproyecto, index: index);
+    Navigator.pop(context);
 
-    // Remover el dialogo anterior
-    Navigator.of(context).pop();
-
-    if (!(provider.error['error'] as bool)) {
-      // Al obtener la data de internet
-      switch (projectCache.stepNumber) {
-        case 0:
-          cambiarPagina(
-              context,
-              ProyectoScreen(
-                projectCache: projectCache,
-                project: project,
-              ));
-          break;
-        case 1:
-          cambiarPagina(context, ReportarAvance());
-          break;
-        default:
-          cambiarPagina(context, ReportarAvance());
-      }
-    } else {
-      // TODO Trabajar con data guardada
-      if (provider.projectDetails['${project.codigoproyecto}'] != null) {
-        switch (projectCache.stepNumber) {
-          case 0:
-            cambiarPagina(
-                context,
-                ProyectoScreen(
-                  projectCache: projectCache,
-                  project: project,
-                ));
-            break;
-          case 1:
-            cambiarPagina(context, ReportarAvance());
-            break;
-          default:
-            cambiarPagina(context, ReportarAvance());
-        }
-      } else {
-        Toast.show(
-            "Lo sentimos, este proyecto no fue sincronizado anteriormente",
-            context,
-            duration: 3,
-            gravity: Toast.BOTTOM);
-      }
+    if (detail == null) {
+      Toast.show("Lo sentimos, este proyecto no fue sincronizado anteriormente",
+          context,
+          duration: 3, gravity: Toast.BOTTOM);
+      return;
     }
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ProyectoScreen.init(
+          detail: detail,
+          project: project,
+        ),
+      ),
+    );
+
+    // TODO: Si se ingresó al paso 1 (tiempo determinado) volver a ese vista
+    // cambiarPagina(context, ReportarAvance());
   }
 }

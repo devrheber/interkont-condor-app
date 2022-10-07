@@ -1,17 +1,17 @@
 import 'dart:convert';
 
-import 'package:appalimentacion/app/data/model/project.dart';
-import 'package:flutter/foundation.dart';
+import 'package:appalimentacion/domain/models/project.dart';
 
-List<ProjectCache> projectsCacheFromJson(String str) => List<ProjectCache>.from(
-    json.decode(str).map((x) => ProjectCache.fromJson(x)));
+Map<String, ProjectCache> projectsCacheFromJson(String str) =>
+    Map.from(json.decode(str)).map(
+        (k, v) => MapEntry<String, ProjectCache>(k, ProjectCache.fromJson(v)));
 
-String projectsCacheToJson(List<ProjectCache> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String projectsCacheToJson(Map<String, ProjectCache> data) => json.encode(
+    Map.from(data).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())));
 
 class ProjectCache {
   const ProjectCache({
-    @required this.stepNumber,
+    this.stepNumber = 0,
     this.porPublicar,
     this.ultimaFechaSincro,
     this.periodoIdSeleccionado,
@@ -31,6 +31,7 @@ class ProjectCache {
         stepNumber: json['strep_number'],
         porPublicar: json['porPublicar'],
         ultimaFechaSincro: json['ultimaFechaSincro'],
+        periodoIdSeleccionado: json['periodoIdSeleccionado'],
         porcentajeValorProyectadoSeleccionado:
             json['porcentajeValorProyectadoSeleccionado'],
         porcentajeValorEjecutado: json['porcentajeValorEjecutado'],
@@ -39,6 +40,7 @@ class ProjectCache {
   Map<String, dynamic> toJson() => {
         'strep_number': stepNumber,
         'porPublicar': porPublicar,
+        'ultimaFechaSincro': ultimaFechaSincro,
         'periodoIdSeleccionado': periodoIdSeleccionado,
         'porcentajeValorProyectadoSeleccionado':
             porcentajeValorProyectadoSeleccionado,
@@ -62,7 +64,7 @@ class ProjectCache {
           periodoIdSeleccionado ?? this.periodoIdSeleccionado,
       porcentajeValorProyectadoSeleccionado:
           porcentajeValorProyectadoSeleccionado ??
-              porcentajeValorProyectadoSeleccionado,
+              this.porcentajeValorProyectadoSeleccionado,
       porcentajeValorEjecutado:
           porcentajeValorEjecutado ?? porcentajeValorEjecutado,
     );

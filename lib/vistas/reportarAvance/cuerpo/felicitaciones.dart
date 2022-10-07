@@ -65,7 +65,7 @@ class _FelicitacionesState extends State<Felicitaciones> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ListaProyectos.init()),
+                            builder: (context) => ListaProyectos()),
                       );
                     },
                     child: Container(

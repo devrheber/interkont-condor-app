@@ -71,7 +71,7 @@ class _PreloadState extends State<Preload> with SingleTickerProviderStateMixin {
             'contenidoWebService', jsonEncode(contenidoWebService));
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ListaProyectos.init()),
+          MaterialPageRoute(builder: (context) => ListaProyectos()),
         );
       } else {
         Navigator.push(

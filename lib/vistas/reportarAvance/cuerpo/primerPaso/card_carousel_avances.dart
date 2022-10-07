@@ -1,4 +1,4 @@
-import 'package:appalimentacion/app/data/model/datos_alimentacion.dart';
+import 'package:appalimentacion/domain/models/models.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

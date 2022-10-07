@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = context.read<LoginProvider>();
+    final loginProvider = Provider.of<LoginProvider>(context);
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ListaProyectos.init()),
+                                            ListaProyectos()),
                                   );
                                 }
                                 // validarLogin();

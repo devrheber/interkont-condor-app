@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'project.dart';
+import 'package:appalimentacion/domain/models/project.dart';
 
 List<Project> vistaListaResponseFromJson(String str) => List<Project>.from(json.decode(str).map((x) => Project.fromJson(x)));
 

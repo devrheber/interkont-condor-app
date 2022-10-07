@@ -1,20 +1,11 @@
-import 'package:appalimentacion/app/data/model/local_project.dart';
-import 'package:appalimentacion/app/data/model/project.dart';
-import 'package:date_format/date_format.dart';
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
-
-import '../../globales/funciones/actualizarProyectos.dart';
-import '../../globales/funciones/cambiarFormatoFecha.dart';
-import '../../globales/funciones/obtenerDatosProyecto.dart';
-import '../../globales/funciones/obtenerListaProyectos.dart';
-import '../../globales/variables.dart';
 import 'cardTitulo.dart';
 import 'cuerpo.dart';
 
 final titleColor = Color(0xff444444);
 
-class ProjectContent extends StatefulWidget {
+class ProjectContent extends StatelessWidget {
   ProjectContent({
     Key key,
     @required this.projectCache,
@@ -25,85 +16,11 @@ class ProjectContent extends StatefulWidget {
   final Project project;
 
   @override
-  ProjectContentState createState() => ProjectContentState();
-}
-
-class ProjectContentState extends State<ProjectContent>
-    with TickerProviderStateMixin {
-  ProjectCache projectCache;
-
-  int ultimaSincro;
-  AnimationController _animationController;
-  void activarUltimaSincronizacion() async {
-    if (_animationController != null && _animationController.isAnimating)
-      return;
-    String ultimaSincroFecha;
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    );
-    setState(() {});
-    _animationController.repeat();
-    // TODO sincronizar toda la data
-    // await obtenerListaProyectos();
-    // actualizarProyectos();
-    // TODO Obtener el detalle del proyecto
-    // var respuesta = await obtenerDatosProyecto(
-    //     contenidoWebService[0]['proyectos'][posListaProySelec]
-    //         ['codigoproyecto'],
-    //     true);
-    _animationController.reset();
-    _animationController.stop();
-    //**SE DESTRUYE EL CONTROLADOR PARA QUE SE PUEDA VOLVER A INICIAR LA ANIMACION CUANDO SE VUELVA A LLAMAR EL METODO
-    _animationController.dispose();
-    setState(() {});
-    // TODO
-    // if (respuesta) {
-    if (true) {
-      setState(() {
-        ultimaSincro = 1;
-        var fechaActual = DateTime.now();
-        var formats = [M, " ", d, " ", yyyy, " ", H, ':', nn];
-        ultimaSincroFecha =
-            '${cambiarFormatoFecha(formatDate(fechaActual, formats))}';
-      });
-      // TODO Provider debe tener un metodo para actualizar este campo
-      projectCache =
-          projectCache.copyWith(ultimaFechaSincro: ultimaSincroFecha);
-      setState(() {});
-      Toast.show("Proyecto sincronizado correctamente!", context,
-          duration: 3, gravity: Toast.BOTTOM);
-    } else {
-      Toast.show(
-          "Lo sentimos, debe estar conectado a internet para sincronizar el proyecto",
-          context,
-          duration: 3,
-          gravity: Toast.BOTTOM);
-    }
-  }
-
-  @override
-  void initState() {
-    projectCache = widget.projectCache;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        CardTitulo(
-          animationController: _animationController,
-          ultimaSincro: ultimaSincro,
-          activarUltimaSincronizacion: activarUltimaSincronizacion,
-          project: widget.project,
-          projectCache: projectCache,
-        ),
-        BodyCard(
-          ultimaSincro: ultimaSincro,
-          project: widget.project,
-          projectCache: projectCache,
-        ),
+        const CardTitulo(),
+        const BodyCard(),
       ],
     );
   }

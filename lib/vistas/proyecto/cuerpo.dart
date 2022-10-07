@@ -1,17 +1,11 @@
-import 'dart:convert';
-
-import 'package:appalimentacion/app/data/model/datos_alimentacion.dart';
-import 'package:appalimentacion/app/data/model/local_project.dart';
-import 'package:appalimentacion/app/data/model/project.dart';
-import 'package:appalimentacion/vistas/listaProyectos/projects_provider.dart';
+import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/domain/models/project.dart';
+import 'package:appalimentacion/vistas/listaProyectos/project_detail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../globales/colores.dart';
-import '../../globales/variables.dart';
 import 'widgets/seleccionaPeriodo.dart';
 
 // class CardCuerpo extends StatefulWidget {
@@ -235,28 +229,13 @@ import 'widgets/seleccionaPeriodo.dart';
 // }
 
 class BodyCard extends StatefulWidget {
-  BodyCard({
-    Key key,
-    @required this.ultimaSincro,
-    @required this.projectCache,
-    @required this.project,
-  }) : super(key: key);
-
-  final int ultimaSincro;
-  final ProjectCache projectCache;
-  final Project project;
+  const BodyCard({Key key}) : super(key: key);
 
   @override
   BodyCardState createState() => BodyCardState();
 }
 
 class BodyCardState extends State<BodyCard> {
-  ProjectCache projectCache;
-  Project project;
-  DatosAlimentacion detail;
-
-  ProjectsProvider provider;
-
   // class CardCuerpoState extends State<CardCuerpo> {
   // SharedPreferences prefs;
   // void activarVariablesPreferences() async {
@@ -314,8 +293,8 @@ class BodyCardState extends State<BodyCard> {
   // }
 
   // Seleccione el periodo a reportar
-  int posicionPeriodoReportado = 0;
-  int periodoIdSeleccionado = 0;
+  // int posicionPeriodoReportado = 0;
+  // int periodoIdSeleccionado = 0;
 
   //   cambiarPosicionPeriodoReportado(nuevaPosicion) {
   //   contenidoWebService[0]['proyectos'][posListaProySelec]
@@ -334,37 +313,36 @@ class BodyCardState extends State<BodyCard> {
   //   });
   // }
 
-  cambiarPosicionPeriodoReportado(nuevaPosicion) {
-    projectCache = projectCache.copyWith(
-      periodoIdSeleccionado: detail.periodos[nuevaPosicion].periodoId,
-      porcentajeValorProyectadoSeleccionado:
-          detail.periodos[nuevaPosicion].porcentajeProyectado,
-    );
+  // TODO
+  // cambiarPosicionPeriodoReportado(nuevaPosicion) {
+  //   projectCache = projectCache.copyWith(
+  //     periodoIdSeleccionado: detail.periodos[nuevaPosicion].periodoId,
+  //     porcentajeValorProyectadoSeleccionado:
+  //         detail.periodos[nuevaPosicion].porcentajeProyectado,
+  //   );
 
-    setState(() {
-      posicionPeriodoReportado = nuevaPosicion;
-      periodoIdSeleccionado = detail.periodos[nuevaPosicion].periodoId;
-    });
-  }
+  //   setState(() {
+  //     posicionPeriodoReportado = nuevaPosicion;
+  //     periodoIdSeleccionado = detail.periodos[nuevaPosicion].periodoId;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    provider = context.read<ProjectsProvider>();
-    projectCache = widget.projectCache;
-    project = widget.project;
-    detail = provider.projectDetails['${provider.codeProjectSelected}'];
+
+    // TODO
+    // detail = provider.projectDetails['${provider.codeProjectSelected}'];
   }
 
   @override
   Widget build(BuildContext context) {
+    final detailProvider = Provider.of<ProjectDetailProvider>(context);
+    final projectCache = detailProvider.cache;
+    final project = detailProvider.project;
     return Container(
       child: Stack(
         children: <Widget>[
-          // contenidoWebService[0]['proyectos']
-          //                   [posListaProySelec]
-          //               ['ultimaFechaSincro'] ==
-          //           null
           projectCache.ultimaFechaSincro == null
               ? Container(
                   width: double.infinity,
@@ -404,12 +382,6 @@ class BodyCardState extends State<BodyCard> {
           Container(
               width: double.infinity,
               margin: EdgeInsets.only(
-                // top: contenidoWebService[0]['proyectos']
-                //                   [posListaProySelec]
-                //               ['ultimaFechaSincro'] ==
-                //           null
-                //       ? 400.h
-                //       : 400.h,
                 top: projectCache.ultimaFechaSincro == null ? 400.h : 400.h,
               ),
               child: Column(
@@ -418,7 +390,6 @@ class BodyCardState extends State<BodyCard> {
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      // _Summary(porcentajeAsiVa: porcentajeAsiVa),
                       _Summary(
                         porcentajeAsiVa: project.asiVaPorcentaje,
                         project: project,
@@ -442,14 +413,22 @@ class BodyCardState extends State<BodyCard> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      seleccionaPeriodo(
-                          context: context,
-                          posicionPeriodoReportado: posicionPeriodoReportado,
-                          idPeriodoSeleccionado: periodoIdSeleccionado,
-                          valores: detail.periodos,
-                          accion: (posicion) {
-                            cambiarPosicionPeriodoReportado(posicion);
-                          }),
+                      const DropDownPeriodo()
+                      // seleccionaPeriodo(
+                      //     context: context,
+                      //     posicionPeriodoReportado:
+                      //         detailProvider.posicionPeriodoReportado,
+                      //     idPeriodoSeleccionado:
+                      //         detailProvider.cache.periodoIdSeleccionado ?? 0,
+                      //     valores: detail.periodos,
+                      //     accion: (posicion) {
+                      //       // cambiarPosicionPeriodoReportado(posicion);
+                      //       // detailProvider
+                      //       //     .cambiarPosicionPeriodoReportado(posicion);
+                      //       context
+                      //           .read<ProjectDetailProvider>()
+                      //           .cambiarPosicionPeriodoReportado(posicion);
+                      //     }),
                     ],
                   )),
                   if (project.pendienteAprobacion)

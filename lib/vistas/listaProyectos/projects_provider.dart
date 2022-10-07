@@ -1,75 +1,70 @@
-import 'dart:convert';
+import 'dart:async';
 import 'dart:developer';
 
-import 'package:appalimentacion/app/data/model/datos_alimentacion.dart';
-import 'package:appalimentacion/app/data/model/local_project.dart';
-import 'package:appalimentacion/app/data/model/project.dart';
-import 'package:appalimentacion/app/data/model/vista_lista_response.dart';
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/app/data/provider/user_preferences.dart';
-import 'package:appalimentacion/app/data/services/datos_alimentacion_service.dart';
-import 'package:appalimentacion/app/data/services/vista_lista_service.dart';
+import 'package:appalimentacion/domain/repository/cache_repository.dart';
+import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:flutter/material.dart';
 
 class ProjectsProvider extends ChangeNotifier {
-  ProjectsProvider({@required this.prefs}) {
-    // getLocalProjects();
+  ProjectsProvider({
+    @required this.projectRepository,
+    @required this.prefs,
+    @required ProjectsCacheRepository projectsCacheRepository,
+  }) : _projectsCacheRepository = projectsCacheRepository {
+    getProjects();
+    _getCacheFromLocalStorage();
+    _init();
   }
 
-  final projectService = VistaListaService();
-  final detailService = TipoDocService();
-
+  final ProjectsRepository projectRepository;
   final UserPreferences prefs;
 
-  int codeProjectSelected;
+  final ProjectsCacheRepository _projectsCacheRepository;
 
   List<Project> localProjects = [];
-  Map<String, DatosAlimentacion> projectDetails = {};
-  Map<String, ProjectCache> projectsCache = {};
+
+  int indexProjectSelected = 0;
+
+  Map<String, ProjectCache> cache = {};
+  Map<String, DatosAlimentacion> details = {};
 
   Map<String, dynamic> error = {'error': false, 'message': 'Algo salió mal'};
 
-  Future<void> getLocalProjects() async {
-    final localData = prefs.projects;
-    localProjects = vistaListaResponseFromJson(localData);
+  StreamSubscription cacheStream;
+
+  _init() {
+    cacheStream = _projectsCacheRepository.getProjectsCache().listen((map) {
+      this.cache = map;
+    });
   }
 
-  Future<void> getAndUpdateProjects() async {
-    await getDataFromLocalStorage();
+  void dispose() {
+    cacheStream.cancel();
+  }
+
+  Future<void> getProjectsFromLocalStorage() async {
+    // TODO Verificar última consulta para evitar consultar data actualizada
+    final localProjectsString = prefs.projects;
+    if (localProjectsString == '') return;
+    localProjects = vistaListaResponseFromJson(localProjectsString);
+    notifyListeners();
+  }
+
+  Future<void> getProjects() async {
+    try {
+      await getRemoteProjects();
+    } catch (_) {
+      await getProjectsFromLocalStorage();
+    }
   }
 
   Future<void> getRemoteProjects() async {
-    final projects = await projectService.getProjects();
+    final projects = await projectRepository.getProjects();
     localProjects = projects;
-  }
-
-  Future<void> getProjectDetails(int projectId) async {
-    try {
-      final detail = await detailService.getDatosAlimentacion(
-          codigoProyecto: '$projectId');
-      inspect(detail);
-      codeProjectSelected = projectId;
-      projectDetails['$projectId'] = detail;
-    } catch (_) {
-      error = {
-        'error': true,
-        'message': 'No se puedo obtener los detalles del proyecto'
-      };
-    }
-  }
-
-  Future<void> getLocalProjectDetail(int projectId) async {
-    try {
-      final data = prefs.projects;
-      // TODO
-      final dataDecoded = jsonDecode(data);
-      inspect(dataDecoded);
-      inspect(datosAlimentacionFromJson(dataDecoded[0]));
-    } catch (_) {
-      error = {
-        'error': true,
-        'message': 'No se puedo obtener los detalles del proyecto'
-      };
-    }
+    _saveProjectsInLocalStorage(localProjects);
+    notifyListeners();
   }
 
   Future<void> getDataFromLocalStorage() async {
@@ -80,31 +75,73 @@ class ProjectsProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> saveInLocalStorage() async {
-    print('saving local projects');
-    prefs.projects = vistaListaResponseToJson(localProjects);
-    prefs.projectsDetail = projetsDetailToJson(projectDetails.values.toList());
-    prefs.projectsCache = projectsCacheToJson(projectsCache.values.toList());
+  void _saveProjectsInLocalStorage(List<Project> projects) {
+    // TODO Establecer última sincronización
+    prefs.projects = vistaListaResponseToJson(projects);
+    for (final project in projects) {
+      if (!cache.containsKey(project.codigoproyecto.toString())) {
+        cache[project.codigoproyecto.toString()] = ProjectCache();
+      }
+    }
   }
 
-  Future<void> cambiarPasoProyecto(int projectCode, int numeroPaso) async {
-    if (projectsCache.containsKey('$projectCode')) {
-      projectsCache['$projectCode'] = projectsCache['$projectCode'].copyWith(
-        stepNumber: numeroPaso,
-      );
+  void _saveDetail(int codigoProyecto, DatosAlimentacion data) {
+    final key = codigoProyecto.toString();
+    Map<String, DatosAlimentacion> map = {};
+
+    final details = prefs.projectsDetail;
+
+    if (details == '') {
+      map = {key: data};
     } else {
-      projectsCache['$projectCode'] = ProjectCache(stepNumber: numeroPaso);
+      map = projectsDetailFromJson(details);
+      map[key] = data;
     }
 
-    saveInLocalStorage();
+    this.details = map;
+    prefs.projectsDetail = projetsDetailToJson(map);
+
+    inspect(projectsDetailFromJson(prefs.projectsDetail));
   }
 
-  ProjectCache getProjectCache(int projectCode) {
-    if (projectsCache.containsKey('$projectCode')) {
-      return projectsCache['$projectCode'];
-    } else {
-      projectsCache['$projectCode'] = ProjectCache(stepNumber: 0);
-      return projectsCache['$projectCode'];
+
+  Future<DatosAlimentacion> getProjectDetail(int codigoProyecto,
+      {@required int index}) async {
+    this.indexProjectSelected = index;
+    try {
+      final localDetail = details['$codigoProyecto'];
+
+      if (localDetail != null) {
+        return localDetail;
+      } else {
+        final detail = await _getRemoteProjectDetail(codigoProyecto);
+        return detail;
+      }
+    } catch (_) {
+      throw '';
     }
+  }
+
+  Future<DatosAlimentacion> _getRemoteProjectDetail(int codigoProyecto) async {
+    try {
+      final detail = await projectRepository.getDatosAlimentacion(
+          codigoProyecto: '$codigoProyecto');
+
+      _saveDetail(codigoProyecto, detail);
+
+      return detail;
+    } catch (_) {
+      throw '';
+    }
+  }
+
+  void _getCacheFromLocalStorage() {
+    _projectsCacheRepository.getProjectsCache();
+    final cache = prefs.projectsCache;
+    if (cache == '') return null;
+
+    final map = projectsCacheFromJson(cache);
+
+    this.cache = map;
   }
 }

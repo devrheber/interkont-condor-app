@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:appalimentacion/app/data/model/datos_alimentacion.dart';
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:flutter/foundation.dart';

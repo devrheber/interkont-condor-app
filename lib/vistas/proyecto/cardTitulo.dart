@@ -1,38 +1,28 @@
+import 'dart:developer';
 import 'dart:math' as math;
-
-import 'package:appalimentacion/app/data/model/local_project.dart';
-import 'package:appalimentacion/app/data/model/project.dart';
+import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/domain/repository/cache_repository.dart';
+import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:appalimentacion/utils/assets/assets.dart';
+import 'package:appalimentacion/vistas/listaProyectos/project_detail_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 import '../../globales/colores.dart';
 import '../../globales/customed_app_bar.dart';
-import '../../globales/transicion.dart';
-// import '../../globales/variables.dart';
-import '../listaProyectos/home.dart';
 
 final titleColor = Color(0xff444444);
 
 class CardTitulo extends StatelessWidget {
-  const CardTitulo({
-    Key key,
-    this.ultimaSincro,
-    this.activarUltimaSincronizacion,
-    // this.animationController})
-    // : super(key: key);
-    this.animationController,
-    @required this.project,
-    @required this.projectCache,
-  }) : super(key: key);
-  final int ultimaSincro;
-  final void Function() activarUltimaSincronizacion;
-  final AnimationController animationController;
-  final Project project;
-  final ProjectCache projectCache;
+  const CardTitulo({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final detailProvider = Provider.of<ProjectDetailProvider>(context);
+    final project = detailProvider.project;
     return Stack(
       children: <Widget>[
         Container(
@@ -40,27 +30,19 @@ class CardTitulo extends StatelessWidget {
           margin: EdgeInsets.only(top: 60.h),
           child: Stack(
             children: <Widget>[
-              // _Title(ultimaSincro: ultimaSincro),
-              _Title(
-                ultimaSincro: ultimaSincro,
-                title: project.nombreproyecto,
-                subtitle: project.objeto,
-                fechaUltimaSinc: projectCache.ultimaFechaSincro,
-              ),
+              const _Title(),
               _CircleImageCard(
                 imgUrl: project.imagencategoria,
               ),
-              _SyncButton(
-                activarUltimaSincronizacion: activarUltimaSincronizacion,
-                controller: animationController,
-              ),
+              const _SyncButton(),
             ],
           ),
         ),
         customedAppBar(
           title: '',
           onPressed: () {
-            cambiarPagina(context, ListaProyectos.init());
+            // cambiarPagina(context, ListaProyectos());
+            Navigator.pop(context);
           },
         ),
       ],
@@ -118,53 +100,17 @@ class _CircleImageCard extends StatelessWidget {
 }
 
 class _Title extends StatelessWidget {
-  // const _Title({
-  //   Key key,
-  //   @required this.ultimaSincro,
-  // }) : super(key: key);
-
-  // final int ultimaSincro;
-  const _Title(
-      {Key key,
-      @required this.ultimaSincro,
-      @required this.fechaUltimaSinc,
-      @required this.title,
-      @required this.subtitle})
-      : super(key: key);
-
-  final int ultimaSincro;
-  final fechaUltimaSinc;
-  final String title;
-  final String subtitle;
+  const _Title({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // var fechaUltimaSinc = contenidoWebService[0]['proyectos']
-    //       [posListaProySelec]['ultimaFechaSincro'];
-    //   print(fechaUltimaSinc);
-    var text = Text(
-      fechaUltimaSinc == null
-          ? ' Nunca'
-          : ultimaSincro == null
-              ? fechaUltimaSinc
-              : ' Justo Ahora',
-      textAlign: TextAlign.center,
-      style: fechaUltimaSinc == null
-          ? TextStyle(
-              fontFamily: "montserrat",
-              fontWeight: FontWeight.w600,
-              fontSize: 15.sp,
-              color: Color(0xffC1272D),
-            )
-          : ultimaSincro == null
-              ? AppTheme.parrafoCelesteNegrita
-              : TextStyle(
-                  fontFamily: "montserrat",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15.sp,
-                  color: Color(0xff22B573),
-                ),
-    );
+    final detailProvider =
+        Provider.of<ProjectDetailProvider>(context);
+    final cache = context.watch<ProjectDetailProvider>().cache;
+    final project = detailProvider.project;
+
+    final ultimaSincro = context.watch<ProjectDetailProvider>().ultimaSincro;
+
     return Container(
       width: double.infinity,
       height: 204.h,
@@ -188,9 +134,7 @@ class _Title extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(left: 42.sp, right: 42.sp),
               child: Text(
-                // '${contenidoWebService[0]['proyectos'][posListaProySelec]['nombreproyecto']}'
-                //       .toUpperCase(),
-                title,
+                project.nombreproyecto,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'montserrat',
@@ -219,13 +163,35 @@ class _Title extends StatelessWidget {
                     ),
                   ),
                   Visibility(
-                    visible: fechaUltimaSinc == null,
+                    visible: cache.ultimaFechaSincro == null,
                     child: Image.asset(
                       'assets/img/Desglose/Demas/icn-alert.png',
                       height: 14.sp,
                     ),
                   ),
-                  text,
+                  Text(
+                    cache.ultimaFechaSincro == null
+                        ? ' Nunca'
+                        : ultimaSincro == null
+                            ? cache.ultimaFechaSincro
+                            : ' Justo Ahora',
+                    textAlign: TextAlign.center,
+                    style: cache.ultimaFechaSincro == null
+                        ? TextStyle(
+                            fontFamily: "montserrat",
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15.sp,
+                            color: Color(0xffC1272D),
+                          )
+                        : ultimaSincro == null
+                            ? AppTheme.parrafoCelesteNegrita
+                            : TextStyle(
+                                fontFamily: "montserrat",
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15.sp,
+                                color: Color(0xff22B573),
+                              ),
+                  ),
                 ],
               ),
             ),
@@ -236,8 +202,7 @@ class _Title extends StatelessWidget {
               padding: EdgeInsets.only(left: 19.sp, right: 19.sp),
               child: Center(
                 child: Text(
-                  // '${contenidoWebService[0]['proyectos'][posListaProySelec]['objeto']}',
-                  subtitle,
+                  project.objeto,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: "montserrat",
@@ -255,15 +220,31 @@ class _Title extends StatelessWidget {
   }
 }
 
-class _SyncButton extends StatelessWidget {
+class _SyncButton extends StatefulWidget {
   const _SyncButton({
     Key key,
-    @required this.activarUltimaSincronizacion,
-    this.controller,
   }) : super(key: key);
 
-  final void Function() activarUltimaSincronizacion;
-  final AnimationController controller;
+  @override
+  State<_SyncButton> createState() => _SyncButtonState();
+}
+
+class _SyncButtonState extends State<_SyncButton>
+    with TickerProviderStateMixin {
+  AnimationController animationController;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 1500), vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -293,7 +274,31 @@ class _SyncButton extends StatelessWidget {
                     ),
                     // elevation: 0,
                     // onPressed: widget.activarUltimaSincronizacion,
-                    onPressed: activarUltimaSincronizacion,
+                    onPressed: () async {
+                      if (animationController != null &&
+                          animationController.isAnimating) return;
+                      animationController.repeat();
+                      final result = await context
+                          .read<ProjectDetailProvider>()
+                          .syncDetail();
+
+                      // final result = true;
+                      // await Future.delayed(const Duration(seconds: 5));
+                      animationController.reset();
+                      animationController.stop();
+
+                      if (result) {
+                        Toast.show(
+                            "Proyecto sincronizado correctamente!", context,
+                            duration: 3, gravity: Toast.BOTTOM);
+                      } else {
+                        Toast.show(
+                            "Lo sentimos, debe estar conectado a internet para sincronizar el proyecto",
+                            context,
+                            duration: 3,
+                            gravity: Toast.BOTTOM);
+                      }
+                    },
                     // padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
@@ -306,15 +311,17 @@ class _SyncButton extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            controller != null
+                            animationController != null
                                 ? AnimatedBuilder(
-                                    animation: controller,
+                                    animation: animationController,
                                     builder: (_, child) {
                                       print("\x1B[2J\x1B[0;0H");
-                                      print(controller.value);
+                                      print(animationController.value);
 
                                       return Transform.rotate(
-                                        angle: controller.value * 2 * math.pi,
+                                        angle: animationController.value *
+                                            2 *
+                                            math.pi,
                                         child: child,
                                       );
                                     },

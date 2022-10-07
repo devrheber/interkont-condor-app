@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:appalimentacion/app/data/model/project.dart';
-import 'package:appalimentacion/app/data/model/vista_lista_response.dart';
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/widgets/respuestaHttp.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -29,13 +29,14 @@ class CardHeadReporteAvanceQuintoPasoState
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-            customedAppBar(
+        customedAppBar(
           title: '¡Último paso!',
           last: true,
           onPressed: () {
-            cambiarPagina(context, ProyectoScreen());
+            cambiarPagina(context, ProyectoScreen.init());
           },
-        ),  ],
+        ),
+      ],
     );
   }
 }

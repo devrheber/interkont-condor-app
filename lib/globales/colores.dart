@@ -158,6 +158,20 @@ class AppTheme {
       fontSize: 11,
       color: Color(0xff1EB8CF));
 
+  static const TextStyle preposition = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.w300,
+    color: Color(0xff556A8D),
+    fontSize: 13,
+  );
+
+  static const dates = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+    fontSize: 13,
+  );
+
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
     headline5: headline,

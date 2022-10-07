@@ -42,6 +42,7 @@ dependencies:
   percent_indicator: ^2.1.1
   provider: ^6.0.3
   rounded_loading_button: ^1.0.4
+  rxdart: ^0.25.0
   shared_preferences: ^2.0.7
   toast: ^0.1.5
 

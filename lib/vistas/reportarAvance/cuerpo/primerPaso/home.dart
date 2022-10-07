@@ -1,4 +1,4 @@
-import 'package:appalimentacion/app/data/model/datos_alimentacion.dart';
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -257,10 +257,10 @@ class FirstStepBodyState extends State<FirstStepBody> {
                   height: 435.0.h,
                 ),
                 items: <Widget>[
-                  for (final activity in activities)
-                    CardCarouselAvancesForm(
-                      activity: activity,
-                    ),
+                  // for (final activity in activities)
+                  //   CardCarouselAvancesForm(
+                  //     activity: activity,
+                  //   ),
                 ],
               ),
             ],
