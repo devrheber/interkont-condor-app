@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:appalimentacion/helpers/respuestaHttp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../widgets/respuestaHttp.dart';
 import '../variables.dart';
 
 Future<void> obtenerListaProyectos() async {

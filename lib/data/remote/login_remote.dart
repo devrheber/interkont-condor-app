@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/login_repository.dart';
 import 'package:appalimentacion/globales/variables.dart';
-import 'package:appalimentacion/widgets/respuestaHttp.dart';
+import 'package:appalimentacion/helpers/respuestaHttp.dart';
 
 class LoginRemote implements LoginRepository {
   @override

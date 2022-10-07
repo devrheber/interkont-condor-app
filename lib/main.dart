@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:appalimentacion/app/data/provider/user_preferences.dart';
+import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/data/remote/login_remote.dart';
 import 'package:appalimentacion/data/remote/projects_impl.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
@@ -10,8 +9,10 @@ import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/globales/ssl_solution.dart';
 import 'package:appalimentacion/translation/localizations_delegates.dart';
 import 'package:appalimentacion/translation/supported_locales.dart';
+import 'package:appalimentacion/ui/listaProyectos/home.dart';
+import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
+import 'package:appalimentacion/ui/login/login.dart';
 import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
-import 'package:appalimentacion/vistas/listaProyectos/projects_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,8 +21,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'globales/colores.dart';
 import 'globales/logo.dart';
 import 'theme/color_theme.dart';
-import 'vistas/listaProyectos/home.dart';
-import 'vistas/login/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
