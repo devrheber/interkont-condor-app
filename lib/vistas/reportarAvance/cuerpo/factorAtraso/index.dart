@@ -45,21 +45,20 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
           'descripcion': '${descripcionAtraso.text}',
         });
       });
-      contenidoWebService[0]['proyectos'][posListaProySelec]
-          ['datos']['factoresAtrasoSeleccionados'] = listaFactoresRegistrados;
+      contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+          ['factoresAtrasoSeleccionados'] = listaFactoresRegistrados;
       descripcionAtraso.clear();
     }
   }
 
   @override
   void initState() {
-    if (contenidoWebService[0]['proyectos'][posListaProySelec]
-            ['datos']['factoresAtrasoSeleccionados'] !=
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+            ['factoresAtrasoSeleccionados'] !=
         null) {
       setState(() {
         listaFactoresRegistrados = contenidoWebService[0]['proyectos']
-                [posListaProySelec]['datos']
-            ['factoresAtrasoSeleccionados'];
+            [posListaProySelec]['datos']['factoresAtrasoSeleccionados'];
         if (listaFactoresRegistrados.length > 0) {
           bool_avanzarSiguientePaso = false;
         }
@@ -81,7 +80,8 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
               title: '',
               onPressed: () {
                 cambiarPasoProyecto(2);
-                cambiarPagina(context, ReportarAvance());
+                // TODO
+                // cambiarPagina(context, ReportarAvance());
               },
             ),
             Expanded(
@@ -112,20 +112,17 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                         posicionPeriodoReportado,
                         idTipoFactorAtrasoSeleccionado,
                         false,
-                        contenidoWebService[0]['proyectos']
-                                [posListaProySelec]['datos']
-                            ['tiposFactorAtraso'], (nuevaPosicion) {
+                        contenidoWebService[0]['proyectos'][posListaProySelec]
+                            ['datos']['tiposFactorAtraso'], (nuevaPosicion) {
                       setState(() {
                         posicionPeriodoReportado = nuevaPosicion;
                         tipoFactorSeleccionado = contenidoWebService[0]
-                                        ['proyectos']
-                                    [posListaProySelec]
-                                ['datos']['tiposFactorAtraso'][nuevaPosicion]
+                                    ['proyectos'][posListaProySelec]['datos']
+                                ['tiposFactorAtraso'][nuevaPosicion]
                             ['tipoFactorAtraso'];
                         idTipoFactorAtrasoSeleccionado = contenidoWebService[0]
-                                        ['proyectos']
-                                    [posListaProySelec]
-                                ['datos']['tiposFactorAtraso'][nuevaPosicion]
+                                    ['proyectos'][posListaProySelec]['datos']
+                                ['tiposFactorAtraso'][nuevaPosicion]
                             ['tipoFactorAtrasoId'];
                       });
                     }),
@@ -135,17 +132,15 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                         posicionPeriodoReportado,
                         idTipoFactorAtrasoSeleccionado,
                         true,
-                        contenidoWebService[0]['proyectos']
-                                [posListaProySelec]['datos']
-                            ['factoresAtraso'], (nuevaPosicion) {
+                        contenidoWebService[0]['proyectos'][posListaProySelec]
+                            ['datos']['factoresAtraso'], (nuevaPosicion) {
                       setState(() {
                         posicionPeriodoReportado = nuevaPosicion;
                         factorSeleccionado = contenidoWebService[0]['proyectos']
-                                [posListaProySelec]['datos']
-                            ['factoresAtraso'][nuevaPosicion]['factorAtraso'];
+                                [posListaProySelec]['datos']['factoresAtraso']
+                            [nuevaPosicion]['factorAtraso'];
                         idFactorAtrasoSeleccionado = contenidoWebService[0]
-                                    ['proyectos']
-                                [posListaProySelec]['datos']
+                                ['proyectos'][posListaProySelec]['datos']
                             ['factoresAtraso'][nuevaPosicion]['factorAtrasoId'];
                       });
                     }),
@@ -206,7 +201,7 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                               tipo: listaFactoresRegistrados[cont]
                                   ['tipoFactor'],
                               factor: listaFactoresRegistrados[cont]['factor'],
-                              description: listaFactoresRegistrados[cont] 
+                              description: listaFactoresRegistrados[cont]
                                   ['descripcion'],
                               onTap: () {
                                 listaFactoresRegistrados.removeAt(cont);
@@ -218,9 +213,8 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                                   }
                                 });
                                 contenidoWebService[0]['proyectos']
-                                            [posListaProySelec]
-                                        [
-                                        'datos']['factoresAtrasoSeleccionados'] =
+                                            [posListaProySelec]['datos']
+                                        ['factoresAtrasoSeleccionados'] =
                                     listaFactoresRegistrados;
                               },
                             );
@@ -242,12 +236,14 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
               txtSegundoBoton: "Siguiente Paso",
               accionPrimerBoton: () {
                 cambiarPasoProyecto(2);
-                cambiarPagina(context, ReportarAvance());
+                // TODO
+                // cambiarPagina(context, ReportarAvance());
               },
               accionSegundoBoton: () {
                 if (bool_avanzarSiguientePaso == false) {
                   cambiarPasoProyecto(3);
-                  cambiarPagina(context, ReportarAvance());
+                  // TODO
+                  // cambiarPagina(context, ReportarAvance());
                 }
               },
             ),

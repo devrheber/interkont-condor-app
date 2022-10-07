@@ -1,4 +1,9 @@
+import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/domain/repository/cache_repository.dart';
+import 'package:appalimentacion/vistas/listaProyectos/projects_provider.dart';
+import 'package:appalimentacion/vistas/reportarAvance/reportar_avance_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
@@ -16,7 +21,7 @@ import 'cuerpo/cargando.dart';
 import 'cuerpo/factorAtraso/index.dart';
 
 class ReportarAvance extends StatefulWidget {
-  ReportarAvance({Key key}) : super(key: key);
+  ReportarAvance._();
 
   @override
   ReportarAvanceState createState() => ReportarAvanceState();
@@ -29,13 +34,11 @@ class ReportarAvanceState extends State<ReportarAvance> {
   var accionPrimerBoton = () {};
   var accionSegundoBoton = () {};
   int numeroPaso = 0;
-  //KeyboardVisibilityNotification _keyboardVisibility =
-        //new KeyboardVisibilityNotification();
 
   void obtenerVariablesSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
-    actualizarPaso(contenidoWebService[0]['proyectos']
-        [posListaProySelec]['paso']);
+    actualizarPaso(
+        contenidoWebService[0]['proyectos'][posListaProySelec]['paso']);
     print(numeroPaso);
   }
 
@@ -71,20 +74,18 @@ class ReportarAvanceState extends State<ReportarAvance> {
     // }
   }
 
-  
- 
   void siguiente() async {
     bool checkPhoto = true;
-    if (contenidoWebService[0]['proyectos'][posListaProySelec]
-                ['datos']['fileFotoPrincipal'] ==
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+                ['fileFotoPrincipal'] ==
             '' ||
-        contenidoWebService[0]['proyectos'][posListaProySelec]
-                ['datos']['fileFotoPrincipal'] ==
+        contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+                ['fileFotoPrincipal'] ==
             null) {
       checkPhoto = false;
     }
-    if (contenidoWebService[0]['proyectos'][posListaProySelec]
-                ['datos']['porcentajeValorEjecutado']
+    if (contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
+                ['porcentajeValorEjecutado']
             .round() >
         100) {
       Toast.show(
@@ -103,8 +104,7 @@ class ReportarAvanceState extends State<ReportarAvance> {
       });
       cambiarPasoProyecto(numeroPaso + 1);
       print(numeroPaso);
-      if (contenidoWebService[0]['proyectos']
-                      [posListaProySelec]['datos']
+      if (contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
                   ['txtComentario'] ==
               null &&
           numeroPaso == 4) {
@@ -112,13 +112,11 @@ class ReportarAvanceState extends State<ReportarAvance> {
         setState(() {
           boolestSegundoBtnreportarAvance = true;
         });
-      } else if (contenidoWebService[0]['proyectos']
-                      [posListaProySelec]['datos']
+      } else if (contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
                   ['txtComentario'] !=
               null &&
           numeroPaso == 4 &&
-          contenidoWebService[0]['proyectos']
-                          [posListaProySelec]['datos']
+          contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
                       ['txtComentario']
                   .length <
               1) {
@@ -148,8 +146,8 @@ class ReportarAvanceState extends State<ReportarAvance> {
         txtSegundoBoton = 'Siguiente Paso';
         accionPrimerBoton = () {
           obtenerDatosProyecto(
-              contenidoWebService[0]['proyectos']
-                  [posListaProySelec]['codigoproyecto'],
+              contenidoWebService[0]['proyectos'][posListaProySelec]
+                  ['codigoproyecto'],
               false);
           Toast.show("El avance ha sido cancelado", context,
               duration: 5, gravity: Toast.BOTTOM);
@@ -170,16 +168,13 @@ class ReportarAvanceState extends State<ReportarAvance> {
           anterior();
         };
         accionSegundoBoton = () {
-          if (((contenidoWebService[0]['proyectos']
-                                  [posListaProySelec]['datos']
+          if (((contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
                               ['porcentajeValorProyectadoSeleccionado'] /
-                          contenidoWebService[0]['proyectos']
-                                  [posListaProySelec]['datos']
-                              ['porcentajeValorEjecutado']) *
+                          contenidoWebService[0]['proyectos'][posListaProySelec]
+                              ['datos']['porcentajeValorEjecutado']) *
                       100) -
                   100 >
-              contenidoWebService[0]['proyectos']
-                      [posListaProySelec]['datos']
+              contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
                   ['limitePorcentajeAtraso']) {
             cambiarPasoProyecto(2);
             cambiarPagina(context, IndexFactorAtraso());
@@ -231,16 +226,34 @@ class ReportarAvanceState extends State<ReportarAvance> {
             accionSegundoBoton: accionSegundoBoton));
   }
 }
- 
-class ReportarAvanceScreen extends StatelessWidget {
-  ReportarAvanceScreen({Key key}) : super(key: key);
 
+class ReportarAvanceScreen extends StatelessWidget {
+  const ReportarAvanceScreen._();
+
+  static Widget init({
+    @required Project project,
+    @required DatosAlimentacion detail,
+    @required ProjectCache cache,
+  }) =>
+      ChangeNotifierProvider(
+        create: (context) => ReportarAvanceProvider(
+          project: project,
+          detail: detail,
+          cache: cache,
+          projectsCacheRepository: context.read(),
+        ),
+        child: ReportarAvanceScreen._(),
+      );
 
   @override
   Widget build(BuildContext context) {
+    final avancesProvider = Provider.of<ReportarAvanceProvider>(context);
+    final projectsProvider = Provider.of<ProjectsProvider>(context);
+    final numeroPaso = projectsProvider
+        .cache[avancesProvider.project.codigoproyecto.toString()].stepNumber;
+
     return FondoHome(
-      //
-      contenido: ContenidoReportarAvance(numeroPaso: 1 ),
+      contenido: ContenidoReportarAvance(numeroPaso: numeroPaso),
       bottomNavigationBar: true,
       contenidoBottom: contenidoBottom(
         context: context,
@@ -248,14 +261,33 @@ class ReportarAvanceScreen extends StatelessWidget {
         dosBotones: true,
         primerBotonDesactivado: false,
         segundoBotonDesactivado: boolestSegundoBtnreportarAvance,
+        txtPrimerBoton: 'Cancelar',
+        txtSegundoBoton: numeroPaso >= 5 ? 'Finalizar' : 'Siguiente Paso',
+        accionPrimerBoton: () {
+          if (numeroPaso != 1) {
+            // Paso Anterior
+            avancesProvider.changeAndSaveStep(numeroPaso - 1);
+            return;
+          }
+
+          // TODO Obtener datos de proyecto
+          Toast.show("El avance ha sido cancelado", context,
+              duration: 5, gravity: Toast.BOTTOM);
+          Navigator.pop(context);
+          // TODO boolestSegundoBtnreportarAvance
+          // TODO update paso
+        },
         // TODO
-        txtPrimerBoton: "primer botón",
-        // TODO
-        txtSegundoBoton: "segundo botón",
-        // TODO
-        accionPrimerBoton: () {},
-        // TODO
-        accionSegundoBoton: () {},
+        accionSegundoBoton: () {
+          if (numeroPaso == 2) {
+            // TODO Show FactorAtraso
+          }
+
+          if (numeroPaso >= 5) {
+            // TODO Navegar a CargandoFinalizar
+          }
+          avancesProvider.changeAndSaveStep(numeroPaso + 1);
+        },
       ),
     );
   }

@@ -9,7 +9,7 @@ import 'cuerpo/tercerPaso/home.dart';
 
 final titleColor = Color(0xff444444);
 
-class ContenidoReportarAvance extends StatefulWidget {
+class ContenidoReportarAvance extends StatelessWidget {
   final int numeroPaso;
 
   ContenidoReportarAvance({
@@ -18,40 +18,20 @@ class ContenidoReportarAvance extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  ContenidoReportarAvanceState createState() => ContenidoReportarAvanceState();
-}
-
-class ContenidoReportarAvanceState extends State<ContenidoReportarAvance> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    
-
     return Stack(
       children: <Widget>[
-        // if (widget.numeroPaso == 1) CardCuerpoPrimerPaso(),
-        if (widget.numeroPaso == 1)
-          FirstStepBody(activities: []
-              // TODO
-              //  provider
-              //     .projectDetails[provider.codeProjectSelected.toString()]
-              //     .actividades
-              ),
-        if (widget.numeroPaso == 2) CardCuerpoSegundoPaso(),
-        if (widget.numeroPaso == 3) CardCuerpoTercerPaso(),
-        if (widget.numeroPaso == 4) CardCuerpoCuartoPaso(),
-        if (widget.numeroPaso >= 5) CardCuerpoQuintoPaso(),
-        widget.numeroPaso < 5
+        if (numeroPaso == 1) FirstStepBody(),
+        if (numeroPaso == 2) CardCuerpoSegundoPaso(),
+        if (numeroPaso == 3) CardCuerpoTercerPaso(),
+        if (numeroPaso == 4) CardCuerpoCuartoPaso(),
+        if (numeroPaso >= 5) CardCuerpoQuintoPaso(),
+        numeroPaso < 5
             ? CardHeadReporteAvance(
-                numeroPaso: widget.numeroPaso,
+                numeroPaso: numeroPaso,
               )
             : CardHeadReporteAvanceQuintoPaso(
-                numeroPaso: widget.numeroPaso,
+                numeroPaso: numeroPaso,
               ),
       ],
     );

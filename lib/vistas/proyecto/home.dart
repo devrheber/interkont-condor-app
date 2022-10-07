@@ -1,5 +1,6 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/vistas/listaProyectos/project_detail_provider.dart';
+import 'package:appalimentacion/vistas/listaProyectos/projects_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -65,7 +66,12 @@ class ProyectoScreen extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return ReportarAvanceScreen();
+                  return ReportarAvanceScreen.init(
+                      project: project,
+                      detail: detailProvider.detail,
+                      cache: context
+                          .read<ProjectsProvider>()
+                          .cache[project.codigoproyecto.toString()]);
                 },
               ),
             );

@@ -1,7 +1,9 @@
 import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/vistas/reportarAvance/reportar_avance_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../globales/funciones/calcularValorEjecutado.dart';
@@ -89,7 +91,7 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
                       .map((cont, e) {
                         return MapEntry(
                           cont,
-                          CardCarouselAvances( 
+                          CardCarouselAvances(
                             calcularPorcentajeValorEjecutado: () {},
                             descripcionActividad: e['descripcionActividad'],
                             unidadMedida: e['unidadMedida'],
@@ -190,10 +192,7 @@ class CardCuerpoPrimerPasoState extends State<CardCuerpoPrimerPaso> {
 class FirstStepBody extends StatefulWidget {
   FirstStepBody({
     Key key,
-    @required this.activities,
   }) : super(key: key);
-
-  final List<Actividad> activities;
 
   @override
   FirstStepBodyState createState() => FirstStepBodyState();
@@ -206,10 +205,10 @@ class FirstStepBodyState extends State<FirstStepBody> {
   String otros;
 
   DatosAlimentacion detail;
-  List<Actividad> activities;
 
   @override
   Widget build(BuildContext context) {
+    final avanceProvider = Provider.of<ReportarAvanceProvider>(context);
     return Stack(
       children: <Widget>[
         Container(
@@ -257,10 +256,11 @@ class FirstStepBodyState extends State<FirstStepBody> {
                   height: 435.0.h,
                 ),
                 items: <Widget>[
-                  // for (final activity in activities)
-                  //   CardCarouselAvancesForm(
-                  //     activity: activity,
-                  //   ),
+                  for (final activity in avanceProvider.detail.actividades)
+                    CardCarouselAvancesForm(
+                      activity: activity,
+                      valueSaved: '0',
+                    ),
                 ],
               ),
             ],
