@@ -1,75 +1,25 @@
+import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../globales/customed_app_bar.dart';
-import '../../../../globales/transicion.dart';
-import '../../../proyecto/home.dart';
-
-class CardHeadReporteAvanceQuintoPaso extends StatefulWidget {
+class CardHeadReporteAvanceQuintoPaso extends StatelessWidget {
   final int numeroPaso;
-  CardHeadReporteAvanceQuintoPaso({
+  const CardHeadReporteAvanceQuintoPaso({
     Key key,
     this.numeroPaso,
   }) : super(key: key);
 
   @override
-  CardHeadReporteAvanceQuintoPasoState createState() =>
-      CardHeadReporteAvanceQuintoPasoState();
-}
-
-class CardHeadReporteAvanceQuintoPasoState
-    extends State<CardHeadReporteAvanceQuintoPaso> {
-  @protected
-  void initState() {
-    super.initState();
-    // calcularValorEjecutado();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // TODO Calculate ExecutedValue
+    // calcularValorEjecutado();
     return Stack(
       children: <Widget>[
         customedAppBar(
           title: '¡Último paso!',
           last: true,
-          onPressed: () {
-            cambiarPagina(context, ProyectoScreen.init());
-          },
+          onPressed: () => Navigator.pop(context),
         ),
       ],
     );
   }
 }
-// class CardHeadReporteAvanceQuintoPaso extends StatefulWidget {
-//   final int numeroPaso;
-//   CardHeadReporteAvanceQuintoPaso({
-//     Key key,
-//     this.numeroPaso,
-//   }) : super(key: key);
-
-//   @override
-//   CardHeadReporteAvanceQuintoPasoState createState() =>
-//       CardHeadReporteAvanceQuintoPasoState();
-// }
-
-// class CardHeadReporteAvanceQuintoPasoState
-//     extends State<CardHeadReporteAvanceQuintoPaso> {
-//   @protected
-//   void initState() {
-//     super.initState();
-//     // calcularValorEjecutado();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Stack(
-//       children: <Widget>[
-//             customedAppBar(
-//           title: '¡Último paso!',
-//           last: true,
-//           onPressed: () {
-//             cambiarPagina(context, Proyecto());
-//           },
-//         ),  ],
-//     );
-//   }
-// }

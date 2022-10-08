@@ -1,3 +1,5 @@
+import 'package:appalimentacion/domain/models/models.dart';
+
 import '../variables.dart';
 
 calcularValorEjecutado()
@@ -13,4 +15,23 @@ calcularValorEjecutado()
   // nuevoPorcentajeValorJecutado = nuevoPorcentajeValorJecutado.round();
   contenidoWebService[0]['proyectos'][posListaProySelec]['datos']['porcentajeValorEjecutado'] = nuevoPorcentajeValorJecutado;
   contenidoWebService[0]['proyectos'][posListaProySelec]['datos']['nuevoValorEjecutado'] = nuevoValorEjecutado;
+}
+
+calculateExecutedValue() {
+  // Temp
+  Project project;
+  List<Actividad> activities;
+  ProjectCache cache;
+
+  double newExecutedValue = 0.0;
+  double newExecutedPorcentageValue = 0.0;
+
+  for(int i = 0; i < activities.length; i++) {
+    newExecutedValue += activities[i].valorEjecutado;
+  }
+  newExecutedPorcentageValue = (newExecutedValue / project.valorejecutado) * 100;
+  cache = cache.copyWith(porcentajeValorEjecutado:  newExecutedPorcentageValue,
+  newExecutedValue: newExecutedValue,
+  );
+  
 }

@@ -34,6 +34,12 @@ class ProjectsProvider extends ChangeNotifier {
 
   StreamSubscription cacheStream;
 
+  StreamController<double> _executedPercentageStreamController =
+      StreamController.broadcast();
+
+  Stream<double> get executedPercentageStream =>
+      _executedPercentageStreamController.stream;
+
   _init() {
     cacheStream = _projectsCacheRepository.getProjectsCache().listen((map) {
       this.cache = map;
@@ -42,6 +48,7 @@ class ProjectsProvider extends ChangeNotifier {
 
   void dispose() {
     cacheStream.cancel();
+    _executedPercentageStreamController.close();
   }
 
   Future<void> getProjectsFromLocalStorage() async {
@@ -104,7 +111,6 @@ class ProjectsProvider extends ChangeNotifier {
     inspect(projectsDetailFromJson(prefs.projectsDetail));
   }
 
-
   Future<DatosAlimentacion> getProjectDetail(int codigoProyecto,
       {@required int index}) async {
     this.indexProjectSelected = index;
@@ -143,5 +149,11 @@ class ProjectsProvider extends ChangeNotifier {
     final map = projectsCacheFromJson(cache);
 
     this.cache = map;
+  }
+
+  updateExcutedPercentage() {
+    // TODO
+    final double newValue = 45.70;
+    _executedPercentageStreamController.add(newValue);
   }
 }

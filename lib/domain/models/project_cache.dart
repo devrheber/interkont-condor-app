@@ -17,6 +17,7 @@ class ProjectCache {
     this.periodoIdSeleccionado,
     this.porcentajeValorProyectadoSeleccionado,
     this.porcentajeValorEjecutado,
+    this.newExecutedValue,
   });
 
   final int stepNumber;
@@ -24,8 +25,9 @@ class ProjectCache {
   final dynamic ultimaFechaSincro;
   final dynamic periodoIdSeleccionado;
   // TODO
-  final dynamic porcentajeValorProyectadoSeleccionado;
+  final double porcentajeValorProyectadoSeleccionado;
   final dynamic porcentajeValorEjecutado;
+  final double newExecutedValue;
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         stepNumber: json['strep_number'],
@@ -33,8 +35,9 @@ class ProjectCache {
         ultimaFechaSincro: json['ultimaFechaSincro'],
         periodoIdSeleccionado: json['periodoIdSeleccionado'],
         porcentajeValorProyectadoSeleccionado:
-            json['porcentajeValorProyectadoSeleccionado'],
+            json['porcentajeValorProyectadoSeleccionado'].toDouble(),
         porcentajeValorEjecutado: json['porcentajeValorEjecutado'],
+        newExecutedValue: json['new_executed_value'].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,6 +48,7 @@ class ProjectCache {
         'porcentajeValorProyectadoSeleccionado':
             porcentajeValorProyectadoSeleccionado,
         'porcentajeValorEjecutado': porcentajeValorEjecutado,
+        'new_executed_value': newExecutedValue,
       };
 
   ProjectCache copyWith({
@@ -53,8 +57,9 @@ class ProjectCache {
     dynamic porPublicar,
     dynamic ultimaFechaSincro,
     dynamic periodoIdSeleccionado,
-    dynamic porcentajeValorProyectadoSeleccionado,
+    double porcentajeValorProyectadoSeleccionado,
     dynamic porcentajeValorEjecutado,
+    double newExecutedValue,
   }) {
     return ProjectCache(
       stepNumber: stepNumber ?? this.stepNumber,
@@ -67,6 +72,11 @@ class ProjectCache {
               this.porcentajeValorProyectadoSeleccionado,
       porcentajeValorEjecutado:
           porcentajeValorEjecutado ?? porcentajeValorEjecutado,
+      newExecutedValue: newExecutedValue ?? this.newExecutedValue,
     );
+  }
+
+  String get getPorcentajeValorProyectado {
+    return porcentajeValorProyectadoSeleccionado.round().toString();
   }
 }

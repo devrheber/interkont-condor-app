@@ -5,63 +5,53 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../globales/customed_app_bar.dart';
-import 'cardHead.dart';
+import 'header_steps.dart';
 
 class CardHeadReporteAvance extends StatelessWidget {
-  final int numeroPaso;
   CardHeadReporteAvance({
     Key key,
     this.numeroPaso,
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        customedAppBar(
-          title: 'Reportar Avance',
-          onPressed: () => Navigator.pop(context),
-        ),
-        ProjectIndicators(),
-        pasos(pasoSeleccionado: numeroPaso),
-      ],
-    );
-  }
-}
-
-class ProjectIndicators extends StatelessWidget {
-  const ProjectIndicators({Key key}) : super(key: key);
+  final int numeroPaso;
 
   @override
   Widget build(BuildContext context) {
     final projectsProvider = context.read<ProjectsProvider>();
     final avancesProvider = context.read<ReportarAvanceProvider>();
     final project = avancesProvider.project;
-
-    return Container(
-      width: double.infinity,
-      height: 50.54.sp,
-      margin: EdgeInsets.symmetric(vertical: 104.sp, horizontal: 28.sp),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Percentage(
-            value: "Proyectado",
-            percentage: projectsProvider
-                .cache[avancesProvider.project.codigoproyecto.toString()]
-                .porcentajeValorProyectadoSeleccionado
-                .toString(),
-            // TODO .round()
+    return Stack(
+      children: <Widget>[
+        customedAppBar(
+          title: 'Reportar Avance',
+          onPressed: () => Navigator.pop(context),
+        ),
+        Container(
+          width: double.infinity,
+          height: 50.54.sp,
+          margin: EdgeInsets.symmetric(vertical: 104.sp, horizontal: 28.sp),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Percentage(
+                  value: "Proyectado",
+                  percentage: projectsProvider
+                      .cache[avancesProvider.project.codigoproyecto.toString()]
+                      .getPorcentajeValorProyectado),
+              const Expanded(child: SizedBox.shrink()),
+              StreamBuilder<double>(
+                  initialData: 0.0,
+                  stream: projectsProvider.executedPercentageStream,
+                  builder: (context, AsyncSnapshot<double> snapshot) {
+                    return Percentage(
+                        value: "Ejecutado",
+                        percentage: project.asiVaPorcentaje.toString());
+                  }),
+            ],
           ),
-          const Expanded(child: SizedBox.shrink()),
-          Percentage(
-              value: "Proyectado",
-              percentage: project.asiVaPorcentaje.toString()
-
-              // TODO .round()
-              ),
-        ],
-      ),
+        ),
+        HeaderSteps(pasoSeleccionado: numeroPaso),
+      ],
     );
   }
 }
@@ -104,7 +94,7 @@ class Percentage extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Expanded(child: Container()),
+              const Expanded(child: SizedBox.shrink()),
               Text(
                 '$percentage %',
                 style: TextStyle(
@@ -124,7 +114,7 @@ class Percentage extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              Expanded(child: SizedBox.shrink()),
+              const Expanded(child: SizedBox.shrink()),
             ],
           ),
           SizedBox(width: 16.72.sp),
