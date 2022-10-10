@@ -5,7 +5,7 @@ import '../../../../theme/color_theme.dart';
 
 final titleColor = Color(0xff444444);
 
-Widget buscador( {dynamic onChanged, dynamic onPressed}) {
+Widget buscador({dynamic onChanged, dynamic onPressed}) {
   return Row(
     children: <Widget>[
       Expanded(
@@ -13,7 +13,7 @@ Widget buscador( {dynamic onChanged, dynamic onPressed}) {
         child: Container(
           width: double.infinity,
           height: 35.77.sp,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
@@ -27,23 +27,24 @@ Widget buscador( {dynamic onChanged, dynamic onPressed}) {
                 child: Container(
                   width: 237.57.sp,
                   child: TextField(
-                      textInputAction: TextInputAction.send,
-                      style: TextStyle(
+                    textInputAction: TextInputAction.send,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      fontFamily: "montserrat",
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff566B8C),
+                    ),
+                    decoration: InputDecoration.collapsed(
+                      hintText: "Buscar por palabra clave...",
+                      hintStyle: TextStyle(
                         fontSize: 13.sp,
                         fontFamily: "montserrat",
                         fontWeight: FontWeight.w500,
-                        color: Color(0xff566B8C),
+                        color: Color(0xff556a8d),
                       ),
-                      decoration: InputDecoration.collapsed(
-                        hintText: "Buscar por palabra clave...",
-                        hintStyle: TextStyle(
-                          fontSize: 13.sp,
-                          fontFamily: "montserrat",
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xff556a8d),
-                        ),
-                      ),
-                      onChanged: onChanged),
+                    ),
+                    onChanged: onChanged,
+                  ),
                 ),
               ),
             ],
@@ -67,8 +68,6 @@ Widget buscador( {dynamic onChanged, dynamic onPressed}) {
                 gradient: ColorTheme.buttonGradient,
               ),
               child: Container(
-                // constraints: BoxConstraints(maxWidth: 250.0, minHeight: 20.0),
-
                 alignment: Alignment.center,
                 child: Text(
                   "Buscar",

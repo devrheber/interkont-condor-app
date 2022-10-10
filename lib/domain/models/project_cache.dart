@@ -18,6 +18,7 @@ class ProjectCache {
     this.porcentajeValorProyectadoSeleccionado,
     this.porcentajeValorEjecutado,
     this.newExecutedValue,
+    this.activitiesProgress,
   });
 
   final int stepNumber;
@@ -28,6 +29,7 @@ class ProjectCache {
   final dynamic porcentajeValorProyectadoSeleccionado;
   final dynamic porcentajeValorEjecutado;
   final dynamic newExecutedValue;
+  final Map<String, String> activitiesProgress;
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         stepNumber: json['strep_number'],
@@ -37,7 +39,8 @@ class ProjectCache {
         porcentajeValorProyectadoSeleccionado:
             json['porcentajeValorProyectadoSeleccionado'],
         porcentajeValorEjecutado: json['porcentajeValorEjecutado'],
-        newExecutedValue: json['new_executed_value']
+        newExecutedValue: json['new_executed_value'],
+        activitiesProgress: json['activities_progress'] ?? {},
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,6 +52,7 @@ class ProjectCache {
             porcentajeValorProyectadoSeleccionado,
         'porcentajeValorEjecutado': porcentajeValorEjecutado,
         'new_executed_value': newExecutedValue,
+        'activities_progress': activitiesProgress,
       };
 
   ProjectCache copyWith({
@@ -60,6 +64,7 @@ class ProjectCache {
     double porcentajeValorProyectadoSeleccionado,
     dynamic porcentajeValorEjecutado,
     double newExecutedValue,
+    Map<String, String> activitiesProgress,
   }) {
     return ProjectCache(
       stepNumber: stepNumber ?? this.stepNumber,
@@ -73,6 +78,7 @@ class ProjectCache {
       porcentajeValorEjecutado:
           porcentajeValorEjecutado ?? porcentajeValorEjecutado,
       newExecutedValue: newExecutedValue ?? this.newExecutedValue,
+      activitiesProgress: activitiesProgress ?? this.activitiesProgress,
     );
   }
 

@@ -38,10 +38,11 @@ class ReportProgressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avancesProvider = Provider.of<ReportarAvanceProvider>(context);
+    final reportProgressProvider = Provider.of<ReportarAvanceProvider>(context);
     final projectsProvider = Provider.of<ProjectsProvider>(context);
     final numeroPaso = projectsProvider
-        .cache[avancesProvider.project.codigoproyecto.toString()].stepNumber;
+        .cache[reportProgressProvider.project.codigoproyecto.toString()]
+        .stepNumber;
 
     return FondoHome(
       body: ContenidoReportarAvance(numeroPaso: numeroPaso),
@@ -54,7 +55,7 @@ class ReportProgressScreen extends StatelessWidget {
         accionPrimerBoton: () {
           if (numeroPaso != 1) {
             // Paso Anterior
-            avancesProvider.changeAndSaveStep(numeroPaso - 1);
+            reportProgressProvider.changeAndSaveStep(numeroPaso - 1);
             return;
           }
 
@@ -67,6 +68,9 @@ class ReportProgressScreen extends StatelessWidget {
         },
         // TODO
         accionSegundoBoton: () {
+          if (numeroPaso == 1) {
+            reportProgressProvider.saveFirstStep();
+          }
           if (numeroPaso == 2) {
             // TODO Show FactorAtraso
           }
@@ -74,7 +78,7 @@ class ReportProgressScreen extends StatelessWidget {
           if (numeroPaso >= 5) {
             // TODO Navegar a CargandoFinalizar
           }
-          avancesProvider.changeAndSaveStep(numeroPaso + 1);
+          reportProgressProvider.changeAndSaveStep(numeroPaso + 1);
         },
       ),
     );
