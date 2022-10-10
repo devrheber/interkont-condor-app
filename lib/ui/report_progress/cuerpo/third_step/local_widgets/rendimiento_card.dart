@@ -5,21 +5,41 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/size_extension.dart';
 
-class RendimientoCard extends StatelessWidget {
+class RendimientoCard extends StatefulWidget {
   const RendimientoCard({
     Key key,
-    @required this.fechaReintegroController,
-    @required this.valorGeneradoController,
-    @required this.valorMesActualController,
-    @required this.valorMesVencidoController,
     @required this.onFechaReintegroTap,
   }) : super(key: key);
-
-  final TextEditingController fechaReintegroController;
-  final TextEditingController valorGeneradoController;
-  final TextEditingController valorMesActualController;
-  final TextEditingController valorMesVencidoController;
   final void Function() onFechaReintegroTap;
+
+  @override
+  State<RendimientoCard> createState() => _RendimientoCardState();
+}
+
+class _RendimientoCardState extends State<RendimientoCard> {
+  TextEditingController fechaReintegroController;
+  TextEditingController valorGeneradoController;
+  TextEditingController valorMesActualController;
+  TextEditingController valorMesVencidoController;
+
+  @override
+  void initState() {
+    super.initState();
+    fechaReintegroController = TextEditingController();
+    valorGeneradoController = TextEditingController();
+    valorMesActualController = TextEditingController();
+    valorMesVencidoController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    fechaReintegroController.dispose();
+    valorGeneradoController.dispose();
+    valorMesActualController.dispose();
+    valorMesVencidoController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var valorRendimientosString = 'Valor de Rendimientos';
@@ -48,7 +68,7 @@ class RendimientoCard extends StatelessWidget {
             title: 'Fecha de Reintegro de Rendimento',
             isDate: true,
             controller: fechaReintegroController,
-            onTap: onFechaReintegroTap,
+            onTap: widget.onFechaReintegroTap,
           ),
           _Field(
             title: '$valorRendimientosString Generados',
@@ -116,7 +136,6 @@ class _Field extends StatelessWidget {
                         decimalDigits: 2,
                       ),
                   ],
-                 
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   decoration: InputDecoration(

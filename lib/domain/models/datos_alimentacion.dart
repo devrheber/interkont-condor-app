@@ -30,7 +30,7 @@ class DatosAlimentacion {
   double limitePorcentajeAtrasoAmarillo;
   List<Periodo> periodos;
   List<Actividad> actividades;
-  List<dynamic> indicadoresAlcance;
+  List<dynamic> indicadoresAlcance; // TODO List<RangeIndicator>
   List<AspectoEvaluar> apectosEvaluar;
   List<TiposFactorAtraso> tiposFactorAtraso;
   List<FactoresAtraso> factoresAtraso;

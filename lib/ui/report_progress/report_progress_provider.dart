@@ -14,6 +14,8 @@ class ReportarAvanceProvider extends ChangeNotifier {
     filteredActivites = detail.actividades;
     aspectSelected = detail.apectosEvaluar.first;
     // TODO achievesAndDifficulties from Cache
+
+    // TODO rangeIncicator = details.indicadoresAlcance
   }
 
   final Project project;
@@ -21,6 +23,7 @@ class ReportarAvanceProvider extends ChangeNotifier {
   final ProjectsCacheRepository _projectsCacheRepository;
   ProjectCache cache;
   List<QualitativeProgress> achievesAndDifficulties = [];
+  List<RangeIndicator> rangeIndicators = [];
 
   List<Actividad> filteredActivites;
   AspectoEvaluar aspectSelected;
@@ -85,5 +88,23 @@ class ReportarAvanceProvider extends ChangeNotifier {
     achievesAndDifficulties.removeAt(index);
     notifyListeners();
     // TODO save list in cache
+  }
+
+  onChangedRangeIndicatorCard({@required int index, @required String value}) {
+    // TODO: save input value to indicator in cache
+    final RangeIndicator indicator = rangeIndicators[index];
+
+    double cantidadEjecutadaInicial = indicator.cantidadEjecutadaInicial;
+    double cantidadEjecutada = indicator.cantidadEjecutada;
+    double cantidadProgramada = indicator.cantidadProgramada;
+
+    rangeIndicators[index] = indicator.copyWith(
+      cantidadEjecutada: cantidadEjecutadaInicial + double.parse(value),
+      porcentajeAvance: cantidadEjecutada / cantidadProgramada * 100,
+    );
+
+    notifyListeners();
+
+    // TODO: save indicator in cache
   }
 }

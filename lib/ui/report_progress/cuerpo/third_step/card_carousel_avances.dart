@@ -1,26 +1,36 @@
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../theme/color_theme.dart';
 
-Widget cardCarousel3(
-    descripcionIndicadorAlcance,
-    unidadMedida,
-    cantidadProgramada,
-    cantidadEjecutada,
-    porcentajeAvance,
-    txtEjecucionIndicadorAlcance,
-    accion) {
-  NumberFormat f = new NumberFormat("#,##0.0", "es_AR");
+class RangeIndicatorCard extends StatefulWidget {
+  const RangeIndicatorCard({
+    Key key,
+    @required this.item,
+    @required this.inputValue,
+    @required this.onChanged,
+  }) : super(key: key);
 
+  final RangeIndicator item;
+  final String inputValue;
+
+  final Function onChanged;
+
+  @override
+  State<RangeIndicatorCard> createState() => _RangeIndicatorCardState();
+}
+
+class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
   TextEditingController controllerTercerPasoTxtEjecucion =
       TextEditingController();
-  if (txtEjecucionIndicadorAlcance != null) {
-    controllerTercerPasoTxtEjecucion.text = txtEjecucionIndicadorAlcance;
-  }
 
-  return Container(
+  @override
+  Widget build(BuildContext context) {
+    NumberFormat f = new NumberFormat("#,##0.0", "es_AR");
+
+    return Container(
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -41,7 +51,7 @@ Widget cardCarousel3(
       child: ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
-          Text(descripcionIndicadorAlcance,
+          Text(widget.item.descripcionIndicadorAlcance,
               style: TextStyle(
                 fontSize: 12.18.sp,
                 color: Colors.white,
@@ -85,7 +95,7 @@ Widget cardCarousel3(
                       keyboardType: TextInputType.numberWithOptions(
                           decimal: true, signed: true),
                       controller: controllerTercerPasoTxtEjecucion,
-                      onChanged: accion,
+                      onChanged: widget.onChanged,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -108,25 +118,33 @@ Widget cardCarousel3(
           SizedBox(height: 50.88.sp),
           Column(
             children: <Widget>[
-              celdas('Unidad de medida', unidadMedida, false),
-              celdas('Cantidad programada',
-                  f.format(double.parse('$cantidadProgramada')), false),
-              celdas('Cantidad ejecutada',
-                  f.format(double.parse('$cantidadEjecutada')), true),
-              celdas('Porcentaje de avance',
-                  f.format(double.parse('$porcentajeAvance')) + '%', true),
+              celdas('Unidad de medida', widget.item.unidadMedida, false),
+              celdas(
+                  'Cantidad programada',
+                  f.format(double.parse('${widget.item.cantidadProgramada}')),
+                  false),
+              celdas(
+                  'Cantidad ejecutada',
+                  f.format(double.parse('${widget.item.cantidadEjecutada}')),
+                  true),
+              celdas(
+                  'Porcentaje de avance',
+                  f.format(double.parse('${widget.item.porcentajeAvance}')) +
+                      '%',
+                  true),
             ],
           )
         ],
-      ));
-}
-
-Widget celdas(txtIzquierda, txtDerecha, negrita) {
-  FontWeight fontWeight = FontWeight.w200;
-  if (negrita == true) {
-    fontWeight = FontWeight.w600;
+      ),
+    );
   }
-  return Container(
+
+  Widget celdas(txtIzquierda, txtDerecha, negrita) {
+    FontWeight fontWeight = FontWeight.w200;
+    if (negrita == true) {
+      fontWeight = FontWeight.w600;
+    }
+    return Container(
       padding: EdgeInsets.only(bottom: 5.0, top: 5.0, left: 5.0, right: 5.0),
       decoration: BoxDecoration(
         border: Border(
@@ -157,5 +175,7 @@ Widget celdas(txtIzquierda, txtDerecha, negrita) {
             ),
           )
         ],
-      ));
+      ),
+    );
+  }
 }
