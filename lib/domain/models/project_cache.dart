@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:appalimentacion/domain/models/delay_factor.dart';
 import 'package:appalimentacion/domain/models/project.dart';
+import 'package:appalimentacion/domain/models/qualitative_progress.dart';
 
 Map<String, ProjectCache> projectsCacheFromJson(String str) =>
     Map.from(json.decode(str)).map(
@@ -19,6 +21,11 @@ class ProjectCache {
     this.porcentajeValorEjecutado,
     this.newExecutedValue = 0.0,
     this.activitiesProgress,
+    this.qualitativesProgress,
+    this.delayFactors,
+    this.comment,
+    this.fileFotoPrincipal,
+    this.filesFotosComplementarias,
   });
 
   final int stepNumber;
@@ -30,6 +37,11 @@ class ProjectCache {
   final dynamic porcentajeValorEjecutado;
   final dynamic newExecutedValue;
   final Map<String, dynamic> activitiesProgress;
+  final List<QualitativeProgress> qualitativesProgress;
+  final List<DelayFactor> delayFactors;
+  final String comment;
+  final String fileFotoPrincipal;
+  final List<dynamic> filesFotosComplementarias;
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         stepNumber: json['strep_number'],
@@ -41,6 +53,10 @@ class ProjectCache {
         porcentajeValorEjecutado: json['porcentajeValorEjecutado'],
         newExecutedValue: json['new_executed_value'],
         activitiesProgress: json['activities_progress'] ?? <String, String>{},
+        delayFactors: json['delay_factors'],
+        comment: json['comment'],
+        fileFotoPrincipal: json['fileFotoPrincipal'],
+        filesFotosComplementarias: json['filesFotosComplementarias'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -53,6 +69,11 @@ class ProjectCache {
         'porcentajeValorEjecutado': porcentajeValorEjecutado,
         'new_executed_value': newExecutedValue,
         'activities_progress': activitiesProgress,
+        'qualitatives_progress': qualitativesProgress,
+        'delay_factors': delayFactors,
+        'comment': comment,
+        'fileFotoPrincipal': fileFotoPrincipal,
+        'filesFotosComplementarias': filesFotosComplementarias,
       };
 
   ProjectCache copyWith({
@@ -65,6 +86,10 @@ class ProjectCache {
     dynamic porcentajeValorEjecutado,
     double newExecutedValue,
     Map<String, dynamic> activitiesProgress,
+    List<QualitativeProgress> qualitativesProgress,
+    List<DelayFactor> delayFactors,
+    String fileFotoPrincipal,
+    List<dynamic> filesFotosComplementarias,
   }) {
     return ProjectCache(
       stepNumber: stepNumber ?? this.stepNumber,
@@ -79,6 +104,10 @@ class ProjectCache {
           porcentajeValorEjecutado ?? porcentajeValorEjecutado,
       newExecutedValue: newExecutedValue ?? this.newExecutedValue,
       activitiesProgress: activitiesProgress ?? this.activitiesProgress,
+      qualitativesProgress: qualitativesProgress ?? this.qualitativesProgress,
+      delayFactors: delayFactors ?? this.delayFactors,
+      fileFotoPrincipal: fileFotoPrincipal ?? this.fileFotoPrincipal,
+      filesFotosComplementarias: filesFotosComplementarias ?? this.filesFotosComplementarias,
     );
   }
 

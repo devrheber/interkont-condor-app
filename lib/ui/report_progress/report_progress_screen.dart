@@ -1,5 +1,6 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/last_step.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
@@ -15,7 +16,6 @@ import '../../globales/transicion.dart';
 import '../../globales/variables.dart';
 import '../listaProyectos/home.dart';
 import 'contenido.dart';
-import 'cuerpo/cargando.dart';
 import 'cuerpo/factorAtraso/index.dart';
 
 class ReportProgressScreen extends StatelessWidget {
@@ -201,7 +201,9 @@ class ReportarAvanceState extends State<ReportarAvance> {
         Navigator.of(context).pop();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CargandoFinalizar()),
+          MaterialPageRoute(
+            builder: (context) => LastStep.init(),
+          ),
         );
       };
     }
