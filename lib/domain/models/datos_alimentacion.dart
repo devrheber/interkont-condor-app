@@ -31,7 +31,7 @@ class DatosAlimentacion {
   List<Periodo> periodos;
   List<Actividad> actividades;
   List<dynamic> indicadoresAlcance;
-  List<ApectosEvaluar> apectosEvaluar;
+  List<AspectoEvaluar> apectosEvaluar;
   List<TiposFactorAtraso> tiposFactorAtraso;
   List<FactoresAtraso> factoresAtraso;
 
@@ -46,8 +46,8 @@ class DatosAlimentacion {
             json["actividades"].map((x) => Actividad.fromJson(x))),
         indicadoresAlcance:
             List<dynamic>.from(json["indicadoresAlcance"].map((x) => x)),
-        apectosEvaluar: List<ApectosEvaluar>.from(
-            json["apectosEvaluar"].map((x) => ApectosEvaluar.fromJson(x))),
+        apectosEvaluar: List<AspectoEvaluar>.from(
+            json["apectosEvaluar"].map((x) => AspectoEvaluar.fromJson(x))),
         tiposFactorAtraso: List<TiposFactorAtraso>.from(
             json["tiposFactorAtraso"]
                 .map((x) => TiposFactorAtraso.fromJson(x))),
@@ -131,8 +131,8 @@ class Actividad {
       };
 }
 
-class ApectosEvaluar {
-  ApectosEvaluar({
+class AspectoEvaluar {
+  AspectoEvaluar({
     this.aspectoEvaluarId,
     this.descripcionAspectoEvaluar,
   });
@@ -140,7 +140,7 @@ class ApectosEvaluar {
   int aspectoEvaluarId;
   String descripcionAspectoEvaluar;
 
-  factory ApectosEvaluar.fromJson(Map<String, dynamic> json) => ApectosEvaluar(
+  factory AspectoEvaluar.fromJson(Map<String, dynamic> json) => AspectoEvaluar(
         aspectoEvaluarId: json["aspectoEvaluarId"],
         descripcionAspectoEvaluar: json["descripcionAspectoEvaluar"],
       );

@@ -4,7 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../../../../globales/title_subtitle.dart';
+import '../../../widgets/title_subtitle.dart';
 import 'buscador.dart';
 
 final titleColor = Color(0xff444444);

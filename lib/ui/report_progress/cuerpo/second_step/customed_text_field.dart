@@ -1,13 +1,26 @@
+import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../globales/colores.dart';
-
 final titleColor = Color(0xff444444);
 
-Widget cajonTexto(  textoTitulo, textoHint, logros, capturarCambio,
-    TextEditingController controller) {
-  return Container(
+class CustomedTextField extends StatelessWidget {
+  const CustomedTextField({
+    Key key,
+    @required this.title,
+    @required this.hintText,
+    @required this.onChanged,
+    @required this.controller,
+  }) : super(key: key);
+
+  final String title;
+  final String hintText;
+  final Function onChanged;
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
       width: double.infinity,
       height: 93.sp,
       margin: EdgeInsets.only(top: 8.sp),
@@ -41,7 +54,7 @@ Widget cajonTexto(  textoTitulo, textoHint, logros, capturarCambio,
               SizedBox(width: 9.47.sp),
               Expanded(
                   child: Text(
-                '$textoTitulo',
+                '$title',
                 style: TextStyle(
                   fontFamily: 'montserrat',
                   fontSize: 13.23.sp,
@@ -56,7 +69,7 @@ Widget cajonTexto(  textoTitulo, textoHint, logros, capturarCambio,
             child: TextField(
               textInputAction: TextInputAction.send,
               controller: controller,
-              onChanged: capturarCambio,
+              onChanged: onChanged,
               maxLines: 2,
               style: TextStyle(
                 fontFamily: 'montserrat',
@@ -65,7 +78,7 @@ Widget cajonTexto(  textoTitulo, textoHint, logros, capturarCambio,
                 color: Color(0xff556A8D),
               ),
               decoration: InputDecoration.collapsed(
-                hintText: "$textoHint",
+                hintText: "$hintText",
                 hintStyle: TextStyle(
                   fontFamily: 'montserrat',
                   fontWeight: FontWeight.w400,
@@ -76,5 +89,7 @@ Widget cajonTexto(  textoTitulo, textoHint, logros, capturarCambio,
             ),
           ),
         ],
-      ));
+      ),
+    );
+  }
 }

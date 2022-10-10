@@ -1,15 +1,26 @@
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget bloqueAgregado(
-    context, textoTitulo, textoLogro, textoDificultad, accionEliminar) {
-  var textStyle = TextStyle(
-    fontFamily: 'montserrat',
-    fontSize: 10.sp,
-    fontWeight: FontWeight.w400,
-    color: Color(0xff556a8d),
-  );
-  return Container(
+class QualitativeProgressCard extends StatelessWidget {
+  const QualitativeProgressCard({
+    Key key,
+    @required this.item,
+    @required this.deleteMethod,
+  }) : super(key: key);
+
+  final QualitativeProgress item;
+  final VoidCallback deleteMethod;
+
+  @override
+  Widget build(BuildContext context) {
+    var textStyle = TextStyle(
+      fontFamily: 'montserrat',
+      fontSize: 10.sp,
+      fontWeight: FontWeight.w400,
+      color: Color(0xff556a8d),
+    );
+    return Container(
       width: double.infinity,
       margin: EdgeInsets.only(top: 10.0),
       padding: EdgeInsets.only(
@@ -29,7 +40,7 @@ Widget bloqueAgregado(
             children: <Widget>[
               Expanded(
                 child: Text(
-                  '$textoTitulo',
+                  '${item.aspectToEvaluateId}',
                   style: TextStyle(
                     color: Color(0xff334660),
                     fontWeight: FontWeight.w600,
@@ -40,7 +51,7 @@ Widget bloqueAgregado(
               ),
               Expanded(
                 child: GestureDetector(
-                  onTap: accionEliminar,
+                  onTap: deleteMethod,
                   child: Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -70,7 +81,6 @@ Widget bloqueAgregado(
             ],
           ),
           Container(
-        
             margin: EdgeInsets.symmetric(vertical: 15.35.sp),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +91,7 @@ Widget bloqueAgregado(
                   textAlign: TextAlign.start,
                 ),
                 Text(
-                  '$textoLogro',
+                  '${item.achive}',
                   style: textStyle,
                   textAlign: TextAlign.start,
                 ),
@@ -91,7 +101,7 @@ Widget bloqueAgregado(
                   textAlign: TextAlign.start,
                 ),
                 Text(
-                  '$textoDificultad',
+                  '${item.difficulty}',
                   style: textStyle,
                   textAlign: TextAlign.start,
                 ),
@@ -99,5 +109,7 @@ Widget bloqueAgregado(
             ),
           )
         ],
-      ));
+      ),
+    );
+  }
 }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toast/toast.dart';
 
-import '../../../../globales/title_subtitle.dart';
+import '../../../widgets/title_subtitle.dart';
 import '../../../../globales/variables.dart';
 import 'card_carousel_avances.dart';
 

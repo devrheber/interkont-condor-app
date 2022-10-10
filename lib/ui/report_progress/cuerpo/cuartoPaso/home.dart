@@ -3,7 +3,7 @@ import 'package:appalimentacion/ui/report_progress/cuerpo/cuartoPaso/informe_adm
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../globales/title_subtitle.dart';
+import '../../../widgets/title_subtitle.dart';
 import '../../../../globales/variables.dart';
 import 'cajonTexto.dart';
 import 'foto_principal.dart';

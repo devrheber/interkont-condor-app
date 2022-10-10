@@ -2,7 +2,7 @@ import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../globales/add_button_green.dart';
+import '../../../widgets/add_green_button.dart';
 import '../../../../globales/colores.dart';
 import '../../../../globales/customed_app_bar.dart';
 import '../../../../globales/funciones/cambiarPasoProyecto.dart';
@@ -176,7 +176,7 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                       ),
                     ),
                     SizedBox(height: 10.h),
-                    buildAddGreenButton(onTap: () {
+                    AddGreenButton(onTap: () {
                       registrarFactor();
                     }),
                     SizedBox(height: 20.h),
