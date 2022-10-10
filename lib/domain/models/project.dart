@@ -105,4 +105,7 @@ class Project {
 
     return value;
   }
+
+  String get dineroDeberiaIr =>
+      '${((porcentajeProyectado / 100) * valorproyecto)}';
 }

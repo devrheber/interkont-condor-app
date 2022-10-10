@@ -1,55 +1,64 @@
+import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../globales/colores.dart';
-import '../../../../globales/variables.dart';
+// import '../../../../globales/variables.dart';
 
 final titleColor = Color(0xff444444);
 
-Widget cardContenidoQuintoPaso({
-  String titulo,
-  String asivaTxt,
-  String porcentajeAsiVa,
-  String porcentajeAsiVaDos,
-  String dineroAsiVa,
-  String deberiaIrTxt,
-  String porcentajeDeberiaIr,
-  String dineroDeberiaIr,
-  bool esAntes,
-  String semaforo,
-}) {
-  String nombreSemaforo = 'rojo';
-  if (esAntes) {
-    nombreSemaforo = contenidoWebService[0]['proyectos']
-        [posListaProySelec]['semaforoproyecto'];
-  } else {
-    var datoVerde = (100 -
-        ((double.parse('$porcentajeAsiVaDos') /
-                contenidoWebService[0]['proyectos']
-                        [posListaProySelec]['datos']
-                    ['porcentajeValorProyectadoSeleccionado']) *
-            100));
-    if (datoVerde <=
-        contenidoWebService[0]['proyectos'][posListaProySelec]
-            ['datos']['limitePorcentajeAtraso']) {
-      nombreSemaforo = 'verde';
-    } else if (datoVerde >
-            contenidoWebService[0]['proyectos']
-                    [posListaProySelec]['datos']
-                ['limitePorcentajeAtraso'] &&
-        datoVerde <=
-            contenidoWebService[0]['proyectos']
-                    [posListaProySelec]['datos']
-                ['limitePorcentajeAtrasoAmarillo']) {
-      nombreSemaforo = 'amarillo';
-    } else if (datoVerde >
-        contenidoWebService[0]['proyectos'][posListaProySelec]
-            ['datos']['limitePorcentajeAtrasoAmarillo']) {
-      nombreSemaforo = 'rojo';
-    }
-  }
+class FifthStepCard extends StatelessWidget {
+  const FifthStepCard({
+    Key key,
+    this.titulo,
+    this.asivaTxt,
+    this.porcentajeAsiVa,
+    this.porcentajeAsiVaDos,
+    this.dineroAsiVa,
+    this.deberiaIrTxt,
+    this.porcentajeDeberiaIr,
+    this.dineroDeberiaIr,
+    this.esAntes,
+    this.semaforo,
+  }) : super(key: key);
 
-  return Container(
+  final String titulo;
+  final String asivaTxt;
+  final String porcentajeAsiVa;
+  final String porcentajeAsiVaDos;
+  final String dineroAsiVa;
+  final String deberiaIrTxt;
+  final String porcentajeDeberiaIr;
+  final String dineroDeberiaIr;
+  final bool esAntes;
+  final String semaforo;
+
+  @override
+  Widget build(BuildContext context) {
+    final reportProgressService = Provider.of<ReportarAvanceProvider>(context);
+    final cache = reportProgressService.cache;
+    final detail = reportProgressService.detail;
+
+    String nombreSemaforo = reportProgressService.project.semaforoproyecto;
+
+    if (esAntes) {
+      nombreSemaforo = reportProgressService.project.semaforoproyecto;
+    } else {
+      var datoVerde = (100 -
+          ((double.parse('$porcentajeAsiVaDos') /
+                  cache.porcentajeValorProyectadoSeleccionado) *
+              100));
+      if (datoVerde <= detail.limitePorcentajeAtraso) {
+        nombreSemaforo = 'verde';
+      } else if (datoVerde > detail.limitePorcentajeAtraso &&
+          datoVerde <= detail.limitePorcentajeAtrasoAmarillo) {
+        nombreSemaforo = 'amarillo';
+      } else if (datoVerde > detail.limitePorcentajeAtrasoAmarillo) {
+        nombreSemaforo = 'rojo';
+      }
+    }
+    return Container(
     width: double.infinity,
     decoration: BoxDecoration(
       color: Colors.white,
@@ -115,8 +124,8 @@ Widget cardContenidoQuintoPaso({
       ),
     ),
   );
+  }
 }
-
 Widget celdas(
     {String txtPrimero,
     txtSegundo,

@@ -17,7 +17,7 @@ class ProjectCache {
     this.periodoIdSeleccionado,
     this.porcentajeValorProyectadoSeleccionado,
     this.porcentajeValorEjecutado,
-    this.newExecutedValue,
+    this.newExecutedValue = 0.0,
     this.activitiesProgress,
   });
 
@@ -85,4 +85,7 @@ class ProjectCache {
   String get getPorcentajeValorProyectado {
     return porcentajeValorProyectadoSeleccionado.round().toString();
   }
+
+  double porcentajeAsiVaEn(double valorproyecto) =>
+      ((newExecutedValue ?? 0) / valorproyecto) * 100;
 }
