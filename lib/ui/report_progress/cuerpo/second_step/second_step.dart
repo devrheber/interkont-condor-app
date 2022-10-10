@@ -12,7 +12,7 @@ import 'select_aspect.dart';
 final titleColor = Color(0xff444444);
 
 class SecondStepBody extends StatefulWidget {
-  SecondStepBody({Key key}) : super(key: key);
+  const SecondStepBody({Key key}) : super(key: key);
 
   @override
   SecondStepBodyState createState() => SecondStepBodyState();

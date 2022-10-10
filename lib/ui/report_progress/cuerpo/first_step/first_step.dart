@@ -10,7 +10,7 @@ import 'buscador.dart';
 final titleColor = Color(0xff444444);
 
 class FirstStepBody extends StatefulWidget {
-  FirstStepBody({
+  const FirstStepBody({
     Key key,
   }) : super(key: key);
 

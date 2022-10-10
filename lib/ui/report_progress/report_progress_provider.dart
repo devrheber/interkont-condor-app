@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/helpers/helpers.dart';
@@ -24,6 +26,9 @@ class ReportarAvanceProvider extends ChangeNotifier {
   ProjectCache cache;
   List<QualitativeProgress> achievesAndDifficulties = [];
   List<RangeIndicator> rangeIndicators = [];
+  List<File> listaImagenes = [];
+  List<File> listaDocumentos = [];
+  List<TipoDoc> listaTipoDoc = [];
 
   List<Actividad> filteredActivites;
   AspectoEvaluar aspectSelected;
@@ -107,4 +112,6 @@ class ReportarAvanceProvider extends ChangeNotifier {
 
     // TODO: save indicator in cache
   }
+
+  
 }

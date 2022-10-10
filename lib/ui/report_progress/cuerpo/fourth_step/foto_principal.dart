@@ -1,25 +1,24 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:appalimentacion/ui/report_progress/cuerpo/cuartoPaso/local_widgets/imagen_caja.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/cuartoPaso/local_widgets/seleccionar_foto_documentos.dart';
+import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:appalimentacion/utils/base64_to_file.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../globales/variables.dart';
+import 'local_widgets/imagen_caja.dart';
+import 'local_widgets/seleccionar_foto_documentos.dart';
 
 class FotoPrincipal extends StatefulWidget {
-  final int numeroFotos;
-  FotoPrincipal({Key key, this.numeroFotos}) : super(key: key);
+  const FotoPrincipal({Key key}) : super(key: key);
+
   @override
   _FotoPrincipalState createState() => _FotoPrincipalState();
 }
 
 class _FotoPrincipalState extends State<FotoPrincipal> {
-  List<File> listaImagenes = [];
-
   String base64Image;
   @override
   void initState() {
@@ -34,7 +33,9 @@ class _FotoPrincipalState extends State<FotoPrincipal> {
       image: fileFotoPrincipal,
       name: 'fotoPrincipal',
     );
-    if (file != null) listaImagenes.add(file);
+    if (file != null) {
+      context.read<ReportarAvanceProvider>().listaImagenes.add(file);
+    }
     setState(() {});
   }
 
@@ -51,17 +52,20 @@ class _FotoPrincipalState extends State<FotoPrincipal> {
     setState(() {
       contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
           ['fileFotoPrincipal'] = null;
-      listaImagenes.clear();
+      context.read<ReportarAvanceProvider>().listaImagenes.clear();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final listaImagenes = context.watch<ReportarAvanceProvider>().listaImagenes;
     return Container(
       child: Wrap(
         children: <Widget>[
           ImagenCaja(
-            file: listaImagenes.isEmpty ? null : listaImagenes.first,
+            file: listaImagenes.isEmpty
+                ? null
+                : listaImagenes.first,
             onTap: () {
               seleccionarGaleriaCamara(
                 context,
@@ -75,6 +79,4 @@ class _FotoPrincipalState extends State<FotoPrincipal> {
       ),
     );
   }
-
-  // onPressed: obtenerImagenCamara,
 }

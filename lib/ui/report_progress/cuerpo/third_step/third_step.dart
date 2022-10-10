@@ -14,7 +14,7 @@ import 'card_carousel_avances.dart';
 final titleColor = Color(0xff444444);
 
 class ThirdStep extends StatelessWidget {
-  ThirdStep({Key key}) : super(key: key);
+  const ThirdStep({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

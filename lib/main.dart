@@ -61,7 +61,9 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider(create: (_) => projectsCacheRepository),
+        Provider<ProjectsCacheRepository>(
+          create: (_) => projectsCacheRepository,
+        ),
         Provider<LoginRepository>(
           create: (_) => LoginRemote(),
         ),
