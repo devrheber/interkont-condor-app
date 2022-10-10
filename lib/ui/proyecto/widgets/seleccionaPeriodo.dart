@@ -130,39 +130,40 @@ class DropDownPeriodo extends StatelessWidget {
             flex: 6,
             child: DropdownButtonHideUnderline(
               child: DropdownButton(
-                  hint: Padding(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Row(
-                      children: <Widget>[
-                        Text('del ', style: AppTheme.preposition),
-                        Text(fechaInicio, style: AppTheme.dates),
-                        Text(' hasta el ', style: AppTheme.preposition),
-                        Text(fechaFin, style: AppTheme.dates),
-                      ],
-                    ),
+                hint: Padding(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text('del ', style: AppTheme.preposition),
+                      Text(fechaInicio, style: AppTheme.dates),
+                      Text(' hasta el ', style: AppTheme.preposition),
+                      Text(fechaFin, style: AppTheme.dates),
+                    ],
                   ),
-                  items: detailProvider.detail.periodos
-                      .map((value) => DropdownMenuItem(
-                            child: Row(
-                              children: <Widget>[
-                                Text('del ', style: AppTheme.parrafo),
-                                Text(value.fechaIniPeriodo,
-                                    style: AppTheme.parrafoNegrita),
-                                Text(' hasta el ', style: AppTheme.parrafo),
-                                Text(value.fechaFinPeriodo,
-                                    style: AppTheme.parrafoNegrita),
-                              ],
-                            ),
-                            value: value,
-                          ))
-                      .toList(),
-                  onChanged: (Periodo periodo) {
-                    int index = detailProvider.detail.periodos.indexOf(periodo);
+                ),
+                items: detailProvider.detail.periodos
+                    .map((value) => DropdownMenuItem(
+                          child: Row(
+                            children: <Widget>[
+                              Text('del ', style: AppTheme.parrafo),
+                              Text(value.fechaIniPeriodo,
+                                  style: AppTheme.parrafoNegrita),
+                              Text(' hasta el ', style: AppTheme.parrafo),
+                              Text(value.fechaFinPeriodo,
+                                  style: AppTheme.parrafoNegrita),
+                            ],
+                          ),
+                          value: value,
+                        ))
+                    .toList(),
+                onChanged: (Periodo periodo) {
+                  int index = detailProvider.detail.periodos.indexOf(periodo);
 
-                    if (index >= 0) {
-                      detailProvider.cambiarPosicionPeriodoReportado(index);
-                    }
-                  }),
+                  if (index >= 0) {
+                    detailProvider.cambiarPosicionPeriodoReportado(index);
+                  }
+                },
+              ),
             ),
           )
         ],

@@ -1,5 +1,5 @@
 import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/ui/reportarAvance/reportar_avance_provider.dart';
+import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

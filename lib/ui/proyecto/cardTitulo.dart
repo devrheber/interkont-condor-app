@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'package:appalimentacion/ui/listaProyectos/project_detail_provider.dart';
 import 'package:appalimentacion/utils/assets/assets.dart';
@@ -100,8 +101,7 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final detailProvider =
-        Provider.of<ProjectDetailProvider>(context);
+    final detailProvider = Provider.of<ProjectDetailProvider>(context);
     final cache = context.watch<ProjectDetailProvider>().cache;
     final project = detailProvider.project;
 
@@ -159,20 +159,20 @@ class _Title extends StatelessWidget {
                     ),
                   ),
                   Visibility(
-                    visible: cache.ultimaFechaSincro == null,
+                    visible: cache?.ultimaFechaSincro == null,
                     child: Image.asset(
                       'assets/img/Desglose/Demas/icn-alert.png',
                       height: 14.sp,
                     ),
                   ),
                   Text(
-                    cache.ultimaFechaSincro == null
+                    cache?.ultimaFechaSincro == null
                         ? ' Nunca'
                         : ultimaSincro == null
                             ? cache.ultimaFechaSincro
                             : ' Justo Ahora',
                     textAlign: TextAlign.center,
-                    style: cache.ultimaFechaSincro == null
+                    style: cache?.ultimaFechaSincro == null
                         ? TextStyle(
                             fontFamily: "montserrat",
                             fontWeight: FontWeight.w600,
@@ -229,6 +229,25 @@ class _SyncButtonState extends State<_SyncButton>
     with TickerProviderStateMixin {
   AnimationController animationController;
 
+  int _ultimaSincro;
+
+  int get ultimaSincro => _ultimaSincro;
+
+  set ultimaSincro(int value) {
+    _ultimaSincro = value;
+    if (value == 1) {
+      Timer(const Duration(seconds: 10), () {
+        _ultimaSincro = null;
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     animationController = AnimationController(
@@ -268,8 +287,6 @@ class _SyncButtonState extends State<_SyncButton>
                         borderRadius: BorderRadius.circular(10.sp),
                       ),
                     ),
-                    // elevation: 0,
-                    // onPressed: widget.activarUltimaSincronizacion,
                     onPressed: () async {
                       if (animationController != null &&
                           animationController.isAnimating) return;
@@ -278,8 +295,6 @@ class _SyncButtonState extends State<_SyncButton>
                           .read<ProjectDetailProvider>()
                           .syncDetail();
 
-                      // final result = true;
-                      // await Future.delayed(const Duration(seconds: 5));
                       animationController.reset();
                       animationController.stop();
 
@@ -295,7 +310,6 @@ class _SyncButtonState extends State<_SyncButton>
                             gravity: Toast.BOTTOM);
                       }
                     },
-                    // padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
                         border: Border.all(color: Color(0XFF735EF0), width: 5),

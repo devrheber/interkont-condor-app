@@ -1,14 +1,13 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/ui/listaProyectos/project_detail_provider.dart';
 import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
-import 'package:appalimentacion/ui/widgets/home/contenidoBottom.dart';
+import 'package:appalimentacion/ui/report_progress/report_progress_screen.dart';
+import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:toast/toast.dart';
-
-import '../reportarAvance/home.dart';
 import 'contenido.dart';
 
 class ProyectoScreen extends StatelessWidget {
@@ -36,13 +35,12 @@ class ProyectoScreen extends StatelessWidget {
     final project = detailProvider.project;
 
     return FondoHome(
-      contenido: ProjectContent(
-          project: detailProvider.project, projectCache: detailProvider.cache),
-      bottomNavigationBar: true,
-      contenidoBottom: contenidoBottom(
-        context: context,
+      body: ProjectContent(
+        project: detailProvider.project,
+        projectCache: detailProvider.cache,
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
         colorFondo: Color(0xff22B573),
-        dosBotones: false,
         primerBotonDesactivado: false,
         segundoBotonDesactivado: project.pendienteAprobacion,
         txtPrimerBoton: null,
@@ -55,7 +53,7 @@ class ProyectoScreen extends StatelessWidget {
                 context,
                 duration: 5,
                 gravity: Toast.BOTTOM);
-          } else if (detailProvider.cache.periodoIdSeleccionado == null) {
+          } else if (detailProvider.cache?.periodoIdSeleccionado == null) {
             Toast.show(
                 "Lo sentimos, este proyecto no tiene periodos que reportar",
                 context,
@@ -66,7 +64,7 @@ class ProyectoScreen extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return ReportarAvanceScreen.init(
+                  return ReportProgressScreen.init(
                       project: project,
                       detail: detailProvider.detail,
                       cache: context

@@ -1,39 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget contenidoBottom(
-    {BuildContext context,
-    Color colorFondo,
-    bool dosBotones,
-    bool primerBotonDesactivado,
-    bool segundoBotonDesactivado,
-    String txtPrimerBoton,
-    String txtSegundoBoton,
-    dynamic accionPrimerBoton,
-    dynamic accionSegundoBoton}) {
-  return Container(
-    margin: EdgeInsets.only(
-        bottom: 16.77.sp,
-        left: dosBotones ? 46.19.w : 28.sp,
-        right: dosBotones ? 46.19.w : 28.sp),
-    child: Row(
-      children: <Widget>[
-        if (dosBotones)
+class CustomBottomNavigationBar extends StatelessWidget {
+  const CustomBottomNavigationBar({
+    Key key,
+    this.colorFondo,
+    this.primerBotonDesactivado,
+    this.segundoBotonDesactivado,
+    this.txtPrimerBoton,
+    this.txtSegundoBoton,
+    this.accionPrimerBoton,
+    this.accionSegundoBoton,
+  }) : super(key: key);
+
+  final Color colorFondo;
+  final bool primerBotonDesactivado;
+  final bool segundoBotonDesactivado;
+  final String txtPrimerBoton;
+  final String txtSegundoBoton;
+  final dynamic accionPrimerBoton;
+  final dynamic accionSegundoBoton;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(
+          bottom: 16.77.sp,
+          left: accionPrimerBoton != null ? 46.19.w : 28.sp,
+          right: accionPrimerBoton != null ? 46.19.w : 28.sp),
+      child: Row(
+        children: <Widget>[
+          if (accionPrimerBoton != null)
+            Expanded(
+              child: btnCancelar(context, colorFondo, txtPrimerBoton,
+                  accionPrimerBoton, primerBotonDesactivado),
+            ),
+          if (accionPrimerBoton != null)
+            SizedBox(
+              width: 11.8.w,
+            ),
           Expanded(
-            child: btnCancelar(context, colorFondo, txtPrimerBoton,
-                accionPrimerBoton, primerBotonDesactivado),
-          ),
-        if (dosBotones)
-          SizedBox(
-            width: 11.8.w,
-          ),
-        Expanded(
-          child: btnSiguiente(context, colorFondo, txtSegundoBoton,
-              accionSegundoBoton, segundoBotonDesactivado),
-        )
-      ],
-    ),
-  );
+            child: btnSiguiente(context, colorFondo, txtSegundoBoton,
+                accionSegundoBoton, segundoBotonDesactivado),
+          )
+        ],
+      ),
+    );
+  }
 }
 
 Widget btnCancelar(context, colorFondo, texto, accion, desactivado) {
@@ -78,7 +91,7 @@ Widget btnCancelar(context, colorFondo, texto, accion, desactivado) {
 Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
   Color colorBoton = Color(0xff22B573);
   if (desactivado == true) {
-   colorBoton = Color(0xff808080);
+    colorBoton = Color(0xff808080);
   }
 
   return ClipRRect(
@@ -91,7 +104,7 @@ Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
           },
           child: Container(
             width: texto != "Siguiente Paso" ? 154.95.w : 361.58.w,
-            height:    42.3.h,
+            height: 42.3.h,
             // color: AppTheme.bottomPrincipal,
 
             child: Container(

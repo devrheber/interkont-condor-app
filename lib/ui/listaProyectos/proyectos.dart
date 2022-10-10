@@ -848,9 +848,10 @@ class ProjectCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                if (provider
-                        .cache[project.codigoproyecto.toString()].porPublicar !=
-                    null)
+                if (provider.cache.isNotEmpty &&
+                    provider.cache[project.codigoproyecto.toString()]
+                            .porPublicar !=
+                        null)
                   if (provider.cache[project.codigoproyecto.toString()]
                           .porPublicar ==
                       true)

@@ -1,4 +1,4 @@
-import 'package:appalimentacion/ui/widgets/home/contenidoBottom.dart';
+import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -224,10 +224,8 @@ class IndexFactorAtrasoState extends State<IndexFactorAtraso> {
                 ),
               ),
             ),
-            contenidoBottom(
-              context: context,
+            CustomBottomNavigationBar(
               colorFondo: Color(0xFF2089B6),
-              dosBotones: true,
               primerBotonDesactivado: false,
               segundoBotonDesactivado: bool_avanzarSiguientePaso,
               txtPrimerBoton: "Cancelar",

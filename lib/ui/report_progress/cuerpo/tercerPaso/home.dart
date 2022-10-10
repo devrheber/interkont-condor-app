@@ -1,5 +1,5 @@
 import 'package:appalimentacion/theme/color_theme.dart';
-import 'package:appalimentacion/ui/reportarAvance/cuerpo/tercerPaso/local_widgets/rendimiento_card.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/tercerPaso/local_widgets/rendimiento_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

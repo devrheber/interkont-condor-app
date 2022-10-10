@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:appalimentacion/ui/reportarAvance/cuerpo/cuartoPaso/local_widgets/imagen_caja.dart';
-import 'package:appalimentacion/ui/reportarAvance/cuerpo/cuartoPaso/local_widgets/seleccionar_foto_documentos.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/cuartoPaso/local_widgets/imagen_caja.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/cuartoPaso/local_widgets/seleccionar_foto_documentos.dart';
 import 'package:appalimentacion/utils/base64_to_file.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

@@ -21,7 +21,7 @@ class ContenidoReportarAvance extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        if (numeroPaso == 1) FirstStepBody(),
+        if (numeroPaso == 1 || numeroPaso == 0) FirstStepBody(),
         if (numeroPaso == 2) CardCuerpoSegundoPaso(),
         if (numeroPaso == 3) CardCuerpoTercerPaso(),
         if (numeroPaso == 4) CardCuerpoCuartoPaso(),

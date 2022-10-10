@@ -1,5 +1,5 @@
 import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
-import 'package:appalimentacion/ui/reportarAvance/reportar_avance_provider.dart';
+import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';

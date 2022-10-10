@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
@@ -52,18 +51,20 @@ class ProjectDetailProvider extends ChangeNotifier {
       final cache = map[project.codigoproyecto.toString()];
 
       if (this.cache != cache) {
-        this.cache = cache;
+        this.cache = cache ?? ProjectCache();
         notifyListeners();
         _getPosicionPeriodoSeleccionado();
       }
     });
+
+    cambiarPosicionPeriodoReportado(0);
   }
 
   Map<String, DatosAlimentacion> projectDetails = {};
 
   void _getPosicionPeriodoSeleccionado() {
     final index = this.detail.periodos.indexWhere(
-        (periodo) => periodo.periodoId == this.cache.periodoIdSeleccionado);
+        (periodo) => periodo.periodoId == this.cache?.periodoIdSeleccionado);
 
     if (index < 0) return;
     posicionPeriodoReportado = index;

@@ -1,7 +1,6 @@
 import 'dart:io';
-
-import 'package:appalimentacion/ui/reportarAvance/cuerpo/cuartoPaso/local_widgets/imagen_caja.dart';
-import 'package:appalimentacion/ui/reportarAvance/cuerpo/cuartoPaso/local_widgets/seleccionar_foto_documentos.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/cuartoPaso/local_widgets/imagen_caja.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/cuartoPaso/local_widgets/seleccionar_foto_documentos.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/size_extension.dart';

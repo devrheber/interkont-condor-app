@@ -9,16 +9,14 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class FondoHome extends StatefulWidget {
-  final Widget contenido;
-  final bool bottomNavigationBar;
-  final Widget contenidoBottom;
+  final Widget body;
+  final Widget bottomNavigationBar;
   final bool primeraPagina;
 
   FondoHome({
     Key key,
-    this.contenido,
+    this.body,
     this.bottomNavigationBar,
-    this.contenidoBottom,
     this.primeraPagina,
   }) : super(key: key);
 
@@ -130,7 +128,7 @@ class FondoHomeState extends State<FondoHome> {
                 gradient: ColorTheme.backgroundGradient,
               ),
             ),
-            widget.contenido,
+            widget.body,
             widget.primeraPagina != null
                 ? Align(
                     alignment: Alignment.topLeft,
@@ -151,6 +149,6 @@ class FondoHomeState extends State<FondoHome> {
           ],
         ),
         bottomNavigationBar:
-            widget.bottomNavigationBar == true ? widget.contenidoBottom : null);
+            widget.bottomNavigationBar != null ? widget.bottomNavigationBar : null);
   }
 }

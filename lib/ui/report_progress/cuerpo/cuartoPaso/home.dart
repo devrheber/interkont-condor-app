@@ -1,5 +1,5 @@
-import 'package:appalimentacion/ui/reportarAvance/cuerpo/cuartoPaso/documentos_adicionales.dart';
-import 'package:appalimentacion/ui/reportarAvance/cuerpo/cuartoPaso/informe_admin_interventor.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/cuartoPaso/documentos_adicionales.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/cuartoPaso/informe_admin_interventor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

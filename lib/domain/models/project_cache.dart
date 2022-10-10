@@ -11,7 +11,7 @@ String projectsCacheToJson(Map<String, ProjectCache> data) => json.encode(
 
 class ProjectCache {
   const ProjectCache({
-    this.stepNumber = 0,
+    this.stepNumber = 1,
     this.porPublicar,
     this.ultimaFechaSincro,
     this.periodoIdSeleccionado,
@@ -25,9 +25,9 @@ class ProjectCache {
   final dynamic ultimaFechaSincro;
   final dynamic periodoIdSeleccionado;
   // TODO
-  final double porcentajeValorProyectadoSeleccionado;
+  final dynamic porcentajeValorProyectadoSeleccionado;
   final dynamic porcentajeValorEjecutado;
-  final double newExecutedValue;
+  final dynamic newExecutedValue;
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         stepNumber: json['strep_number'],
@@ -35,9 +35,9 @@ class ProjectCache {
         ultimaFechaSincro: json['ultimaFechaSincro'],
         periodoIdSeleccionado: json['periodoIdSeleccionado'],
         porcentajeValorProyectadoSeleccionado:
-            json['porcentajeValorProyectadoSeleccionado'].toDouble(),
+            json['porcentajeValorProyectadoSeleccionado'],
         porcentajeValorEjecutado: json['porcentajeValorEjecutado'],
-        newExecutedValue: json['new_executed_value'].toDouble(),
+        newExecutedValue: json['new_executed_value']
       );
 
   Map<String, dynamic> toJson() => {
