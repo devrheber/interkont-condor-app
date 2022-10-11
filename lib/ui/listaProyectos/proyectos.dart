@@ -682,190 +682,197 @@ class ProjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.read<ProjectsProvider>();
-    return ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-      clipBehavior: Clip.antiAlias,
-      child: Material(
-        color: Colors.white,
-        child: InkWell(
-          onTap: () async {
-            openProject(
-              context,
-              project: project,
-              index: index,
-            );
-          },
-          child: Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(bottom: 1.sp, top: 1.sp),
-            padding: EdgeInsets.only(
-                top: 24.sp, bottom: 24.sp, left: 28.sp, right: 4.sp),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Spacer(),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 50, maxHeight: 50),
-                      child: ClipOval(
-                        child: conexionInternet
-                            ? CachedNetworkImage(
-                                imageUrl: project.imagencategoria,
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                              )
-                            : Image.asset(
-                                'assets/img/Desglose/Demas/question.png',
-                              ),
+    return Card(
+      elevation: 2,
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+        clipBehavior: Clip.antiAlias,
+        child: Material(
+          color: Colors.white,
+          child: InkWell(
+            onTap: () async {
+              openProject(
+                context,
+                project: project,
+                index: index,
+              );
+            },
+            child: Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(bottom: 1.sp, top: 1.sp),
+              padding: EdgeInsets.only(
+                  top: 24.sp, bottom: 24.sp, left: 28.sp, right: 4.sp),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Spacer(),
+                      ConstrainedBox(
+                        constraints:
+                            BoxConstraints(maxWidth: 50, maxHeight: 50),
+                        child: ClipOval(
+                          child: conexionInternet
+                              ? CachedNetworkImage(
+                                  imageUrl: project.imagencategoria,
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                )
+                              : Image.asset(
+                                  'assets/img/Desglose/Demas/question.png',
+                                ),
+                        ),
                       ),
-                    ),
-                    Spacer(),
-                    Expanded(
-                      flex: 50,
-                      child: Container(
-                        padding: EdgeInsets.only(left: 10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 4,
-                                  child: Text(
-                                    project.nombreCategoriaUpperCase,
-                                    style: TextStyle(
-                                      fontFamily: 'montserrat',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 10.sp,
-                                      letterSpacing: 0.4,
-                                      color: Color(
-                                        project.titleColor,
+                      Spacer(),
+                      Expanded(
+                        flex: 50,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    flex: 4,
+                                    child: Text(
+                                      project.nombreCategoriaUpperCase,
+                                      style: TextStyle(
+                                        fontFamily: 'montserrat',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 10.sp,
+                                        letterSpacing: 0.4,
+                                        color: Color(
+                                          project.titleColor,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 3.5,
-                            ),
-                            Text(
-                              project.nombreproyecto,
-                              style: TextStyle(
-                                fontFamily: "montserrat",
-                                fontWeight: FontWeight.w400,
-                                fontSize: 13.sp,
-                                color: Color(0xFF000000),
+                                ],
                               ),
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  flex: 5,
-                                  child: Column(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Container(
-                                            width: 90.0,
-                                            decoration: const BoxDecoration(
-                                              border: Border(
-                                                right: BorderSide(
-                                                  width: 0.3,
-                                                  color: Color(0xFF000000),
-                                                ),
-                                              ),
-                                            ),
-                                            child: AutoSizeText(
-                                              project.projectValueRounded,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                fontFamily: "montserrat",
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 15.sp,
-                                                letterSpacing: 0.4,
-                                                height: 0.9,
-                                                color: Color(0xFF808080),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
+                              SizedBox(
+                                height: 3.5,
+                              ),
+                              Text(
+                                project.nombreproyecto,
+                                style: TextStyle(
+                                  fontFamily: "montserrat",
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 13.sp,
+                                  color: Color(0xFF000000),
+                                ),
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    flex: 5,
+                                    child: Column(
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            Container(
+                                              width: 90.0,
                                               decoration: const BoxDecoration(
                                                 border: Border(
                                                   right: BorderSide(
                                                     width: 0.3,
-                                                    color: Color(0xFFFF000000),
+                                                    color: Color(0xFF000000),
                                                   ),
                                                 ),
                                               ),
+                                              child: AutoSizeText(
+                                                project.projectValueRounded,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  fontFamily: "montserrat",
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 15.sp,
+                                                  letterSpacing: 0.4,
+                                                  height: 0.9,
+                                                  color: Color(0xFF808080),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                  border: Border(
+                                                    right: BorderSide(
+                                                      width: 0.3,
+                                                      color:
+                                                          Color(0xFFFF000000),
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    project.percentageByValue,
+                                                    style: TextStyle(
+                                                      fontFamily: "montserrat",
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 15.sp,
+                                                      letterSpacing: 0.4,
+                                                      height: 0.9,
+                                                      color: Color(0xFF808080),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
                                               child: Center(
-                                                child: Text(
-                                                  project.percentageByValue,
-                                                  style: TextStyle(
-                                                    fontFamily: "montserrat",
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 15.sp,
-                                                    letterSpacing: 0.4,
-                                                    height: 0.9,
-                                                    color: Color(0xFF808080),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.sp),
+                                                  clipBehavior: Clip.antiAlias,
+                                                  child: Image.asset(
+                                                    'assets/img/Desglose/Home/${project.trafficLightColorValue}.png',
+                                                    height: 19.sp,
+                                                    width: 50.95.sp,
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: Center(
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(5.sp),
-                                                clipBehavior: Clip.antiAlias,
-                                                child: Image.asset(
-                                                  'assets/img/Desglose/Home/${project.trafficLightColorValue}.png',
-                                                  height: 19.sp,
-                                                  width: 50.95.sp,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                if (provider.cache.isNotEmpty &&
-                    provider.cache[project.codigoproyecto.toString()]
-                            .porPublicar !=
-                        null)
-                  if (provider.cache[project.codigoproyecto.toString()]
-                          .porPublicar ==
-                      true)
-                    Container(
-                      margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                              child: Image.asset(
-                                  'assets/img/Desglose/Home/btn-por-publicar.png'))
-                        ],
-                      ),
-                    )
-              ],
+                    ],
+                  ),
+                  if (provider.cache.isNotEmpty &&
+                      provider.cache[project.codigoproyecto.toString()]
+                              .porPublicar !=
+                          null)
+                    if (provider.cache[project.codigoproyecto.toString()]
+                            .porPublicar ==
+                        true)
+                      Container(
+                        margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                                child: Image.asset(
+                                    'assets/img/Desglose/Home/btn-por-publicar.png'))
+                          ],
+                        ),
+                      )
+                ],
+              ),
             ),
           ),
         ),

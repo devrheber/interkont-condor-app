@@ -78,13 +78,12 @@ class _FactorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-       margin: EdgeInsets.symmetric(vertical: 5.0),
+      margin: EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
             child: Container(
-             
               child: Text(
                 title,
                 style: AppTheme.parrafoBlancoNegrita,
@@ -92,8 +91,8 @@ class _FactorWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 4,
-            child: Text( 
+            flex: 3,
+            child: Text(
               text,
               style: AppTheme.parrafoBlanco,
               textAlign: TextAlign.justify,

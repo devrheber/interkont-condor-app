@@ -16,7 +16,7 @@ import '../../globales/transicion.dart';
 import '../../globales/variables.dart';
 import '../listaProyectos/home.dart';
 import 'contenido.dart';
-import 'cuerpo/factorAtraso/index.dart';
+import 'cuerpo/delay_factor/delay_factor_screen.dart';
 
 class ReportProgressScreen extends StatelessWidget {
   const ReportProgressScreen._();
@@ -73,6 +73,16 @@ class ReportProgressScreen extends StatelessWidget {
           }
           if (numeroPaso == 2) {
             // TODO Show FactorAtraso
+
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DelayFactorScreen.init(
+                  cache: reportProgressProvider.cache,
+                  detail: reportProgressProvider.detail,
+                ),
+              ),
+            );
+            return;
           }
 
           if (numeroPaso >= 5) {
@@ -181,7 +191,8 @@ class ReportarAvanceState extends State<ReportarAvance> {
             contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
                 ['limitePorcentajeAtraso']) {
           cambiarPasoProyecto(2);
-          cambiarPagina(context, IndexFactorAtraso());
+          cambiarPagina(context, DelayFactorScreen.init());
+          return;
         } else {
           siguiente();
         }
