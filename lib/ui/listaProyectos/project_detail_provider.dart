@@ -15,6 +15,8 @@ class ProjectDetailProvider extends ChangeNotifier {
     @required this.projectsCacheRepository,
   }) {
     _getPosicionPeriodoSeleccionado();
+
+    cache = cache.copyWith(projectCode: project.codigoproyecto);
   }
 
   int get projectCode => project.codigoproyecto;
@@ -67,6 +69,9 @@ class ProjectDetailProvider extends ChangeNotifier {
       this.detail = detail;
 
       ultimaSincro = 1;
+
+      projectsCacheRepository.saveProjectCache(
+          projectCode.toString(), this.cache);
 
       return true;
     } catch (_) {

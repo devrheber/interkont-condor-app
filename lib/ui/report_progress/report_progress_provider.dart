@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:appalimentacion/domain/models/models.dart';
@@ -13,19 +12,24 @@ class ReportarAvanceProvider extends ChangeNotifier {
     @required this.cache,
     @required ProjectsCacheRepository projectsCacheRepository,
   }) : _projectsCacheRepository = projectsCacheRepository {
-    // TODO Manejar execption si las listas llegaran vacías
-    activitiesProgress = cache.activitiesProgress;
+    activitiesProgress = cache.activitiesProgress ?? {};
     filteredActivites = [...detail.actividades];
-    achievesAndDifficulties = cache.qualitativesProgress;
+    achievesAndDifficulties = cache.qualitativesProgress ?? [];
+
+    cacheActivities = detail.actividades;
+
     aspectSelected = detail.apectosEvaluar.first;
 
-    // TODO rangeIncicator = details.indicadoresAlcance
+    // calculateExecutedValuePercentage();
   }
 
   final Project project;
   final DatosAlimentacion detail;
   final ProjectsCacheRepository _projectsCacheRepository;
   ProjectCache cache;
+
+  List<TextEditingController> textFieldControllers = [];
+
   List<QualitativeProgress> achievesAndDifficulties = [];
   List<RangeIndicator> rangeIndicators = [];
   List<File> listaImagenes = [];
@@ -46,34 +50,28 @@ class ReportarAvanceProvider extends ChangeNotifier {
   }
 
   Map<String, dynamic> activitiesProgress = {};
+  List<Actividad> cacheActivities = [];
 
-  void saveValue(int activityId, String value) {
+  Future<void> saveValue(int activityId, String value) async {
+    print('$activityId $value');
     activitiesProgress[activityId.toString()] = value;
     this.cache = cache.copyWith(activitiesProgress: activitiesProgress);
-    _projectsCacheRepository.saveProjectCache(projectCode, cache);
 
-    calculateExecutedValue();
-  }
+    // calculateExecutedValuePercentage();
 
-  void saveFirstStep() {
-    inspect(activitiesProgress);
-    _projectsCacheRepository.saveProjectCache(
-        projectCode,
-        cache.copyWith(
-          activitiesProgress: activitiesProgress,
-        ));
+    await _projectsCacheRepository.saveProjectCache(projectCode, cache);
   }
 
   void filter(String value) {
-    this.filteredActivites = [
-      ...detail.actividades
-          .where(
-            (element) => element.descripcionActividad.toLowerCase().contains(
-                  value.toLowerCase(),
-                ),
-          )
-          .toList()
-    ];
+    this.filteredActivites = detail.actividades
+        .where(
+          (element) => ActivitiesHelpers.replaceAccent(
+                  element.descripcionActividad.toLowerCase())
+              .contains(
+            value.toLowerCase(),
+          ),
+        )
+        .toList();
     notifyListeners();
   }
 
@@ -121,18 +119,26 @@ class ReportarAvanceProvider extends ChangeNotifier {
     // TODO: save indicator in cache
   }
 
-  void calculateExecutedValue() {
-    double newExecutedValue = 0.0;
-    double newExecutedPorcentageValue = 0.0;
+  void calculateExecutedValuePercentage() {
+    final activities = this.detail.actividades;
 
-    for (int i = 0; i < detail.actividades.length; i++) {
-      newExecutedValue += detail.actividades[i].valorEjecutado;
+    double totalCantidadProgramada = 0;
+    double valorEjecucionProyecto = 0;
+
+    for (int i = 0; i < activities.length; i++) {
+      valorEjecucionProyecto += activities[i].getNewExecutedValue(double.parse(
+          cache.activitiesProgress[activities[i].actividadId.toString()]));
+      totalCantidadProgramada += activities[i].cantidadProgramada;
     }
-    newExecutedPorcentageValue =
-        (newExecutedValue / project.valorejecutado) * 100;
-    this.cache = cache.copyWith(
-      porcentajeValorEjecutado: newExecutedPorcentageValue,
-      newExecutedValue: newExecutedValue,
-    );
+
+    final porcentajeValorEjecutado =
+        (valorEjecucionProyecto / totalCantidadProgramada);
+
+    final newExecutedValue = project.valorproyecto * porcentajeValorEjecutado;
+
+    this.cache = this.cache.copyWith(
+          porcentajeValorEjecutado: porcentajeValorEjecutado,
+          newExecutedValue: newExecutedValue,
+        );
   }
 }

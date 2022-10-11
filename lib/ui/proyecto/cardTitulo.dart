@@ -305,9 +305,6 @@ class _SyncButtonState extends State<_SyncButton>
                         projectsService.saveDetail(
                             detailService.projectCode, detailService.detail);
 
-                        projectsService.saveCache(
-                            detailService.projectCode, detailService.cache);
-
                         Toast.show(
                             "Proyecto sincronizado correctamente!", context,
                             duration: 3, gravity: Toast.BOTTOM);

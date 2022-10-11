@@ -449,7 +449,8 @@ class ProjectCard extends StatelessWidget {
         builder: (context) => ProyectoScreen.init(
           detail: detail,
           project: project,
-          cache: provider.cache[project.codigoproyecto.toString()]
+          cache: provider.cache[project.codigoproyecto.toString()] ??
+              ProjectCache(),
         ),
       ),
     );

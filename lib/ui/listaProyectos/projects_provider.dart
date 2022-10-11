@@ -28,18 +28,11 @@ class ProjectsProvider extends ChangeNotifier {
 
   Map<String, dynamic> error = {'error': false, 'message': 'Algo salió mal'};
 
-  StreamController<double> _executedPercentageStreamController =
-      StreamController.broadcast();
-
-  Stream<double> get executedPercentageStream =>
-      _executedPercentageStreamController.stream;
-
   StreamSubscription<Map<String, DatosAlimentacion>> detailsSubscription;
   StreamSubscription<Map<String, ProjectCache>> cacheSubscription;
 
   @override
   void dispose() {
-    _executedPercentageStreamController.close();
     detailsSubscription.cancel();
     cacheSubscription.cancel();
     super.dispose();
@@ -74,13 +67,6 @@ class ProjectsProvider extends ChangeNotifier {
     inspect(details);
   }
 
-  Future<void> saveCache(int codigoProyecto, ProjectCache data) async {
-    cache[codigoProyecto.toString()] = data;
-    await _projectsCacheRepository.saveProjectCache(
-        codigoProyecto.toString(), cache[codigoProyecto.toString()]);
-    inspect(details);
-  }
-
   Future<DatosAlimentacion> getProjectDetail(int codigoProyecto,
       {@required int index}) async {
     try {
@@ -108,11 +94,5 @@ class ProjectsProvider extends ChangeNotifier {
     } catch (_) {
       throw '';
     }
-  }
-
-  updateExcutedPercentage() {
-    // TODO
-    final double newValue = 45.70;
-    _executedPercentageStreamController.add(newValue);
   }
 }

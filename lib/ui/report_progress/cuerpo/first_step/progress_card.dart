@@ -1,12 +1,12 @@
 import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/helpers/helpers.dart';
+import 'package:appalimentacion/theme/color_theme.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:toast/toast.dart';
 
-import '../../../../helpers/decimal_formatter.dart';
-import '../../../../theme/color_theme.dart';
+import 'package:toast/toast.dart';
 
 class ProgressCard extends StatefulWidget {
   const ProgressCard({
@@ -28,19 +28,31 @@ class _ProgressCardState extends State<ProgressCard> {
   TextEditingController controllerPrimerPasoTxtAvance;
   String valueSaved;
 
-  double cantidadEjecutada;
-  double valorEjecutado;
-  double porcentajeAvance;
-  double faltantePorEjecutar;
+  double get controllerValue {
+    if (controllerPrimerPasoTxtAvance.text == null) {
+      return 0.0;
+    }
+
+    if (controllerPrimerPasoTxtAvance.text.isEmpty) {
+      return 0.0;
+    }
+
+    return double.parse(controllerPrimerPasoTxtAvance.text);
+  }
 
   @override
   void initState() {
     super.initState();
-    valueSaved = widget.valueSaved == '' ? '0' : widget.valueSaved;
     controllerPrimerPasoTxtAvance = TextEditingController();
 
+    valueSaved = widget.valueSaved == null
+        ? '0'
+        : widget.valueSaved == ''
+            ? '0'
+            : widget.valueSaved;
+    
+
     controllerPrimerPasoTxtAvance.text = valueSaved;
-    calcutate(valueSaved);
   }
 
   @override
@@ -52,53 +64,22 @@ class _ProgressCardState extends State<ProgressCard> {
   void calcutate(String stringValue) {
     String value = stringValue == '' ? '0' : stringValue;
     if (double.parse('$value') < 0) {
-      Toast.show(
-        "Lo sentimos, solo aceptamos numeros positivos",
-        context,
-        duration: 3,
-        gravity: Toast.BOTTOM,
-      );
-    } else if (double.parse('$value') > 100) {
-      Toast.show(
-        "El valor ejecutado de la actividad no puede superar el 100%",
-        context,
-        duration: 3,
-        gravity: Toast.BOTTOM,
-      );
-    } else {
-      cantidadEjecutada =
-          widget.activity.cantidadEjecutadaInicial + double.parse('$value');
-      valorEjecutado = multCantidadEjecutadaValorUnitario();
-      porcentajeAvance = calcPorcentajeAvanzado();
-      faltantePorEjecutar = calcPorcFaltantePorEjecutar();
-      // calcularValorEjecutado();
+      Toast.show("Lo sentimos, solo aceptamos numeros positivos", context,
+          duration: 3, gravity: Toast.BOTTOM);
+      return;
+    }
+    if (double.parse('$value') > 100) {
+      Toast.show("El valor ejecutado de la actividad no puede superar el 100%",
+          context,
+          duration: 3, gravity: Toast.BOTTOM);
+      return;
     }
 
-    // TODO save value in cache
     widget.onChanged(value);
-    setState(() {});
+    setState(() {
+      
+    });
   }
-
-  double calcPorcentajeAvanzado() {
-    return widget.activity.valorEjecutado / widget.activity.valorProgramado * 100;
-  }
-
-  double multCantidadEjecutadaValorUnitario() {
-    return widget.activity.cantidadEjecutada * widget.activity.valorUnitario;
-  }
-
-  double calcPorcFaltantePorEjecutar() {
-    return 100.0 - cantidadEjecutada;
-  }
-
-  // bool descripcionActividad(dynamic actividades, int cont) {
-  //   return actividades[cont]['descripcionActividad']
-  //               .indexOf(txtBuscarAvance.toUpperCase()) !=
-  //           -1 ||
-  //       actividades[cont]['descripcionActividad']
-  //               .indexOf(txtBuscarAvance.toLowerCase()) !=
-  //           -1;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +144,6 @@ class _ProgressCardState extends State<ProgressCard> {
               children: <Widget>[
                 Expanded(
                   child: TextField(
-                      // textInputAction: TextInputAction.done,
                       textInputAction: TextInputAction.send,
                       keyboardType: TextInputType.numberWithOptions(
                         decimal: true,
@@ -198,22 +178,22 @@ class _ProgressCardState extends State<ProgressCard> {
             children: <Widget>[
               _Celdas(
                 label: 'Ejecutado Actual',
-                value: widget.activity.cantidadEjecutadaInicial.toString(),
+                value: widget.activity.ejecutadoActual,
                 isNumericVariable: false,
               ),
               _Celdas(
                 label: 'Avance del presente reporte',
-                value: controllerPrimerPasoTxtAvance.text,
+                value: '${controllerPrimerPasoTxtAvance.text} %',
                 isNumericVariable: false,
               ),
               _Celdas(
                 label: 'Avance a hoy',
-                value: cantidadEjecutada.toString(),
+                value: widget.activity.avanceAHoy(controllerValue),
                 isNumericVariable: false,
               ),
               _Celdas(
                 label: 'Faltante por ejecutar',
-                value: faltantePorEjecutar.toString(),
+                value: widget.activity.faltantePorEjecutar(controllerValue),
                 isNumericVariable: false,
               ),
             ],

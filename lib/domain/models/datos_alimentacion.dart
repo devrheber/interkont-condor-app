@@ -134,6 +134,30 @@ class Actividad {
         "valorEjecutadoInicial": valorEjecutadoInicial,
         "porcentajeAvanceInicial": porcentajeAvanceInicial,
       };
+
+  String get ejecutadoActual {
+    final value = (cantidadEjecutadaInicial / cantidadProgramada) * 100;
+    return '${value.round()} %';
+  }
+
+  String avanceAHoy(double valorAvance) {
+    final value = (cantidadEjecutadaInicial / cantidadProgramada) * 100;
+
+    return '${(value + valorAvance).round()} %';
+  }
+
+  String faltantePorEjecutar(double valorAvance) {
+    final value = (cantidadEjecutadaInicial / cantidadProgramada) * 100;
+
+    return '${(100 - (value + valorAvance)).round()} %';
+  }
+
+  double getNewExecutedValue(double valorAvance) {
+    final progressValuePercentage = valorProgramado * valorAvance / 100;
+    final newExcutedValue =
+        cantidadProgramada * (progressValuePercentage / valorProgramado);
+    return newExcutedValue;
+  }
 }
 
 class AspectoEvaluar {

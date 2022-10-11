@@ -16,95 +16,21 @@ class BodyCard extends StatelessWidget {
     final detailProvider = Provider.of<ProjectDetailProvider>(context);
     final projectCache = detailProvider.cache;
     final project = detailProvider.project;
-    return Container(
-      child: Stack(
-        children: <Widget>[
-          projectCache?.ultimaFechaSincro == null
-              ? Container(
-                  width: double.infinity,
-                  margin:
-                      EdgeInsets.only(top: 335.h, left: 28.sp, right: 28.sp),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-                  ),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.sp, vertical: 13.sp),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: 20.0,
-                        margin: EdgeInsets.only(bottom: 5.0, right: 10.0),
-                        child: Image.asset(
-                          'assets/img/Desglose/Demas/icn-alert.png',
-                        ),
-                      ),
-                      Expanded(
-                          child: Text(
-                              // 'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
-                              'Debes sincronizar el proyecto para poder reportar tu avance',
-                              style: TextStyle(
-                                fontFamily: "montserrat",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12.sp,
-                                color: Color(0xffC1272D),
-                              ),
-                              textAlign: TextAlign.left))
-                    ],
-                  ))
-              : Text(''),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(
-              top: projectCache?.ultimaFechaSincro == null ? 400.h : 400.h,
-            ),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      _Summary(
-                        porcentajeAsiVa: project.asiVaPorcentaje,
-                        project: project,
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(
-                            right: 28.sp, left: 28.sp, bottom: 5.0),
-                        child: Text(
-                          'Seleccione el periodo a reportar',
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff030303),
-                            fontFamily: "montserrat",
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10.h),
-                      const DropDownPeriodo()
-                    ],
-                  ),
-                ),
-                if (project.pendienteAprobacion)
-                  Container(
+    return SingleChildScrollView(
+      child: Container(
+        child: Stack(
+          children: <Widget>[
+            projectCache?.ultimaFechaSincro == null
+                ? Container(
                     width: double.infinity,
-                    height: 50.0.h,
+                    margin:
+                        EdgeInsets.only(top: 335.h, left: 28.sp, right: 28.sp),
                     decoration: BoxDecoration(
-                      color: AppTheme.rojoBackground,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15.sp)),
                     ),
-                    margin: EdgeInsets.symmetric(horizontal: 24.sp),
-                    padding: EdgeInsets.only(
-                      top: 5.0.sp,
-                      bottom: 10.0.sp,
-                      left: 20.0.sp,
-                      right: 20.0.sp,
-                    ),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.sp, vertical: 13.sp),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -113,24 +39,100 @@ class BodyCard extends StatelessWidget {
                           margin: EdgeInsets.only(bottom: 5.0, right: 10.0),
                           child: Image.asset(
                             'assets/img/Desglose/Demas/icn-alert.png',
-                            // width: 100.0,
                           ),
                         ),
                         Expanded(
                             child: Text(
-                                'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
-                                // 'Debes sincronizar el proyecto para poder reportar tu avance',
-                                style: AppTheme.parrafoRojo,
+                                // 'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
+                                'Debes sincronizar el proyecto para poder reportar tu avance',
+                                style: TextStyle(
+                                  fontFamily: "montserrat",
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.sp,
+                                  color: Color(0xffC1272D),
+                                ),
                                 textAlign: TextAlign.left))
                       ],
+                    ))
+                : Text(''),
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(
+                top: projectCache?.ultimaFechaSincro == null ? 400.h : 400.h,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        _Summary(
+                          porcentajeAsiVa: project.asiVaPorcentaje,
+                          project: project,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(
+                              right: 28.sp, left: 28.sp, bottom: 5.0),
+                          child: Text(
+                            'Seleccione el periodo a reportar',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xff030303),
+                              fontFamily: "montserrat",
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                        const DropDownPeriodo()
+                      ],
                     ),
-                  )
-                else
-                  Text(''),
-              ],
+                  ),
+                  if (project.pendienteAprobacion)
+                    Container(
+                      width: double.infinity,
+                      height: 50.0.h,
+                      decoration: BoxDecoration(
+                        color: AppTheme.rojoBackground,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 24.sp),
+                      padding: EdgeInsets.only(
+                        top: 5.0.sp,
+                        bottom: 10.0.sp,
+                        left: 20.0.sp,
+                        right: 20.0.sp,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            height: 20.0,
+                            margin: EdgeInsets.only(bottom: 5.0, right: 10.0),
+                            child: Image.asset(
+                              'assets/img/Desglose/Demas/icn-alert.png',
+                              // width: 100.0,
+                            ),
+                          ),
+                          Expanded(
+                              child: Text(
+                                  'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
+                                  // 'Debes sincronizar el proyecto para poder reportar tu avance',
+                                  style: AppTheme.parrafoRojo,
+                                  textAlign: TextAlign.left))
+                        ],
+                      ),
+                    )
+                  else
+                    Text(''),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -64,19 +64,21 @@ class ReportProgressScreen extends StatelessWidget {
         },
         accionSegundoBoton: () {
           if (numeroPaso == 1) {
-            reportProgressProvider.saveFirstStep();
+            
           }
           if (numeroPaso == 2) {
+
+            print((reportProgressProvider.cache.porcentajeValorProyectadoSeleccionado / reportProgressProvider.cache.porcentajeValorEjecutado * 100) - 100);
             // TODO Show FactorAtraso
 
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DelayFactorScreen.init(
-                  cache: reportProgressProvider.cache,
-                  detail: reportProgressProvider.detail,
-                ),
-              ),
-            );
+            // Navigator.of(context).push(
+            //   MaterialPageRoute(
+            //     builder: (context) => DelayFactorScreen.init(
+            //       cache: reportProgressProvider.cache,
+            //       detail: reportProgressProvider.detail,
+            //     ),
+            //   ),
+            // );
             return;
           }
 

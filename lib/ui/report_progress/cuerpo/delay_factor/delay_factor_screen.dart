@@ -156,6 +156,7 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
                       }
 
                       delayFactorService.add(descriptionController.text.trim());
+                      descriptionController.clear();
                     }),
                     SizedBox(height: 20.h),
                     Padding(
@@ -196,8 +197,14 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
               segundoBotonDesactivado: false, // TODO
               txtPrimerBoton: "Cancelar",
               txtSegundoBoton: "Siguiente Paso",
-              accionPrimerBoton: () {},
-              accionSegundoBoton: () {},
+              accionPrimerBoton: () {
+                Navigator.pop(context);
+              },
+              accionSegundoBoton: () {
+                if (delayFactorService.delayFactorsRegistered.length >= 1) {
+                  print('continuar');
+                }
+              },
             ),
           ],
         ),
