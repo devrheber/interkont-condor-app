@@ -57,6 +57,9 @@ class ProjectCache {
         comment: json['comment'],
         fileFotoPrincipal: json['fileFotoPrincipal'],
         filesFotosComplementarias: json['filesFotosComplementarias'],
+        qualitativesProgress: List<QualitativeProgress>.from(
+            json["qualitatives_progress"]
+                .map((x) => QualitativeProgress.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,7 +72,8 @@ class ProjectCache {
         'porcentajeValorEjecutado': porcentajeValorEjecutado,
         'new_executed_value': newExecutedValue,
         'activities_progress': activitiesProgress,
-        'qualitatives_progress': qualitativesProgress,
+        'qualitatives_progress':
+            List<dynamic>.from(qualitativesProgress.map((x) => x.toJson())),
         'delay_factors': delayFactors,
         'comment': comment,
         'fileFotoPrincipal': fileFotoPrincipal,
@@ -107,7 +111,8 @@ class ProjectCache {
       qualitativesProgress: qualitativesProgress ?? this.qualitativesProgress,
       delayFactors: delayFactors ?? this.delayFactors,
       fileFotoPrincipal: fileFotoPrincipal ?? this.fileFotoPrincipal,
-      filesFotosComplementarias: filesFotosComplementarias ?? this.filesFotosComplementarias,
+      filesFotosComplementarias:
+          filesFotosComplementarias ?? this.filesFotosComplementarias,
     );
   }
 

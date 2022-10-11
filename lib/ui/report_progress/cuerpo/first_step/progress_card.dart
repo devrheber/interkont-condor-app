@@ -28,8 +28,6 @@ class _ProgressCardState extends State<ProgressCard> {
   TextEditingController controllerPrimerPasoTxtAvance;
   String valueSaved;
 
-  Actividad activity;
-
   double cantidadEjecutada;
   double valorEjecutado;
   double porcentajeAvance;
@@ -38,7 +36,6 @@ class _ProgressCardState extends State<ProgressCard> {
   @override
   void initState() {
     super.initState();
-    activity = widget.activity;
     valueSaved = widget.valueSaved == '' ? '0' : widget.valueSaved;
     controllerPrimerPasoTxtAvance = TextEditingController();
 
@@ -70,7 +67,7 @@ class _ProgressCardState extends State<ProgressCard> {
       );
     } else {
       cantidadEjecutada =
-          activity.cantidadEjecutadaInicial + double.parse('$value');
+          widget.activity.cantidadEjecutadaInicial + double.parse('$value');
       valorEjecutado = multCantidadEjecutadaValorUnitario();
       porcentajeAvance = calcPorcentajeAvanzado();
       faltantePorEjecutar = calcPorcFaltantePorEjecutar();
@@ -83,11 +80,11 @@ class _ProgressCardState extends State<ProgressCard> {
   }
 
   double calcPorcentajeAvanzado() {
-    return activity.valorEjecutado / activity.valorProgramado * 100;
+    return widget.activity.valorEjecutado / widget.activity.valorProgramado * 100;
   }
 
   double multCantidadEjecutadaValorUnitario() {
-    return activity.cantidadEjecutada * activity.valorUnitario;
+    return widget.activity.cantidadEjecutada * widget.activity.valorUnitario;
   }
 
   double calcPorcFaltantePorEjecutar() {
@@ -126,7 +123,7 @@ class _ProgressCardState extends State<ProgressCard> {
       margin: EdgeInsets.only(bottom: 38.sp),
       child: Column(
         children: <Widget>[
-          Text(activity.descripcionActividad,
+          Text(widget.activity.descripcionActividad,
               style: TextStyle(
                 fontSize: 12.1796.sp,
                 color: Colors.white,
@@ -201,7 +198,7 @@ class _ProgressCardState extends State<ProgressCard> {
             children: <Widget>[
               _Celdas(
                 label: 'Ejecutado Actual',
-                value: activity.cantidadEjecutadaInicial.toString(),
+                value: widget.activity.cantidadEjecutadaInicial.toString(),
                 isNumericVariable: false,
               ),
               _Celdas(

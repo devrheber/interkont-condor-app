@@ -39,11 +39,7 @@ class ReportProgressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportProgressProvider = Provider.of<ReportarAvanceProvider>(context);
-    final projectsProvider = Provider.of<ProjectsProvider>(context);
-    final numeroPaso = 1;
-    // projectsProvider
-    //     .cache[reportProgressProvider.project.codigoproyecto.toString()]
-    //     .stepNumber;
+    final numeroPaso = reportProgressProvider.cache.stepNumber;
 
     return FondoHome(
       body: ContenidoReportarAvance(numeroPaso: numeroPaso),
@@ -64,10 +60,8 @@ class ReportProgressScreen extends StatelessWidget {
           Toast.show("El avance ha sido cancelado", context,
               duration: 5, gravity: Toast.BOTTOM);
           Navigator.pop(context);
-          // TODO boolestSegundoBtnreportarAvance
-          // TODO update paso
+          
         },
-        // TODO
         accionSegundoBoton: () {
           if (numeroPaso == 1) {
             reportProgressProvider.saveFirstStep();

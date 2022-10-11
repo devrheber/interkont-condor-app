@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:appalimentacion/domain/models/models.dart';
@@ -13,9 +14,10 @@ class ReportarAvanceProvider extends ChangeNotifier {
     @required ProjectsCacheRepository projectsCacheRepository,
   }) : _projectsCacheRepository = projectsCacheRepository {
     // TODO Manejar execption si las listas llegaran vacías
-    filteredActivites = detail.actividades;
+    activitiesProgress = cache.activitiesProgress;
+    filteredActivites = [...detail.actividades];
+    achievesAndDifficulties = cache.qualitativesProgress;
     aspectSelected = detail.apectosEvaluar.first;
-    // TODO achievesAndDifficulties from Cache
 
     // TODO rangeIncicator = details.indicadoresAlcance
   }
@@ -30,45 +32,48 @@ class ReportarAvanceProvider extends ChangeNotifier {
   List<File> listaDocumentos = [];
   List<TipoDoc> listaTipoDoc = [];
 
+  String get projectCode => project.codigoproyecto.toString();
+
   List<Actividad> filteredActivites;
   AspectoEvaluar aspectSelected;
 
   void changeAndSaveStep(int step) {
     this.cache = this.cache.copyWith(stepNumber: step);
 
-    _projectsCacheRepository.saveProjectCache(
-        project.codigoproyecto.toString(), this.cache);
+    _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
 
     notifyListeners();
   }
 
-  Map<String, String> activitiesProgress = {};
+  Map<String, dynamic> activitiesProgress = {};
 
   void saveValue(int activityId, String value) {
-    // TODO save value in cache
-    print('$activityId {"value": $value}');
     activitiesProgress[activityId.toString()] = value;
+    this.cache = cache.copyWith(activitiesProgress: activitiesProgress);
+    _projectsCacheRepository.saveProjectCache(projectCode, cache);
+
+    calculateExecutedValue();
   }
 
   void saveFirstStep() {
-    print('guardando primer paso');
+    inspect(activitiesProgress);
     _projectsCacheRepository.saveProjectCache(
-        project.codigoproyecto.toString(),
+        projectCode,
         cache.copyWith(
           activitiesProgress: activitiesProgress,
         ));
   }
 
   void filter(String value) {
-    filteredActivites = detail.actividades
-        .where(
-          (element) => ActivitiesHelpers.replaceAccent(
-                  element.descripcionActividad.toLowerCase())
-              .contains(
-            value.toLowerCase(),
-          ),
-        )
-        .toList();
+    this.filteredActivites = [
+      ...detail.actividades
+          .where(
+            (element) => element.descripcionActividad.toLowerCase().contains(
+                  value.toLowerCase(),
+                ),
+          )
+          .toList()
+    ];
     notifyListeners();
   }
 
@@ -86,13 +91,16 @@ class ReportarAvanceProvider extends ChangeNotifier {
       difficulty: difficulty,
     ));
     notifyListeners();
-    // TODO save list in cache;
+    this.cache =
+        this.cache.copyWith(qualitativesProgress: this.achievesAndDifficulties);
+    _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
   }
 
   void removeQualitativeProgress(int index) {
     achievesAndDifficulties.removeAt(index);
+    this.cache = cache.copyWith(qualitativesProgress: achievesAndDifficulties);
     notifyListeners();
-    // TODO save list in cache
+    _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
   }
 
   onChangedRangeIndicatorCard({@required int index, @required String value}) {
@@ -113,5 +121,18 @@ class ReportarAvanceProvider extends ChangeNotifier {
     // TODO: save indicator in cache
   }
 
-  
+  void calculateExecutedValue() {
+    double newExecutedValue = 0.0;
+    double newExecutedPorcentageValue = 0.0;
+
+    for (int i = 0; i < detail.actividades.length; i++) {
+      newExecutedValue += detail.actividades[i].valorEjecutado;
+    }
+    newExecutedPorcentageValue =
+        (newExecutedValue / project.valorejecutado) * 100;
+    this.cache = cache.copyWith(
+      porcentajeValorEjecutado: newExecutedPorcentageValue,
+      newExecutedValue: newExecutedValue,
+    );
+  }
 }

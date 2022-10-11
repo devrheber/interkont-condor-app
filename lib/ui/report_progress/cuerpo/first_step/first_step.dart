@@ -19,8 +19,6 @@ class FirstStepBody extends StatefulWidget {
 }
 
 class FirstStepBodyState extends State<FirstStepBody> {
-  // Ingrese cantidad de avance por actividad
-  // TODO Saved this value in cache
   String txtBuscarAvance = '';
 
   String otros;
@@ -32,10 +30,7 @@ class FirstStepBodyState extends State<FirstStepBody> {
       children: <Widget>[
         Container(
           width: double.infinity,
-          margin: EdgeInsets.only(
-            top: 230.h,
-          ),
-          // color: Colors.black,
+          margin: EdgeInsets.only(top: 230.h),
           child: ListView(
             physics: BouncingScrollPhysics(),
             children: <Widget>[
@@ -54,18 +49,11 @@ class FirstStepBodyState extends State<FirstStepBody> {
               SizedBox(height: 18.sp),
               Padding(
                 padding: EdgeInsets.only(left: 30.0.sp, right: 34.sp),
-                child: buscador(onChanged: (value) {
-                  if (value.isEmpty) {
-                    setState(() {
-                      // actividadesFilter = actividades;
-                    });
-                  }
-                  txtBuscarAvance = value;
-                }, onPressed: () {
-                  // TODO
-                  // filter();
-                  reportProgressProvider.filter(txtBuscarAvance);
-                }),
+                child: buscador(
+                  onChanged: (value) => txtBuscarAvance = value,
+                  onPressed: () =>
+                      reportProgressProvider.filter(txtBuscarAvance),
+                ),
               ),
               SizedBox(height: 26.23.sp),
               CarouselSlider(
