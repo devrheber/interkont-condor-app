@@ -83,7 +83,6 @@ class AppState extends StatelessWidget {
           create: (_) => ProjectsProvider(
             projectsCacheRepository: projectsCacheRepository,
             projectRepository: ProjectsImpl(),
-            prefs: prefs,
           ),
         ),
       ],

@@ -107,59 +107,11 @@ class ProyectosContenido extends StatelessWidget {
           child: ListView(
             physics: BouncingScrollPhysics(),
             children: <Widget>[
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Mis Proyectos ',
-                          style: TextStyle(
-                            fontFamily: "mulish",
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.sp,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                        Text(
-                          '(${projectsProvider.localProjects.length} proyectos)',
-                          style: TextStyle(
-                            fontFamily: "mulish",
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20.sp,
-                            color: ColorTheme.primary,
-                          ),
-                        ),
-                        const Expanded(child: SizedBox.shrink()),
-                        InkWell(
-                          onTap: () async {
-                            loadingDialog(context);
-                            projectsProvider.getProjects();
-                            Navigator.pop(context);
-                          },
-                          child: Icon(Icons.replay_outlined),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 6.sp),
-                    Text(
-                      'Selecciona un proyecto',
-                      style: TextStyle(
-                        fontFamily: "montserrat",
-                        fontWeight: FontWeight.w200,
-                        fontSize: 15.sp,
-                        color: Color(0xFF566B8C),
-                      ),
-                    ),
-                    SizedBox(height: 20.sp),
-                    for (int i = 0;
-                        i < projectsProvider.localProjects.length;
-                        i++)
-                      ProjectCard(
-                          project: projectsProvider.localProjects[i], index: i),
-                    if (projectsProvider.localProjects.isEmpty)
-                      Container(
+              StreamBuilder<List<Project>>(
+                  stream: projectsProvider.projectsStream,
+                  builder: (context, AsyncSnapshot<List<Project>> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container(
                         width: double.infinity,
                         margin: EdgeInsets.only(bottom: 10.0),
                         decoration: BoxDecoration(
@@ -187,10 +139,62 @@ class ProyectosContenido extends StatelessWidget {
                             )
                           ],
                         ),
-                      )
-                  ],
-                ),
-              ),
+                      );
+                    }
+                    final projects = snapshot.data;
+
+                    return Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                'Mis Proyectos ',
+                                style: TextStyle(
+                                  fontFamily: "mulish",
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20.sp,
+                                  color: Color(0xFF000000),
+                                ),
+                              ),
+                              Text(
+                                '(${projects.length} proyectos)',
+                                style: TextStyle(
+                                  fontFamily: "mulish",
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20.sp,
+                                  color: ColorTheme.primary,
+                                ),
+                              ),
+                              const Expanded(child: SizedBox.shrink()),
+                              InkWell(
+                                onTap: () async {
+                                  loadingDialog(context);
+                                  await projectsProvider.getRemoteProjects();
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(Icons.replay_outlined),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 6.sp),
+                          Text(
+                            'Selecciona un proyecto',
+                            style: TextStyle(
+                              fontFamily: "montserrat",
+                              fontWeight: FontWeight.w200,
+                              fontSize: 15.sp,
+                              color: Color(0xFF566B8C),
+                            ),
+                          ),
+                          SizedBox(height: 20.sp),
+                          for (int i = 0; i < projects.length; i++)
+                            ProjectCard(project: projects[i], index: i),
+                        ],
+                      ),
+                    );
+                  }),
             ],
           ),
         ),
@@ -854,23 +858,36 @@ class ProjectCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (provider.cache.isNotEmpty &&
-                      provider.cache[project.codigoproyecto.toString()]
-                              .porPublicar !=
-                          null)
-                    if (provider.cache[project.codigoproyecto.toString()]
-                            .porPublicar ==
-                        true)
-                      Container(
-                        margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                                child: Image.asset(
-                                    'assets/img/Desglose/Home/btn-por-publicar.png'))
-                          ],
-                        ),
-                      )
+                  StreamBuilder<Map<String, ProjectCache>>(
+                      stream: provider.cacheStream,
+                      builder: (context,
+                          AsyncSnapshot<Map<String, ProjectCache>> snapshot) {
+                        if (!snapshot.hasData) {
+                          return SizedBox.shrink();
+                        }
+
+                        final cache = snapshot.data;
+
+                        if (cache != null) return SizedBox.shrink();
+
+                        if (cache[project.codigoproyecto.toString()] != null)
+                          return SizedBox.shrink();
+                          
+                        if (cache[project.codigoproyecto.toString()]
+                            .porPublicar)
+                          return Container(
+                            margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: Image.asset(
+                                        'assets/img/Desglose/Home/btn-por-publicar.png'))
+                              ],
+                            ),
+                          );
+
+                        return SizedBox.shrink();
+                      })
                 ],
               ),
             ),

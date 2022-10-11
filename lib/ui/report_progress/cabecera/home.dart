@@ -1,3 +1,4 @@
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +34,17 @@ class CardHeadReporteAvance extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Percentage(
-                  value: "Proyectado",
-                  percentage: projectsProvider
-                      .cache[avancesProvider.project.codigoproyecto.toString()]
-                      .getPorcentajeValorProyectado),
+              StreamBuilder<Map<String, ProjectCache>>(
+                  stream: projectsProvider.cacheStream,
+                  builder: (context,
+                      AsyncSnapshot<Map<String, ProjectCache>> snapshot) {
+                    return Percentage(
+                        value: "Proyectado",
+                        percentage: !snapshot.hasData
+                            ? '0'
+                            : snapshot.data[project.codigoproyecto.toString()]
+                                .getPorcentajeValorProyectado);
+                  }),
               const Expanded(child: SizedBox.shrink()),
               StreamBuilder<double>(
                   initialData: 0.0,

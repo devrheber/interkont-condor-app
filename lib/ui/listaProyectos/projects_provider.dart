@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
-import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
@@ -10,29 +7,25 @@ import 'package:flutter/material.dart';
 class ProjectsProvider extends ChangeNotifier {
   ProjectsProvider({
     @required this.projectRepository,
-    @required this.prefs,
     @required ProjectsCacheRepository projectsCacheRepository,
   }) : _projectsCacheRepository = projectsCacheRepository {
-    getProjects();
-    _getCacheFromLocalStorage();
-    _init();
+    getRemoteProjects();
   }
 
   final ProjectsRepository projectRepository;
-  final UserPreferences prefs;
 
   final ProjectsCacheRepository _projectsCacheRepository;
 
-  List<Project> localProjects = [];
-
   int indexProjectSelected = 0;
 
-  Map<String, ProjectCache> cache = {};
   Map<String, DatosAlimentacion> details = {};
+
+  Stream<List<Project>> get projectsStream => _projectsCacheRepository.getProjects();
+  Stream<Map<String, ProjectCache>> get cacheStream => _projectsCacheRepository.getProjectsCache();
 
   Map<String, dynamic> error = {'error': false, 'message': 'Algo salió mal'};
 
-  StreamSubscription cacheStream;
+  
 
   StreamController<double> _executedPercentageStreamController =
       StreamController.broadcast();
@@ -40,75 +33,32 @@ class ProjectsProvider extends ChangeNotifier {
   Stream<double> get executedPercentageStream =>
       _executedPercentageStreamController.stream;
 
-  _init() {
-    cacheStream = _projectsCacheRepository.getProjectsCache().listen((map) {
-      this.cache = map;
-    });
-  }
-
+  @override
   void dispose() {
-    cacheStream.cancel();
     _executedPercentageStreamController.close();
-  }
-
-  Future<void> getProjectsFromLocalStorage() async {
-    // TODO Verificar última consulta para evitar consultar data actualizada
-    final localProjectsString = prefs.projects;
-    if (localProjectsString == '') return;
-    localProjects = vistaListaResponseFromJson(localProjectsString);
-    notifyListeners();
-  }
-
-  Future<void> getProjects() async {
-    try {
-      await getRemoteProjects();
-    } catch (_) {
-      await getProjectsFromLocalStorage();
-    }
+    super.dispose();
   }
 
   Future<void> getRemoteProjects() async {
     final projects = await projectRepository.getProjects();
-    localProjects = projects;
-    _saveProjectsInLocalStorage(localProjects);
+
+    _saveProjectsInLocalStorage(projects);
     notifyListeners();
   }
 
-  Future<void> getDataFromLocalStorage() async {
-    final localProjectsString = prefs.projects;
+  Future<void> getDataFromLocalStorage() async {}
 
-    if (localProjectsString != '') {
-      localProjects = vistaListaResponseFromJson(localProjectsString);
-    }
+  Future<void> _saveProjectsInLocalStorage(List<Project> projects) async {
+    await _projectsCacheRepository.saveProjects(projects);
   }
 
-  void _saveProjectsInLocalStorage(List<Project> projects) {
-    // TODO Establecer última sincronización
-    prefs.projects = vistaListaResponseToJson(projects);
-    for (final project in projects) {
-      if (!cache.containsKey(project.codigoproyecto.toString())) {
-        cache[project.codigoproyecto.toString()] = ProjectCache();
-      }
-    }
-  }
-
-  void _saveDetail(int codigoProyecto, DatosAlimentacion data) {
+  Future<void> _saveDetail(int codigoProyecto, DatosAlimentacion data) async {
     final key = codigoProyecto.toString();
     Map<String, DatosAlimentacion> map = {};
 
-    final details = prefs.projectsDetail;
+    map = {key: data};
 
-    if (details == '') {
-      map = {key: data};
-    } else {
-      map = projectsDetailFromJson(details);
-      map[key] = data;
-    }
-
-    this.details = map;
-    prefs.projectsDetail = projetsDetailToJson(map);
-
-    inspect(projectsDetailFromJson(prefs.projectsDetail));
+    await _projectsCacheRepository.saveProjectDetails(map);
   }
 
   Future<DatosAlimentacion> getProjectDetail(int codigoProyecto,
@@ -139,16 +89,6 @@ class ProjectsProvider extends ChangeNotifier {
     } catch (_) {
       throw '';
     }
-  }
-
-  void _getCacheFromLocalStorage() {
-    _projectsCacheRepository.getProjectsCache();
-    final cache = prefs.projectsCache;
-    if (cache == '') return null;
-
-    final map = projectsCacheFromJson(cache);
-
-    this.cache = map;
   }
 
   updateExcutedPercentage() {

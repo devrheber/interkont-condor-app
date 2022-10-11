@@ -6,6 +6,14 @@ abstract class ProjectsCacheApi {
   Stream<Map<String, ProjectCache>> getProjectsCache();
 
   Future<void> saveProjectCache(String projectCode, ProjectCache projectCache);
+
+  Stream<List<Project>> getProjects();
+
+  Stream<Map<String, DatosAlimentacion>> getDetails();
+
+  Future<void> saveProjects(List<Project> projects);
+
+  Future<void> saveProjectsDetail(Map<String, DatosAlimentacion> details);
 }
 
 class CacheNotFoundException implements Exception {}

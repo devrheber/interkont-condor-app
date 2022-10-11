@@ -10,7 +10,6 @@ class ReportarAvanceProvider extends ChangeNotifier {
     @required this.project,
     @required this.detail,
     @required ProjectsCacheRepository projectsCacheRepository,
-    @required this.cache,
   }) : _projectsCacheRepository = projectsCacheRepository {
     // TODO Manejar execption si las listas llegaran vacías
     filteredActivites = detail.actividades;

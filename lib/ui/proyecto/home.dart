@@ -1,6 +1,5 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/ui/listaProyectos/project_detail_provider.dart';
-import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_screen.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
@@ -65,11 +64,9 @@ class ProyectoScreen extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) {
                   return ReportProgressScreen.init(
-                      project: project,
-                      detail: detailProvider.detail,
-                      cache: context
-                          .read<ProjectsProvider>()
-                          .cache[project.codigoproyecto.toString()]);
+                    project: project,
+                    detail: detailProvider.detail,
+                  );
                 },
               ),
             );

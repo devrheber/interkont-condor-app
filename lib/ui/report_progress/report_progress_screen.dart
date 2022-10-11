@@ -24,13 +24,11 @@ class ReportProgressScreen extends StatelessWidget {
   static Widget init({
     @required Project project,
     @required DatosAlimentacion detail,
-    @required ProjectCache cache,
   }) =>
       ChangeNotifierProvider(
         create: (context) => ReportarAvanceProvider(
           project: project,
           detail: detail,
-          cache: cache,
           projectsCacheRepository: context.read(),
         ),
         child: ReportProgressScreen._(),
@@ -40,9 +38,10 @@ class ReportProgressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final reportProgressProvider = Provider.of<ReportarAvanceProvider>(context);
     final projectsProvider = Provider.of<ProjectsProvider>(context);
-    final numeroPaso = projectsProvider
-        .cache[reportProgressProvider.project.codigoproyecto.toString()]
-        .stepNumber;
+    final numeroPaso = 1;
+    // projectsProvider
+    //     .cache[reportProgressProvider.project.codigoproyecto.toString()]
+    //     .stepNumber;
 
     return FondoHome(
       body: ContenidoReportarAvance(numeroPaso: numeroPaso),

@@ -6,7 +6,8 @@ Map<String, DatosAlimentacion> projectsDetailFromJson(String str) =>
     Map.from(json.decode(str)).map((k, v) =>
         MapEntry<String, DatosAlimentacion>(k, DatosAlimentacion.fromJson(v)));
 
-String projetsDetailToJson(Map<String, DatosAlimentacion> data) => json.encode(Map.from(data).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())));
+String projetsDetailToJson(Map<String, DatosAlimentacion> data) => json.encode(
+    Map.from(data).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())));
 
 DatosAlimentacion datosAlimentacionFromJson(String str) =>
     DatosAlimentacion.fromJson(json.decode(str));
@@ -69,6 +70,10 @@ class DatosAlimentacion {
         "factoresAtraso":
             List<dynamic>.from(factoresAtraso.map((x) => x.toJson())),
       };
+
+  static DatosAlimentacion get empty {
+    return DatosAlimentacion();
+  }
 }
 
 class Actividad {
