@@ -149,9 +149,6 @@ class _Summary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NumberFormat f2 = NumberFormat("#,##0.00", "es_AR");
-    // final dynamic proyectos =
-    //     contenidoWebService[0]['proyectos'][posListaProySelec];
-
     return Container(
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 10.0, left: 28.sp, right: 28.sp),
@@ -165,7 +162,6 @@ class _Summary extends StatelessWidget {
         children: <Widget>[
           _Celdas(
             leftText: 'Presupuesto',
-            // rightText: '\$ ${f2.format(proyectos['valorproyecto'])}',
             rightText: '\$ ${f2.format(project.valorproyecto)}',
           ),
           _Celdas(
@@ -174,17 +170,14 @@ class _Summary extends StatelessWidget {
           ),
           _Celdas(
             leftText: 'Asi deberia ir',
-            // rightText: '${proyectos['porcentajeProyectado'].round()}%',
             rightText: '${project.porcentajeProyectado.round()}%',
           ),
           _Celdas(
             leftText: 'Contratista',
-            // rightText: '${proyectos['contratista']}',
             rightText: '${project.contratista}',
           ),
           _Celdas(
             leftText: 'Semaforo',
-            // rightText: '${proyectos['semaforoproyecto']}',
             rightText: '${project.semaforoproyecto}',
             semaforo: true,
           ),

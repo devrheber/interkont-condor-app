@@ -15,13 +15,14 @@ class ProyectoScreen extends StatelessWidget {
   static Widget init({
     @required Project project,
     @required DatosAlimentacion detail,
+    @required ProjectCache cache,
   }) =>
       ChangeNotifierProvider(
         lazy: true,
         create: (context) => ProjectDetailProvider(
           project: project,
           detail: detail,
-          prefs: context.read(),
+          cache: cache,
           projectRepository: context.read(),
           projectsCacheRepository: context.read(),
         ),
@@ -66,6 +67,7 @@ class ProyectoScreen extends StatelessWidget {
                   return ReportProgressScreen.init(
                     project: project,
                     detail: detailProvider.detail,
+                    cache: detailProvider.cache,
                   );
                 },
               ),

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
@@ -9,27 +8,26 @@ import 'package:flutter/material.dart';
 
 class ProjectDetailProvider extends ChangeNotifier {
   ProjectDetailProvider({
-    this.project,
-    this.detail,
-    @required final UserPreferences prefs,
+    @required this.project,
+    @required this.detail,
+    @required this.cache,
     @required this.projectRepository,
     @required this.projectsCacheRepository,
-  }) : _prefs = prefs {
+  }) {
     _getPosicionPeriodoSeleccionado();
-
-    _init();
   }
+
+  int get projectCode => project.codigoproyecto;
 
   final Project project;
   DatosAlimentacion detail;
-  final UserPreferences _prefs;
   final ProjectsRepository projectRepository;
   final ProjectsCacheRepository projectsCacheRepository;
 
-  ProjectCache cache = ProjectCache();
+  ProjectCache cache;
   int _ultimaSincro;
 
-  int posicionPeriodoReportado = 0;
+  Periodo periodoSeleccionado;
 
   int get ultimaSincro => _ultimaSincro;
 
@@ -46,20 +44,6 @@ class ProjectDetailProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  _init() {
-    projectsCacheRepository.getProjectsCache().listen((map) {
-      final cache = map[project.codigoproyecto.toString()];
-
-      if (this.cache != cache) {
-        this.cache = cache ?? ProjectCache();
-        notifyListeners();
-        _getPosicionPeriodoSeleccionado();
-      }
-    });
-
-    cambiarPosicionPeriodoReportado(0);
-  }
-
   Map<String, DatosAlimentacion> projectDetails = {};
 
   void _getPosicionPeriodoSeleccionado() {
@@ -67,7 +51,7 @@ class ProjectDetailProvider extends ChangeNotifier {
         (periodo) => periodo.periodoId == this.cache?.periodoIdSeleccionado);
 
     if (index < 0) return;
-    posicionPeriodoReportado = index;
+    periodoSeleccionado = detail.periodos[index];
   }
 
   Future<bool> syncDetail() async {
@@ -77,11 +61,11 @@ class ProjectDetailProvider extends ChangeNotifier {
       final detail = await projectRepository.getDatosAlimentacion(
           codigoProyecto: '$projectCode');
 
-      _saveDetail(projectCode, detail);
       final dateSync = ProjectHelpers.setUltimaFechaSincro();
-      _saveCache(cache: cache.copyWith(ultimaFechaSincro: dateSync));
 
+      this.cache = cache.copyWith(ultimaFechaSincro: dateSync);
       this.detail = detail;
+
       ultimaSincro = 1;
 
       return true;
@@ -90,39 +74,15 @@ class ProjectDetailProvider extends ChangeNotifier {
     }
   }
 
-  void _saveDetail(int codigoProyecto, DatosAlimentacion data) {
-    final key = codigoProyecto.toString();
-    Map<String, DatosAlimentacion> map = {};
-
-    final details = _prefs.projectsDetail;
-
-    if (details == '') {
-      map = {key: data};
-    } else {
-      map = projectsDetailFromJson(details);
-      map[key] = data;
-    }
-
-    _prefs.projectsDetail = projetsDetailToJson(map);
-  }
-
-  void _saveCache({@required ProjectCache cache}) {
-    final key = project.codigoproyecto.toString();
-
-    projectsCacheRepository.saveProjectCache(key, cache);
-  }
-
-  void cambiarPosicionPeriodoReportado(nuevaPosicion) {
-    final periodo = this.detail.periodos[nuevaPosicion];
-
-    final cache = this.cache.copyWith(
+  void cambiarPeriodoReportado(Periodo periodo) {
+    this.cache = this.cache.copyWith(
           periodoIdSeleccionado: periodo.periodoId,
           porcentajeValorProyectadoSeleccionado: periodo.porcentajeProyectado,
         );
 
-    _saveCache(cache: cache);
+    projectsCacheRepository.saveProjectCache(projectCode.toString(), cache);
 
-    posicionPeriodoReportado = nuevaPosicion;
+    periodoSeleccionado = periodo;
 
     Future.delayed(const Duration(milliseconds: 200))
         .then((_) => notifyListeners());

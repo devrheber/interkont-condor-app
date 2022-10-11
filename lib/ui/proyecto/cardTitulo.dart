@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:appalimentacion/ui/listaProyectos/project_detail_provider.dart';
+import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
 import 'package:appalimentacion/utils/assets/assets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -288,17 +289,25 @@ class _SyncButtonState extends State<_SyncButton>
                       ),
                     ),
                     onPressed: () async {
+                      final projectsService = context.read<ProjectsProvider>();
+                      final detailService =
+                          context.read<ProjectDetailProvider>();
                       if (animationController != null &&
                           animationController.isAnimating) return;
                       animationController.repeat();
-                      final result = await context
-                          .read<ProjectDetailProvider>()
-                          .syncDetail();
+
+                      final result = await detailService.syncDetail();
 
                       animationController.reset();
                       animationController.stop();
 
                       if (result) {
+                        projectsService.saveDetail(
+                            detailService.projectCode, detailService.detail);
+
+                        projectsService.saveCache(
+                            detailService.projectCode, detailService.cache);
+
                         Toast.show(
                             "Proyecto sincronizado correctamente!", context,
                             duration: 3, gravity: Toast.BOTTOM);
