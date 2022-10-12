@@ -447,10 +447,7 @@ class ProjectCard extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ProyectoScreen.init(
-          detail: detail,
           project: project,
-          cache: provider.cache[project.codigoproyecto.toString()] ??
-              ProjectCache(),
         ),
       ),
     );

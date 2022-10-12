@@ -14,15 +14,11 @@ class ProyectoScreen extends StatelessWidget {
 
   static Widget init({
     @required Project project,
-    @required DatosAlimentacion detail,
-    @required ProjectCache cache,
   }) =>
       ChangeNotifierProvider(
         lazy: true,
         create: (context) => ProjectDetailProvider(
           project: project,
-          detail: detail,
-          cache: cache,
           projectRepository: context.read(),
           projectsCacheRepository: context.read(),
         ),
@@ -53,7 +49,7 @@ class ProyectoScreen extends StatelessWidget {
                 context,
                 duration: 5,
                 gravity: Toast.BOTTOM);
-          } else if (detailProvider.cache?.periodoIdSeleccionado == null) {
+          } else if (detailProvider.periodoSeleccionado == null) {
             Toast.show(
                 "Lo sentimos, este proyecto no tiene periodos que reportar",
                 context,

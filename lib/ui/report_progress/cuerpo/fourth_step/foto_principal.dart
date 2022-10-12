@@ -42,6 +42,8 @@ class _FotoPrincipalState extends State<FotoPrincipal> {
   Future<void> obtenerImagen(ImageSource source) async {
     final picked = await ImagePicker().pickImage(source: source);
 
+    if (picked == null) return;
+
     contenidoWebService[0]['proyectos'][posListaProySelec]['datos']
             ['fileFotoPrincipal'] =
         base64Encode(File(picked.path).readAsBytesSync());
@@ -63,9 +65,7 @@ class _FotoPrincipalState extends State<FotoPrincipal> {
       child: Wrap(
         children: <Widget>[
           ImagenCaja(
-            file: listaImagenes.isEmpty
-                ? null
-                : listaImagenes.first,
+            file: listaImagenes.isEmpty ? null : listaImagenes.first,
             onTap: () {
               seleccionarGaleriaCamara(
                 context,

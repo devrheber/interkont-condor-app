@@ -1,20 +1,46 @@
+import 'package:appalimentacion/ui/report_progress/cuerpo/fourth_step/fouth_step_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../globales/variables.dart';
+import 'package:provider/provider.dart';
 
 final titleColor = Color(0xff444444);
-Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
+
+class CajonTextoComentarios extends StatefulWidget {
+  const CajonTextoComentarios({
+    Key key,
+    this.textoHint,
+    this.textoTitulo,
+    this.onChanged,
+  }) : super(key: key);
+
+  final String textoTitulo;
+  final String textoHint;
+  final Function(String) onChanged;
+
+  @override
+  State<CajonTextoComentarios> createState() => _CajonTextoComentariosState();
+}
+
+class _CajonTextoComentariosState extends State<CajonTextoComentarios> {
   TextEditingController controllerCuartoPasoTxtComentarios =
       TextEditingController();
-  if (contenidoWebService[0]['proyectos'][posListaProySelec]
-          ['datos']['txtComentario'] !=
-      null) {
-    controllerCuartoPasoTxtComentarios.text = contenidoWebService[0]
-            ['proyectos'][posListaProySelec]['datos']
-        ['txtComentario'];
+
+  @override
+  void initState() {
+    super.initState();
+    controllerCuartoPasoTxtComentarios.text =
+        context.read<FourthStepProvider>().cache.comment;
   }
-  return Container(
+
+  @override
+  void dispose() {
+    controllerCuartoPasoTxtComentarios.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
       width: double.infinity,
       height: 106.2.h,
       margin: EdgeInsets.only(top: 35.sp),
@@ -28,14 +54,13 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
           Row(
             children: <Widget>[
               Container(
-
                 child: Image.asset('assets/new/home/comments.png',
                     width: 18.85.w, height: 18.85.w),
               ),
               SizedBox(width: 11.8.sp),
               Expanded(
                 child: Text(
-                  '$textoTitulo',
+                  '${widget.textoTitulo}',
                   style: TextStyle(
                     color: Color(0xff556A8D),
                     fontSize: 15.27.sp,
@@ -50,18 +75,18 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
             child: Container(
               padding: EdgeInsets.only(top: 10.0),
               child: TextField(
-                textInputAction: TextInputAction.send, 
+                textInputAction: TextInputAction.send,
                 controller: controllerCuartoPasoTxtComentarios,
-                onChanged: accion,
+                onChanged: widget.onChanged,
                 maxLines: 4,
-                 style: TextStyle(
-                fontFamily: 'montserrat',
-                fontWeight: FontWeight.w500,
-                fontSize: 14.sp,
-                color: Color(0xff556A8D),
-              ),
+                style: TextStyle(
+                  fontFamily: 'montserrat',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14.sp,
+                  color: Color(0xff556A8D),
+                ),
                 decoration: InputDecoration.collapsed(
-                  hintText: "$textoHint",
+                  hintText: "${widget.textoHint}",
                   hintStyle: TextStyle(
                     fontFamily: 'montserrat',
                     fontWeight: FontWeight.w400,
@@ -73,5 +98,7 @@ Widget cajonTextoComentarios(context, textoTitulo, textoHint, accion) {
             ),
           )
         ],
-      ));
+      ),
+    );
+  }
 }

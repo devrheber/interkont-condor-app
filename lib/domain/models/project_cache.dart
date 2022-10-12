@@ -1,8 +1,5 @@
 import 'dart:convert';
-
-import 'package:appalimentacion/domain/models/delay_factor.dart';
-import 'package:appalimentacion/domain/models/project.dart';
-import 'package:appalimentacion/domain/models/qualitative_progress.dart';
+import 'package:appalimentacion/domain/models/models.dart';
 
 Map<String, ProjectCache> projectsCacheFromJson(String str) =>
     Map.from(json.decode(str)).map(
@@ -26,14 +23,13 @@ class ProjectCache {
     this.delayFactors,
     this.comment,
     this.fileFotoPrincipal,
-    this.filesFotosComplementarias,
+    this.listaImagenes = const [],
   });
-
   final int projectCode;
   final int stepNumber;
   final dynamic porPublicar;
   final dynamic ultimaFechaSincro;
-  final dynamic periodoIdSeleccionado;
+  final int periodoIdSeleccionado;
   final dynamic porcentajeValorProyectadoSeleccionado;
   final dynamic porcentajeValorEjecutado;
   final dynamic newExecutedValue;
@@ -42,7 +38,7 @@ class ProjectCache {
   final List<DelayFactor> delayFactors;
   final String comment;
   final String fileFotoPrincipal;
-  final List<dynamic> filesFotosComplementarias;
+  final List<ComplementaryImage> listaImagenes;
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         projectCode: json['project_code'],
@@ -61,11 +57,14 @@ class ProjectCache {
                 json["delay_factors"].map((x) => DelayFactor.fromJson(x))),
         comment: json['comment'],
         fileFotoPrincipal: json['fileFotoPrincipal'],
-        filesFotosComplementarias: json['filesFotosComplementarias'],
         qualitativesProgress: json['qualitatives_progress'] == null
             ? null
             : List<QualitativeProgress>.from(json["qualitatives_progress"]
                 .map((x) => QualitativeProgress.fromJson(x))),
+        listaImagenes: json['complementary_images'] == null
+            ? null
+            : List<ComplementaryImage>.from(json["complementary_images"]
+                .map((x) => ComplementaryImage.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -87,7 +86,9 @@ class ProjectCache {
             : List<dynamic>.from(delayFactors.map((x) => x.toJson())),
         'comment': comment,
         'fileFotoPrincipal': fileFotoPrincipal,
-        'filesFotosComplementarias': filesFotosComplementarias,
+        'complementary_images': listaImagenes == null
+            ? null
+            : List<dynamic>.from(listaImagenes.map((x) => x.toJson())),
       };
 
   ProjectCache copyWith({
@@ -103,8 +104,9 @@ class ProjectCache {
     List<QualitativeProgress> qualitativesProgress,
     List<DelayFactor> delayFactors,
     String fileFotoPrincipal,
-    
     List<dynamic> filesFotosComplementarias,
+    String comment,
+    List<ComplementaryImage> listaImagenes,
   }) {
     return ProjectCache(
       projectCode: projectCode ?? this.projectCode,
@@ -123,8 +125,8 @@ class ProjectCache {
       qualitativesProgress: qualitativesProgress ?? this.qualitativesProgress,
       delayFactors: delayFactors ?? this.delayFactors,
       fileFotoPrincipal: fileFotoPrincipal ?? this.fileFotoPrincipal,
-      filesFotosComplementarias:
-          filesFotosComplementarias ?? this.filesFotosComplementarias,
+      comment: comment ?? this.comment,
+      listaImagenes: listaImagenes ?? this.listaImagenes,
     );
   }
 

@@ -85,6 +85,7 @@ class ProjectsImpl implements ProjectsRepository {
 
     final user = User.fromJson(json.decode(prefs.userData));
 
+    try {
     HttpClientRequest request =
         await client.getUrl(Uri.parse(_url + ApiRoutes.tiposDocumento));
     String authorization = user.token;
@@ -92,7 +93,6 @@ class ProjectsImpl implements ProjectsRepository {
     request.headers.set('Authorization', '$authorization');
     HttpClientResponse response = await request.close();
 
-    try {
       if (response.statusCode == 200) {
         String responseBody = await response.transform(utf8.decoder).join();
         return tipoDocFromJson(responseBody);

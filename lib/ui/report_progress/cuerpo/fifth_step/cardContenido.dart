@@ -1,3 +1,4 @@
+import 'package:appalimentacion/domain/models/project_cache.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +38,9 @@ class FifthStepCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportProgressService = Provider.of<ReportarAvanceProvider>(context);
-    final cache = reportProgressService.cache;
+    // TODO
+    // final cache = reportProgressService.cache;
+    final cache = ProjectCache();
     final detail = reportProgressService.detail;
 
     String nombreSemaforo = reportProgressService.project.semaforoproyecto;
@@ -59,73 +62,75 @@ class FifthStepCard extends StatelessWidget {
       }
     }
     return Container(
-    width: double.infinity,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.all(Radius.circular(10)),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.5),
-          spreadRadius: 2,
-          blurRadius: 7,
-          offset: Offset(1, 1),
-        ),
-      ],
-    ),
-    child: Container(
-      padding: EdgeInsets.only(
-          top: 22.sp, left: 23.sp, right: 22.0.sp, bottom: 25.sp),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        textDirection: TextDirection.ltr,
-        children: <Widget>[
-          Text(
-            '$titulo',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontFamily: 'montserrat',
-              fontWeight: FontWeight.w600,
-              fontSize: 20.sp,
-              color: titulo == "Antes" ? Color(0xff5994EF) : Color(0xff7964F3),
-            ),
-          ),
-          celdas(
-            txtPrimero: '$asivaTxt',
-            txtSegundo: '$porcentajeAsiVa%',
-            // txtTercero: '\$ $dineroAsiVa',
-            semaforo: false,
-            nombreSemaforo: '',
-          ),
-          celdas(
-            txtPrimero: '$deberiaIrTxt',
-            txtSegundo: '$porcentajeDeberiaIr%',
-            // txtTercero: '\$ $dineroDeberiaIr',
-            semaforo: false,
-            nombreSemaforo: '',
-          ),
-          Visibility(
-            visible: titulo == "Ahora",
-            child: celdas(
-              txtPrimero: 'Programado del Periodo',
-              txtSegundo: '79%',
-              // txtTercero: 'tercero',
-              semaforo: false,
-              nombreSemaforo: nombreSemaforo,
-            ),
-          ),
-          celdas(
-            txtPrimero: 'Semaforo',
-            txtSegundo: 'segundo',
-            // txtTercero: 'tercero',
-            semaforo: true,
-            nombreSemaforo: nombreSemaforo,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(1, 1),
           ),
         ],
       ),
-    ),
-  );
+      child: Container(
+        padding: EdgeInsets.only(
+            top: 22.sp, left: 23.sp, right: 22.0.sp, bottom: 25.sp),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          textDirection: TextDirection.ltr,
+          children: <Widget>[
+            Text(
+              '$titulo',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontFamily: 'montserrat',
+                fontWeight: FontWeight.w600,
+                fontSize: 20.sp,
+                color:
+                    titulo == "Antes" ? Color(0xff5994EF) : Color(0xff7964F3),
+              ),
+            ),
+            celdas(
+              txtPrimero: '$asivaTxt',
+              txtSegundo: '$porcentajeAsiVa%',
+              // txtTercero: '\$ $dineroAsiVa',
+              semaforo: false,
+              nombreSemaforo: '',
+            ),
+            celdas(
+              txtPrimero: '$deberiaIrTxt',
+              txtSegundo: '$porcentajeDeberiaIr%',
+              // txtTercero: '\$ $dineroDeberiaIr',
+              semaforo: false,
+              nombreSemaforo: '',
+            ),
+            Visibility(
+              visible: titulo == "Ahora",
+              child: celdas(
+                txtPrimero: 'Programado del Periodo',
+                txtSegundo: '79%',
+                // txtTercero: 'tercero',
+                semaforo: false,
+                nombreSemaforo: nombreSemaforo,
+              ),
+            ),
+            celdas(
+              txtPrimero: 'Semaforo',
+              txtSegundo: 'segundo',
+              // txtTercero: 'tercero',
+              semaforo: true,
+              nombreSemaforo: nombreSemaforo,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
+
 Widget celdas(
     {String txtPrimero,
     txtSegundo,

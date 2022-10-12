@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 class DelayFactorProvider extends ChangeNotifier {
   DelayFactorProvider({
     @required ProjectsCacheRepository projectsCacheRepository,
-    @required this.cache,
-    @required this.detail,
   }) : _projectsCacheRepository = projectsCacheRepository {
+    cache = _projectsCacheRepository.getCache();
+    detail = _projectsCacheRepository.getDetail(projectCode);
     delayFactorsRegistered = cache.delayFactors ?? [];
   }
 
   final ProjectsCacheRepository _projectsCacheRepository;
-  final DatosAlimentacion detail;
+  DatosAlimentacion detail;
   ProjectCache cache;
 
   bool get isAllowedContinue => delayFactorsRegistered.isNotEmpty;
 
-  String get projectCode => cache.projectCode.toString();
+  int get projectCode => cache.projectCode;
 
   TiposFactorAtraso delayFactorTypeSelected;
   FactoresAtraso delayFactorSelected;
@@ -44,7 +44,7 @@ class DelayFactorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void add(String description) {
+  Future<void> add(String description) async {
     if (delayFactorsRegistered.any((factor) =>
         factor.tipoFactorAtrasoId ==
             delayFactorTypeSelected.tipoFactorAtrasoId &&
@@ -64,7 +64,7 @@ class DelayFactorProvider extends ChangeNotifier {
     notifyListeners();
 
     this.cache = cache.copyWith(delayFactors: delayFactorsRegistered);
-    _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
+    await _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
   }
 
   void remove(int index) {

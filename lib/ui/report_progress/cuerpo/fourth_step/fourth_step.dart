@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../globales/variables.dart';
 import 'cajonTexto.dart';
 import 'documentos_adicionales.dart';
 import 'foto_principal.dart';
@@ -20,6 +19,7 @@ class FourthStep extends StatelessWidget {
     return ChangeNotifierProvider(
       lazy: true,
       create: (context) => FourthStepProvider(
+        projectsCacheRepository: context.read(),
         projectRepository: context.read(),
       ),
       child: const FourthStep._(),
@@ -28,6 +28,8 @@ class FourthStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fourthStepService = Provider.of<FourthStepProvider>(context);
+
     return Stack(
       children: <Widget>[
         Container(
@@ -49,21 +51,12 @@ class FourthStep extends StatelessWidget {
                         children: <Widget>[
                           const TextTitle(text: 'Descripción & Documentos'),
                           SizedBox(height: 2.sp),
-                          cajonTextoComentarios(
-                            context,
-                            'Comentarios',
-                            'Aca puede agregar una descripción del avance..',
-                            (value) {
-                              contenidoWebService[0]['proyectos']
-                                      [posListaProySelec]['datos']
-                                  ['txtComentario'] = value;
-                              if (value.length > 1) {
-                                boolestSegundoBtnreportarAvance = false;
-                              } else {
-                                boolestSegundoBtnreportarAvance = true;
-                              }
-                            },
-                          ),
+                          CajonTextoComentarios(
+                              textoTitulo: 'Comentarios',
+                              textoHint:
+                                  'Aca puede agregar una descripción del avance..',
+                              onChanged: (String value) =>
+                                  fourthStepService.onChangedComment(value)),
                           SizedBox(height: 22.8.sp),
                           const TextSubtitle2(
                             text: 'Agregar una foto principal del avance',

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 // List<DatosAlimentacion> projetsDetailFromJson(String str) => List<DatosAlimentacion>.from(json.decode(str).map((x) => DatosAlimentacion.fromJson(x)));
 
 Map<String, DatosAlimentacion> projectsDetailFromJson(String str) =>
@@ -204,7 +206,7 @@ class FactoresAtraso {
       };
 }
 
-class Periodo {
+class Periodo extends Equatable {
   Periodo({
     this.periodoId,
     this.fechaIniPeriodo,
@@ -221,7 +223,9 @@ class Periodo {
         periodoId: json["periodoId"],
         fechaIniPeriodo: json["fechaIniPeriodo"],
         fechaFinPeriodo: json["fechaFinPeriodo"],
-        porcentajeProyectado: json["porcentajeProyectado"].toDouble(),
+        porcentajeProyectado: json["porcentajeProyectado"] == null
+            ? null
+            : json["porcentajeProyectado"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -230,6 +234,12 @@ class Periodo {
         "fechaFinPeriodo": fechaFinPeriodo,
         "porcentajeProyectado": porcentajeProyectado,
       };
+
+  static Periodo empty() => Periodo();
+
+  @override
+  List<Object> get props =>
+      [periodoId, fechaFinPeriodo, fechaFinPeriodo, porcentajeProyectado];
 }
 
 class TiposFactorAtraso {

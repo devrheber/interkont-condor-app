@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 class ProjectDetailProvider extends ChangeNotifier {
   ProjectDetailProvider({
     @required this.project,
-    @required this.detail,
-    @required this.cache,
     @required this.projectRepository,
     @required this.projectsCacheRepository,
   }) {
-    _getPosicionPeriodoSeleccionado();
+    detail = projectsCacheRepository.getDetail(project.codigoproyecto);
+    cache = projectsCacheRepository.getCache() ?? ProjectCache();
 
     cache = cache.copyWith(projectCode: project.codigoproyecto);
+    _getPosicionPeriodoSeleccionado();
   }
 
   int get projectCode => project.codigoproyecto;
@@ -58,6 +58,7 @@ class ProjectDetailProvider extends ChangeNotifier {
 
   Future<bool> syncDetail() async {
     final projectCode = project.codigoproyecto;
+    periodoSeleccionado = null;
 
     try {
       final detail = await projectRepository.getDatosAlimentacion(
@@ -65,13 +66,15 @@ class ProjectDetailProvider extends ChangeNotifier {
 
       final dateSync = ProjectHelpers.setUltimaFechaSincro();
 
-      this.cache = cache.copyWith(ultimaFechaSincro: dateSync);
+      this.cache = this.cache.copyWith(
+            ultimaFechaSincro: dateSync,
+          );
       this.detail = detail;
 
       ultimaSincro = 1;
 
-      projectsCacheRepository.saveProjectCache(
-          projectCode.toString(), this.cache);
+      projectsCacheRepository.saveProjectCache(projectCode, this.cache);
+      projectsCacheRepository.saveDetail(detail);
 
       return true;
     } catch (_) {
@@ -85,7 +88,7 @@ class ProjectDetailProvider extends ChangeNotifier {
           porcentajeValorProyectadoSeleccionado: periodo.porcentajeProyectado,
         );
 
-    projectsCacheRepository.saveProjectCache(projectCode.toString(), cache);
+    projectsCacheRepository.saveProjectCache(projectCode, cache);
 
     periodoSeleccionado = periodo;
 

@@ -26,7 +26,7 @@ class LastStepProvider extends ChangeNotifier {
   String username;
   String userToken;
 
-  String get projectCode => _project.codigoproyecto.toString();
+  int get projectCode => _project.codigoproyecto;
 
   Future<Map<String, dynamic>> guardarAlimentacion() async {
     String url = "$urlGlobalApiCondor/guardar-alimentacion";
@@ -126,7 +126,7 @@ class LastStepProvider extends ChangeNotifier {
         "tipo": "jpeg"
       },
       // TODO ['filesFotosComplementarias']
-      "imagenesComplementarias": _cache.filesFotosComplementarias,
+      "imagenesComplementarias": _cache.listaImagenes,
       "indicadoresAlcance": indicadoresAlcance,
       "periodoId": _cache.periodoIdSeleccionado,
       "usuario": username,

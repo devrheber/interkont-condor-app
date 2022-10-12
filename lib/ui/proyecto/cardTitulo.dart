@@ -58,8 +58,6 @@ class _CircleImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var imagencategoria = contenidoWebService[0]['proyectos']
-    //       [posListaProySelec]['imagencategoria'];
     return Container(
       color: Colors.transparent,
       width: double.infinity,
@@ -76,7 +74,6 @@ class _CircleImageCard extends StatelessWidget {
                   border: Border.all(color: Colors.white, width: 5),
                 ),
                 child: CachedNetworkImage(
-                  // imageUrl: imagencategoria,
                   imageUrl: imgUrl,
                   height: 77.sp,
                   width: 77.sp,
@@ -289,7 +286,6 @@ class _SyncButtonState extends State<_SyncButton>
                       ),
                     ),
                     onPressed: () async {
-                      final projectsService = context.read<ProjectsProvider>();
                       final detailService =
                           context.read<ProjectDetailProvider>();
                       if (animationController != null &&
@@ -302,8 +298,7 @@ class _SyncButtonState extends State<_SyncButton>
                       animationController.stop();
 
                       if (result) {
-                        projectsService.saveDetail(
-                            detailService.projectCode, detailService.detail);
+                        
 
                         Toast.show(
                             "Proyecto sincronizado correctamente!", context,
@@ -332,7 +327,6 @@ class _SyncButtonState extends State<_SyncButton>
                                     animation: animationController,
                                     builder: (_, child) {
                                       print("\x1B[2J\x1B[0;0H");
-                                      print(animationController.value);
 
                                       return Transform.rotate(
                                         angle: animationController.value *

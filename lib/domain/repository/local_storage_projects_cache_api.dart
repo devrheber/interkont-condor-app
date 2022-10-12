@@ -1,4 +1,3 @@
-
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/projects_cache_api.dart';
 import 'package:flutter/foundation.dart';
@@ -13,6 +12,8 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   }
 
   final SharedPreferences _plugin;
+
+  int currentProjectCode;
 
   final _projectsCacheStreamController =
       BehaviorSubject<Map<String, ProjectCache>>.seeded(const {});
@@ -70,10 +71,10 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
 
   @override
   Future<void> saveProjectCache(
-      String projectCode, ProjectCache projectCache) async {
+      int projectCode, ProjectCache projectCache) async {
     final projectsCache = {..._projectsCacheStreamController.value};
 
-    projectsCache[projectCode] = projectCache;
+    projectsCache[projectCode.toString()] = projectCache;
 
     _projectsCacheStreamController.add(projectsCache);
     return _setValue(kCacheMapKey, projectsCacheToJson(projectsCache));
@@ -88,8 +89,35 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
 
   @override
   Future<void> saveProjectsDetail(Map<String, DatosAlimentacion> details) {
-    final map = {...details};
+    final map = {..._detailStreamController.value};
     _detailStreamController.add(map);
+    return _setValue(kDetailsKey, projetsDetailToJson(map));
+  }
+
+  @override
+  DatosAlimentacion getDetail(int projectCode) {
+    final map = {..._detailStreamController.value};
+    if (map.containsKey(projectCode.toString())) {
+      currentProjectCode = projectCode;
+      return map[projectCode.toString()];
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  ProjectCache getCache() {
+    final projectsCache = {..._projectsCacheStreamController.value};
+    if (projectsCache.containsKey(currentProjectCode.toString())) {
+      return projectsCache[currentProjectCode.toString()];
+    }
+    return null;
+  }
+
+  @override
+  Future<void> saveDetail(DatosAlimentacion detail) {
+    final map = {..._detailStreamController.value};
+    map[currentProjectCode.toString()] = detail;
     return _setValue(kDetailsKey, projetsDetailToJson(map));
   }
 }

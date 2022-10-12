@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:appalimentacion/domain/models/models.dart';
@@ -9,9 +10,10 @@ class ReportarAvanceProvider extends ChangeNotifier {
   ReportarAvanceProvider({
     @required this.project,
     @required this.detail,
-    @required this.cache,
+    @required ProjectCache cache,
     @required ProjectsCacheRepository projectsCacheRepository,
-  }) : _projectsCacheRepository = projectsCacheRepository {
+  })  : _projectsCacheRepository = projectsCacheRepository,
+        _cache = cache {
     activitiesProgress = cache.activitiesProgress ?? {};
     filteredActivites = [...detail.actividades];
     achievesAndDifficulties = cache.qualitativesProgress ?? [];
@@ -26,25 +28,29 @@ class ReportarAvanceProvider extends ChangeNotifier {
   final Project project;
   final DatosAlimentacion detail;
   final ProjectsCacheRepository _projectsCacheRepository;
-  ProjectCache cache;
+  ProjectCache _cache;
 
   List<TextEditingController> textFieldControllers = [];
-
   List<QualitativeProgress> achievesAndDifficulties = [];
   List<RangeIndicator> rangeIndicators = [];
   List<File> listaImagenes = [];
   List<File> listaDocumentos = [];
   List<TipoDoc> listaTipoDoc = [];
 
-  String get projectCode => project.codigoproyecto.toString();
+  int get projectCode => project.codigoproyecto;
+  int get stepNumber => _cache.stepNumber;
+  ProjectCache get cache => _cache;
+
+  set cache(ProjectCache cache) {
+    this._cache = cache;
+  }
 
   List<Actividad> filteredActivites;
   AspectoEvaluar aspectSelected;
 
   void changeAndSaveStep(int step) {
-    this.cache = this.cache.copyWith(stepNumber: step);
-
-    _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
+    this.cache = this._cache.copyWith(stepNumber: step);
+    _projectsCacheRepository.saveProjectCache(projectCode, this._cache);
 
     notifyListeners();
   }
@@ -55,11 +61,12 @@ class ReportarAvanceProvider extends ChangeNotifier {
   Future<void> saveValue(int activityId, String value) async {
     print('$activityId $value');
     activitiesProgress[activityId.toString()] = value;
-    this.cache = cache.copyWith(activitiesProgress: activitiesProgress);
 
     // calculateExecutedValuePercentage();
 
-    await _projectsCacheRepository.saveProjectCache(projectCode, cache);
+    this.cache = this._cache.copyWith(activitiesProgress: activitiesProgress);
+
+    await _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
   }
 
   void filter(String value) {
@@ -89,16 +96,22 @@ class ReportarAvanceProvider extends ChangeNotifier {
       difficulty: difficulty,
     ));
     notifyListeners();
-    this.cache =
-        this.cache.copyWith(qualitativesProgress: this.achievesAndDifficulties);
-    _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
+
+    _projectsCacheRepository.saveProjectCache(
+        projectCode,
+        this
+            ._cache
+            .copyWith(qualitativesProgress: this.achievesAndDifficulties));
   }
 
   void removeQualitativeProgress(int index) {
     achievesAndDifficulties.removeAt(index);
-    this.cache = cache.copyWith(qualitativesProgress: achievesAndDifficulties);
+
     notifyListeners();
-    _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
+    _projectsCacheRepository.saveProjectCache(
+      projectCode,
+      _cache.copyWith(qualitativesProgress: achievesAndDifficulties),
+    );
   }
 
   onChangedRangeIndicatorCard({@required int index, @required String value}) {
@@ -126,8 +139,12 @@ class ReportarAvanceProvider extends ChangeNotifier {
     double valorEjecucionProyecto = 0;
 
     for (int i = 0; i < activities.length; i++) {
-      valorEjecucionProyecto += activities[i].getNewExecutedValue(double.parse(
-          cache.activitiesProgress[activities[i].actividadId.toString()]));
+      if (activitiesProgress
+          .containsKey(activities[i].actividadId.toString())) {
+        valorEjecucionProyecto += activities[i].getNewExecutedValue(
+            double.parse(
+                activitiesProgress[activities[i].actividadId.toString()]));
+      }
       totalCantidadProgramada += activities[i].cantidadProgramada;
     }
 
@@ -136,9 +153,26 @@ class ReportarAvanceProvider extends ChangeNotifier {
 
     final newExecutedValue = project.valorproyecto * porcentajeValorEjecutado;
 
-    this.cache = this.cache.copyWith(
+    this.cache = this._cache.copyWith(
           porcentajeValorEjecutado: porcentajeValorEjecutado,
           newExecutedValue: newExecutedValue,
         );
+
+    _projectsCacheRepository.saveProjectCache(
+      projectCode,
+      this.cache,
+    );
+  }
+
+  bool registerDelayFactors() {
+    calculateExecutedValuePercentage();
+    final porcentajeEsperado = _cache.porcentajeValorProyectadoSeleccionado -
+        detail.limitePorcentajeAtraso;
+
+    if (_cache.porcentajeValorEjecutado < porcentajeEsperado) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

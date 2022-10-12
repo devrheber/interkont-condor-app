@@ -1,30 +1,25 @@
 import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/globales/customed_app_bar.dart';
+import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/ui/report_progress/cuerpo/delay_factor/delay_factor_provider.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
+import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
-import '../../../widgets/add_green_button.dart';
-import '../../../../globales/colores.dart';
-import '../../../../globales/customed_app_bar.dart';
-import '../../../../theme/color_theme.dart';
 import 'widgets/campoSeleecionar.dart';
 import 'widgets/factorRegistrado.dart';
 
 class DelayFactorScreen extends StatefulWidget {
   const DelayFactorScreen._({Key key}) : super(key: key);
 
-  static Widget init({
-    @required ProjectCache cache,
-    @required DatosAlimentacion detail,
-  }) {
+  static Widget init() {
     return ChangeNotifierProvider(
       create: (context) => DelayFactorProvider(
         projectsCacheRepository: context.read(),
-        cache: cache,
-        detail: detail,
       ),
       child: const DelayFactorScreen._(),
     );
@@ -202,7 +197,7 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
               },
               accionSegundoBoton: () {
                 if (delayFactorService.delayFactorsRegistered.length >= 1) {
-                  print('continuar');
+                  Navigator.pop(context, true);
                 }
               },
             ),

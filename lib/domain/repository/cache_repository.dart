@@ -12,13 +12,17 @@ class ProjectsCacheRepository {
   Stream<Map<String, ProjectCache>> getProjectsCache() =>
       _projectsCacheApi.getProjectsCache();
 
+  ProjectCache getCache() => _projectsCacheApi.getCache();
+
+  DatosAlimentacion getDetail(int projectCode) =>
+      _projectsCacheApi.getDetail(projectCode);
+
   Stream<List<Project>> getProjects() => _projectsCacheApi.getProjects();
 
   Stream<Map<String, DatosAlimentacion>> getDetails() =>
       _projectsCacheApi.getDetails();
 
-  Future<void> saveProjectCache(
-          String projectCode, ProjectCache projectCache) =>
+  Future<void> saveProjectCache(int projectCode, ProjectCache projectCache) =>
       _projectsCacheApi.saveProjectCache(projectCode, projectCache);
 
   Future<void> saveProjects(List<Project> projects) =>
@@ -26,4 +30,7 @@ class ProjectsCacheRepository {
 
   Future<void> saveProjectDetails(Map<String, DatosAlimentacion> details) =>
       _projectsCacheApi.saveProjectsDetail(details);
+
+  Future<void> saveDetail(DatosAlimentacion detail) =>
+      _projectsCacheApi.saveDetail(detail);
 }
