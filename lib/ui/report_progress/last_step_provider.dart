@@ -126,7 +126,7 @@ class LastStepProvider extends ChangeNotifier {
         "tipo": "jpeg"
       },
       // TODO ['filesFotosComplementarias']
-      "imagenesComplementarias": _cache.listaImagenes,
+      "imagenesComplementarias": '_cache.complementaryImages',
       "indicadoresAlcance": indicadoresAlcance,
       "periodoId": _cache.periodoIdSeleccionado,
       "usuario": username,

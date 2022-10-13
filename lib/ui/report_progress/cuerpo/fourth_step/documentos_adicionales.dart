@@ -3,7 +3,7 @@ import 'package:appalimentacion/domain/models/tipo_doc_model.dart';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/ui/report_progress/cuerpo/fourth_step/fouth_step_provider.dart';
 import 'package:appalimentacion/ui/report_progress/cuerpo/fourth_step/local_widgets/imagen_caja.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/fourth_step/local_widgets/seleccionar_foto_documentos.dart';
+import 'package:appalimentacion/utils/seleccionar_foto_documentos.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/file_picker.dart';
@@ -17,7 +17,8 @@ class DocumentosAdicionales extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fourthStepService = Provider.of<FourthStepProvider>(context);
+    final fourthStepService = context.read<FourthStepProvider>();
+    final documents = context.watch<FourthStepProvider>().additionalDocuments;
     var textStyle = TextStyle(
       fontFamily: 'montserrat',
       fontSize: 14.sp,
@@ -26,21 +27,20 @@ class DocumentosAdicionales extends StatelessWidget {
     );
 
     Future<void> agregarDocumento() async {
-      //file picker
       final FilePickerResult result = await FilePicker.platform.pickFiles();
-      if (result != null) {
-        //if result is greater than 20mb show error message
-        if (result.files.single.size > 20000000) {
-          Toast.show("El archivo no puede ser mayor a 20MB", context,
-              duration: 3, gravity: Toast.BOTTOM);
 
-          return;
-        } else {
-          File file = File(result.files.single.path);
-          context.read<FourthStepProvider>().addToListaDocumentos(file);
-        }
+      if (result == null) return;
+
+      //if result is greater than 20mb show error message
+      if (result.files.single.size > 20000000) {
+        Toast.show("El archivo no puede ser mayor a 20MB", context,
+            duration: 3, gravity: Toast.BOTTOM);
+
         return;
       }
+
+      File file = File(result.files.single.path);
+      fourthStepService.addAdditionalDocument(file);
     }
 
     return Column(
@@ -52,31 +52,33 @@ class DocumentosAdicionales extends StatelessWidget {
           runSpacing: 20.sp,
           spacing: 20.sp,
           children: [
-            ...fourthStepService.listaDocumentos.asMap().entries.map((image) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 15),
-                child: ImagenCaja(
-                  isDocumento: getTypeFile(image.value),
-                  isMaxLimit: true,
-                  file: image.value,
-                  onRemoveImageTap: () {
-                    context
-                        .read<FourthStepProvider>()
-                        .removeDocument(image.key);
-                  },
-                ),
-              );
-            }).toList(),
+            for (final doc in documents)
+              Container(
+                  margin: EdgeInsets.only(bottom: 15),
+                  child: ImagenCaja(
+                    isDocumento: getTypeFile(doc.file),
+                    isMaxLimit: true,
+                    file: doc.file,
+                    onRemoveImageTap: () {
+                      fourthStepService.removeAdditionalDocument(doc);
+                    },
+                  )),
           ],
         ),
         Row(
           children: [
             ImagenCaja(
-              isDocumento: false,
-              isMaxLimit: true,
-              file: null,
-              onTap: () => agregarDocumento(),
-            ),
+                isDocumento: false,
+                isMaxLimit: true,
+                file: null,
+                onTap: () async {
+                  if (fourthStepService.tipoDocValue == null) {
+                    Toast.show('Seleccione un tipo de documento', context,
+                        gravity: Toast.BOTTOM);
+                    return;
+                  }
+                  await agregarDocumento();
+                }),
             Expanded(
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 18.sp),
@@ -96,9 +98,7 @@ class DocumentosAdicionales extends StatelessWidget {
                       'Seleccione un documento',
                       maxLines: 2,
                     ),
-                    // itemHeight: 28.sp,
                     style: textStyle,
-
                     value: fourthStepService.tipoDocValue,
                     items: fourthStepService.listaTipoDoc.map((TipoDoc value) {
                       return DropdownMenuItem<TipoDoc>(

@@ -1,6 +1,7 @@
 export 'complementary_image.dart';
 export 'datos_alimentacion.dart';
 export 'delay_factor.dart';
+export 'document.dart';
 export 'project.dart';
 export 'project_cache.dart';
 export 'qualitative_progress.dart';

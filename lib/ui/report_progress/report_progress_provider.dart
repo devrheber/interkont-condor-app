@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
@@ -30,12 +29,10 @@ class ReportarAvanceProvider extends ChangeNotifier {
   final ProjectsCacheRepository _projectsCacheRepository;
   ProjectCache _cache;
 
+  List<TipoDoc> listaTipoDoc = [];
   List<TextEditingController> textFieldControllers = [];
   List<QualitativeProgress> achievesAndDifficulties = [];
   List<RangeIndicator> rangeIndicators = [];
-  List<File> listaImagenes = [];
-  List<File> listaDocumentos = [];
-  List<TipoDoc> listaTipoDoc = [];
 
   int get projectCode => project.codigoproyecto;
   int get stepNumber => _cache.stepNumber;

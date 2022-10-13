@@ -23,7 +23,6 @@ class ProjectCache {
     this.delayFactors,
     this.comment,
     this.fileFotoPrincipal,
-    this.listaImagenes = const [],
   });
   final int projectCode;
   final int stepNumber;
@@ -38,7 +37,6 @@ class ProjectCache {
   final List<DelayFactor> delayFactors;
   final String comment;
   final String fileFotoPrincipal;
-  final List<ComplementaryImage> listaImagenes;
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         projectCode: json['project_code'],
@@ -61,10 +59,6 @@ class ProjectCache {
             ? null
             : List<QualitativeProgress>.from(json["qualitatives_progress"]
                 .map((x) => QualitativeProgress.fromJson(x))),
-        listaImagenes: json['complementary_images'] == null
-            ? null
-            : List<ComplementaryImage>.from(json["complementary_images"]
-                .map((x) => ComplementaryImage.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -86,9 +80,6 @@ class ProjectCache {
             : List<dynamic>.from(delayFactors.map((x) => x.toJson())),
         'comment': comment,
         'fileFotoPrincipal': fileFotoPrincipal,
-        'complementary_images': listaImagenes == null
-            ? null
-            : List<dynamic>.from(listaImagenes.map((x) => x.toJson())),
       };
 
   ProjectCache copyWith({
@@ -106,7 +97,6 @@ class ProjectCache {
     String fileFotoPrincipal,
     List<dynamic> filesFotosComplementarias,
     String comment,
-    List<ComplementaryImage> listaImagenes,
   }) {
     return ProjectCache(
       projectCode: projectCode ?? this.projectCode,
@@ -126,7 +116,6 @@ class ProjectCache {
       delayFactors: delayFactors ?? this.delayFactors,
       fileFotoPrincipal: fileFotoPrincipal ?? this.fileFotoPrincipal,
       comment: comment ?? this.comment,
-      listaImagenes: listaImagenes ?? this.listaImagenes,
     );
   }
 

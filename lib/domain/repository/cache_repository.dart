@@ -33,4 +33,7 @@ class ProjectsCacheRepository {
 
   Future<void> saveDetail(DatosAlimentacion detail) =>
       _projectsCacheApi.saveDetail(detail);
+
+  Future<void> saveCache(ProjectCache cache) =>
+      _projectsCacheApi.saveCache(cache);
 }

@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
-import 'package:appalimentacion/utils/base64_to_file.dart';
+import 'package:appalimentacion/helpers/base64_to_file.dart';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,16 +18,26 @@ class FourthStepProvider extends ChangeNotifier {
         _projectsCacheRepository = projectsCacheRepository {
     loadDocumentsTypes();
     cache = _projectsCacheRepository.getCache();
+    // TODO Get Cache no persistente
+    loadImageToListaImagenes();
   }
-
 
   final ProjectsCacheRepository _projectsCacheRepository;
   final ProjectsRepository _projectsRepository;
 
   ProjectCache cache;
-  List<File> listaDocumentos = [];
+
+  ComplementaryImage mainPhoto;
+  List<Document> requiredDocuments = [];
+  List<Document> additionalDocuments = [];
   List<TipoDoc> listaTipoDoc = [];
-  List<ComplementaryImage> listaImagenes = [];
+  List<ComplementaryImage> complementaryImages = [];
+
+  List<File> listaDocumentos = [];
+
+  bool _gettingTypesDocument = false;
+
+  bool get gettingTypesDocument => _gettingTypesDocument;
 
   get projectCode => this.cache.projectCode;
 
@@ -34,98 +45,164 @@ class FourthStepProvider extends ChangeNotifier {
 
   TipoDoc get tipoDocValue => _tipoDocValue;
 
-  void addToListaDocumentos(File file) {
-    listaDocumentos.add(file);
-    notifyListeners();
-  }
-
   set tipoDocValue(TipoDoc value) {
     _tipoDocValue = value;
     notifyListeners();
   }
 
+  set gettingTypesDocument(bool value) {
+    _gettingTypesDocument = value;
+    notifyListeners();
+  }
+
   Future<void> loadDocumentsTypes() async {
-    listaTipoDoc = await _projectsRepository.getTipoDoc();
+    gettingTypesDocument = true;
+    this.listaTipoDoc = await _projectsRepository.getTipoDoc();
+
+    // TODO Remove
+    // TODO El primer tipo de documento es obligatorio
+    for (int i = 0; i < 3; i++) {
+      listaTipoDoc[i] = listaTipoDoc[i].copyWith(obligatorio: true);
+    }
+
+    for (final doc in listaTipoDoc) {
+      if (doc.obligatorio) {
+        requiredDocuments.add(
+          Document(
+            tipoId: doc.id,
+            typeName: doc.nombre,
+          ),
+        );
+      }
+    }
+
+    gettingTypesDocument = false;
+
+  }
+
+  // String base64Image;
+  //   Future<void> loadImageToListaImagenes() async {
+  //   String fileFotoPrincipal = contenidoWebService[0]['proyectos']
+  //       [posListaProySelec]['datos']['fileFotoPrincipal'];
+  //   File file = await base64StringToFile(
+  //     image: fileFotoPrincipal,
+  //     name: 'fotoPrincipal',
+  //   );
+  //   if (file != null) {
+  //     context.read<ReportarAvanceProvider>().listaImagenes.add(file);
+  //   }
+  //   setState(() {});
+  // }
+
+  saveMainPhoto(XFile file) {
+    final List<String> nameExtension = file.path.split('/').last.split('.');
+    mainPhoto = ComplementaryImage(
+      name: nameExtension.first,
+      imageFile: File(file.path),
+      type: nameExtension.last,
+    );
+
+    notifyListeners();
+
+    // TODO Save in cache no persistente
+    // final imageString = base64Encode(File(picked.path).readAsBytesSync());
+  }
+
+  void removeMainPhoto() {
+    mainPhoto = null;
+
+    notifyListeners();
+    // TODO Remove from cache no persistente
+  }
+
+  void addDocument(File file, {@required int index}) {
+    final List<String> nameExtension = file.path.split('/').last.split('.');
+    requiredDocuments[index] = requiredDocuments[index].copyWith(
+      file: file,
+      nombre: nameExtension.first,
+      documento: base64Encode(File(file.path).readAsBytesSync()),
+      extension: nameExtension.last,
+    );
+
     notifyListeners();
   }
 
-  void addDocument(File file) {
-    listaDocumentos.add(file);
+  void removeDocument(int index) {
+    requiredDocuments[index] = requiredDocuments[index].removeFile();
     notifyListeners();
   }
 
-  void removeDocument(int key) {
-    listaDocumentos.removeAt(key);
+  void addAdditionalDocument(File file) {
+    final List<String> nameExtension = file.path.split('/').last.split('.');
+    additionalDocuments.add(Document(
+      documento: base64Encode(File(file.path).readAsBytesSync()),
+      tipoId: tipoDocValue.id,
+      nombre: nameExtension.first,
+      extension: nameExtension.last,
+      file: file,
+      typeName: tipoDocValue.nombre,
+    ));
+
+    tipoDocValue = null;
+
+    notifyListeners();
+  }
+
+  void removeAdditionalDocument(Document document) {
+    additionalDocuments.remove(document);
     notifyListeners();
   }
 
   Future<void> loadImageToListaImagenes() async {
-    // TODO
-    final cache = {};
-    // var filesFotosComplementarias = cache['filesFotosComplementarias'];
-    final List<ComplementaryImage> cacheImages = [];
+    // TODO Load from cache no persistente
+    final images = [];
 
-    if (cacheImages.isEmpty) return;
+    for (final image in images) {
+      final newImage = ComplementaryImage(
+          name: image.name,
+          imageFile: await base64StringToFile(
+            image: image.imageString,
+            name: image.name,
+            extension: image.type,
+          ),
+          type: image.type);
 
-    cacheImages.forEach((element) async {
-      var name = element.name + element.position.toString();
-      var file = await base64StringToFile(
-        image: element.imageString,
-        name: element.name,
-        extension: element.type,
-      );
-      //* si listaImagenes contiene el mismo nombre de archivo, no lo agrega
-
-      if (!listaImagenes.any((imagen) => imagen.name == name)) {
-        listaImagenes.add(ComplementaryImage(
-          imageFile: file,
-          name: file.path.split('/').last.split('.').first,
-          position: listaImagenes.length,
-        ));
-      }
-    });
+      complementaryImages.add(newImage);
+    }
 
     notifyListeners();
+
+    inspect(complementaryImages);
   }
 
   Future<void> saveImage(XFile picked) async {
+    final List<String> nameExtension = picked.path.split('/').last.split('.');
     final newImage = ComplementaryImage(
-      name: 'imagenesComplementarias',
+      type: nameExtension.last,
+      name: nameExtension.first,
       imageString: base64Encode(File(picked.path).readAsBytesSync()),
       imageFile: File(picked.path),
-      position: listaImagenes.length,
     );
 
-    listaImagenes.add(newImage);
+    complementaryImages.add(newImage);
 
     notifyListeners();
 
-    await _projectsCacheRepository.saveProjectCache(
-      projectCode,
-      this.cache.copyWith(
-            listaImagenes: listaImagenes,
-          ),
-    );
+    // TODO Save in Cache no persistente
+
+    inspect(_projectsCacheRepository.getCache());
   }
 
-  Future<void> removeImage(int posicion) async {
-    //remover imagen de la lista y asignar posición anterior
+  Future<void> removeImage(ComplementaryImage image) async {
+    complementaryImages.remove(image);
 
-    listaImagenes.removeWhere((element) => element.position == posicion);
-    for (int i = 0; i < listaImagenes.length; i++) {
-      listaImagenes[i] = listaImagenes[i].copyWith(position: i);
-    }
     notifyListeners();
 
-    await _projectsCacheRepository.saveProjectCache(
-      projectCode,
-      this.cache.copyWith(
-            listaImagenes: listaImagenes,
-          ),
-    );
+    // TODO remove from cache no persistente
   }
 
   Future<void> onChangedComment(String value) async {
+    // TODO Add dobouncer
     await _projectsCacheRepository.saveProjectCache(
       projectCode,
       this.cache.copyWith(

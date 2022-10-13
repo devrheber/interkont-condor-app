@@ -17,6 +17,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  animated_text_kit: ^4.2.1
   auto_size_text: ^2.1.0
   beauty_textfield: ^0.0.1
   cached_network_image: ^2.3.1

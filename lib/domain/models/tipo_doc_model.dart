@@ -32,4 +32,18 @@ class TipoDoc {
         "obligatorio": obligatorio,
         "intparametipdoc": intparametipdoc,
       };
+
+  TipoDoc copyWith({
+    int id,
+    String nombre,
+    bool obligatorio,
+    int intparametipdoc,
+  }) {
+    return TipoDoc(
+      id: id ?? this.id,
+      nombre: nombre ?? this.nombre,
+      obligatorio: obligatorio ?? this.obligatorio,
+      intparametipdoc: intparametipdoc ?? this.intparametipdoc,
+    );
+  }
 }
