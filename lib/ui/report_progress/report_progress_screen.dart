@@ -16,13 +16,11 @@ class ReportProgressScreen extends StatelessWidget {
   static Widget init({
     @required Project project,
     @required DatosAlimentacion detail,
-    @required ProjectCache cache,
   }) =>
       ChangeNotifierProvider(
         create: (context) => ReportarAvanceProvider(
           project: project,
           detail: detail,
-          cache: cache,
           projectsCacheRepository: context.read(),
         ),
         child: ReportProgressScreen._(),

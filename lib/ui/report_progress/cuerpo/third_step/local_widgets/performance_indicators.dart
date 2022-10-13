@@ -58,19 +58,22 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
     _initListeners();
     super.initState();
     reportProgressService = context.read<ReportarAvanceProvider>();
+    print(reportProgressService.cache.generatedReturns.toString());
   }
 
   _initListeners() {
     generatedReturnsCtrl.addListener(() {
-      reportProgressService.savePerformanceIndicator(generatedReturnsCtrl.text);
+      reportProgressService.saveGeneratedReturns(generatedReturnsCtrl.text);
     });
 
     currentMonthReturnsCtrl.addListener(() {
-      reportProgressService.savePerformanceIndicator(currentMonthReturnsCtrl.text);
+      reportProgressService
+          .savePerformanceIndicator(currentMonthReturnsCtrl.text);
     });
 
     pastDueMonthReturnsCtrl.addListener(() {
-      reportProgressService.savePerformanceIndicator(pastDueMonthReturnsCtrl.text);
+      reportProgressService
+          .savePerformanceIndicator(pastDueMonthReturnsCtrl.text);
     });
   }
 

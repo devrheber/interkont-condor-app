@@ -9,13 +9,12 @@ class ReportarAvanceProvider extends ChangeNotifier {
   ReportarAvanceProvider({
     @required this.project,
     @required this.detail,
-    @required ProjectCache cache,
     @required ProjectsCacheRepository projectsCacheRepository,
-  })  : _projectsCacheRepository = projectsCacheRepository,
-        _cache = cache {
-    activitiesProgress = cache.activitiesProgress ?? {};
+  }) : _projectsCacheRepository = projectsCacheRepository {
+    _cache = projectsCacheRepository.getCache();
+    activitiesProgress = _cache.activitiesProgress ?? {};
     filteredActivites = [...detail.actividades];
-    achievesAndDifficulties = cache.qualitativesProgress ?? [];
+    achievesAndDifficulties = _cache.qualitativesProgress ?? [];
 
     cacheActivities = detail.actividades;
 
@@ -174,12 +173,30 @@ class ReportarAvanceProvider extends ChangeNotifier {
   }
 
   void savePerformanceIndicator(String value) {
-    // TODO
-    //* quitar el simbolo de la moneda y punto decimal
+    print(value);
+  }
 
-    String rawValue = value.replaceAll('\COP', '');
+  void saveIncomeGenerationDate(String value) {
+    print(value);
+  }
+
+  void saveGeneratedReturns(String value) {
+    print(value);
+  }
+
+  void saveCurrentMonthReturns(String value) {
+    print(value);
+  }
+
+  void savePastDueMonthReturns(String value) {
+    print(value);
+  }
+
+  double _getDoubleValue(String value) {
+    String rawValue = value == '' ? '0' : value;
+    rawValue = rawValue.replaceAll('\COP', '');
     rawValue = rawValue.replaceAll('.', '');
     rawValue = rawValue.replaceAll(',', '.');
-    print(rawValue);
+    return double.parse(rawValue);
   }
 }

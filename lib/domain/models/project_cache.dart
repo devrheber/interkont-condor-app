@@ -23,6 +23,11 @@ class ProjectCache {
     this.delayFactors,
     this.comment,
     this.fileFotoPrincipal,
+    this.incomeGenerationDate,
+    this.rentalRepaymentDate,
+    this.generatedReturns,
+    this.currentMonthReturns,
+    this.pastDueMonthReturns,
   });
   final int projectCode;
   final int stepNumber;
@@ -37,6 +42,11 @@ class ProjectCache {
   final List<DelayFactor> delayFactors;
   final String comment;
   final String fileFotoPrincipal;
+  final String incomeGenerationDate;
+  final String rentalRepaymentDate;
+  final double generatedReturns;
+  final double currentMonthReturns;
+  final double pastDueMonthReturns;
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         projectCode: json['project_code'],
@@ -59,6 +69,11 @@ class ProjectCache {
             ? null
             : List<QualitativeProgress>.from(json["qualitatives_progress"]
                 .map((x) => QualitativeProgress.fromJson(x))),
+        incomeGenerationDate: json['fechaGeneracionRendimientos'],
+        rentalRepaymentDate: json['fechaReintegroRendimientos'],
+        generatedReturns: json['valorRendimientosGenerados'],
+        currentMonthReturns: json['valorRendimientosMesActual'],
+        pastDueMonthReturns: json['valorRendimientosMesVencido'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,6 +95,11 @@ class ProjectCache {
             : List<dynamic>.from(delayFactors.map((x) => x.toJson())),
         'comment': comment,
         'fileFotoPrincipal': fileFotoPrincipal,
+        'fechaGeneracionRendimientos': incomeGenerationDate,
+        'fechaReintegroRendimientos': rentalRepaymentDate,
+        'valorRendimientosGenerados': generatedReturns,
+        'valorRendimientosMesActual': currentMonthReturns,
+        'valorRendimientosMesVencido': pastDueMonthReturns,
       };
 
   ProjectCache copyWith({
@@ -97,6 +117,11 @@ class ProjectCache {
     String fileFotoPrincipal,
     List<dynamic> filesFotosComplementarias,
     String comment,
+    String incomeGenerationDate,
+    String rentalRepaymentDate,
+    double generatedReturns,
+    double currentMonthReturns,
+    double pastDueMonthReturns,
   }) {
     return ProjectCache(
       projectCode: projectCode ?? this.projectCode,
@@ -116,6 +141,11 @@ class ProjectCache {
       delayFactors: delayFactors ?? this.delayFactors,
       fileFotoPrincipal: fileFotoPrincipal ?? this.fileFotoPrincipal,
       comment: comment ?? this.comment,
+      incomeGenerationDate: incomeGenerationDate ?? this.incomeGenerationDate,
+      rentalRepaymentDate: rentalRepaymentDate ?? this.rentalRepaymentDate,
+      generatedReturns: generatedReturns ?? this.generatedReturns,
+      currentMonthReturns: currentMonthReturns ?? this.currentMonthReturns,
+      pastDueMonthReturns: pastDueMonthReturns ?? this.pastDueMonthReturns,
     );
   }
 
