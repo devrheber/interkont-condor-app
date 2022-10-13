@@ -63,7 +63,6 @@ class ProyectoScreen extends StatelessWidget {
                   return ReportProgressScreen.init(
                     project: project,
                     detail: detailProvider.detail,
-                    cache: detailProvider.cache,
                   );
                 },
               ),
