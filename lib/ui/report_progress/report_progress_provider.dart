@@ -172,4 +172,14 @@ class ReportarAvanceProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  void savePerformanceIndicator(String value) {
+    // TODO
+    //* quitar el simbolo de la moneda y punto decimal
+
+    String rawValue = value.replaceAll('\COP', '');
+    rawValue = rawValue.replaceAll('.', '');
+    rawValue = rawValue.replaceAll(',', '.');
+    print(rawValue);
+  }
 }
