@@ -53,16 +53,44 @@ class DocumentosAdicionales extends StatelessWidget {
           spacing: 20.sp,
           children: [
             for (final doc in documents)
-              Container(
-                  margin: EdgeInsets.only(bottom: 15),
-                  child: ImagenCaja(
-                    isDocumento: getTypeFile(doc.file),
-                    isMaxLimit: true,
-                    file: doc.file,
-                    onRemoveImageTap: () {
-                      fourthStepService.removeAdditionalDocument(doc);
-                    },
-                  )),
+              Row(
+                children: [
+                  Container(
+                      margin: EdgeInsets.only(bottom: 15),
+                      child: ImagenCaja(
+                        isDocumento: getTypeFile(doc.file),
+                        isMaxLimit: true,
+                        file: doc.file,
+                        onRemoveImageTap: () {
+                          fourthStepService.removeAdditionalDocument(doc);
+                        },
+                      )),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 18.sp),
+                      padding: EdgeInsets.all(10.sp),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: AppTheme.cuarto.withOpacity(0.6),
+                          width: 1,
+                        ),
+                      ),
+                      child: AutoSizeText(
+                        doc.typeName ?? '',
+                        maxLines: 10,
+                        style: TextStyle(
+                          fontFamily: 'montserrat',
+                          fontSize: 14.sp,
+                          color: Color(0xFF556A8D),
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
         Row(

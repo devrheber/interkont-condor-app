@@ -5,6 +5,8 @@ import 'package:appalimentacion/data/remote/projects_impl.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/local_storage_projects_cache_api.dart';
 import 'package:appalimentacion/domain/repository/login_repository.dart';
+import 'package:appalimentacion/domain/repository/non_persistent_cache_api.dart';
+import 'package:appalimentacion/domain/repository/non_persistent_cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/globales/ssl_solution.dart';
 import 'package:appalimentacion/translation/localizations_delegates.dart';
@@ -63,6 +65,9 @@ class AppState extends StatelessWidget {
       providers: [
         Provider<ProjectsCacheRepository>(
           create: (_) => projectsCacheRepository,
+        ),
+        Provider<NonPersistentCacheRepository>(
+          create: (_) => NonPersistentCacheApi(),
         ),
         Provider<LoginRepository>(
           create: (_) => LoginRemote(),

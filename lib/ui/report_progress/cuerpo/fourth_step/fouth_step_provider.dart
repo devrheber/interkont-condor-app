@@ -1,11 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
+import 'package:appalimentacion/domain/repository/non_persistent_cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
-import 'package:appalimentacion/helpers/base64_to_file.dart';
+import 'package:appalimentacion/helpers/helpers.dart';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,16 +15,19 @@ class FourthStepProvider extends ChangeNotifier {
   FourthStepProvider({
     @required ProjectsRepository projectRepository,
     @required ProjectsCacheRepository projectsCacheRepository,
+    @required NonPersistentCacheRepository nonPersistentCacheRepository,
   })  : _projectsRepository = projectRepository,
-        _projectsCacheRepository = projectsCacheRepository {
+        _projectsCacheRepository = projectsCacheRepository,
+        _nonPersistentCacheRepository = nonPersistentCacheRepository {
     loadDocumentsTypes();
     cache = _projectsCacheRepository.getCache();
-    // TODO Get Cache no persistente
-    loadImageToListaImagenes();
+
+    loadFilesFromCacheNonPersistent();
   }
 
   final ProjectsCacheRepository _projectsCacheRepository;
   final ProjectsRepository _projectsRepository;
+  final NonPersistentCacheRepository _nonPersistentCacheRepository;
 
   ProjectCache cache;
 
@@ -33,7 +37,9 @@ class FourthStepProvider extends ChangeNotifier {
   List<TipoDoc> listaTipoDoc = [];
   List<ComplementaryImage> complementaryImages = [];
 
-  List<File> listaDocumentos = [];
+  final debouncer = Debouncer(
+    duration: const Duration(milliseconds: 800),
+  );
 
   bool _gettingTypesDocument = false;
 
@@ -57,15 +63,16 @@ class FourthStepProvider extends ChangeNotifier {
 
   Future<void> loadDocumentsTypes() async {
     gettingTypesDocument = true;
-    this.listaTipoDoc = await _projectsRepository.getTipoDoc();
+    final remoteTypesDocument = await _projectsRepository.getTipoDoc();
 
     // TODO Remove
     // TODO El primer tipo de documento es obligatorio
     for (int i = 0; i < 3; i++) {
-      listaTipoDoc[i] = listaTipoDoc[i].copyWith(obligatorio: true);
+      remoteTypesDocument[i] =
+          remoteTypesDocument[i].copyWith(obligatorio: true);
     }
 
-    for (final doc in listaTipoDoc) {
+    for (final doc in remoteTypesDocument) {
       if (doc.obligatorio) {
         requiredDocuments.add(
           Document(
@@ -73,26 +80,39 @@ class FourthStepProvider extends ChangeNotifier {
             typeName: doc.nombre,
           ),
         );
+      } else {
+        this.listaTipoDoc.add(doc);
       }
     }
 
+    final requiredDocumentsCache =
+        _nonPersistentCacheRepository.getRequiredDocuments();
+
+    for (int i = 0; i < requiredDocuments.length; i++) {
+      final index = requiredDocumentsCache
+          .indexWhere((doc) => doc.tipoId == requiredDocuments[i].tipoId);
+
+      if (index >= 0) {
+        final newDoc = Document(
+          nombre: requiredDocumentsCache[index].nombre,
+          extension: requiredDocumentsCache[index].extension,
+          file: await base64StringToFile(
+            image: requiredDocumentsCache[index].documento,
+            name: requiredDocumentsCache[index].nombre,
+            extension: requiredDocumentsCache[index].extension,
+          ),
+          tipoId: requiredDocumentsCache[index].tipoId,
+          typeName: requiredDocumentsCache[index].typeName,
+        );
+
+        requiredDocuments[i] = newDoc;
+      }
+    }
+
+    // TODO Load additional documents, replace only wheter now is not a required document
+
     gettingTypesDocument = false;
-
   }
-
-  // String base64Image;
-  //   Future<void> loadImageToListaImagenes() async {
-  //   String fileFotoPrincipal = contenidoWebService[0]['proyectos']
-  //       [posListaProySelec]['datos']['fileFotoPrincipal'];
-  //   File file = await base64StringToFile(
-  //     image: fileFotoPrincipal,
-  //     name: 'fotoPrincipal',
-  //   );
-  //   if (file != null) {
-  //     context.read<ReportarAvanceProvider>().listaImagenes.add(file);
-  //   }
-  //   setState(() {});
-  // }
 
   saveMainPhoto(XFile file) {
     final List<String> nameExtension = file.path.split('/').last.split('.');
@@ -104,15 +124,19 @@ class FourthStepProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    // TODO Save in cache no persistente
-    // final imageString = base64Encode(File(picked.path).readAsBytesSync());
+    _nonPersistentCacheRepository.setMainPhoto(
+      mainPhoto.saveCache(
+        imageString: base64Encode(File(file.path).readAsBytesSync()),
+      ),
+    );
   }
 
   void removeMainPhoto() {
     mainPhoto = null;
 
     notifyListeners();
-    // TODO Remove from cache no persistente
+
+    _nonPersistentCacheRepository.setMainPhoto(null);
   }
 
   void addDocument(File file, {@required int index}) {
@@ -120,16 +144,23 @@ class FourthStepProvider extends ChangeNotifier {
     requiredDocuments[index] = requiredDocuments[index].copyWith(
       file: file,
       nombre: nameExtension.first,
-      documento: base64Encode(File(file.path).readAsBytesSync()),
       extension: nameExtension.last,
     );
 
     notifyListeners();
+
+    _nonPersistentCacheRepository
+        .saveRequiredDocument(requiredDocuments[index].saveCache(
+      stringDoc: base64Encode(File(file.path).readAsBytesSync()),
+    ));
   }
 
   void removeDocument(int index) {
     requiredDocuments[index] = requiredDocuments[index].removeFile();
     notifyListeners();
+
+    _nonPersistentCacheRepository
+        .removeRequiredDocument(requiredDocuments[index]);
   }
 
   void addAdditionalDocument(File file) {
@@ -146,33 +177,56 @@ class FourthStepProvider extends ChangeNotifier {
     tipoDocValue = null;
 
     notifyListeners();
+
+    // TODO Remove or hide type item from typesDocuments
+
+    // TODO Save in cache Non Persisten
+    // _nonPersistentCacheRepository
+    //     .saveAdditionalDocument(additionalDocuments.last.saveCache(
+    //   stringDoc: base64Encode(File(file.path).readAsBytesSync()),
+    // ));
   }
 
   void removeAdditionalDocument(Document document) {
     additionalDocuments.remove(document);
     notifyListeners();
+
+    // TODO remove
+    // _nonPersistentCacheRepository.removeRequiredDocument(document);
   }
 
-  Future<void> loadImageToListaImagenes() async {
-    // TODO Load from cache no persistente
-    final images = [];
+  Future<void> loadFilesFromCacheNonPersistent() async {
+    final mainPhotoCache = _nonPersistentCacheRepository.getMainPhoto();
 
-    for (final image in images) {
+    if (mainPhotoCache != null) {
+      this.mainPhoto = ComplementaryImage(
+        name: mainPhotoCache.name,
+        type: mainPhotoCache.type,
+        imageFile: await base64StringToFile(
+          image: mainPhotoCache.imageString,
+          name: mainPhotoCache.name,
+          extension: mainPhotoCache.type,
+        ),
+      );
+    }
+
+    final imagesCache = _nonPersistentCacheRepository.getComplementaryImages();
+
+    for (final image in imagesCache) {
       final newImage = ComplementaryImage(
+        name: image.name,
+        type: image.type,
+        imageFile: await base64StringToFile(
+          image: image.imageString,
           name: image.name,
-          imageFile: await base64StringToFile(
-            image: image.imageString,
-            name: image.name,
-            extension: image.type,
-          ),
-          type: image.type);
+          extension: image.type,
+        ),
+      );
 
       complementaryImages.add(newImage);
     }
 
     notifyListeners();
-
-    inspect(complementaryImages);
   }
 
   Future<void> saveImage(XFile picked) async {
@@ -180,7 +234,6 @@ class FourthStepProvider extends ChangeNotifier {
     final newImage = ComplementaryImage(
       type: nameExtension.last,
       name: nameExtension.first,
-      imageString: base64Encode(File(picked.path).readAsBytesSync()),
       imageFile: File(picked.path),
     );
 
@@ -188,9 +241,10 @@ class FourthStepProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    // TODO Save in Cache no persistente
-
-    inspect(_projectsCacheRepository.getCache());
+    _nonPersistentCacheRepository.saveComplementaryImage(newImage.saveCache(
+        imageString: base64Encode(
+      File(picked.path).readAsBytesSync(),
+    )));
   }
 
   Future<void> removeImage(ComplementaryImage image) async {
@@ -198,16 +252,25 @@ class FourthStepProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    // TODO remove from cache no persistente
+    _nonPersistentCacheRepository.removeComplementaryImage(image);
   }
 
-  Future<void> onChangedComment(String value) async {
-    // TODO Add dobouncer
-    await _projectsCacheRepository.saveProjectCache(
-      projectCode,
-      this.cache.copyWith(
-            comment: value,
-          ),
-    );
+  Future<void> onChangedComment(String comment) async {
+    debouncer.value = comment;
+    debouncer.onValue = (value) async {
+      await _projectsCacheRepository.saveProjectCache(
+        projectCode,
+        this.cache.copyWith(
+              comment: value,
+            ),
+      );
+    };
+
+    final timer = Timer.periodic(const Duration(milliseconds: 300), (_) {
+      debouncer.value = comment;
+    });
+
+    Future.delayed(const Duration(milliseconds: 301))
+        .then((_) => timer.cancel());
   }
 }

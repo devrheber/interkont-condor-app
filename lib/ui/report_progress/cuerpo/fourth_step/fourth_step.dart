@@ -23,6 +23,7 @@ class FourthStep extends StatelessWidget {
       create: (context) => FourthStepProvider(
         projectsCacheRepository: context.read(),
         projectRepository: context.read(),
+        nonPersistentCacheRepository: context.read(),
       ),
       child: const FourthStep._(),
     );
@@ -31,7 +32,6 @@ class FourthStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fourthStepService = Provider.of<FourthStepProvider>(context);
-    final requiredDocuments = fourthStepService.requiredDocuments;
 
     return Stack(
       children: <Widget>[

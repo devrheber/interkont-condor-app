@@ -1,7 +1,8 @@
 import 'dart:io';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-class ComplementaryImage {
+class ComplementaryImage extends Equatable {
   const ComplementaryImage({
     @required this.name,
     this.imageString,
@@ -29,4 +30,16 @@ class ComplementaryImage {
       'type': type,
     };
   }
+
+  ComplementaryImage saveCache({@required String imageString}) {
+    assert(name != null, type != null);
+    return ComplementaryImage(
+      name: name,
+      type: type,
+      imageString: imageString,
+    );
+  }
+
+  @override
+  List<Object> get props => [name, type];
 }
