@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 import 'local_widgets/imagen_caja.dart';
 
@@ -39,6 +40,12 @@ class FotosComplementarias extends StatelessWidget {
           ),
         ImagenCaja(
           onTap: () {
+            if (images.length >= 5) {
+              Toast.show('No puede agregar mas de 5 fotos', context,
+                  duration: 6);
+              return;
+            }
+
             seleccionarGaleriaCamara(
               context,
               onCameraTap: () => obtenerImagen(ImageSource.camera),

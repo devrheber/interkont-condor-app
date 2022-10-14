@@ -5,8 +5,8 @@ import 'package:appalimentacion/data/remote/projects_impl.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/local_storage_projects_cache_api.dart';
 import 'package:appalimentacion/domain/repository/login_repository.dart';
-import 'package:appalimentacion/domain/repository/non_persistent_cache_api.dart';
-import 'package:appalimentacion/domain/repository/non_persistent_cache_repository.dart';
+import 'package:appalimentacion/domain/repository/files_persistent_cache_api.dart';
+import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/globales/ssl_solution.dart';
 import 'package:appalimentacion/translation/localizations_delegates.dart';
@@ -33,8 +33,10 @@ void main() async {
 
   final UserPreferences prefs = UserPreferences();
 
+  final instance = await SharedPreferences.getInstance();
+
   final projectsCacheApi = LocalStorageProjectsCacheApi(
-    plugin: await SharedPreferences.getInstance(),
+    plugin: instance,
   );
 
   final projectsCacheRepository = ProjectsCacheRepository(
@@ -46,6 +48,7 @@ void main() async {
   runApp(AppState(
     prefs: prefs,
     projectsCacheRepository: projectsCacheRepository,
+    sharedPreferences: instance,
   ));
 }
 
@@ -54,10 +57,12 @@ class AppState extends StatelessWidget {
     Key key,
     @required this.prefs,
     @required this.projectsCacheRepository,
+    @required this.sharedPreferences,
   }) : super(key: key);
 
   final UserPreferences prefs;
   final ProjectsCacheRepository projectsCacheRepository;
+  final SharedPreferences sharedPreferences;
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +71,10 @@ class AppState extends StatelessWidget {
         Provider<ProjectsCacheRepository>(
           create: (_) => projectsCacheRepository,
         ),
-        Provider<NonPersistentCacheRepository>(
-          create: (_) => NonPersistentCacheApi(),
+        Provider<FilesPersistentCacheRepository>(
+          create: (_) => FilesPersistentCacheApi(
+            plugin: sharedPreferences,
+          ),
         ),
         Provider<LoginRepository>(
           create: (_) => LoginRemote(),

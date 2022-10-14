@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:appalimentacion/ui/report_progress/cuerpo/fourth_step/fouth_step_provider.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +55,7 @@ class FourthStep extends StatelessWidget {
                           CajonTextoComentarios(
                               textoTitulo: 'Comentarios',
                               textoHint:
-                                  'Aca puede agregar una descripción del avance..',
+                                  'Acá puede agregar una descripción del avance..',
                               onChanged: (String value) =>
                                   fourthStepService.onChangedComment(value)),
                           SizedBox(height: 22.8.sp),
@@ -67,6 +65,13 @@ class FourthStep extends StatelessWidget {
                           ),
                           SizedBox(height: 23.15.sp),
                           const FotoPrincipal(),
+                          SizedBox(height: 22.8.sp),
+                          const TextSubtitle2(
+                            text:
+                                'Agregar fotos complementarias (Max 5)\nTambién puedes tomar una foto a tus documentos',
+                          ),
+                          SizedBox(height: 23.15.sp),
+                          const FotosComplementarias(),
                           SizedBox(height: 22.8.sp),
                           const TextSubtitle2(
                             text: 'Agregar Documentos Obligatorios',
@@ -82,13 +87,6 @@ class FourthStep extends StatelessWidget {
                           ),
                           SizedBox(height: 22.8.sp),
                           const DocumentosAdicionales(),
-                          SizedBox(height: 22.8.sp),
-                          const TextSubtitle2(
-                            text:
-                                'Agregar fotos complementarias (Max 5)\nTambien puedes tomar una foto a tus documentos',
-                          ),
-                          SizedBox(height: 23.15.sp),
-                          const FotosComplementarias(),
                           SizedBox(height: 23.15.sp),
                         ],
                       ),

@@ -81,5 +81,5 @@ class Document extends Equatable {
   }
 
   @override
-  List<Object> get props => [tipoId, typeName];
+  List<Object> get props => [tipoId];
 }

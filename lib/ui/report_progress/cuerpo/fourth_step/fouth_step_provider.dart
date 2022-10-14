@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
-import 'package:appalimentacion/domain/repository/non_persistent_cache_repository.dart';
+import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/helpers/helpers.dart';
 
@@ -15,10 +15,10 @@ class FourthStepProvider extends ChangeNotifier {
   FourthStepProvider({
     @required ProjectsRepository projectRepository,
     @required ProjectsCacheRepository projectsCacheRepository,
-    @required NonPersistentCacheRepository nonPersistentCacheRepository,
+    @required FilesPersistentCacheRepository nonPersistentCacheRepository,
   })  : _projectsRepository = projectRepository,
         _projectsCacheRepository = projectsCacheRepository,
-        _nonPersistentCacheRepository = nonPersistentCacheRepository {
+        _filesPersistentCacheRepository = nonPersistentCacheRepository {
     loadDocumentsTypes();
     cache = _projectsCacheRepository.getCache();
 
@@ -27,7 +27,7 @@ class FourthStepProvider extends ChangeNotifier {
 
   final ProjectsCacheRepository _projectsCacheRepository;
   final ProjectsRepository _projectsRepository;
-  final NonPersistentCacheRepository _nonPersistentCacheRepository;
+  final FilesPersistentCacheRepository _filesPersistentCacheRepository;
 
   ProjectCache cache;
 
@@ -65,12 +65,8 @@ class FourthStepProvider extends ChangeNotifier {
     gettingTypesDocument = true;
     final remoteTypesDocument = await _projectsRepository.getTipoDoc();
 
-    // TODO Remove
-    // TODO El primer tipo de documento es obligatorio
-    for (int i = 0; i < 3; i++) {
-      remoteTypesDocument[i] =
-          remoteTypesDocument[i].copyWith(obligatorio: true);
-    }
+    //* First type document is always required
+    remoteTypesDocument[0] = remoteTypesDocument[0].copyWith(obligatorio: true);
 
     for (final doc in remoteTypesDocument) {
       if (doc.obligatorio) {
@@ -86,7 +82,7 @@ class FourthStepProvider extends ChangeNotifier {
     }
 
     final requiredDocumentsCache =
-        _nonPersistentCacheRepository.getRequiredDocuments();
+        _filesPersistentCacheRepository.getRequiredDocuments();
 
     for (int i = 0; i < requiredDocuments.length; i++) {
       final index = requiredDocumentsCache
@@ -101,8 +97,8 @@ class FourthStepProvider extends ChangeNotifier {
             name: requiredDocumentsCache[index].nombre,
             extension: requiredDocumentsCache[index].extension,
           ),
-          tipoId: requiredDocumentsCache[index].tipoId,
-          typeName: requiredDocumentsCache[index].typeName,
+          tipoId: requiredDocuments[index].tipoId,
+          typeName: requiredDocuments[index].typeName,
         );
 
         requiredDocuments[i] = newDoc;
@@ -124,7 +120,7 @@ class FourthStepProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    _nonPersistentCacheRepository.setMainPhoto(
+    _filesPersistentCacheRepository.setMainPhoto(
       mainPhoto.saveCache(
         imageString: base64Encode(File(file.path).readAsBytesSync()),
       ),
@@ -136,7 +132,7 @@ class FourthStepProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    _nonPersistentCacheRepository.setMainPhoto(null);
+    _filesPersistentCacheRepository.setMainPhoto(null);
   }
 
   void addDocument(File file, {@required int index}) {
@@ -149,7 +145,7 @@ class FourthStepProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    _nonPersistentCacheRepository
+    _filesPersistentCacheRepository
         .saveRequiredDocument(requiredDocuments[index].saveCache(
       stringDoc: base64Encode(File(file.path).readAsBytesSync()),
     ));
@@ -159,7 +155,7 @@ class FourthStepProvider extends ChangeNotifier {
     requiredDocuments[index] = requiredDocuments[index].removeFile();
     notifyListeners();
 
-    _nonPersistentCacheRepository
+    _filesPersistentCacheRepository
         .removeRequiredDocument(requiredDocuments[index]);
   }
 
@@ -196,7 +192,7 @@ class FourthStepProvider extends ChangeNotifier {
   }
 
   Future<void> loadFilesFromCacheNonPersistent() async {
-    final mainPhotoCache = _nonPersistentCacheRepository.getMainPhoto();
+    final mainPhotoCache = _filesPersistentCacheRepository.getMainPhoto();
 
     if (mainPhotoCache != null) {
       this.mainPhoto = ComplementaryImage(
@@ -210,7 +206,7 @@ class FourthStepProvider extends ChangeNotifier {
       );
     }
 
-    final imagesCache = _nonPersistentCacheRepository.getComplementaryImages();
+    final imagesCache = _filesPersistentCacheRepository.getComplementaryImages();
 
     for (final image in imagesCache) {
       final newImage = ComplementaryImage(
@@ -241,7 +237,7 @@ class FourthStepProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    _nonPersistentCacheRepository.saveComplementaryImage(newImage.saveCache(
+    _filesPersistentCacheRepository.saveComplementaryImage(newImage.saveCache(
         imageString: base64Encode(
       File(picked.path).readAsBytesSync(),
     )));
@@ -252,7 +248,7 @@ class FourthStepProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    _nonPersistentCacheRepository.removeComplementaryImage(image);
+    _filesPersistentCacheRepository.removeComplementaryImage(image);
   }
 
   Future<void> onChangedComment(String comment) async {

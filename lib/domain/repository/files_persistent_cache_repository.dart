@@ -1,7 +1,7 @@
 import 'package:appalimentacion/domain/models/models.dart';
 
-abstract class NonPersistentCacheRepository {
-  const NonPersistentCacheRepository();
+abstract class FilesPersistentCacheRepository {
+  const FilesPersistentCacheRepository();
 
   ComplementaryImage getMainPhoto();
 
