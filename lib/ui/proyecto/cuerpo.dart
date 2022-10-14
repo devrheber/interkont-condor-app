@@ -28,8 +28,8 @@ class BodyCard extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(15.sp)),
                   ),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.sp, vertical: 13.sp),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 20.sp, vertical: 13.sp),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[

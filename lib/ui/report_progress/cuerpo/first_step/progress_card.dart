@@ -43,6 +43,19 @@ class _ProgressCardState extends State<ProgressCard> {
   Widget build(BuildContext context) {
     void calcutate(String stringValue) {
       String value = stringValue == '' ? '0' : stringValue;
+
+      final faltantePorEjecutar = widget.activity
+          .faltantePorEjecutar(double.tryParse(widget.valueSaved ?? '0'));
+
+      if (double.parse(faltantePorEjecutar.replaceAll(' %', '')) <= 0) {
+        controller.text = '0';
+
+        Toast.show('Ejecución Actual está al 100%', context,
+            duration: 5, gravity: Toast.TOP);
+        // widget.onChanged('0');
+        return;
+      }
+
       if (double.parse('$value') < 0) {
         Toast.show("Lo sentimos, solo aceptamos numeros positivos", context,
             duration: 3, gravity: Toast.BOTTOM);
@@ -160,7 +173,7 @@ class _ProgressCardState extends State<ProgressCard> {
               ),
               _Celdas(
                 label: 'Avance del presente reporte',
-                value: '${widget.valueSaved} %',
+                value: '${widget.valueSaved ?? 0} %',
                 isNumericVariable: false,
               ),
               _Celdas(

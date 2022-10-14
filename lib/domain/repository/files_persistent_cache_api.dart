@@ -4,6 +4,7 @@ import 'package:appalimentacion/domain/models/document.dart';
 import 'package:appalimentacion/domain/models/complementary_image.dart';
 import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
@@ -93,6 +94,12 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
   }
 
   @override
+  void removeMainPhoto() {
+    mainPhoto = null;
+    _plugin.remove(kMainPhotoKey);
+  }
+
+  @override
   void setRequiredDocuments(List<Document> docs) {
     requiredDocuments = docs;
     _setValue(kRequiredDocumentsKey, documentsToJson(docs));
@@ -132,5 +139,18 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
   void removeAdditionalDocument(Document doc) {
     additionalDocuments.remove(doc);
     _setValue(kAdditionalDocumentsKey, documentsToJson(additionalDocuments));
+  }
+
+  @override
+  void clearData() {
+    _plugin.remove(kMainPhotoKey);
+    _plugin.remove(kAdditionalDocumentsKey);
+    _plugin.remove(kRequiredDocumentsKey);
+    _plugin.remove(kComplementaryImagesKey);
+
+    mainPhoto = null;
+    additionalDocuments = [];
+    requiredDocuments = [];
+    complementaryImages = [];
   }
 }

@@ -17,11 +17,13 @@ class ProjectContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        const CardTitulo(),
-        const BodyCard(),
-      ],
+    return SingleChildScrollView(
+      child: Stack(
+        children: <Widget>[
+          const CardTitulo(),
+          const BodyCard(),
+        ],
+      ),
     );
   }
 }

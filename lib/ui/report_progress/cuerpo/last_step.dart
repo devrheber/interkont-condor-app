@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 import 'felicitaciones.dart';
 import 'noInternet.dart';
 
@@ -12,7 +13,10 @@ class LastStep extends StatefulWidget {
 
   static Widget init() {
     return ChangeNotifierProvider(
-      create: (context) => LastStepProvider(),
+      create: (context) => LastStepProvider(
+        filesPersistentCacheRepository: context.read(),
+        projectsCacheRepository: context.read(),
+      ),
       child: const LastStep._(),
     );
   }
@@ -32,6 +36,19 @@ class _LastStepState extends State<LastStep>
 
   @override
   void initState() {
+    context.read<LastStepProvider>().guardarAlimentacion().then((value) {
+      if (value['success'] as bool) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Felicitaciones()),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NoInternet()),
+        );
+      }
+    });
     super.initState();
     _controller =
         AnimationController(duration: const Duration(seconds: 10), vsync: this);
@@ -44,41 +61,24 @@ class _LastStepState extends State<LastStep>
       });
     _controller.forward();
 
-    super.initState();
     // TODO
-    // Future.delayed(
-    //   Duration(seconds: 10),
-    //   () {
-    //     setState(() {
-    //       pasaron10Segundos = true;
-    //     });
-    //     if (correcto == true) {
-    //       Navigator.push(
-    //         context,
-    //         MaterialPageRoute(builder: (context) => Felicitaciones()),
-    //       );
-    //     } else {
-    //       Toast.show("Espere un momento en linea porfavor", context,
-    //           duration: 5, gravity: Toast.BOTTOM);
-    //     }
-    //   },
-    // );
-  }
-
-  Future<void> sendData() async {
-    final result = await context.read<LastStepProvider>().guardarAlimentacion();
-
-    if (result['success'] as bool) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Felicitaciones()),
-      );
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => NoInternet()),
-      );
-    }
+    Future.delayed(
+      Duration(seconds: 10),
+      () {
+        setState(() {
+          pasaron10Segundos = true;
+        });
+        if (correcto == true) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Felicitaciones()),
+          );
+        } else {
+          Toast.show("Espere un momento en linea porfavor", context,
+              duration: 5, gravity: Toast.BOTTOM);
+        }
+      },
+    );
   }
 
   @override

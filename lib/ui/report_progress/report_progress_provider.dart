@@ -2,12 +2,16 @@ import 'dart:async';
 
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
+import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/fourth_step/required_documents.dart';
 import 'package:flutter/material.dart';
 
 class ReportProgressProvider extends ChangeNotifier {
   ReportProgressProvider({
     @required ProjectsCacheRepository projectsCacheRepository,
-  }) : _projectsCacheRepository = projectsCacheRepository {
+    @required FilesPersistentCacheRepository filesPersistentCacheRepository,
+  })  : _projectsCacheRepository = projectsCacheRepository,
+        _filesPersistentCacheRepository = filesPersistentCacheRepository {
     cache = projectsCacheRepository.getCache();
     project = projectsCacheRepository.getProject();
 
@@ -24,6 +28,7 @@ class ReportProgressProvider extends ChangeNotifier {
   Project project;
   DatosAlimentacion detail;
   final ProjectsCacheRepository _projectsCacheRepository;
+  final FilesPersistentCacheRepository _filesPersistentCacheRepository;
   ProjectCache cache;
 
   List<TipoDoc> listaTipoDoc = [];
@@ -53,6 +58,8 @@ class ReportProgressProvider extends ChangeNotifier {
   }
 
   void changeAndSaveStep(int step) {
+    if (step > 5) return;
+    if (step < 1) return;
     this.cache = this.cache.copyWith(stepNumber: step);
     _projectsCacheRepository.saveCache(this.cache);
 
@@ -111,7 +118,7 @@ class ReportProgressProvider extends ChangeNotifier {
     final porcentajeEsperado = cache.porcentajeValorProyectadoSeleccionado -
         detail.limitePorcentajeAtraso;
 
-    if (cache.porcentajeValorEjecutado < porcentajeEsperado) {
+    if ((cache.porcentajeValorEjecutado * 100) < porcentajeEsperado) {
       return true;
     } else {
       return false;
@@ -164,14 +171,6 @@ class ReportProgressProvider extends ChangeNotifier {
     _projectsCacheRepository.saveCache(this.cache);
   }
 
-  double _getDoubleValue(String value) {
-    String rawValue = value == '' ? '0' : value;
-    rawValue = rawValue.replaceAll('\COP', '');
-    rawValue = rawValue.replaceAll('.', '');
-    rawValue = rawValue.replaceAll(',', '.');
-    return double.parse(rawValue);
-  }
-
   bool get secondButtonValidation {
     if (stepNumber == 2) {
       return achievesAndDifficulties.isEmpty;
@@ -210,6 +209,23 @@ class ReportProgressProvider extends ChangeNotifier {
             pastDueMonthReturns.isEmpty) {
           return 'Complete los indicadores de rendimiento';
         }
+
+        return null;
+
+      case 4:
+        final comment = cache.comment;
+
+        if (comment == null || comment.isEmpty) {
+          return 'El campo comentarios es obligatorio';
+        }
+
+        final mainPhoto = _filesPersistentCacheRepository.getMainPhoto();
+        if (mainPhoto == null) return 'Agregue una foto principal';
+
+        final requiredDocuments =
+            _filesPersistentCacheRepository.getRequiredDocuments();
+        if (requiredDocuments.isEmpty)
+          return 'Agregue los documentos obligatorios';
 
         return null;
 

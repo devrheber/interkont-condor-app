@@ -62,52 +62,57 @@ class FourthStepProvider extends ChangeNotifier {
   }
 
   Future<void> loadDocumentsTypes() async {
-    gettingTypesDocument = true;
-    final remoteTypesDocument = await _projectsRepository.getTipoDoc();
+    try {
+      gettingTypesDocument = true;
+      final remoteTypesDocument = await _projectsRepository.getTipoDoc();
 
-    //* First type document is always required
-    remoteTypesDocument[0] = remoteTypesDocument[0].copyWith(obligatorio: true);
+      //* First type document is always required
+      remoteTypesDocument[0] =
+          remoteTypesDocument[0].copyWith(obligatorio: true);
 
-    for (final doc in remoteTypesDocument) {
-      if (doc.obligatorio) {
-        requiredDocuments.add(
-          Document(
-            tipoId: doc.id,
-            typeName: doc.nombre,
-          ),
-        );
-      } else {
-        this.listaTipoDoc.add(doc);
+      for (final doc in remoteTypesDocument) {
+        if (doc.obligatorio) {
+          requiredDocuments.add(
+            Document(
+              tipoId: doc.id,
+              typeName: doc.nombre,
+            ),
+          );
+        } else {
+          this.listaTipoDoc.add(doc);
+        }
       }
-    }
 
-    final requiredDocumentsCache =
-        _filesPersistentCacheRepository.getRequiredDocuments();
+      final requiredDocumentsCache =
+          _filesPersistentCacheRepository.getRequiredDocuments();
 
-    for (int i = 0; i < requiredDocuments.length; i++) {
-      final index = requiredDocumentsCache
-          .indexWhere((doc) => doc.tipoId == requiredDocuments[i].tipoId);
+      for (int i = 0; i < requiredDocuments.length; i++) {
+        final index = requiredDocumentsCache
+            .indexWhere((doc) => doc.tipoId == requiredDocuments[i].tipoId);
 
-      if (index >= 0) {
-        final newDoc = Document(
-          nombre: requiredDocumentsCache[index].nombre,
-          extension: requiredDocumentsCache[index].extension,
-          file: await base64StringToFile(
-            image: requiredDocumentsCache[index].documento,
-            name: requiredDocumentsCache[index].nombre,
+        if (index >= 0) {
+          final newDoc = Document(
+            nombre: requiredDocumentsCache[index].nombre,
             extension: requiredDocumentsCache[index].extension,
-          ),
-          tipoId: requiredDocuments[index].tipoId,
-          typeName: requiredDocuments[index].typeName,
-        );
+            file: await base64StringToFile(
+              image: requiredDocumentsCache[index].documento,
+              name: requiredDocumentsCache[index].nombre,
+              extension: requiredDocumentsCache[index].extension,
+            ),
+            tipoId: requiredDocuments[index].tipoId,
+            typeName: requiredDocuments[index].typeName,
+          );
 
-        requiredDocuments[i] = newDoc;
+          requiredDocuments[i] = newDoc;
+        }
       }
+
+      // TODO Load additional documents, replace only wheter now is not a required document
+
+      gettingTypesDocument = false;
+    } catch (e) {
+      gettingTypesDocument = false;
     }
-
-    // TODO Load additional documents, replace only wheter now is not a required document
-
-    gettingTypesDocument = false;
   }
 
   saveMainPhoto(XFile file) {
@@ -132,7 +137,7 @@ class FourthStepProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    _filesPersistentCacheRepository.setMainPhoto(null);
+    _filesPersistentCacheRepository.removeMainPhoto();
   }
 
   void addDocument(File file, {@required int index}) {
@@ -206,7 +211,8 @@ class FourthStepProvider extends ChangeNotifier {
       );
     }
 
-    final imagesCache = _filesPersistentCacheRepository.getComplementaryImages();
+    final imagesCache =
+        _filesPersistentCacheRepository.getComplementaryImages();
 
     for (final image in imagesCache) {
       final newImage = ComplementaryImage(

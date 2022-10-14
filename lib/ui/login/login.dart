@@ -115,11 +115,10 @@ class _LoginPageState extends State<LoginPage> {
                                   context
                                       .read<AuthenticationProvider>()
                                       .updateUser(user);
-                                  await Navigator.push(
+                                  await Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            ListaProyectos()),
+                                        builder: (context) => ListaProyectos()),
                                   );
                                 }
                                 // validarLogin();

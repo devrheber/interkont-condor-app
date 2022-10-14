@@ -297,8 +297,6 @@ class _SyncButtonState extends State<_SyncButton>
                       animationController.stop();
 
                       if (result) {
-                        
-
                         Toast.show(
                             "Proyecto sincronizado correctamente!", context,
                             duration: 3, gravity: Toast.BOTTOM);

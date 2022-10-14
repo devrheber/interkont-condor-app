@@ -28,6 +28,8 @@ abstract class ProjectsCacheApi {
   Future<void> saveCache(ProjectCache cache);
 
   void setCurrentProjectCode(int projectCode);
+
+  void clearData();
 }
 
 class CacheNotFoundException implements Exception {}

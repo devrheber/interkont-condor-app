@@ -147,12 +147,20 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
 
     _executedValuePercentageStreamController
         .add(map[currentProjectCode.toString()].porcentajeValorEjecutado);
-        
+
     return _setValue(kCacheMapKey, projectsCacheToJson(map));
   }
 
   @override
   void setCurrentProjectCode(int projectCode) {
     currentProjectCode = projectCode;
+  }
+
+  @override
+  void clearData() {
+    _plugin.remove(kCacheMapKey);
+    _plugin.remove(kDetailsKey);
+    _projectsCacheStreamController.add({});
+    _detailStreamController.add({});
   }
 }

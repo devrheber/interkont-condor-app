@@ -113,7 +113,9 @@ class Actividad {
         unidadMedida: json["unidadMedida"],
         valorUnitario: json["valorUnitario"].toDouble(),
         cantidadProgramada: json["cantidadProgramada"].toDouble(),
-        cantidadEjecutada: json["cantidadEjecutada"].toDouble(),
+        cantidadEjecutada: json["cantidadEjecutada"] is int
+            ? double.parse(json["cantidadEjecutada"])
+            : json["cantidadEjecutada"] as double,
         valorProgramado: json["valorProgramado"].toDouble(),
         valorEjecutado: json["valorEjecutado"].toDouble(),
         porcentajeAvance: json["porcentajeAvance"].toDouble(),

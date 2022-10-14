@@ -27,7 +27,8 @@ class ProyectScreen extends StatelessWidget {
     final project = detailProvider.project;
 
     void goToNextScreen() {
-      if (project.pendienteAprobacion) {
+      // if (project.pendienteAprobacion) {
+      if (false) {
         Toast.show(
             'Lo sentimos, este proyecto esta pendiente de aprobación, sincroniza una vez mas el proyecto, si cree que este ya ha sido aprobado',
             context,

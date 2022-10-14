@@ -1,5 +1,7 @@
+import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../theme/color_theme.dart';
 import '../../listaProyectos/home.dart';
@@ -15,6 +17,7 @@ class _FelicitacionesState extends State<Felicitaciones> {
   @override
   void initState() {
     super.initState();
+    context.read<ProjectsProvider>().getRemoteProjects();
   }
 
   @override
@@ -62,7 +65,7 @@ class _FelicitacionesState extends State<Felicitaciones> {
                 ),
                 GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ListaProyectos()),

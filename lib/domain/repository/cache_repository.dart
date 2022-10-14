@@ -44,4 +44,6 @@ class ProjectsCacheRepository {
 
   void setCurrentProjectCode(int projectCode) =>
       _projectsCacheApi.setCurrentProjectCode(projectCode);
+
+  void clearData() => _projectsCacheApi.clearData();
 }

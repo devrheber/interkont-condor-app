@@ -13,6 +13,8 @@ abstract class FilesPersistentCacheRepository {
 
   void setMainPhoto(ComplementaryImage photo);
 
+  void removeMainPhoto();
+
   void setRequiredDocuments(List<Document> docs);
 
   void setAdditionalDocuments(List<Document> docs);
@@ -30,4 +32,6 @@ abstract class FilesPersistentCacheRepository {
   void saveAdditionalDocument(Document doc);
 
   void removeAdditionalDocument(Document doc);
+
+  void clearData();
 }

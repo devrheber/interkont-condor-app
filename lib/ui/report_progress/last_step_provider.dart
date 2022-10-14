@@ -1,147 +1,167 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:appalimentacion/data/local/user_preferences.dart';
+import 'package:appalimentacion/domain/models/alimentacion_request.dart';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
+import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class LastStepProvider extends ChangeNotifier {
   LastStepProvider({
-    Project project,
-    DatosAlimentacion detail,
-    ProjectCache cache,
-    ProjectsCacheRepository projectsCacheRepository,
-  })  : _project = project,
-        _detail = detail,
-        _cache = cache,
-        _projectsCacheRepository = projectsCacheRepository {
+    @required ProjectsCacheRepository projectsCacheRepository,
+    @required FilesPersistentCacheRepository filesPersistentCacheRepository,
+  })  : _projectsCacheRepository = projectsCacheRepository,
+        _filesPersistentCacheRepository = filesPersistentCacheRepository {
+    _project = _projectsCacheRepository.getProject();
+    _detail = _projectsCacheRepository.getDetail(_project.codigoproyecto);
+    _cache = _projectsCacheRepository.getCache();
+    mainPhoto = _filesPersistentCacheRepository.getMainPhoto();
+    complementaryImages =
+        _filesPersistentCacheRepository.getComplementaryImages();
+    requiredDocuments = _filesPersistentCacheRepository.getRequiredDocuments();
+    additionalDocuments =
+        _filesPersistentCacheRepository.getAdditionalDocuments();
     guardarAlimentacion();
   }
 
-  final Project _project;
-  final DatosAlimentacion _detail;
-  final ProjectCache _cache;
+  UserPreferences prefs = UserPreferences();
+
+  Project _project;
+  DatosAlimentacion _detail;
+  ProjectCache _cache;
   final ProjectsCacheRepository _projectsCacheRepository;
+  final FilesPersistentCacheRepository _filesPersistentCacheRepository;
   String username;
   String userToken;
 
+  ComplementaryImage mainPhoto;
+  List<ComplementaryImage> complementaryImages = [];
+  List<Document> requiredDocuments = [];
+  List<Document> additionalDocuments = [];
+
   int get projectCode => _project.codigoproyecto;
+
+  double _getDoubleValue(String value) {
+    String rawValue = value == '' ? '0' : value;
+    rawValue = rawValue.replaceAll('\COP', '');
+    rawValue = rawValue.replaceAll('.', '');
+    rawValue = rawValue.replaceAll(',', '.');
+    return double.parse(rawValue);
+  }
 
   Future<Map<String, dynamic>> guardarAlimentacion() async {
     String url = "$urlGlobalApiCondor/guardar-alimentacion";
-    List actividades = [];
-    List avancesCualitativos = [];
-    List factoresAtraso = [];
-    List indicadoresAlcance = [];
 
-    if (_detail.actividades != null) {
-      for (int i = 0; i < _detail.actividades.length; i++) {
-        double cantidadEjecutada;
-        if (_cache.activitiesProgress[
-                _detail.actividades[i].actividadId.toString()] !=
-            null) {
-          cantidadEjecutada = double.parse(
-              '${_cache.activitiesProgress[_detail.actividades[i].actividadId.toString()]}');
-        } else {
-          cantidadEjecutada = 0.0;
-        }
-        var listaArmada = {
-          'actividadId': int.parse('${_detail.actividades[i].actividadId}'),
-          'cantidadEjecutada': cantidadEjecutada
-        };
-        actividades.add(listaArmada);
-      }
+    final user = User.fromJson(json.decode(prefs.userData));
+
+    List<ActividadRequest> actividades = [];
+    List<AspectoEvaluarRequest> aspectosEvaluar = [];
+    List<DocumentoRequest> documentosObligatorios = [];
+    List<DocumentoRequest> documentosOpcionales = [];
+    List<FactoresAtrasoRequest> factoresAtraso = [];
+    FotoPrincipalRequest fotoPrincipal = FotoPrincipalRequest(
+      image: mainPhoto.imageString,
+      nombre: mainPhoto.name,
+      tipo: mainPhoto.type,
+    );
+    List<FotoPrincipalRequest> imagenesComplementarias = [];
+
+    for (final item in _detail.actividades) {
+      final newActivity = ActividadRequest(
+        actividadId: item.actividadId,
+        cantidadEjecutada: _cache.activitiesProgress == null
+            ? 0
+            : item.getNewExecutedValue(
+                double.tryParse(
+                    _cache.activitiesProgress[item.actividadId.toString()] ??
+                        '0'),
+              ),
+      );
+      actividades.add(newActivity);
     }
 
-    if (_cache.qualitativesProgress != null) {
-      for (int i = 0; i < _cache.qualitativesProgress.length; i++) {
-        String dificultad;
-        if (_cache.qualitativesProgress[i].difficulty == null ||
-            _cache.qualitativesProgress[i].difficulty == '') {
-          dificultad = '';
-        } else {
-          dificultad = '${_cache.qualitativesProgress[i].difficulty}';
-        }
-
-        String logros;
-        if (_cache.qualitativesProgress[i].achive == null ||
-            _cache.qualitativesProgress[i].achive == '') {
-          logros = '';
-        } else {
-          logros = _cache.qualitativesProgress[i].achive;
-        }
-
-        var listaArmada = {
-          'aspectoEvaluarId': _cache.qualitativesProgress[i].aspectToEvaluateId,
-          'dificultadesAspectoEvaluar': dificultad,
-          'logrosAspectoEvaluar': logros,
-        };
-
-        avancesCualitativos.add(listaArmada);
-      }
+    for (final item in _cache.qualitativesProgress ?? []) {
+      final newItem = AspectoEvaluarRequest(
+        aspectoEvaluarId: item.aspectToEvaluateId,
+        dificultadesAspectoEvaluar: item.difficulty,
+        logrosAspectoEvaluar: item.achive,
+      );
+      aspectosEvaluar.add(newItem);
     }
 
-    if (_cache.delayFactors !=
-        // ['factoresAtrasoSeleccionados'] !=
-        null) {
-      for (int i = 0; i < _cache.delayFactors.length; i++) {
-        factoresAtraso
-            .add({'factorAtrasoId': _cache.delayFactors[i].factorAtrasoId});
-      }
+    for (final item in requiredDocuments) {
+      final newDocument = DocumentoRequest(
+          documento: item.documento,
+          extension: item.extension,
+          nombre: item.nombre,
+          tipoId: item.tipoId);
+
+      documentosObligatorios.add(newDocument);
     }
 
-    if (_detail.indicadoresAlcance != null) {
-      for (int i = 0; i < _detail.indicadoresAlcance.length; i++) {
-        double cantidadEjecucion;
-        if (_detail.indicadoresAlcance[i]['txtEjecucionIndicadorAlcance'] ==
-                null ||
-            _detail.indicadoresAlcance[i]['txtEjecucionIndicadorAlcance'] ==
-                '') {
-          cantidadEjecucion = 0.0;
-        } else {
-          cantidadEjecucion = double.parse(
-              '${_detail.indicadoresAlcance[i]['txtEjecucionIndicadorAlcance']}');
-        }
-        var listaArmada = {
-          'indicadorAlcanceId': _detail.indicadoresAlcance[i]
-              ['indicadorAlcanceId'],
-          'cantidadEjecucion': cantidadEjecucion,
-        };
-        indicadoresAlcance.add(listaArmada);
-      }
+    for (final item in additionalDocuments) {
+      final newDocument = DocumentoRequest(
+          documento: item.documento,
+          extension: item.extension,
+          nombre: item.nombre,
+          tipoId: item.tipoId);
+
+      documentosOpcionales.add(newDocument);
     }
 
-    print(indicadoresAlcance);
+    for (final item in _cache.delayFactors ?? []) {
+      final newDelayFactor = FactoresAtrasoRequest(
+        factorAtrasoId: item.factorAtrasoId,
+        descripcion: item.description,
+      );
 
-    var body = {
-      "actividades": actividades,
-      "aspectosEvaluar": avancesCualitativos,
-      "codigoproyecto": _project.codigoproyecto,
-      "descripcion": _cache.comment,
-      "factoresAtraso": factoresAtraso,
-      "fotoPrincipal": {
-        "image": _cache.fileFotoPrincipal,
-        "nombre": "fotoPrincipal",
-        "tipo": "jpeg"
-      },
-      // TODO ['filesFotosComplementarias']
-      "imagenesComplementarias": '_cache.complementaryImages',
-      "indicadoresAlcance": indicadoresAlcance,
-      "periodoId": _cache.periodoIdSeleccionado,
-      "usuario": username,
-    };
+      factoresAtraso.add(newDelayFactor);
+    }
 
-    String tokenUsu = userToken;
+    for (final item in complementaryImages) {
+      final newImage = FotoPrincipalRequest(
+        image: item.imageString,
+        nombre: item.name,
+        tipo: item.type,
+      );
+
+      imagenesComplementarias.add(newImage);
+    }
+
+    final data = AlimentacionRequest(
+      actividades: actividades,
+      aspectosEvaluar: aspectosEvaluar,
+      codigoproyecto: _project.codigoproyecto,
+      descripcion: _cache.comment,
+      documentosObligatorios: documentosObligatorios,
+      documentosOpcionales: documentosOpcionales,
+      factoresAtraso: factoresAtraso,
+      fechaGeneracionRendimientos: _cache.incomeGenerationDate,
+      fechaReintegroRendimientos: _cache.rentalRepaymentDate,
+      fotoPrincipal: fotoPrincipal,
+      imagenesComplementarias: imagenesComplementarias,
+      indicadoresAlcance: [],
+      periodoId: _cache.periodoIdSeleccionado,
+      usuario: user.username,
+      valorRendimientosGenerados: _getDoubleValue(_cache.generatedReturns),
+      valorRendimientosMesActual: _getDoubleValue(_cache.currentMonthReturns),
+      valorRendimientosMesVencido: _getDoubleValue(_cache.pastDueMonthReturns),
+    );
+
+    // inspect(data.toJson());
 
     try {
       var uri = Uri.parse(url);
       var response = await http.post(
         uri,
-        body: jsonEncode(body),
+        body: jsonEncode(data.toJson()),
         headers: {
           "Content-type": "application/json",
-          'Authorization': tokenUsu
+          'Authorization': user.token
         },
       );
 
@@ -153,6 +173,9 @@ class LastStepProvider extends ChangeNotifier {
             stepNumber: 0,
           ),
         );
+
+        _projectsCacheRepository.clearData();
+        _filesPersistentCacheRepository.clearData();
 
         return {
           'success': true,

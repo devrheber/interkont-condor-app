@@ -1,11 +1,8 @@
-import 'package:appalimentacion/domain/models/project_cache.dart';
+import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../globales/colores.dart';
-// import '../../../../globales/variables.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -38,9 +35,8 @@ class FifthStepCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportProgressService = Provider.of<ReportProgressProvider>(context);
-    // TODO
-    // final cache = reportProgressService.cache;
-    final cache = ProjectCache();
+    final cache = reportProgressService.cache;
+    
     final detail = reportProgressService.detail;
 
     String nombreSemaforo = reportProgressService.project.semaforoproyecto;
