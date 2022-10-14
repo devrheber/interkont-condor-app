@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
@@ -18,7 +17,6 @@ class ProjectsProvider extends ChangeNotifier {
   final ProjectsCacheRepository _projectsCacheRepository;
 
   Map<String, DatosAlimentacion> details = {};
-  Map<String, ProjectCache> cache = {};
 
   Stream<List<Project>> get projectsStream =>
       _projectsCacheRepository.getProjects();
@@ -29,37 +27,9 @@ class ProjectsProvider extends ChangeNotifier {
   Stream<double> get getExecutedValuePercentage =>
       _projectsCacheRepository.getExecutedValuePercentage();
 
-  Map<String, dynamic> error = {'error': false, 'message': 'Algo salió mal'};
-
-  // StreamSubscription<Map<String, DatosAlimentacion>> detailsSubscription;
-  // StreamSubscription<Map<String, ProjectCache>> cacheSubscription;
-
-  StreamSubscription<double> excutedValueSubscription;
-
-  @override
-  void dispose() {
-    // detailsSubscription.cancel();
-    // cacheSubscription.cancel();
-    excutedValueSubscription.cancel();
-    super.dispose();
-  }
-
   _init() {
-    // detailsSubscription =
-    //     _projectsCacheRepository.getDetails().listen((details) {
-    //   this.details = details;
-    // });
-
-    // cacheSubscription =
-    //     _projectsCacheRepository.getProjectsCache().listen((cache) {
-    //   this.cache = cache;
-    // });
-
-    _projectsCacheRepository.getExecutedValuePercentage().listen((event) {
-      print('listen');
-      print(event);
-
-      inspect(event);
+    _projectsCacheRepository.getDetails().listen((detailsCache) {
+      this.details = detailsCache;
     });
   }
 

@@ -433,8 +433,10 @@ class ProjectCard extends StatelessWidget {
     final provider = Provider.of<ProjectsProvider>(context, listen: false);
 
     loadingDialog(context);
-    final detail =
-        await provider.getProjectDetail(project.codigoproyecto, index: index);
+
+    final detail = await provider
+        .getProjectDetail(project.codigoproyecto, index: index)
+        .onError((error, stackTrace) => null);
     Navigator.pop(context);
 
     if (detail == null) {

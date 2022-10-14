@@ -1,5 +1,5 @@
 import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/ui/listaProyectos/project_detail_provider.dart';
+import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_screen.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';

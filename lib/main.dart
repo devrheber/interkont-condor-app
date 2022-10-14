@@ -96,7 +96,7 @@ class AppState extends StatelessWidget {
         builder: () {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: App(),
+            home: const App(),
             localizationsDelegates: LocalizationDelegates.delegates,
             supportedLocales: SupportedLocales.locale,
             theme: ThemeData(
@@ -111,6 +111,7 @@ class AppState extends StatelessWidget {
 }
 
 class App extends StatefulWidget {
+  const App();
   @override
   State<StatefulWidget> createState() => _AppState();
 }

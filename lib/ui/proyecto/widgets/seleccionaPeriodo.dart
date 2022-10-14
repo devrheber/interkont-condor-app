@@ -1,6 +1,6 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/ui/listaProyectos/project_detail_provider.dart';
+import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
