@@ -15,8 +15,6 @@ class ReportProgressProvider extends ChangeNotifier {
 
     achievesAndDifficulties = cache.qualitativesProgress ?? [];
 
-    cacheActivities = detail.actividades;
-
     aspectSelected = detail.apectosEvaluar.first;
 
     _init();
@@ -58,8 +56,6 @@ class ReportProgressProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  List<Actividad> cacheActivities = [];
 
   void updateAspectSelected(AspectoEvaluar aspect) {
     print(aspect.descripcionAspectoEvaluar);
@@ -146,5 +142,27 @@ class ReportProgressProvider extends ChangeNotifier {
     rawValue = rawValue.replaceAll('.', '');
     rawValue = rawValue.replaceAll(',', '.');
     return double.parse(rawValue);
+  }
+
+  bool get secondButtonValidation {
+    if (stepNumber == 2) {
+      return achievesAndDifficulties.isEmpty;
+    }
+
+    return true;
+  }
+
+  String stepValidations() {
+    switch (stepNumber) {
+      case 2:
+        if (achievesAndDifficulties.isEmpty) {
+          return 'Añada al menos un avance cualitativo';
+        }
+
+        return null;
+
+      default:
+        return null;
+    }
   }
 }

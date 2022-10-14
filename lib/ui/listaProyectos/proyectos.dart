@@ -171,7 +171,11 @@ class ProyectosContenido extends StatelessWidget {
                               InkWell(
                                 onTap: () async {
                                   loadingDialog(context);
-                                  await projectsProvider.getRemoteProjects();
+                                  await projectsProvider
+                                      .getRemoteProjects()
+                                      .onError((error, stackTrace) =>
+                                          Toast.show('Algo salió mal', context,
+                                              duration: 4));
                                   Navigator.pop(context);
                                 },
                                 child: Icon(Icons.replay_outlined),
