@@ -25,64 +25,41 @@ class ProgressCard extends StatefulWidget {
 }
 
 class _ProgressCardState extends State<ProgressCard> {
-  TextEditingController controllerPrimerPasoTxtAvance;
-  String valueSaved;
-
-  double get controllerValue {
-    if (controllerPrimerPasoTxtAvance.text == null) {
-      return 0.0;
-    }
-
-    if (controllerPrimerPasoTxtAvance.text.isEmpty) {
-      return 0.0;
-    }
-
-    return double.parse(controllerPrimerPasoTxtAvance.text);
-  }
+  TextEditingController controller;
 
   @override
   void initState() {
     super.initState();
-    controllerPrimerPasoTxtAvance = TextEditingController();
-
-    valueSaved = widget.valueSaved == null
-        ? '0'
-        : widget.valueSaved == ''
-            ? '0'
-            : widget.valueSaved;
-    
-
-    controllerPrimerPasoTxtAvance.text = valueSaved;
+    controller = TextEditingController(text: widget.valueSaved);
   }
 
   @override
   void dispose() {
-    controllerPrimerPasoTxtAvance.dispose();
+    controller.dispose();
     super.dispose();
-  }
-
-  void calcutate(String stringValue) {
-    String value = stringValue == '' ? '0' : stringValue;
-    if (double.parse('$value') < 0) {
-      Toast.show("Lo sentimos, solo aceptamos numeros positivos", context,
-          duration: 3, gravity: Toast.BOTTOM);
-      return;
-    }
-    if (double.parse('$value') > 100) {
-      Toast.show("El valor ejecutado de la actividad no puede superar el 100%",
-          context,
-          duration: 3, gravity: Toast.BOTTOM);
-      return;
-    }
-
-    widget.onChanged(value);
-    setState(() {
-      
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    void calcutate(String stringValue) {
+      String value = stringValue == '' ? '0' : stringValue;
+      if (double.parse('$value') < 0) {
+        Toast.show("Lo sentimos, solo aceptamos numeros positivos", context,
+            duration: 3, gravity: Toast.BOTTOM);
+        return;
+      }
+      if (double.parse('$value') > 100) {
+        Toast.show(
+            "El valor ejecutado de la actividad no puede superar el 100%",
+            context,
+            duration: 3,
+            gravity: Toast.BOTTOM);
+        return;
+      }
+
+      widget.onChanged(value);
+    }
+
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -152,7 +129,7 @@ class _ProgressCardState extends State<ProgressCard> {
                       inputFormatters: [
                         DecimalTextInputFormatter(decimalRange: 2),
                       ],
-                      controller: controllerPrimerPasoTxtAvance,
+                      controller: controller,
                       onChanged: calcutate,
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -183,17 +160,19 @@ class _ProgressCardState extends State<ProgressCard> {
               ),
               _Celdas(
                 label: 'Avance del presente reporte',
-                value: '${controllerPrimerPasoTxtAvance.text} %',
+                value: '${widget.valueSaved} %',
                 isNumericVariable: false,
               ),
               _Celdas(
                 label: 'Avance a hoy',
-                value: widget.activity.avanceAHoy(controllerValue),
+                value: widget.activity
+                    .avanceAHoy(double.tryParse(widget.valueSaved ?? '0')),
                 isNumericVariable: false,
               ),
               _Celdas(
                 label: 'Faltante por ejecutar',
-                value: widget.activity.faltantePorEjecutar(controllerValue),
+                value: widget.activity.faltantePorEjecutar(
+                    double.tryParse(widget.valueSaved ?? '0')),
                 isNumericVariable: false,
               ),
             ],

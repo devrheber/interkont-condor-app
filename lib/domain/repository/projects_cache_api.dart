@@ -7,6 +7,8 @@ abstract class ProjectsCacheApi {
 
   ProjectCache getCache();
 
+  Project getProject();
+
   DatosAlimentacion getDetail(int projectCode);
 
   Future<void> saveProjectCache(int projectCode, ProjectCache projectCache);
@@ -15,9 +17,11 @@ abstract class ProjectsCacheApi {
 
   Stream<Map<String, DatosAlimentacion>> getDetails();
 
+  Stream<double> getExecutedValuePercentage();
+
   Future<void> saveProjects(List<Project> projects);
 
-  Future<void> saveProjectsDetail(Map<String, DatosAlimentacion> details);
+  Future<void> saveProjectsDetail(int projectCode, DatosAlimentacion details);
 
   Future<void> saveDetail(DatosAlimentacion detail);
 

@@ -23,7 +23,7 @@ class ContenidoReportarAvance extends StatelessWidget {
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Stack(
         children: <Widget>[
-          if (numeroPaso == 1 || numeroPaso == 0) const FirstStepBody(),
+          if (numeroPaso == 1 || numeroPaso == 0) FirstStepBody.init(),
           if (numeroPaso == 2) const SecondStepBody(),
           if (numeroPaso == 3) const ThirdStep(),
           if (numeroPaso == 4) FourthStep.init(),

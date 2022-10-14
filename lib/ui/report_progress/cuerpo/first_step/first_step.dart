@@ -1,5 +1,5 @@
+import 'package:appalimentacion/ui/report_progress/cuerpo/first_step/first_step_provider.dart';
 import 'package:appalimentacion/ui/report_progress/cuerpo/first_step/progress_card.dart';
-import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,23 +9,21 @@ import 'buscador.dart';
 
 final titleColor = Color(0xff444444);
 
-class FirstStepBody extends StatefulWidget {
-  const FirstStepBody({
-    Key key,
-  }) : super(key: key);
+class FirstStepBody extends StatelessWidget {
+  const FirstStepBody._();
 
-  @override
-  FirstStepBodyState createState() => FirstStepBodyState();
-}
-
-class FirstStepBodyState extends State<FirstStepBody> {
-  String txtBuscarAvance = '';
-
-  String otros;
+  static Widget init() {
+    return ChangeNotifierProvider(
+      create: (context) =>
+          FirstStepProvider(projectsCacheRepository: context.read()),
+      child: const FirstStepBody._(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final reportProgressProvider = Provider.of<ReportarAvanceProvider>(context);
+    final firstStepProvider = Provider.of<FirstStepProvider>(context);
+
     return Stack(
       children: <Widget>[
         Container(
@@ -50,9 +48,11 @@ class FirstStepBodyState extends State<FirstStepBody> {
               Padding(
                 padding: EdgeInsets.only(left: 30.0.sp, right: 34.sp),
                 child: buscador(
-                  onChanged: (value) => txtBuscarAvance = value,
-                  onPressed: () =>
-                      reportProgressProvider.filter(txtBuscarAvance),
+                  onChanged: (value) {
+                    firstStepProvider.txtBuscarAvance = value;
+                  },
+                  onPressed: () => firstStepProvider
+                      .filter(firstStepProvider.txtBuscarAvance),
                 ),
               ),
               SizedBox(height: 26.23.sp),
@@ -64,15 +64,13 @@ class FirstStepBodyState extends State<FirstStepBody> {
                   height: 435.0.h,
                 ),
                 items: <Widget>[
-                  for (final activity
-                      in reportProgressProvider.filteredActivites)
+                  for (final activity in firstStepProvider.filteredActivites)
                     ProgressCard(
                       activity: activity,
-                      valueSaved: (reportProgressProvider.activitiesProgress[
-                              activity.actividadId.toString()] ??
-                          '0'),
+                      valueSaved: (firstStepProvider
+                          .activitiesProgress[activity.actividadId.toString()]),
                       onChanged: (value) {
-                        reportProgressProvider.saveValue(
+                        firstStepProvider.saveValue(
                           activity.actividadId,
                           value,
                         );

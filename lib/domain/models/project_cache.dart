@@ -35,7 +35,7 @@ class ProjectCache {
   final dynamic ultimaFechaSincro;
   final int periodoIdSeleccionado;
   final dynamic porcentajeValorProyectadoSeleccionado;
-  final dynamic porcentajeValorEjecutado;
+  final double porcentajeValorEjecutado;
   final dynamic newExecutedValue;
   final Map<String, dynamic> activitiesProgress;
   final List<QualitativeProgress> qualitativesProgress;
@@ -128,13 +128,9 @@ class ProjectCache {
       stepNumber: stepNumber ?? this.stepNumber,
       porPublicar: porPublicar ?? this.porPublicar,
       ultimaFechaSincro: ultimaFechaSincro ?? this.ultimaFechaSincro,
-      periodoIdSeleccionado:
-          periodoIdSeleccionado ?? this.periodoIdSeleccionado,
-      porcentajeValorProyectadoSeleccionado:
-          porcentajeValorProyectadoSeleccionado ??
-              this.porcentajeValorProyectadoSeleccionado,
-      porcentajeValorEjecutado:
-          porcentajeValorEjecutado ?? porcentajeValorEjecutado,
+      periodoIdSeleccionado: periodoIdSeleccionado ?? this.periodoIdSeleccionado,
+      porcentajeValorProyectadoSeleccionado: porcentajeValorProyectadoSeleccionado ?? this.porcentajeValorProyectadoSeleccionado,
+      porcentajeValorEjecutado: porcentajeValorEjecutado ?? this.porcentajeValorEjecutado,
       newExecutedValue: newExecutedValue ?? this.newExecutedValue,
       activitiesProgress: activitiesProgress ?? this.activitiesProgress,
       qualitativesProgress: qualitativesProgress ?? this.qualitativesProgress,

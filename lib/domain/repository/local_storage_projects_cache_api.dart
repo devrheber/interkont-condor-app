@@ -18,6 +18,9 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   final _projectsCacheStreamController =
       BehaviorSubject<Map<String, ProjectCache>>.seeded(const {});
 
+  final _executedValuePercentageStreamController =
+      BehaviorSubject<double>.seeded(0.0);
+
   final _projectsStreamController =
       BehaviorSubject<List<Project>>.seeded(const []);
 
@@ -70,6 +73,10 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
       _projectsStreamController.asBroadcastStream();
 
   @override
+  Stream<double> getExecutedValuePercentage() =>
+      _executedValuePercentageStreamController.asBroadcastStream();
+
+  @override
   Future<void> saveProjectCache(
       int projectCode, ProjectCache projectCache) async {
     final projectsCache = {..._projectsCacheStreamController.value};
@@ -88,17 +95,27 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   }
 
   @override
-  Future<void> saveProjectsDetail(Map<String, DatosAlimentacion> details) {
+  Future<void> saveProjectsDetail(int projectCode, DatosAlimentacion details) {
     final map = {..._detailStreamController.value};
+
+    map[projectCode.toString()] = details;
+    currentProjectCode = projectCode;
+
     _detailStreamController.add(map);
     return _setValue(kDetailsKey, projetsDetailToJson(map));
+  }
+
+  @override
+  Project getProject() {
+    final list = [..._projectsStreamController.value];
+    return list
+        .firstWhere((project) => project.codigoproyecto == currentProjectCode);
   }
 
   @override
   DatosAlimentacion getDetail(int projectCode) {
     final map = {..._detailStreamController.value};
     if (map.containsKey(projectCode.toString())) {
-      currentProjectCode = projectCode;
       return map[projectCode.toString()];
     } else {
       return null;
@@ -125,6 +142,8 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   Future<void> saveCache(ProjectCache cache) {
     final map = {..._projectsCacheStreamController.value};
     map[currentProjectCode.toString()] = cache;
+    _executedValuePercentageStreamController
+        .add(cache.porcentajeValorEjecutado);
     return _setValue(kCacheMapKey, projectsCacheToJson(map));
   }
 }

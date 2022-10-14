@@ -46,20 +46,20 @@ class CardHeadReporteAvance extends StatelessWidget {
                                 .getPorcentajeValorProyectado);
                   }),
               const Expanded(child: SizedBox.shrink()),
-              StreamBuilder<Map<String, ProjectCache>>(
-                  stream: projectsProvider.cacheStream,
-                  builder: (context,
-                      AsyncSnapshot<Map<String, ProjectCache>> snapshot) {
-                    dynamic value = 0;
-                    if (snapshot.hasData) {
-                      value = snapshot.data[project.codigoproyecto.toString()]
-                          .porcentajeValorEjecutado;
-                    }
+              StreamBuilder<double>(
+                initialData: 0.0,
+                stream: projectsProvider.getExecutedValuePercentage,
+                builder: (context, AsyncSnapshot<double> snapshot) {
+                  if (!snapshot.hasData) {
+                    return SizedBox.shrink();
+                  }
 
-                    return Percentage(
-                        value: "Ejecutado",
-                        percentage: ((value ?? 0) * 100).toStringAsFixed(2));
-                  }),
+                  return Percentage(
+                    value: "Ejecutado",
+                    percentage: (snapshot.data * 100).toStringAsFixed(2),
+                  );
+                },
+              ),
             ],
           ),
         ),

@@ -26,27 +26,40 @@ class ProjectsProvider extends ChangeNotifier {
   Stream<Map<String, ProjectCache>> get cacheStream =>
       _projectsCacheRepository.getProjectsCache();
 
+  Stream<double> get getExecutedValuePercentage =>
+      _projectsCacheRepository.getExecutedValuePercentage();
+
   Map<String, dynamic> error = {'error': false, 'message': 'Algo salió mal'};
 
-  StreamSubscription<Map<String, DatosAlimentacion>> detailsSubscription;
-  StreamSubscription<Map<String, ProjectCache>> cacheSubscription;
+  // StreamSubscription<Map<String, DatosAlimentacion>> detailsSubscription;
+  // StreamSubscription<Map<String, ProjectCache>> cacheSubscription;
+
+  StreamSubscription<double> excutedValueSubscription;
 
   @override
   void dispose() {
-    detailsSubscription.cancel();
-    cacheSubscription.cancel();
+    // detailsSubscription.cancel();
+    // cacheSubscription.cancel();
+    excutedValueSubscription.cancel();
     super.dispose();
   }
 
   _init() {
-    detailsSubscription =
-        _projectsCacheRepository.getDetails().listen((details) {
-      this.details = details;
-    });
+    // detailsSubscription =
+    //     _projectsCacheRepository.getDetails().listen((details) {
+    //   this.details = details;
+    // });
 
-    cacheSubscription =
-        _projectsCacheRepository.getProjectsCache().listen((cache) {
-      this.cache = cache;
+    // cacheSubscription =
+    //     _projectsCacheRepository.getProjectsCache().listen((cache) {
+    //   this.cache = cache;
+    // });
+
+    _projectsCacheRepository.getExecutedValuePercentage().listen((event) {
+      print('listen');
+      print(event);
+
+      inspect(event);
     });
   }
 
@@ -63,8 +76,7 @@ class ProjectsProvider extends ChangeNotifier {
 
   Future<void> saveDetail(int codigoProyecto, DatosAlimentacion data) async {
     details[codigoProyecto.toString()] = data;
-    await _projectsCacheRepository.saveProjectDetails(details);
-    inspect(details);
+    await _projectsCacheRepository.saveProjectDetails(codigoProyecto, data);
   }
 
   Future<DatosAlimentacion> getProjectDetail(int codigoProyecto,
