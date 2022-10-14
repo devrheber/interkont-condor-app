@@ -18,6 +18,7 @@ class ReportProgressProvider extends ChangeNotifier {
     aspectSelected = detail.apectosEvaluar.first;
 
     _init();
+    _initFourthStep();
   }
 
   Project project;
@@ -41,6 +42,7 @@ class ReportProgressProvider extends ChangeNotifier {
     cacheSubscription =
         _projectsCacheRepository.getProjectsCache().listen((cache) {
       this.cache = cache[project.getProjectCode];
+      _initFourthStep();
     });
   }
 
@@ -116,24 +118,50 @@ class ReportProgressProvider extends ChangeNotifier {
     }
   }
 
-  void savePerformanceIndicator(String value) {
-    print(value);
+  DateTime incomeGenerationDate;
+  DateTime rentalRepaymentDate;
+  String generatedReturns;
+  String currentMonthReturns;
+  String pastDueMonthReturns;
+
+  void _initFourthStep() {
+    incomeGenerationDate = this.cache.incomeGenerationDate;
+    rentalRepaymentDate = this.cache.rentalRepaymentDate;
+    generatedReturns = this.cache.generatedReturns;
+    currentMonthReturns = this.cache.currentMonthReturns;
+    pastDueMonthReturns = this.cache.pastDueMonthReturns;
+
+    notifyListeners();
   }
 
-  void saveIncomeGenerationDate(String value) {
-    print(value);
+  void saveIncomeGenerationDate(DateTime value) {
+    incomeGenerationDate = value;
+    this.cache = this.cache.copyWith(incomeGenerationDate: value);
+    _projectsCacheRepository.saveCache(this.cache);
+  }
+
+  void saveRentalRepaymentDate(DateTime value) {
+    rentalRepaymentDate = value;
+    this.cache = this.cache.copyWith(rentalRepaymentDate: value);
+    _projectsCacheRepository.saveCache(this.cache);
   }
 
   void saveGeneratedReturns(String value) {
-    print(value);
+    generatedReturns = value;
+    this.cache = this.cache.copyWith(generatedReturns: value);
+    _projectsCacheRepository.saveCache(this.cache);
   }
 
   void saveCurrentMonthReturns(String value) {
-    print(value);
+    currentMonthReturns = value;
+    this.cache = this.cache.copyWith(currentMonthReturns: value);
+    _projectsCacheRepository.saveCache(this.cache);
   }
 
   void savePastDueMonthReturns(String value) {
-    print(value);
+    pastDueMonthReturns = value;
+    this.cache = this.cache.copyWith(pastDueMonthReturns: value);
+    _projectsCacheRepository.saveCache(this.cache);
   }
 
   double _getDoubleValue(String value) {
@@ -149,6 +177,17 @@ class ReportProgressProvider extends ChangeNotifier {
       return achievesAndDifficulties.isEmpty;
     }
 
+    if (stepNumber == 3) {
+      return incomeGenerationDate == null ||
+          rentalRepaymentDate == null ||
+          generatedReturns == null ||
+          currentMonthReturns == null ||
+          pastDueMonthReturns == null ||
+          generatedReturns.isEmpty ||
+          currentMonthReturns.isEmpty ||
+          pastDueMonthReturns.isEmpty;
+    }
+
     return false;
   }
 
@@ -157,6 +196,19 @@ class ReportProgressProvider extends ChangeNotifier {
       case 2:
         if (achievesAndDifficulties.isEmpty) {
           return 'Añada al menos un avance cualitativo';
+        }
+
+        return null;
+      case 3:
+        if (incomeGenerationDate == null ||
+            rentalRepaymentDate == null ||
+            generatedReturns == null ||
+            currentMonthReturns == null ||
+            pastDueMonthReturns == null ||
+            generatedReturns.isEmpty ||
+            currentMonthReturns.isEmpty ||
+            pastDueMonthReturns.isEmpty) {
+          return 'Complete los indicadores de rendimiento';
         }
 
         return null;

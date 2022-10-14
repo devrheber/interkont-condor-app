@@ -11,4 +11,12 @@ class DateTimeFormat {
   static String mmmmYYYY(DateTime date) {
     return DateFormat('MMMM - yyyy', 'es_CO').format(date).toTitleCase();
   }
+
+  static String ddMMYYYY(DateTime date) {
+    String fecha = date.toString().split(' ')[0];
+    List<String> fechaSplit = fecha.split('-');
+    String fechaFormateada =
+        '${fechaSplit[2]}-${fechaSplit[1]}-${fechaSplit[0]}';
+    return fechaFormateada;
+  }
 }

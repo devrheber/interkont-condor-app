@@ -59,13 +59,15 @@ class ReportProgressScreen extends StatelessWidget {
         return;
       }
 
-      goToDelayFactors().then((value) {
-        if (!value) return;
+      if (numeroPaso == 2) {
+        goToDelayFactors().then((value) {
+          if (!value) return;
 
+          reportProgressProvider.changeAndSaveStep(numeroPaso + 1);
+        });
+      } else {
         reportProgressProvider.changeAndSaveStep(numeroPaso + 1);
-      });
-
-      reportProgressProvider.changeAndSaveStep(numeroPaso + 1);
+      }
     }
 
     return FondoHome(

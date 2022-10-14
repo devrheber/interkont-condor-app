@@ -58,6 +58,27 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
     _initListeners();
     super.initState();
     reportProgressService = context.read<ReportProgressProvider>();
+    if (reportProgressService.incomeGenerationDate != null) {
+      incomeGenerationDateCtrl.text =
+          DateTimeFormat.ddMMYYYY(reportProgressService.incomeGenerationDate);
+    }
+
+    if (reportProgressService.rentalRepaymentDate != null) {
+      rentalRepaymentDateCtrl.text =
+          DateTimeFormat.ddMMYYYY(reportProgressService.rentalRepaymentDate);
+    }
+
+    if (reportProgressService.generatedReturns != null) {
+      generatedReturnsCtrl.text = reportProgressService.generatedReturns;
+    }
+
+    if (reportProgressService.pastDueMonthReturns != null) {
+      pastDueMonthReturnsCtrl.text = reportProgressService.pastDueMonthReturns;
+    }
+
+    if (reportProgressService.currentMonthReturns != null) {
+      currentMonthReturnsCtrl.text = reportProgressService.currentMonthReturns;
+    }
   }
 
   _initListeners() {
@@ -67,19 +88,19 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
 
     currentMonthReturnsCtrl.addListener(() {
       reportProgressService
-          .savePerformanceIndicator(currentMonthReturnsCtrl.text);
+          .saveCurrentMonthReturns(currentMonthReturnsCtrl.text);
     });
 
     pastDueMonthReturnsCtrl.addListener(() {
       reportProgressService
-          .savePerformanceIndicator(pastDueMonthReturnsCtrl.text);
+          .savePastDueMonthReturns(pastDueMonthReturnsCtrl.text);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO User other picker for ios
-    Future<String> selectDate() async {
+    Future<DateTime> selectDate() async {
       return showDatePicker(
         context: context,
         locale: const Locale('es', 'CO'),
@@ -98,13 +119,10 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
         firstDate: DateTime(2000),
         // TODO
         lastDate: DateTime(2101),
-      ).then<String>((date) {
+      ).then<DateTime>((date) {
         if (date == null) return null;
-        String fecha = date.toString().split(' ')[0];
-        List<String> fechaSplit = fecha.split('-');
-        String fechaFormateada =
-            '${fechaSplit[2]}-${fechaSplit[1]}-${fechaSplit[0]}';
-        return fechaFormateada;
+        print(date.toIso8601String());
+        return date;
       });
     }
 
@@ -143,7 +161,11 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   focusNode: incomeGenerationDateFocusNode,
                   controller: incomeGenerationDateCtrl,
                   onTap: () async {
-                    incomeGenerationDateCtrl.text = await selectDate();
+                    final dateTime = await selectDate();
+                    if (dateTime == null) return;
+                    incomeGenerationDateCtrl.text =
+                        DateTimeFormat.ddMMYYYY(dateTime);
+                    reportProgressService.saveIncomeGenerationDate(dateTime);
                   },
                   enabled: false,
                 ),
@@ -155,7 +177,11 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   focusNode: rentalRepaymentDateFocusNode,
                   controller: rentalRepaymentDateCtrl,
                   onTap: () async {
-                    rentalRepaymentDateCtrl.text = await selectDate();
+                    final dateTime = await selectDate();
+                    if (dateTime == null) return;
+                    rentalRepaymentDateCtrl.text =
+                        DateTimeFormat.ddMMYYYY(dateTime);
+                    reportProgressService.saveRentalRepaymentDate(dateTime);
                   },
                   enabled: false,
                 ),
