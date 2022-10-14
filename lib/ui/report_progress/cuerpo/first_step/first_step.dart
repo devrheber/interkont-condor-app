@@ -7,8 +7,6 @@ import 'package:provider/provider.dart';
 import '../../../widgets/title_subtitle.dart';
 import 'buscador.dart';
 
-final titleColor = Color(0xff444444);
-
 class FirstStepBody extends StatelessWidget {
   const FirstStepBody._();
 
@@ -67,13 +65,11 @@ class FirstStepBody extends StatelessWidget {
                   for (final activity in firstStepProvider.filteredActivites)
                     ProgressCard(
                       activity: activity,
-                      valueSaved: (firstStepProvider
-                          .activitiesProgress[activity.actividadId.toString()]),
+                      valueSaved: firstStepProvider
+                          .activitiesProgress[activity.getStringId],
                       onChanged: (value) {
                         firstStepProvider.saveValue(
-                          activity.actividadId,
-                          value,
-                        );
+                            activity.actividadId, value);
                       },
                     ),
                 ],

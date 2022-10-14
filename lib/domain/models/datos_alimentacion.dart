@@ -160,6 +160,10 @@ class Actividad {
         cantidadProgramada * (progressValuePercentage / valorProgramado);
     return newExcutedValue;
   }
+
+  String get getStringId {
+    return actividadId.toString();
+  }
 }
 
 class AspectoEvaluar {

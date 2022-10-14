@@ -108,4 +108,6 @@ class Project {
 
   String get dineroDeberiaIr =>
       '${((porcentajeProyectado / 100) * valorproyecto)}';
+
+  String get getProjectCode => codigoproyecto.toString();
 }

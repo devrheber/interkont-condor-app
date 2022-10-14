@@ -37,7 +37,7 @@ class FifthStepCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reportProgressService = Provider.of<ReportarAvanceProvider>(context);
+    final reportProgressService = Provider.of<ReportProgressProvider>(context);
     // TODO
     // final cache = reportProgressService.cache;
     final cache = ProjectCache();

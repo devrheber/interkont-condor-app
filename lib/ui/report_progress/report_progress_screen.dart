@@ -1,4 +1,3 @@
-import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
@@ -13,14 +12,8 @@ import 'cuerpo/delay_factor/delay_factor_screen.dart';
 class ReportProgressScreen extends StatelessWidget {
   const ReportProgressScreen._();
 
-  static Widget init({
-    @required Project project,
-    @required DatosAlimentacion detail,
-  }) =>
-      ChangeNotifierProvider(
-        create: (context) => ReportarAvanceProvider(
-          project: project,
-          detail: detail,
+  static Widget init() => ChangeNotifierProvider(
+        create: (context) => ReportProgressProvider(
           projectsCacheRepository: context.read(),
         ),
         child: ReportProgressScreen._(),
@@ -28,7 +21,7 @@ class ReportProgressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reportProgressProvider = Provider.of<ReportarAvanceProvider>(context);
+    final reportProgressProvider = Provider.of<ReportProgressProvider>(context);
     final numeroPaso = reportProgressProvider.stepNumber;
 
     return FondoHome(

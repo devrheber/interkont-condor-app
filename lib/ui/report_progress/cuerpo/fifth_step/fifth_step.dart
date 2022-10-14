@@ -14,7 +14,7 @@ class FifthStep extends StatelessWidget {
   const FifthStep({Key key}) : super(key: key);
 
   Widget build(BuildContext context) {
-    final reportProgressService = Provider.of<ReportarAvanceProvider>(context);
+    final reportProgressService = Provider.of<ReportProgressProvider>(context);
     final project = reportProgressService.project;
     final cache = reportProgressService.cache;
     return Stack(

@@ -19,8 +19,7 @@ class CardHeadReporteAvance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final projectsProvider = context.read<ProjectsProvider>();
-    final avancesProvider = context.read<ReportarAvanceProvider>();
-    final project = avancesProvider.project;
+    final project = context.read<ReportProgressProvider>().project;
     return Stack(
       children: <Widget>[
         customedAppBar(

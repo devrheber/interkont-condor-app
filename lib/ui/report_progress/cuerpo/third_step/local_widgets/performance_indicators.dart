@@ -23,7 +23,7 @@ class PerformanceIndicators extends StatefulWidget {
 }
 
 class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
-  ReportarAvanceProvider reportProgressService;
+  ReportProgressProvider reportProgressService;
 
   TextEditingController incomeGenerationDateCtrl = TextEditingController();
   TextEditingController rentalRepaymentDateCtrl = TextEditingController();
@@ -57,8 +57,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
   void initState() {
     _initListeners();
     super.initState();
-    reportProgressService = context.read<ReportarAvanceProvider>();
-    print(reportProgressService.cache.generatedReturns.toString());
+    reportProgressService = context.read<ReportProgressProvider>();
   }
 
   _initListeners() {

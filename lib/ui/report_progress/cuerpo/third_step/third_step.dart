@@ -16,7 +16,7 @@ class ThirdStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reportProgressService = Provider.of<ReportarAvanceProvider>(context);
+    final reportProgressService = Provider.of<ReportProgressProvider>(context);
     return Stack(
       children: <Widget>[
         Container(

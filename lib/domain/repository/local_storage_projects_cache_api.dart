@@ -142,8 +142,12 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   Future<void> saveCache(ProjectCache cache) {
     final map = {..._projectsCacheStreamController.value};
     map[currentProjectCode.toString()] = cache;
+
+    _projectsCacheStreamController.add(map);
+
     _executedValuePercentageStreamController
-        .add(cache.porcentajeValorEjecutado);
+        .add(map[currentProjectCode.toString()].porcentajeValorEjecutado);
+        
     return _setValue(kCacheMapKey, projectsCacheToJson(map));
   }
 

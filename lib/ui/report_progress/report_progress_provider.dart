@@ -1,57 +1,65 @@
+import 'dart:async';
+
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
-import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
-class ReportarAvanceProvider extends ChangeNotifier {
-  ReportarAvanceProvider({
-    @required this.project,
-    @required this.detail,
+class ReportProgressProvider extends ChangeNotifier {
+  ReportProgressProvider({
     @required ProjectsCacheRepository projectsCacheRepository,
   }) : _projectsCacheRepository = projectsCacheRepository {
-    _cache = projectsCacheRepository.getCache();
+    cache = projectsCacheRepository.getCache();
+    project = projectsCacheRepository.getProject();
 
-    
-    achievesAndDifficulties = _cache.qualitativesProgress ?? [];
+    detail = projectsCacheRepository.getDetail(project.codigoproyecto);
+
+    achievesAndDifficulties = cache.qualitativesProgress ?? [];
 
     cacheActivities = detail.actividades;
 
     aspectSelected = detail.apectosEvaluar.first;
 
-    // calculateExecutedValuePercentage();
+    _init();
   }
 
-  final Project project;
-  final DatosAlimentacion detail;
+  Project project;
+  DatosAlimentacion detail;
   final ProjectsCacheRepository _projectsCacheRepository;
-  ProjectCache _cache;
+  ProjectCache cache;
 
   List<TipoDoc> listaTipoDoc = [];
   List<TextEditingController> textFieldControllers = [];
   List<QualitativeProgress> achievesAndDifficulties = [];
   List<RangeIndicator> rangeIndicators = [];
 
-  int get projectCode => project.codigoproyecto;
-  int get stepNumber => _cache.stepNumber;
-  ProjectCache get cache => _cache;
+  int get stepNumber => cache.stepNumber;
 
-  set cache(ProjectCache cache) {
-    this._cache = cache;
-  }
-
-  
   AspectoEvaluar aspectSelected;
 
+  StreamSubscription<Map<String, ProjectCache>> cacheSubscription;
+
+  /// Actualiza el objeto si fué modificado por un provider en un nivel inferior
+  _init() {
+    cacheSubscription =
+        _projectsCacheRepository.getProjectsCache().listen((cache) {
+      this.cache = cache[project.getProjectCode];
+    });
+  }
+
+  @override
+  void dispose() {
+    cacheSubscription.cancel();
+    super.dispose();
+  }
+
   void changeAndSaveStep(int step) {
-    this.cache = this._cache.copyWith(stepNumber: step);
-    _projectsCacheRepository.saveProjectCache(projectCode, this._cache);
+    this.cache = this.cache.copyWith(stepNumber: step);
+    _projectsCacheRepository.saveCache(this.cache);
 
     notifyListeners();
   }
 
   List<Actividad> cacheActivities = [];
-
-
 
   void updateAspectSelected(AspectoEvaluar aspect) {
     print(aspect.descripcionAspectoEvaluar);
@@ -68,20 +76,17 @@ class ReportarAvanceProvider extends ChangeNotifier {
     ));
     notifyListeners();
 
-    _projectsCacheRepository.saveProjectCache(
-        projectCode,
-        this
-            ._cache
-            .copyWith(qualitativesProgress: this.achievesAndDifficulties));
+    _projectsCacheRepository.saveCache(this
+        .cache
+        .copyWith(qualitativesProgress: this.achievesAndDifficulties));
   }
 
   void removeQualitativeProgress(int index) {
     achievesAndDifficulties.removeAt(index);
 
     notifyListeners();
-    _projectsCacheRepository.saveProjectCache(
-      projectCode,
-      _cache.copyWith(qualitativesProgress: achievesAndDifficulties),
+    _projectsCacheRepository.saveCache(
+      cache.copyWith(qualitativesProgress: achievesAndDifficulties),
     );
   }
 
@@ -105,10 +110,10 @@ class ReportarAvanceProvider extends ChangeNotifier {
 
   bool registerDelayFactors() {
     // calculateExecutedValuePercentage();
-    final porcentajeEsperado = _cache.porcentajeValorProyectadoSeleccionado -
+    final porcentajeEsperado = cache.porcentajeValorProyectadoSeleccionado -
         detail.limitePorcentajeAtraso;
 
-    if (_cache.porcentajeValorEjecutado < porcentajeEsperado) {
+    if (cache.porcentajeValorEjecutado < porcentajeEsperado) {
       return true;
     } else {
       return false;
