@@ -77,4 +77,8 @@ class ProjectsProvider extends ChangeNotifier {
       throw '';
     }
   }
+
+  void setCurrentProjectCode(int projectCode) {
+    _projectsCacheRepository.setCurrentProjectCode(projectCode);
+  }
 }

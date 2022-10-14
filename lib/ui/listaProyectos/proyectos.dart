@@ -431,7 +431,7 @@ class ProjectCard extends StatelessWidget {
     @required int index,
   }) async {
     final provider = Provider.of<ProjectsProvider>(context, listen: false);
-
+    provider.setCurrentProjectCode(project.codigoproyecto);
     loadingDialog(context);
 
     final detail = await provider
@@ -448,9 +448,7 @@ class ProjectCard extends StatelessWidget {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ProyectoScreen.init(
-          project: project,
-        ),
+        builder: (context) => ProyectScreen.init(),
       ),
     );
   }

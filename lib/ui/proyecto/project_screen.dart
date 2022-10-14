@@ -9,20 +9,16 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'contenido.dart';
 
-class ProyectoScreen extends StatelessWidget {
-  const ProyectoScreen._();
+class ProyectScreen extends StatelessWidget {
+  const ProyectScreen._();
 
-  static Widget init({
-    @required Project project,
-  }) =>
-      ChangeNotifierProvider(
+  static Widget init() => ChangeNotifierProvider(
         lazy: true,
         create: (context) => ProjectDetailProvider(
-          project: project,
           projectRepository: context.read(),
           projectsCacheRepository: context.read(),
         ),
-        child: const ProyectoScreen._(),
+        child: const ProyectScreen._(),
       );
 
   @override
@@ -30,46 +26,50 @@ class ProyectoScreen extends StatelessWidget {
     final detailProvider = Provider.of<ProjectDetailProvider>(context);
     final project = detailProvider.project;
 
+    void goToNextScreen() {
+      if (project.pendienteAprobacion) {
+        Toast.show(
+            'Lo sentimos, este proyecto esta pendiente de aprobación, sincroniza una vez mas el proyecto, si cree que este ya ha sido aprobado',
+            context,
+            duration: 5,
+            gravity: Toast.BOTTOM);
+        return;
+      }
+      if (detailProvider.detail.periodos.isEmpty) {
+        Toast.show('Lo sentimos, este proyecto no tiene periodos que reportar',
+            context,
+            duration: 3, gravity: Toast.BOTTOM);
+        return;
+      }
+      if (detailProvider.periodoSeleccionado == null) {
+        Toast.show('Seleccione el periodo a reportar', context,
+            duration: 3, gravity: Toast.BOTTOM);
+
+        return;
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return ReportProgressScreen.init();
+          },
+        ),
+      );
+    }
+
     return FondoHome(
       body: ProjectContent(
         project: detailProvider.project,
         projectCache: detailProvider.cache,
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
-        colorFondo: Color(0xff22B573),
-        primerBotonDesactivado: false,
-        segundoBotonDesactivado: project.pendienteAprobacion,
-        txtPrimerBoton: null,
-        txtSegundoBoton: 'Reportar Avance',
-        accionPrimerBoton: null,
-        accionSegundoBoton: () {
-          if (project.pendienteAprobacion) {
-            Toast.show(
-                "Lo sentimos, este proyecto esta pendiente de aprobación, sincroniza una vez mas el proyecto, si cree que este ya ha sido aprobado",
-                context,
-                duration: 5,
-                gravity: Toast.BOTTOM);
-          } else if (detailProvider.periodoSeleccionado == null) {
-            Toast.show(
-                "Lo sentimos, este proyecto no tiene periodos que reportar",
-                context,
-                duration: 3,
-                gravity: Toast.BOTTOM);
-          } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return ReportProgressScreen.init(
-                    project: project,
-                    detail: detailProvider.detail,
-                  );
-                },
-              ),
-            );
-          }
-        },
-      ),
+          colorFondo: Color(0xff22B573),
+          primerBotonDesactivado: false,
+          segundoBotonDesactivado: project.pendienteAprobacion,
+          txtPrimerBoton: null,
+          txtSegundoBoton: 'Reportar Avance',
+          accionPrimerBoton: null,
+          accionSegundoBoton: () => goToNextScreen()),
     );
   }
 }

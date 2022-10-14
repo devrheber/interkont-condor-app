@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 
 class ProjectDetailProvider extends ChangeNotifier {
   ProjectDetailProvider({
-    @required this.project,
     @required this.projectRepository,
     @required this.projectsCacheRepository,
   }) {
+    project = projectsCacheRepository.getProject();
     detail = projectsCacheRepository.getDetail(project.codigoproyecto);
     cache = projectsCacheRepository.getCache() ?? ProjectCache();
 
@@ -21,7 +21,7 @@ class ProjectDetailProvider extends ChangeNotifier {
 
   int get projectCode => project.codigoproyecto;
 
-  final Project project;
+  Project project;
   DatosAlimentacion detail;
   final ProjectsRepository projectRepository;
   final ProjectsCacheRepository projectsCacheRepository;

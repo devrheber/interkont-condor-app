@@ -79,12 +79,12 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   @override
   Future<void> saveProjectCache(
       int projectCode, ProjectCache projectCache) async {
-    final projectsCache = {..._projectsCacheStreamController.value};
+    final map = {..._projectsCacheStreamController.value};
 
-    projectsCache[projectCode.toString()] = projectCache;
+    map[projectCode.toString()] = projectCache;
 
-    _projectsCacheStreamController.add(projectsCache);
-    return _setValue(kCacheMapKey, projectsCacheToJson(projectsCache));
+    _projectsCacheStreamController.add(map);
+    return _setValue(kCacheMapKey, projectsCacheToJson(map));
   }
 
   @override
@@ -145,5 +145,10 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
     _executedValuePercentageStreamController
         .add(cache.porcentajeValorEjecutado);
     return _setValue(kCacheMapKey, projectsCacheToJson(map));
+  }
+
+  @override
+  void setCurrentProjectCode(int projectCode) {
+    currentProjectCode = projectCode;
   }
 }

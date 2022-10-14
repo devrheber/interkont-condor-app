@@ -41,4 +41,7 @@ class ProjectsCacheRepository {
 
   Future<void> saveCache(ProjectCache cache) =>
       _projectsCacheApi.saveCache(cache);
+
+  void setCurrentProjectCode(int projectCode) =>
+      _projectsCacheApi.setCurrentProjectCode(projectCode);
 }
