@@ -149,7 +149,7 @@ class ReportProgressProvider extends ChangeNotifier {
       return achievesAndDifficulties.isEmpty;
     }
 
-    return true;
+    return false;
   }
 
   String stepValidations() {

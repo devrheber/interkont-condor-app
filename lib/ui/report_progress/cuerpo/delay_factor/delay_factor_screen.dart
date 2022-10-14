@@ -189,13 +189,20 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
             CustomBottomNavigationBar(
               colorFondo: Color(0xFF2089B6),
               primerBotonDesactivado: false,
-              segundoBotonDesactivado: false, // TODO
+              segundoBotonDesactivado:
+                  delayFactorService.secondButtonValidation,
               txtPrimerBoton: "Cancelar",
               txtSegundoBoton: "Siguiente Paso",
               accionPrimerBoton: () {
                 Navigator.pop(context);
               },
               accionSegundoBoton: () {
+                if (delayFactorService.secondButtonValidation) {
+                  Toast.show('Debe registrar los factores de atraso.', context,
+                      duration: 4);
+                  return;
+                }
+
                 if (delayFactorService.delayFactorsRegistered.length >= 1) {
                   Navigator.pop(context, true);
                 }

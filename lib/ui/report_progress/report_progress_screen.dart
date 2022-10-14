@@ -64,6 +64,8 @@ class ReportProgressScreen extends StatelessWidget {
 
         reportProgressProvider.changeAndSaveStep(numeroPaso + 1);
       });
+
+      reportProgressProvider.changeAndSaveStep(numeroPaso + 1);
     }
 
     return FondoHome(
@@ -71,8 +73,7 @@ class ReportProgressScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigationBar(
         colorFondo: AppTheme.bottomPrincipal,
         primerBotonDesactivado: false,
-        segundoBotonDesactivado:
-            reportProgressProvider.secondButtonValidation,
+        segundoBotonDesactivado: reportProgressProvider.secondButtonValidation,
         txtPrimerBoton: 'Cancelar',
         txtSegundoBoton: numeroPaso >= 5 ? 'Finalizar' : 'Siguiente Paso',
         accionPrimerBoton: () => firstButtonMethod(),

@@ -73,4 +73,8 @@ class DelayFactorProvider extends ChangeNotifier {
     this.cache = cache.copyWith(delayFactors: delayFactorsRegistered);
     _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
   }
+
+  bool get secondButtonValidation => delayFactorsRegistered.isEmpty;
+
+  
 }
