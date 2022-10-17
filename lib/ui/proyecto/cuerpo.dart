@@ -19,7 +19,7 @@ class BodyCard extends StatelessWidget {
     return Container(
       child: Stack(
         children: <Widget>[
-          projectCache?.ultimaFechaSincro == null
+          projectCache?.lastSyncDate == null
               ? Container(
                   width: double.infinity,
                   margin:
@@ -57,7 +57,7 @@ class BodyCard extends StatelessWidget {
           Container(
             width: double.infinity,
             margin: EdgeInsets.only(
-              top: projectCache?.ultimaFechaSincro == null ? 400.h : 400.h,
+              top: (projectCache?.synchronizationRequired ?? true) ? 400.h : 400.h,
             ),
             child: Column(
               children: <Widget>[

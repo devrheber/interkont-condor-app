@@ -40,11 +40,16 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
     final projectsCacheJson = _getValue(kCacheMapKey);
     final projectsJson = _getValue(kProjectsKey);
     final detailsJson = _getValue(kDetailsKey);
-    if (projectsCacheJson != null) {
-      final projectsCache = projectsCacheFromJson(projectsCacheJson);
-      _projectsCacheStreamController.add(projectsCache);
-    } else {
+    try {
+      if (projectsCacheJson != null) {
+        final projectsCache = projectsCacheFromJson(projectsCacheJson);
+        _projectsCacheStreamController.add(projectsCache);
+      } else {
+        _projectsCacheStreamController.add(const {});
+      }
+    } catch (_) {
       _projectsCacheStreamController.add(const {});
+      _plugin.remove(kCacheMapKey);
     }
 
     if (projectsJson != null) {

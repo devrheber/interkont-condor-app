@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/helpers/project_helpers.dart';
 
 Map<String, ProjectCache> projectsCacheFromJson(String str) =>
     Map.from(json.decode(str)).map(
@@ -13,7 +14,7 @@ class ProjectCache {
     this.projectCode,
     this.stepNumber = 1,
     this.porPublicar,
-    this.ultimaFechaSincro,
+    this.lastSyncDate,
     this.periodoIdSeleccionado,
     this.porcentajeValorProyectadoSeleccionado,
     this.porcentajeValorEjecutado,
@@ -32,7 +33,7 @@ class ProjectCache {
   final int projectCode;
   final int stepNumber;
   final dynamic porPublicar;
-  final dynamic ultimaFechaSincro;
+  final DateTime lastSyncDate;
   final int periodoIdSeleccionado;
   final dynamic porcentajeValorProyectadoSeleccionado;
   final double porcentajeValorEjecutado;
@@ -52,7 +53,7 @@ class ProjectCache {
         projectCode: json['project_code'],
         stepNumber: json['strep_number'],
         porPublicar: json['porPublicar'],
-        ultimaFechaSincro: json['ultimaFechaSincro'],
+        lastSyncDate: DateTime.parse(json['ultimaFechaSincro']),
         periodoIdSeleccionado: json['periodoIdSeleccionado'],
         porcentajeValorProyectadoSeleccionado:
             json['porcentajeValorProyectadoSeleccionado'],
@@ -84,7 +85,7 @@ class ProjectCache {
         'project_code': projectCode,
         'strep_number': stepNumber,
         'porPublicar': porPublicar,
-        'ultimaFechaSincro': ultimaFechaSincro,
+        'ultimaFechaSincro': lastSyncDate.toIso8601String(),
         'periodoIdSeleccionado': periodoIdSeleccionado,
         'porcentajeValorProyectadoSeleccionado':
             porcentajeValorProyectadoSeleccionado,
@@ -110,7 +111,7 @@ class ProjectCache {
     int projectCode,
     int stepNumber,
     dynamic porPublicar,
-    dynamic ultimaFechaSincro,
+    DateTime lastSyncDate,
     dynamic periodoIdSeleccionado,
     double porcentajeValorProyectadoSeleccionado,
     double porcentajeValorEjecutado,
@@ -131,7 +132,7 @@ class ProjectCache {
       projectCode: projectCode ?? this.projectCode,
       stepNumber: stepNumber ?? this.stepNumber,
       porPublicar: porPublicar ?? this.porPublicar,
-      ultimaFechaSincro: ultimaFechaSincro ?? this.ultimaFechaSincro,
+      lastSyncDate: lastSyncDate ?? this.lastSyncDate,
       periodoIdSeleccionado:
           periodoIdSeleccionado ?? this.periodoIdSeleccionado,
       porcentajeValorProyectadoSeleccionado:
@@ -159,4 +160,20 @@ class ProjectCache {
 
   double porcentajeAsiVaEn(double valorproyecto) =>
       ((newExecutedValue ?? 0) / valorproyecto) * 100;
+
+  String get getLastDateSyncFormatted {
+    if (lastSyncDate == null) {
+      return 'Nunca';
+    }
+
+    if (lastSyncDate.difference(DateTime.now()).inSeconds > -10) {
+      return 'Justo Ahora';
+    }
+
+    return ProjectHelpers.getlastSyncDateFormatted(lastSyncDate);
+  }
+
+  bool get synchronizationRequired {
+    return lastSyncDate == null;
+  }
 }

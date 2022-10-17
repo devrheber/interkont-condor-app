@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math' as math;
 import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
 import 'package:appalimentacion/utils/assets/assets.dart';
@@ -27,7 +26,7 @@ class CardTitulo extends StatelessWidget {
           margin: EdgeInsets.only(top: 60.h),
           child: Stack(
             children: <Widget>[
-              const _Title(),
+              _Title(key: detailProvider.titleCardKey),
               _CircleImageCard(
                 imgUrl: project.imagencategoria,
               ),
@@ -93,16 +92,24 @@ class _CircleImageCard extends StatelessWidget {
   }
 }
 
-class _Title extends StatelessWidget {
+class _Title extends StatefulWidget {
   const _Title({Key key}) : super(key: key);
+
+  @override
+  State<_Title> createState() => TitleState();
+}
+
+class TitleState extends State<_Title> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final detailProvider = Provider.of<ProjectDetailProvider>(context);
     final cache = context.watch<ProjectDetailProvider>().cache;
     final project = detailProvider.project;
-
-    final ultimaSincro = context.watch<ProjectDetailProvider>().ultimaSincro;
 
     return Container(
       width: double.infinity,
@@ -156,27 +163,23 @@ class _Title extends StatelessWidget {
                     ),
                   ),
                   Visibility(
-                    visible: cache?.ultimaFechaSincro == null,
+                    visible: cache?.lastSyncDate == null,
                     child: Image.asset(
                       'assets/img/Desglose/Demas/icn-alert.png',
                       height: 14.sp,
                     ),
                   ),
                   Text(
-                    cache?.ultimaFechaSincro == null
-                        ? ' Nunca'
-                        : ultimaSincro == null
-                            ? cache.ultimaFechaSincro
-                            : ' Justo Ahora',
+                    cache?.getLastDateSyncFormatted ?? '',
                     textAlign: TextAlign.center,
-                    style: cache?.ultimaFechaSincro == null
+                    style: cache?.lastSyncDate == null
                         ? TextStyle(
                             fontFamily: "montserrat",
                             fontWeight: FontWeight.w600,
                             fontSize: 15.sp,
                             color: Color(0xffC1272D),
                           )
-                        : ultimaSincro == null
+                        : cache?.synchronizationRequired ?? true
                             ? AppTheme.parrafoCelesteNegrita
                             : TextStyle(
                                 fontFamily: "montserrat",
@@ -226,25 +229,6 @@ class _SyncButtonState extends State<_SyncButton>
     with TickerProviderStateMixin {
   AnimationController animationController;
 
-  int _ultimaSincro;
-
-  int get ultimaSincro => _ultimaSincro;
-
-  set ultimaSincro(int value) {
-    _ultimaSincro = value;
-    if (value == 1) {
-      Timer(const Duration(seconds: 10), () {
-        _ultimaSincro = null;
-        if (mounted) {
-          setState(() {});
-        }
-      });
-    }
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
   @override
   void initState() {
     animationController = AnimationController(
@@ -290,6 +274,8 @@ class _SyncButtonState extends State<_SyncButton>
                       if (animationController != null &&
                           animationController.isAnimating) return;
                       animationController.repeat();
+
+                      // TODO update projectData
 
                       final result = await detailService.syncDetail();
 

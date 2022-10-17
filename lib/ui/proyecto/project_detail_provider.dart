@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
-import 'package:appalimentacion/helpers/project_helpers.dart';
 import 'package:flutter/material.dart';
 
 class ProjectDetailProvider extends ChangeNotifier {
@@ -19,6 +18,8 @@ class ProjectDetailProvider extends ChangeNotifier {
     _getPosicionPeriodoSeleccionado();
   }
 
+  GlobalKey titleCardKey = GlobalKey<State<StatefulWidget>>();
+
   int get projectCode => project.codigoproyecto;
 
   Project project;
@@ -26,25 +27,23 @@ class ProjectDetailProvider extends ChangeNotifier {
   final ProjectsRepository projectRepository;
   final ProjectsCacheRepository projectsCacheRepository;
 
-  ProjectCache cache;
-  int _ultimaSincro;
+  ProjectCache _cache;
+
+  ProjectCache get cache => _cache;
+
+  set cache(ProjectCache value) {
+    _cache = value;
+
+    Future.delayed(const Duration(seconds: 61)).then((_) {
+      if (!titleCardKey.currentState.mounted) return;
+
+      notifyListeners();
+    });
+  }
 
   Periodo periodoSeleccionado;
 
-  int get ultimaSincro => _ultimaSincro;
-
-  set ultimaSincro(int value) {
-    _ultimaSincro = value;
-    if (value == 1) {
-      Timer(const Duration(seconds: 10), () {
-        _ultimaSincro = null;
-        try {
-          notifyListeners();
-        } catch (_) {}
-      });
-    }
-    notifyListeners();
-  }
+  bool updateTitleCard;
 
   Map<String, DatosAlimentacion> projectDetails = {};
 
@@ -58,20 +57,19 @@ class ProjectDetailProvider extends ChangeNotifier {
 
   Future<bool> syncDetail() async {
     final projectCode = project.codigoproyecto;
-    periodoSeleccionado = null;
 
     try {
       final detail = await projectRepository.getDatosAlimentacion(
           codigoProyecto: '$projectCode');
 
-      final dateSync = ProjectHelpers.setUltimaFechaSincro();
+      _updateSelectedPeriod();
 
-      this.cache = this.cache.copyWith(
-            ultimaFechaSincro: dateSync,
-          );
+      final dateSync = DateTime.now();
+
+      this.cache = this.cache.copyWith(lastSyncDate: dateSync);
       this.detail = detail;
 
-      ultimaSincro = 1;
+      notifyListeners();
 
       projectsCacheRepository.saveProjectCache(projectCode, this.cache);
       projectsCacheRepository.saveDetail(detail);
@@ -80,6 +78,18 @@ class ProjectDetailProvider extends ChangeNotifier {
     } catch (_) {
       return false;
     }
+  }
+
+  void _updateSelectedPeriod() {
+    final int index = detail.periodos.indexWhere(
+        (period) => period.periodoId == periodoSeleccionado?.periodoId);
+
+    if (index < 0) {
+      periodoSeleccionado = null;
+      return;
+    }
+
+    periodoSeleccionado = detail.periodos[index];
   }
 
   void cambiarPeriodoReportado(Periodo periodo) {

@@ -12,4 +12,12 @@ class ProjectHelpers {
 
     return value;
   }
+
+  static String getlastSyncDateFormatted(DateTime dateTime) {
+    var fechaActual = dateTime;
+    var formats = [M, " ", d, " ", yyyy, " ", H, ':', nn];
+    final value = '${cambiarFormatoFecha(formatDate(fechaActual, formats))}';
+
+    return value;
+  }
 }

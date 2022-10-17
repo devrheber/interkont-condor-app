@@ -1,4 +1,3 @@
-import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_screen.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
@@ -36,6 +35,12 @@ class ProyectScreen extends StatelessWidget {
             gravity: Toast.BOTTOM);
         return;
       }
+      if (detailProvider.cache.synchronizationRequired) {
+        Toast.show('Debe sincronizar el proyecto', context,
+            duration: 5, gravity: Toast.BOTTOM);
+        return;
+      }
+
       if (detailProvider.detail.periodos.isEmpty) {
         Toast.show('Lo sentimos, este proyecto no tiene periodos que reportar',
             context,
@@ -66,7 +71,8 @@ class ProyectScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigationBar(
           colorFondo: Color(0xff22B573),
           primerBotonDesactivado: false,
-          segundoBotonDesactivado: project.pendienteAprobacion,
+          segundoBotonDesactivado: project.pendienteAprobacion &&
+              (detailProvider.cache?.synchronizationRequired ?? false),
           txtPrimerBoton: null,
           txtSegundoBoton: 'Reportar Avance',
           accionPrimerBoton: null,

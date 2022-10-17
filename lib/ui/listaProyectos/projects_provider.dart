@@ -50,14 +50,14 @@ class ProjectsProvider extends ChangeNotifier {
     await _projectsCacheRepository.saveProjectDetails(codigoProyecto, data);
   }
 
-  Future<void> _saveSyncDate(int projectCode, String syncDate) async {
+  Future<void> _saveSyncDate(int projectCode, DateTime syncDate) async {
     ProjectCache cache =
         _projectsCacheRepository.getCacheByProjectCode(projectCode);
 
     if (cache == null) {
-      cache = ProjectCache(ultimaFechaSincro: syncDate);
+      cache = ProjectCache(lastSyncDate: syncDate);
     } else {
-      cache = cache.copyWith(ultimaFechaSincro: syncDate);
+      cache = cache.copyWith(lastSyncDate: syncDate);
     }
 
     _projectsCacheRepository.saveProjectCache(projectCode, cache);
@@ -86,7 +86,7 @@ class ProjectsProvider extends ChangeNotifier {
 
       saveDetail(codigoProyecto, detail);
 
-      final syncDate = ProjectHelpers.setUltimaFechaSincro();
+      final syncDate = DateTime.now();
       _saveSyncDate(codigoProyecto, syncDate);
 
       return detail;
