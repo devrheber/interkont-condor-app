@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -50,4 +51,18 @@ class ComplementaryImage extends Equatable {
 
   @override
   List<Object> get props => [name, type];
+
+  Future<ComplementaryImage> fromImageString() async {
+    assert(imageFile == null);
+
+    return ComplementaryImage(
+      name: name,
+      type: type,
+      imageFile: await base64StringToFile(
+        image: imageString,
+        name: name,
+        extension: type,
+      ),
+    );
+  }
 }

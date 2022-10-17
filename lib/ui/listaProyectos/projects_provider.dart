@@ -2,8 +2,7 @@ import 'dart:async';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
-import 'package:appalimentacion/helpers/helpers.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class ProjectsProvider extends ChangeNotifier {
   ProjectsProvider({
@@ -11,6 +10,7 @@ class ProjectsProvider extends ChangeNotifier {
     @required ProjectsCacheRepository projectsCacheRepository,
   }) : _projectsCacheRepository = projectsCacheRepository {
     getRemoteProjects();
+    getDocumentTypes();
     _init();
   }
 
@@ -39,6 +39,21 @@ class ProjectsProvider extends ChangeNotifier {
 
     _saveProjectsInLocalStorage(projects);
     notifyListeners();
+  }
+
+  Future<void> getDocumentTypes() async {
+    try {
+      final types = await projectRepository.getTipoDoc();
+
+      if (types == null || types.isEmpty) return;
+
+      _projectsCacheRepository.saveDocumentTypes(types);
+    } catch (_) {
+      // TODO
+      if (kDebugMode) {
+        print('error al obtener los tipos de documento');
+      }
+    }
   }
 
   Future<void> _saveProjectsInLocalStorage(List<Project> projects) async {

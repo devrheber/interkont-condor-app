@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:appalimentacion/domain/models/models.dart';
@@ -7,6 +8,7 @@ import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/helpers/helpers.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,7 +21,7 @@ class FourthStepProvider extends ChangeNotifier {
   })  : _projectsRepository = projectRepository,
         _projectsCacheRepository = projectsCacheRepository,
         _filesPersistentCacheRepository = nonPersistentCacheRepository {
-    loadDocumentsTypes();
+    getDocumentTypes();
     cache = _projectsCacheRepository.getCache();
 
     loadFilesFromCacheNonPersistent();
@@ -61,57 +63,79 @@ class FourthStepProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadDocumentsTypes() async {
+  Future<void> getDocumentTypes() async {
+    List<TipoDoc> types = [];
     try {
       gettingTypesDocument = true;
+      types = _projectsCacheRepository.getDocumentTypes();
+
+      if (types == null) {
+        types = await getDocumentTypesFromRemote();
+      }
+
+      listaTipoDoc = types;
+      await _loadRequiredDocumentsFromCache(types);
+      await _loadAdditionalDocumentsFromCache();
+
+      gettingTypesDocument = false;
+    } catch (_) {
+      // TODO
+      gettingTypesDocument = false;
+      if (kDebugMode) {
+        print(
+            'no se encontró tipos de docs en localstorage y se falló al intentar obtenerlos de funte remota');
+      }
+    }
+  }
+
+  Future<List<TipoDoc>> getDocumentTypesFromRemote() async {
+    try {
       final remoteTypesDocument = await _projectsRepository.getTipoDoc();
 
-      //* First type document is always required
-      remoteTypesDocument[0] =
-          remoteTypesDocument[0].copyWith(obligatorio: true);
+      _projectsCacheRepository.saveDocumentTypes(remoteTypesDocument);
 
-      for (final doc in remoteTypesDocument) {
-        if (doc.obligatorio) {
-          requiredDocuments.add(
-            Document(
-              tipoId: doc.id,
-              typeName: doc.nombre,
-            ),
-          );
-        } else {
-          this.listaTipoDoc.add(doc);
-        }
-      }
+      return remoteTypesDocument;
+    } catch (_) {
+      throw '';
+    }
+  }
 
-      final requiredDocumentsCache =
-          _filesPersistentCacheRepository.getRequiredDocuments();
+  Future<void> _loadRequiredDocumentsFromCache(List<TipoDoc> list) async {
+    //* First type document is always required
+    list[0] = list[0].copyWith(obligatorio: true);
 
-      for (int i = 0; i < requiredDocuments.length; i++) {
-        final index = requiredDocumentsCache
-            .indexWhere((doc) => doc.tipoId == requiredDocuments[i].tipoId);
+    for (final doc in list) {
+      if (!doc.obligatorio) continue;
+      requiredDocuments.add(
+        Document(tipoId: doc.id, typeName: doc.nombre),
+      );
+    }
 
-        if (index >= 0) {
-          final newDoc = Document(
-            nombre: requiredDocumentsCache[index].nombre,
-            extension: requiredDocumentsCache[index].extension,
-            file: await base64StringToFile(
-              image: requiredDocumentsCache[index].documento,
-              name: requiredDocumentsCache[index].nombre,
-              extension: requiredDocumentsCache[index].extension,
-            ),
-            tipoId: requiredDocuments[index].tipoId,
-            typeName: requiredDocuments[index].typeName,
-          );
+    final requiredDocumentsCache =
+        _filesPersistentCacheRepository.getRequiredDocuments();
 
-          requiredDocuments[i] = newDoc;
-        }
-      }
+    for (int i = 0; i < requiredDocuments.length; i++) {
+      final index = requiredDocumentsCache
+          .indexWhere((doc) => doc.tipoId == requiredDocuments[i].tipoId);
 
-      // TODO Load additional documents, replace only wheter now is not a required document
+      if (index < 0) continue;
 
-      gettingTypesDocument = false;
-    } catch (e) {
-      gettingTypesDocument = false;
+      final newDocument = await requiredDocumentsCache[index].fromFileString();
+
+      requiredDocuments[i] = newDocument;
+    }
+  }
+
+  Future<void> _loadAdditionalDocumentsFromCache() async {
+    final additionalDocumentsCache =
+        _filesPersistentCacheRepository.getAdditionalDocuments();
+
+    inspect(additionalDocumentsCache);
+
+    for (int i = 0; i < additionalDocumentsCache.length; i++) {
+      final newDocument = await additionalDocumentsCache[i].fromFileString();
+
+      additionalDocuments.add(newDocument);
     }
   }
 
@@ -146,6 +170,8 @@ class FourthStepProvider extends ChangeNotifier {
       file: file,
       nombre: nameExtension.first,
       extension: nameExtension.last,
+      typeName: requiredDocuments[index].typeName,
+      tipoId: requiredDocuments[index].tipoId,
     );
 
     notifyListeners();
@@ -180,50 +206,33 @@ class FourthStepProvider extends ChangeNotifier {
     notifyListeners();
 
     // TODO Remove or hide type item from typesDocuments
+    _filesPersistentCacheRepository
+        .saveAdditionalDocument(additionalDocuments.last.saveCache(
+      stringDoc: base64Encode(File(file.path).readAsBytesSync()),
+    ));
 
-    // TODO Save in cache Non Persisten
-    // _nonPersistentCacheRepository
-    //     .saveAdditionalDocument(additionalDocuments.last.saveCache(
-    //   stringDoc: base64Encode(File(file.path).readAsBytesSync()),
-    // ));
+    inspect(_filesPersistentCacheRepository.getAdditionalDocuments());
   }
 
   void removeAdditionalDocument(Document document) {
     additionalDocuments.remove(document);
     notifyListeners();
 
-    // TODO remove
-    // _nonPersistentCacheRepository.removeRequiredDocument(document);
+    _filesPersistentCacheRepository.removeAdditionalDocument(document);
   }
 
   Future<void> loadFilesFromCacheNonPersistent() async {
     final mainPhotoCache = _filesPersistentCacheRepository.getMainPhoto();
 
     if (mainPhotoCache != null) {
-      this.mainPhoto = ComplementaryImage(
-        name: mainPhotoCache.name,
-        type: mainPhotoCache.type,
-        imageFile: await base64StringToFile(
-          image: mainPhotoCache.imageString,
-          name: mainPhotoCache.name,
-          extension: mainPhotoCache.type,
-        ),
-      );
+      this.mainPhoto = await mainPhotoCache.fromImageString();
     }
 
     final imagesCache =
         _filesPersistentCacheRepository.getComplementaryImages();
 
     for (final image in imagesCache) {
-      final newImage = ComplementaryImage(
-        name: image.name,
-        type: image.type,
-        imageFile: await base64StringToFile(
-          image: image.imageString,
-          name: image.name,
-          extension: image.type,
-        ),
-      );
+      final newImage = await image.fromImageString();
 
       complementaryImages.add(newImage);
     }

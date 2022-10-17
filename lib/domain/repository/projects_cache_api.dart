@@ -29,6 +29,10 @@ abstract class ProjectsCacheApi {
 
   Future<void> saveCache(ProjectCache cache);
 
+  Future<void> saveDocumentTypes(List<TipoDoc> types);
+
+  List<TipoDoc> getDocumentTypes();
+
   void setCurrentProjectCode(int projectCode);
 
   void clearData();

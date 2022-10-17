@@ -27,10 +27,13 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   final _detailStreamController =
       BehaviorSubject<Map<String, DatosAlimentacion>>.seeded({});
 
+  List<TipoDoc> documentTypes = [];
+
   @visibleForTesting
   static const kCacheMapKey = '__cache_collection_key__';
   static const kProjectsKey = '__projects_collection_key__';
   static const kDetailsKey = '__details_collection_key__';
+  static const kDocumentTypesKey = '__document_types_collection_key__';
 
   String _getValue(String key) => _plugin.getString(key);
   Future<void> _setValue(String key, String value) =>
@@ -40,6 +43,7 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
     final projectsCacheJson = _getValue(kCacheMapKey);
     final projectsJson = _getValue(kProjectsKey);
     final detailsJson = _getValue(kDetailsKey);
+    final docTypes = _getValue(kDocumentTypesKey);
     try {
       if (projectsCacheJson != null) {
         final projectsCache = projectsCacheFromJson(projectsCacheJson);
@@ -62,6 +66,11 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
     if (detailsJson != null) {
       final details = projectsDetailFromJson(detailsJson);
       _detailStreamController.add(details);
+    }
+
+    if (docTypes != null) {
+      final types = tipoDocFromJson(docTypes);
+      documentTypes = types;
     }
   }
 
@@ -137,6 +146,15 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   }
 
   @override
+  List<TipoDoc> getDocumentTypes() {
+    if (documentTypes.isNotEmpty) {
+      return documentTypes;
+    } else {
+      return null;
+    }
+  }
+
+  @override
   Future<void> saveDetail(DatosAlimentacion detail) {
     final map = {..._detailStreamController.value};
     map[currentProjectCode.toString()] = detail;
@@ -154,6 +172,12 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
         .add(map[currentProjectCode.toString()].porcentajeValorEjecutado);
 
     return _setValue(kCacheMapKey, projectsCacheToJson(map));
+  }
+
+  @override
+  Future<void> saveDocumentTypes(List<TipoDoc> types) async {
+    documentTypes = types;
+    _setValue(kDocumentTypesKey, tipoDocToJson(types));
   }
 
   @override

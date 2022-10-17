@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'dart:io';
 
+import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -29,17 +30,19 @@ class Document extends Equatable {
   final String typeName;
 
   factory Document.fromJson(Map<String, dynamic> json) => Document(
-        documento: json["documento"],
-        extension: json["extension"],
-        nombre: json["nombre"],
-        tipoId: json["tipoId"],
+        documento: json['documento'],
+        extension: json['extension'],
+        nombre: json['nombre'],
+        tipoId: json['tipoId'],
+        typeName: json['typeName'],
       );
 
   Map<String, dynamic> toJson() => {
-        "documento": documento,
-        "extension": extension,
-        "nombre": nombre,
-        "tipoId": tipoId,
+        'documento': documento,
+        'extension': extension,
+        'nombre': nombre,
+        'tipoId': tipoId,
+        'typeName': typeName,
       };
 
   Document copyWith({
@@ -57,6 +60,20 @@ class Document extends Equatable {
       tipoId: tipoId ?? this.tipoId,
       file: file ?? this.file,
       typeName: typeName ?? this.typeName,
+    );
+  }
+
+  Future<Document> fromFileString() async {
+    return Document(
+      nombre: nombre,
+      extension: extension,
+      file: await base64StringToFile(
+        image: documento,
+        name: nombre,
+        extension: extension,
+      ),
+      tipoId: tipoId,
+      typeName: typeName,
     );
   }
 

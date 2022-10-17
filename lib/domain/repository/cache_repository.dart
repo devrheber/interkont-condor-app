@@ -19,6 +19,8 @@ class ProjectsCacheRepository {
 
   Project getProject() => _projectsCacheApi.getProject();
 
+  List<TipoDoc> getDocumentTypes() => _projectsCacheApi.getDocumentTypes();
+
   DatosAlimentacion getDetail(int projectCode) =>
       _projectsCacheApi.getDetail(projectCode);
 
@@ -44,6 +46,9 @@ class ProjectsCacheRepository {
 
   Future<void> saveCache(ProjectCache cache) =>
       _projectsCacheApi.saveCache(cache);
+
+  Future<void> saveDocumentTypes(List<TipoDoc> types) =>
+      _projectsCacheApi.saveDocumentTypes(types);
 
   void setCurrentProjectCode(int projectCode) =>
       _projectsCacheApi.setCurrentProjectCode(projectCode);
