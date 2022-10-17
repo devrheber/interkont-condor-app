@@ -14,6 +14,9 @@ class ProjectsCacheRepository {
 
   ProjectCache getCache() => _projectsCacheApi.getCache();
 
+  ProjectCache getCacheByProjectCode(int projectCode) =>
+      _projectsCacheApi.getCacheByProjectCode(projectCode);
+
   Project getProject() => _projectsCacheApi.getProject();
 
   DatosAlimentacion getDetail(int projectCode) =>

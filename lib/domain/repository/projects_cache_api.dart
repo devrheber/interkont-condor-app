@@ -7,6 +7,8 @@ abstract class ProjectsCacheApi {
 
   ProjectCache getCache();
 
+  ProjectCache getCacheByProjectCode(int projectCode);
+
   Project getProject();
 
   DatosAlimentacion getDetail(int projectCode);

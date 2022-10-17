@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
+import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
 class ProjectsProvider extends ChangeNotifier {
@@ -49,6 +50,19 @@ class ProjectsProvider extends ChangeNotifier {
     await _projectsCacheRepository.saveProjectDetails(codigoProyecto, data);
   }
 
+  Future<void> _saveSyncDate(int projectCode, String syncDate) async {
+    ProjectCache cache =
+        _projectsCacheRepository.getCacheByProjectCode(projectCode);
+
+    if (cache == null) {
+      cache = ProjectCache(ultimaFechaSincro: syncDate);
+    } else {
+      cache = cache.copyWith(ultimaFechaSincro: syncDate);
+    }
+
+    _projectsCacheRepository.saveProjectCache(projectCode, cache);
+  }
+
   Future<DatosAlimentacion> getProjectDetail(int codigoProyecto,
       {@required int index}) async {
     try {
@@ -71,6 +85,9 @@ class ProjectsProvider extends ChangeNotifier {
           codigoProyecto: '$codigoProyecto');
 
       saveDetail(codigoProyecto, detail);
+
+      final syncDate = ProjectHelpers.setUltimaFechaSincro();
+      _saveSyncDate(codigoProyecto, syncDate);
 
       return detail;
     } catch (_) {

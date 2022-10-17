@@ -163,4 +163,13 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
     _projectsCacheStreamController.add({});
     _detailStreamController.add({});
   }
+
+  @override
+  ProjectCache getCacheByProjectCode(int projectCode) {
+    final projectsCache = {..._projectsCacheStreamController.value};
+    if (projectsCache.containsKey(projectCode.toString())) {
+      return projectsCache[projectCode.toString()];
+    }
+    return null;
+  }
 }
