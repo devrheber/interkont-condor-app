@@ -282,11 +282,12 @@ class IndicatorField extends StatelessWidget {
                 inputFormatters: [
                   if (enabled)
                     CurrencyTextInputFormatter(
-                      locale: 'es_CO',
-                      symbol: '\COP',
+                      locale: 'en_US',
+                      symbol: '\$ ',
                       decimalDigits: 2,
                     ),
                 ],
+                maxLength: 26,
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
@@ -294,10 +295,10 @@ class IndicatorField extends StatelessWidget {
                   hintText: hintText,
                   hintStyle: style.copyWith(
                       fontSize: 14.sp, fontWeight: FontWeight.w400),
+                  counterText: '',
                 ),
                 focusNode: focusNode,
                 controller: controller,
-                // TODO Set Max length and hide indicator
                 onChanged: (String value) {
                   final val =
                       TextSelection.collapsed(offset: controller.text.length);

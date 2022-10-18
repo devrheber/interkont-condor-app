@@ -20,4 +20,14 @@ class ProjectHelpers {
 
     return value;
   }
+
+  static double getDoubleValue(String value) {
+    // TODO Usar expresión regular para quitar caracteres y espacios (menos caracter "." (punto))
+    String rawValue = value == '' ? '0' : value;
+    rawValue = rawValue.replaceAll(' ', '');
+    rawValue = rawValue.replaceAll('\COP', '');
+    rawValue = rawValue.replaceAll('\$', '');
+    rawValue = rawValue.replaceAll(',', '');
+    return double.parse(rawValue);
+  }
 }

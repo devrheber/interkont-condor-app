@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/domain/models/alimentacion_request.dart';
@@ -7,6 +6,7 @@ import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:appalimentacion/globales/variables.dart';
+import 'package:appalimentacion/helpers/project_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -44,14 +44,6 @@ class LastStepProvider extends ChangeNotifier {
   List<Document> additionalDocuments = [];
 
   int get projectCode => _project.codigoproyecto;
-
-  double _getDoubleValue(String value) {
-    String rawValue = value == '' ? '0' : value;
-    rawValue = rawValue.replaceAll('\COP', '');
-    rawValue = rawValue.replaceAll('.', '');
-    rawValue = rawValue.replaceAll(',', '.');
-    return double.parse(rawValue);
-  }
 
   Future<Map<String, dynamic>> guardarAlimentacion() async {
     String url = "$urlGlobalApiCondor/guardar-alimentacion";
@@ -147,9 +139,12 @@ class LastStepProvider extends ChangeNotifier {
       indicadoresAlcance: [],
       periodoId: _cache.periodoIdSeleccionado,
       usuario: user.username,
-      valorRendimientosGenerados: _getDoubleValue(_cache.generatedReturns),
-      valorRendimientosMesActual: _getDoubleValue(_cache.currentMonthReturns),
-      valorRendimientosMesVencido: _getDoubleValue(_cache.pastDueMonthReturns),
+      valorRendimientosGenerados:
+          ProjectHelpers.getDoubleValue(_cache.generatedReturns),
+      valorRendimientosMesActual:
+          ProjectHelpers.getDoubleValue(_cache.currentMonthReturns),
+      valorRendimientosMesVencido:
+          ProjectHelpers.getDoubleValue(_cache.pastDueMonthReturns),
     );
 
     // inspect(data.toJson());
