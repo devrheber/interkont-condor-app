@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Project {
   Project({
     this.codigoproyecto,
@@ -106,8 +108,54 @@ class Project {
     return value;
   }
 
+  double get asiVaPorcentajeDouble {
+    final value = ((100 * valorejecutado) / valorproyecto).round();
+
+    return value * 1.0;
+  }
+
+  double get deberiaIr {
+    return (porcentajeProyectado / 100) * valorproyecto;
+  }
+
   String get dineroDeberiaIr =>
       '${((porcentajeProyectado / 100) * valorproyecto)}';
 
   String get getProjectCode => codigoproyecto.toString();
+
+  String get getCurrentTrafficLightColor {
+    if (semaforoproyecto == 'rojo') {
+      return 'semaforo-3';
+    }
+    if (semaforoproyecto == 'amarillo') {
+      return 'semaforo-2';
+    }
+    if (semaforoproyecto == 'verde') {
+      return 'semaforo-1';
+    }
+
+    return 'semaforo-3';
+  }
+
+  String getNewTrafficLightColor({
+    @required double currentProgress,
+    @required double projectedValue,
+    @required double latePercentageLimit,
+    @required double yellowLatePercentageLimit,
+  }) {
+    double datoVerde = (100 - (currentProgress / projectedValue) * 100);
+
+    if (datoVerde <= latePercentageLimit) {
+      return 'semaforo-1';
+    }
+    if (datoVerde > latePercentageLimit &&
+        datoVerde <= yellowLatePercentageLimit) {
+      return 'semaforo-2';
+    }
+    if (datoVerde > yellowLatePercentageLimit) {
+      return 'semaforo-3';
+    }
+
+    return 'semaforo-3';
+  }
 }
