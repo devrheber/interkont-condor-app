@@ -40,7 +40,7 @@ class QualitativeProgressCard extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  '${item.aspectToEvaluateId}',
+                  '${item.title}',
                   style: TextStyle(
                     color: Color(0xff334660),
                     fontWeight: FontWeight.w600,
