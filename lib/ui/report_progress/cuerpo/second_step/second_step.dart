@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
+import 'package:toast/toast.dart';
 
 import 'customed_text_field.dart';
 import 'qualitative_progress_card.dart';
@@ -69,31 +70,34 @@ class SecondStepBodyState extends State<SecondStepBody> {
                       title: 'Ingrese los logros',
                       hintText:
                           'Acá puede agregar los logros que obtuvo el proyecto...',
-                      onChanged: (texto) {
-                        // TODO
-                      },
+                      onChanged: (String text) {},
                       controller: achiveController,
                     ),
                     CustomedTextField(
                       title: 'Ingrese las dificultades',
                       hintText:
                           'Acá puede agregar los dificultades que obtuvo el proyecto...',
-                      onChanged: (texto) {
-                        // TODO
-                      },
+                      onChanged: (String text) {},
                       controller: difficultyController,
                     ),
                     SizedBox(height: 8.sp),
                     AddGreenButton(
                       onTap: () {
-                        if (achiveController.text.isEmpty) return;
-                        if (difficultyController.text.isEmpty) return;
-                        // TODO Show toast or show error validate
+                        if (achiveController.text.trim().isEmpty &&
+                            difficultyController.text.trim().isEmpty) {
+                          Toast.show('Registre al menos un logro o dificultad',
+                              context,
+                              duration: 5);
+
+                          return;
+                        }
 
                         reportProgressService.addQualitativeProgress(
                           achive: achiveController.text,
                           difficulty: difficultyController.text,
                         );
+
+                        FocusScope.of(context).requestFocus(FocusNode());
 
                         achiveController.clear();
                         difficultyController.clear();

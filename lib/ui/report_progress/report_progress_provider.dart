@@ -172,10 +172,6 @@ class ReportProgressProvider extends ChangeNotifier {
   }
 
   bool get secondButtonValidation {
-    if (stepNumber == 2) {
-      return achievesAndDifficulties.isEmpty;
-    }
-
     if (stepNumber == 3) {
       return incomeGenerationDate == null ||
           rentalRepaymentDate == null ||
@@ -192,12 +188,6 @@ class ReportProgressProvider extends ChangeNotifier {
 
   String stepValidations() {
     switch (stepNumber) {
-      case 2:
-        if (achievesAndDifficulties.isEmpty) {
-          return 'Añada al menos un avance cualitativo';
-        }
-
-        return null;
       case 3:
         if (incomeGenerationDate == null ||
             rentalRepaymentDate == null ||

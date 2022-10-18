@@ -90,8 +90,8 @@ class QualitativeProgressCard extends StatelessWidget {
                   style: textStyle,
                   textAlign: TextAlign.start,
                 ),
-                Text(
-                  '${item.achive}',
+                SelectableText(
+                  item.getAchive,
                   style: textStyle,
                   textAlign: TextAlign.start,
                 ),
@@ -100,8 +100,8 @@ class QualitativeProgressCard extends StatelessWidget {
                   style: textStyle,
                   textAlign: TextAlign.start,
                 ),
-                Text(
-                  '${item.difficulty}',
+                SelectableText(
+                  item.getDifficulty,
                   style: textStyle,
                   textAlign: TextAlign.start,
                 ),
