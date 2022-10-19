@@ -41,6 +41,9 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
   @override
   Widget build(BuildContext context) {
     final delayFactorService = Provider.of<DelayFactorProvider>(context);
+
+    ToastContext().init(context);
+    
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(

@@ -19,6 +19,9 @@ class DocumentosAdicionales extends StatelessWidget {
   Widget build(BuildContext context) {
     final fourthStepService = context.read<FourthStepProvider>();
     final documents = context.watch<FourthStepProvider>().additionalDocuments;
+
+    ToastContext().init(context);
+    
     var textStyle = TextStyle(
       fontFamily: 'montserrat',
       fontSize: 14.sp,

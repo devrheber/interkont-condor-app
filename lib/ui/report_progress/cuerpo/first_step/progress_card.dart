@@ -41,6 +41,8 @@ class _ProgressCardState extends State<ProgressCard> {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
+    
     void calcutate(String stringValue) {
       String value = stringValue == '' ? '0' : stringValue;
 

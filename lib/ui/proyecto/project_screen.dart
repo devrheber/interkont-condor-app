@@ -25,6 +25,8 @@ class ProyectScreen extends StatelessWidget {
     final detailProvider = Provider.of<ProjectDetailProvider>(context);
     final project = detailProvider.project;
 
+    ToastContext().init(context);
+
     void goToNextScreen() {
       if (project.pendienteAprobacion) {
         Toast.show(

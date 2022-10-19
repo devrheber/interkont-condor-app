@@ -41,6 +41,8 @@ class SecondStepBodyState extends State<SecondStepBody> {
   Widget build(BuildContext context) {
     final reportProgressService = Provider.of<ReportProgressProvider>(context);
 
+    ToastContext().init(context);
+
     return Stack(
       children: <Widget>[
         Container(

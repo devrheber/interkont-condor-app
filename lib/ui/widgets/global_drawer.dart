@@ -12,6 +12,7 @@ class GlobalDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     return Drawer(
       child: ListView(
         children: <Widget>[

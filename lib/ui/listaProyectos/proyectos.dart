@@ -20,6 +20,9 @@ class ProyectosContenido extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final projectsProvider = Provider.of<ProjectsProvider>(context);
+
+    ToastContext().init(context);
+    
     return Stack(
       children: <Widget>[
         Container(

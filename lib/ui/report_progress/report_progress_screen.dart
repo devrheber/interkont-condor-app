@@ -25,6 +25,9 @@ class ReportProgressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportProgressProvider = Provider.of<ReportProgressProvider>(context);
+  
+    ToastContext().init(context);
+
     final numeroPaso = reportProgressProvider.stepNumber < 1
         ? 1
         : reportProgressProvider.stepNumber > 5

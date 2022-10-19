@@ -231,9 +231,10 @@ class _SyncButtonState extends State<_SyncButton>
 
   @override
   void initState() {
+    super.initState();
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1500), vsync: this);
-    super.initState();
+    ToastContext().init(context);
   }
 
   @override

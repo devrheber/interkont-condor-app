@@ -22,6 +22,8 @@ class RequiredDocuments extends StatelessWidget {
     final requiredDocuments =
         context.watch<FourthStepProvider>().requiredDocuments;
 
+    ToastContext().init(context);
+
     Future<void> agregarDocumento({required int index}) async {
       final FilePickerResult? result = await FilePicker.platform.pickFiles();
       if (result == null) return;

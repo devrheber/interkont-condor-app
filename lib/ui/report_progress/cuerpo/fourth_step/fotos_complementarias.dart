@@ -16,6 +16,8 @@ class FotosComplementarias extends StatelessWidget {
     final fourthStepService = context.read<FourthStepProvider>();
     final images = context.watch<FourthStepProvider>().complementaryImages;
 
+    ToastContext().init(context);
+
     Future obtenerImagen(ImageSource source) async {
       final picked = await ImagePicker().pickImage(source: source);
 
