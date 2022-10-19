@@ -6,14 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   LocalStorageProjectsCacheApi({
-    @required SharedPreferences plugin,
+    required SharedPreferences plugin,
   }) : _plugin = plugin {
     _init();
   }
 
   final SharedPreferences _plugin;
 
-  int currentProjectCode;
+  int? currentProjectCode;
 
   final _projectsCacheStreamController =
       BehaviorSubject<Map<String, ProjectCache>>.seeded(const {});
@@ -35,7 +35,7 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   static const kDetailsKey = '__details_collection_key__';
   static const kDocumentTypesKey = '__document_types_collection_key__';
 
-  String _getValue(String key) => _plugin.getString(key);
+  String? _getValue(String key) => _plugin.getString(key);
   Future<void> _setValue(String key, String value) =>
       _plugin.setString(key, value);
 
@@ -127,7 +127,7 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   }
 
   @override
-  DatosAlimentacion getDetail(int projectCode) {
+  DatosAlimentacion? getDetail(int projectCode) {
     final map = {..._detailStreamController.value};
     if (map.containsKey(projectCode.toString())) {
       return map[projectCode.toString()];
@@ -137,7 +137,7 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   }
 
   @override
-  ProjectCache getCache() {
+  ProjectCache? getCache() {
     final projectsCache = {..._projectsCacheStreamController.value};
     if (projectsCache.containsKey(currentProjectCode.toString())) {
       return projectsCache[currentProjectCode.toString()];
@@ -146,7 +146,7 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   }
 
   @override
-  List<TipoDoc> getDocumentTypes() {
+  List<TipoDoc>? getDocumentTypes() {
     if (documentTypes.isNotEmpty) {
       return documentTypes;
     } else {
@@ -169,7 +169,7 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
     _projectsCacheStreamController.add(map);
 
     _executedValuePercentageStreamController
-        .add(map[currentProjectCode.toString()].porcentajeValorEjecutado);
+        .add(map[currentProjectCode.toString()]!.porcentajeValorEjecutado!);
 
     return _setValue(kCacheMapKey, projectsCacheToJson(map));
   }
@@ -194,7 +194,7 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   }
 
   @override
-  ProjectCache getCacheByProjectCode(int projectCode) {
+  ProjectCache? getCacheByProjectCode(int projectCode) {
     final projectsCache = {..._projectsCacheStreamController.value};
     if (projectsCache.containsKey(projectCode.toString())) {
       return projectsCache[projectCode.toString()];

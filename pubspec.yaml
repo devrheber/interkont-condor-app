@@ -14,44 +14,44 @@ description: A new Flutter project.
 version: 1.0.1+5
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   animated_text_kit: ^4.2.1
-  auto_size_text: ^2.1.0
-  beauty_textfield: ^0.0.1
-  cached_network_image: ^2.3.1
-  carousel_slider: ^3.0.0
-  cupertino_icons: ^0.1.2
-  currency_text_input_formatter: ^1.0.5
-  date_format: ^1.0.8
+  auto_size_text: ^3.0.0
+  # beauty_textfield: ^0.0.1
+  cached_network_image: ^3.2.0
+  carousel_slider: ^4.1.1
+  cupertino_icons: ^1.0.5
+  currency_text_input_formatter: ^2.1.7
+  date_format: ^2.0.7
   dio: ^4.0.6
-  dotted_border: ^1.0.7
+  dotted_border: ^2.0.0+2
   equatable: ^2.0.5
-  file_picker: ^4.0.3
+  file_picker: ^4.6.1
   flutter:
     sdk: flutter
   # flutter_keyboard_visibility: ^5.1.0
   flutter_localizations:
     sdk: flutter
-  flutter_screenutil: ^4.0.4+1
-  font_awesome_flutter: ^8.8.1
-  http: any
-  image_picker: ^0.8.4
+  flutter_screenutil: ^5.5.4
+  font_awesome_flutter: ^10.2.1
+  http: ^0.13.5
+  image_picker: ^0.8.6
   intl: ^0.17.0
-  page_transition: ^1.1.7+6
-  path_provider: ^2.0.3
-  percent_indicator: ^2.1.1
-  provider: ^6.0.3
-  rounded_loading_button: ^1.0.4
-  rxdart: ^0.25.0
-  shared_preferences: ^2.0.7
-  toast: ^0.1.5
+  page_transition: ^2.0.9
+  path_provider: ^2.0.11
+  percent_indicator: ^4.2.1
+  provider: ^6.0.4
+  rounded_loading_button: ^2.1.0
+  rxdart: ^0.27.5
+  shared_preferences: ^2.0.15
+  toast: ^0.3.0
 
 # dependency_overrides:
 #   platform: ^3.1.0
 dev_dependencies:
-  flutter_launcher_icons: "^0.8.1"
+  flutter_launcher_icons: ^0.10.0
   flutter_test:
     sdk: flutter
 

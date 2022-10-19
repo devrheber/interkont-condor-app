@@ -19,14 +19,14 @@ String datosAlimentacionToJson(DatosAlimentacion data) =>
 
 class DatosAlimentacion {
   DatosAlimentacion({
-    this.limitePorcentajeAtraso,
-    this.limitePorcentajeAtrasoAmarillo,
-    this.periodos,
-    this.actividades,
-    this.indicadoresAlcance,
-    this.apectosEvaluar,
-    this.tiposFactorAtraso,
-    this.factoresAtraso,
+    required this.limitePorcentajeAtraso,
+    required this.limitePorcentajeAtrasoAmarillo,
+    required this.periodos,
+    required this.actividades,
+    required this.indicadoresAlcance,
+    required this.apectosEvaluar,
+    required this.tiposFactorAtraso,
+    required this.factoresAtraso,
   });
 
   double limitePorcentajeAtraso;
@@ -73,39 +73,39 @@ class DatosAlimentacion {
             List<dynamic>.from(factoresAtraso.map((x) => x.toJson())),
       };
 
-  static DatosAlimentacion get empty {
-    return DatosAlimentacion();
-  }
+  // static DatosAlimentacion get empty {
+  //   return DatosAlimentacion();
+  // }
 }
 
 class Actividad {
   Actividad({
-    this.actividadId,
-    this.descripcionActividad,
-    this.unidadMedida,
-    this.valorUnitario,
-    this.cantidadProgramada,
-    this.cantidadEjecutada,
-    this.valorProgramado,
-    this.valorEjecutado,
-    this.porcentajeAvance,
-    this.cantidadEjecutadaInicial,
-    this.valorEjecutadoInicial,
-    this.porcentajeAvanceInicial,
+    required this.actividadId,
+    required this.descripcionActividad,
+    required this.unidadMedida,
+    required this.valorUnitario,
+    required this.cantidadProgramada,
+    required this.cantidadEjecutada,
+    required this.valorProgramado,
+    required this.valorEjecutado,
+    required this.porcentajeAvance,
+    required this.cantidadEjecutadaInicial,
+    required this.valorEjecutadoInicial,
+    required this.porcentajeAvanceInicial,
   });
 
-  int actividadId;
-  String descripcionActividad;
-  String unidadMedida;
-  double valorUnitario;
-  double cantidadProgramada;
-  double cantidadEjecutada;
-  double valorProgramado;
-  double valorEjecutado;
-  double porcentajeAvance;
-  double cantidadEjecutadaInicial;
-  double valorEjecutadoInicial;
-  double porcentajeAvanceInicial;
+  final int actividadId;
+  final String descripcionActividad;
+  final String unidadMedida;
+  final double valorUnitario;
+  final double cantidadProgramada;
+  final double cantidadEjecutada;
+  final double valorProgramado;
+  final double valorEjecutado;
+  final double porcentajeAvance;
+  final double cantidadEjecutadaInicial;
+  final double valorEjecutadoInicial;
+  final double porcentajeAvanceInicial;
 
   factory Actividad.fromJson(Map<String, dynamic> json) => Actividad(
         actividadId: json["actividadId"],
@@ -170,12 +170,12 @@ class Actividad {
 
 class AspectoEvaluar {
   AspectoEvaluar({
-    this.aspectoEvaluarId,
-    this.descripcionAspectoEvaluar,
+    required this.aspectoEvaluarId,
+    required this.descripcionAspectoEvaluar,
   });
 
-  int aspectoEvaluarId;
-  String descripcionAspectoEvaluar;
+  final int aspectoEvaluarId;
+  final String descripcionAspectoEvaluar;
 
   factory AspectoEvaluar.fromJson(Map<String, dynamic> json) => AspectoEvaluar(
         aspectoEvaluarId: json["aspectoEvaluarId"],
@@ -190,14 +190,14 @@ class AspectoEvaluar {
 
 class FactoresAtraso {
   FactoresAtraso({
-    this.factorAtrasoId,
-    this.factorAtraso,
-    this.tipoFactorAtrasoId,
+    required this.factorAtrasoId,
+    required this.factorAtraso,
+    required this.tipoFactorAtrasoId,
   });
 
-  int factorAtrasoId;
-  String factorAtraso;
-  int tipoFactorAtrasoId;
+  final int factorAtrasoId;
+  final String factorAtraso;
+  final int tipoFactorAtrasoId;
 
   factory FactoresAtraso.fromJson(Map<String, dynamic> json) => FactoresAtraso(
         factorAtrasoId: json["factorAtrasoId"],
@@ -214,16 +214,16 @@ class FactoresAtraso {
 
 class Periodo extends Equatable {
   Periodo({
-    this.periodoId,
-    this.fechaIniPeriodo,
-    this.fechaFinPeriodo,
-    this.porcentajeProyectado,
+    required this.periodoId,
+    required this.fechaIniPeriodo,
+    required this.fechaFinPeriodo,
+    required this.porcentajeProyectado,
   });
 
-  int periodoId;
-  String fechaIniPeriodo;
-  String fechaFinPeriodo;
-  double porcentajeProyectado;
+  final int periodoId;
+  final String fechaIniPeriodo;
+  final String fechaFinPeriodo;
+  final double porcentajeProyectado;
 
   factory Periodo.fromJson(Map<String, dynamic> json) => Periodo(
         periodoId: json["periodoId"],
@@ -241,7 +241,7 @@ class Periodo extends Equatable {
         "porcentajeProyectado": porcentajeProyectado,
       };
 
-  static Periodo empty() => Periodo();
+  // static Periodo empty() => Periodo();
 
   @override
   List<Object> get props =>
@@ -250,12 +250,12 @@ class Periodo extends Equatable {
 
 class TiposFactorAtraso {
   TiposFactorAtraso({
-    this.tipoFactorAtrasoId,
-    this.tipoFactorAtraso,
+    required this.tipoFactorAtrasoId,
+    required this.tipoFactorAtraso,
   });
 
-  int tipoFactorAtrasoId;
-  String tipoFactorAtraso;
+  final int tipoFactorAtrasoId;
+  final String tipoFactorAtraso;
 
   factory TiposFactorAtraso.fromJson(Map<String, dynamic> json) =>
       TiposFactorAtraso(

@@ -1,10 +1,9 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/projects_cache_api.dart';
-import 'package:flutter/foundation.dart';
 
 class ProjectsCacheRepository {
   const ProjectsCacheRepository({
-    @required ProjectsCacheApi projectsCacheApi,
+    required ProjectsCacheApi projectsCacheApi,
   }) : _projectsCacheApi = projectsCacheApi;
 
   final ProjectsCacheApi _projectsCacheApi;
@@ -12,16 +11,16 @@ class ProjectsCacheRepository {
   Stream<Map<String, ProjectCache>> getProjectsCache() =>
       _projectsCacheApi.getProjectsCache();
 
-  ProjectCache getCache() => _projectsCacheApi.getCache();
+  ProjectCache? getCache() => _projectsCacheApi.getCache();
 
-  ProjectCache getCacheByProjectCode(int projectCode) =>
+  ProjectCache? getCacheByProjectCode(int projectCode) =>
       _projectsCacheApi.getCacheByProjectCode(projectCode);
 
   Project getProject() => _projectsCacheApi.getProject();
 
-  List<TipoDoc> getDocumentTypes() => _projectsCacheApi.getDocumentTypes();
+  List<TipoDoc>? getDocumentTypes() => _projectsCacheApi.getDocumentTypes();
 
-  DatosAlimentacion getDetail(int projectCode) =>
+  DatosAlimentacion? getDetail(int projectCode) =>
       _projectsCacheApi.getDetail(projectCode);
 
   Stream<List<Project>> getProjects() => _projectsCacheApi.getProjects();

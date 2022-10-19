@@ -2,19 +2,19 @@ import 'package:flutter/foundation.dart';
 
 class Project {
   Project({
-    this.codigoproyecto,
-    this.nombreproyecto,
-    this.valorproyecto,
-    this.valorejecutado,
-    this.porcentajeProyectado,
-    this.semaforoproyecto,
-    this.codigocategoria,
-    this.imagencategoria,
-    this.colorcategoria,
-    this.nombrecategoria,
-    this.objeto,
+    required this.codigoproyecto,
+    required this.nombreproyecto,
+    required this.valorproyecto,
+    required this.valorejecutado,
+    required this.porcentajeProyectado,
+    required this.semaforoproyecto,
+    required this.codigocategoria,
+    required this.imagencategoria,
+    required this.colorcategoria,
+    required this.nombrecategoria,
+    required this.objeto,
     this.contratista,
-    this.pendienteAprobacion,
+    required this.pendienteAprobacion,
     this.distaciaproyecto,
   });
 
@@ -138,10 +138,10 @@ class Project {
   }
 
   String getNewTrafficLightColor({
-    @required double currentProgress,
-    @required double projectedValue,
-    @required double latePercentageLimit,
-    @required double yellowLatePercentageLimit,
+    required double currentProgress,
+    required double projectedValue,
+    required double latePercentageLimit,
+    required double yellowLatePercentageLimit,
   }) {
     double datoVerde = (100 - (currentProgress / projectedValue) * 100);
 

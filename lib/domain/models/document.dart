@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 
 List<Document> documentsFromJson(String str) =>
     List<Document>.from(json.decode(str).map((x) => Document.fromJson(x)));
@@ -17,17 +16,17 @@ class Document extends Equatable {
     this.documento,
     this.extension,
     this.nombre,
-    this.tipoId,
+    required this.tipoId,
     this.file,
     this.typeName,
   });
 
-  final String documento;
-  final String extension;
-  final String nombre;
+  final String? documento;
+  final String? extension;
+  final String? nombre;
   final int tipoId;
-  final File file;
-  final String typeName;
+  final File? file;
+  final String? typeName;
 
   factory Document.fromJson(Map<String, dynamic> json) => Document(
         documento: json['documento'],
@@ -46,12 +45,12 @@ class Document extends Equatable {
       };
 
   Document copyWith({
-    String documento,
-    String extension,
-    String nombre,
-    int tipoId,
-    File file,
-    String typeName,
+    String? documento,
+    String? extension,
+    String? nombre,
+    int? tipoId,
+    File? file,
+    String? typeName,
   }) {
     return Document(
       documento: documento ?? this.documento,
@@ -64,13 +63,14 @@ class Document extends Equatable {
   }
 
   Future<Document> fromFileString() async {
+    assert(documento != null, nombre != null);
     return Document(
       nombre: nombre,
       extension: extension,
       file: await base64StringToFile(
-        image: documento,
-        name: nombre,
-        extension: extension,
+        image: documento!,
+        name: nombre!,
+        extension: extension!,
       ),
       tipoId: tipoId,
       typeName: typeName,
@@ -87,7 +87,7 @@ class Document extends Equatable {
     );
   }
 
-  Document saveCache({@required String stringDoc}) {
+  Document saveCache({required String stringDoc}) {
     return Document(
       nombre: nombre,
       extension: extension,

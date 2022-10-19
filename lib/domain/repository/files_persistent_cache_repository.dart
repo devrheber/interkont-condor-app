@@ -3,7 +3,7 @@ import 'package:appalimentacion/domain/models/models.dart';
 abstract class FilesPersistentCacheRepository {
   const FilesPersistentCacheRepository();
 
-  ComplementaryImage getMainPhoto();
+  ComplementaryImage? getMainPhoto();
 
   List<Document> getRequiredDocuments();
 

@@ -1,16 +1,14 @@
-import 'package:flutter/foundation.dart';
-
 class QualitativeProgress {
   const QualitativeProgress({
-    @required this.aspectToEvaluateId,
-    @required this.title,
+    required this.aspectToEvaluateId,
+    required this.title,
     this.achive,
     this.difficulty,
   });
   final int aspectToEvaluateId;
   final String title;
-  final String achive;
-  final String difficulty;
+  final String? achive;
+  final String? difficulty;
 
   factory QualitativeProgress.fromJson(Map<String, dynamic> json) {
     return QualitativeProgress(
@@ -30,18 +28,18 @@ class QualitativeProgress {
   }
 
   String get getAchive {
-    if (achive == null || achive.isEmpty) {
+    if (achive == null || (achive?.isEmpty ?? false)) {
       return '---';
     }
 
-    return achive;
+    return achive!;
   }
 
   String get getDifficulty {
-    if (difficulty == null || difficulty.isEmpty) {
+    if (difficulty == null || (difficulty?.isEmpty ?? false)) {
       return '---';
     }
 
-    return difficulty;
+    return difficulty!;
   }
 }

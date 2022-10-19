@@ -5,13 +5,13 @@ abstract class ProjectsCacheApi {
 
   Stream<Map<String, ProjectCache>> getProjectsCache();
 
-  ProjectCache getCache();
+  ProjectCache? getCache();
 
-  ProjectCache getCacheByProjectCode(int projectCode);
+  ProjectCache? getCacheByProjectCode(int projectCode);
 
   Project getProject();
 
-  DatosAlimentacion getDetail(int projectCode);
+  DatosAlimentacion? getDetail(int projectCode);
 
   Future<void> saveProjectCache(int projectCode, ProjectCache projectCache);
 
@@ -31,7 +31,7 @@ abstract class ProjectsCacheApi {
 
   Future<void> saveDocumentTypes(List<TipoDoc> types);
 
-  List<TipoDoc> getDocumentTypes();
+  List<TipoDoc>? getDocumentTypes();
 
   void setCurrentProjectCode(int projectCode);
 

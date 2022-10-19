@@ -30,24 +30,24 @@ class ProjectCache {
     this.currentMonthReturns,
     this.pastDueMonthReturns,
   });
-  final int projectCode;
-  final int stepNumber;
+  final int? projectCode;
+  final int? stepNumber;
   final dynamic porPublicar;
-  final DateTime lastSyncDate;
-  final int periodoIdSeleccionado;
+  final DateTime? lastSyncDate;
+  final int? periodoIdSeleccionado;
   final dynamic porcentajeValorProyectadoSeleccionado;
-  final double porcentajeValorEjecutado;
+  final double? porcentajeValorEjecutado;
   final dynamic newExecutedValue;
-  final Map<String, dynamic> activitiesProgress;
-  final List<QualitativeProgress> qualitativesProgress;
-  final List<DelayFactor> delayFactors;
-  final String comment;
-  final String fileFotoPrincipal;
-  final DateTime incomeGenerationDate;
-  final DateTime rentalRepaymentDate;
-  final String generatedReturns;
-  final String currentMonthReturns;
-  final String pastDueMonthReturns;
+  final Map<String, dynamic>? activitiesProgress;
+  final List<QualitativeProgress>? qualitativesProgress;
+  final List<DelayFactor>? delayFactors;
+  final String? comment;
+  final String? fileFotoPrincipal;
+  final DateTime? incomeGenerationDate;
+  final DateTime? rentalRepaymentDate;
+  final String? generatedReturns;
+  final String? currentMonthReturns;
+  final String? pastDueMonthReturns;
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         projectCode: json['project_code'],
@@ -85,7 +85,7 @@ class ProjectCache {
         'project_code': projectCode,
         'strep_number': stepNumber,
         'porPublicar': porPublicar,
-        'ultimaFechaSincro': lastSyncDate.toIso8601String(),
+        'ultimaFechaSincro': lastSyncDate?.toIso8601String(),
         'periodoIdSeleccionado': periodoIdSeleccionado,
         'porcentajeValorProyectadoSeleccionado':
             porcentajeValorProyectadoSeleccionado,
@@ -94,10 +94,10 @@ class ProjectCache {
         'activities_progress': activitiesProgress,
         'qualitatives_progress': qualitativesProgress == null
             ? null
-            : List<dynamic>.from(qualitativesProgress.map((x) => x.toJson())),
+            : List<dynamic>.from(qualitativesProgress!.map((x) => x.toJson())),
         'delay_factors': delayFactors == null
             ? null
-            : List<dynamic>.from(delayFactors.map((x) => x.toJson())),
+            : List<dynamic>.from(delayFactors!.map((x) => x.toJson())),
         'comment': comment,
         'fileFotoPrincipal': fileFotoPrincipal,
         'fechaGeneracionRendimientos': incomeGenerationDate?.toIso8601String(),
@@ -108,25 +108,25 @@ class ProjectCache {
       };
 
   ProjectCache copyWith({
-    int projectCode,
-    int stepNumber,
+    int? projectCode,
+    int? stepNumber,
     dynamic porPublicar,
-    DateTime lastSyncDate,
+    DateTime? lastSyncDate,
     dynamic periodoIdSeleccionado,
-    double porcentajeValorProyectadoSeleccionado,
-    double porcentajeValorEjecutado,
-    double newExecutedValue,
-    Map<String, dynamic> activitiesProgress,
-    List<QualitativeProgress> qualitativesProgress,
-    List<DelayFactor> delayFactors,
-    String fileFotoPrincipal,
-    List<dynamic> filesFotosComplementarias,
-    String comment,
-    DateTime incomeGenerationDate,
-    DateTime rentalRepaymentDate,
-    String generatedReturns,
-    String currentMonthReturns,
-    String pastDueMonthReturns,
+    double? porcentajeValorProyectadoSeleccionado,
+    double? porcentajeValorEjecutado,
+    double? newExecutedValue,
+    Map<String, dynamic>? activitiesProgress,
+    List<QualitativeProgress>? qualitativesProgress,
+    List<DelayFactor>? delayFactors,
+    String? fileFotoPrincipal,
+    List<dynamic>? filesFotosComplementarias,
+    String? comment,
+    DateTime? incomeGenerationDate,
+    DateTime? rentalRepaymentDate,
+    String? generatedReturns,
+    String? currentMonthReturns,
+    String? pastDueMonthReturns,
   }) {
     return ProjectCache(
       projectCode: projectCode ?? this.projectCode,
@@ -166,11 +166,11 @@ class ProjectCache {
       return 'Nunca';
     }
 
-    if (lastSyncDate.difference(DateTime.now()).inSeconds > -10) {
+    if (lastSyncDate!.difference(DateTime.now()).inSeconds > -10) {
       return 'Justo Ahora';
     }
 
-    return ProjectHelpers.getlastSyncDateFormatted(lastSyncDate);
+    return ProjectHelpers.getlastSyncDateFormatted(lastSyncDate!);
   }
 
   bool get synchronizationRequired {

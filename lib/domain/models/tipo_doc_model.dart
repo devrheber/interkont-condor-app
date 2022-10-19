@@ -8,10 +8,10 @@ String tipoDocToJson(List<TipoDoc> data) =>
 
 class TipoDoc {
   TipoDoc({
-    this.id,
-    this.nombre,
-    this.obligatorio,
-    this.intparametipdoc,
+    required this.id,
+    required this.nombre,
+    required this.obligatorio,
+    required this.intparametipdoc,
   });
 
   final int id;
@@ -34,10 +34,10 @@ class TipoDoc {
       };
 
   TipoDoc copyWith({
-    int id,
-    String nombre,
-    bool obligatorio,
-    int intparametipdoc,
+    int? id,
+    String? nombre,
+    bool? obligatorio,
+    int? intparametipdoc,
   }) {
     return TipoDoc(
       id: id ?? this.id,

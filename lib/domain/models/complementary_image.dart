@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 
 List<ComplementaryImage> imagesFromJson(String str) =>
     List<ComplementaryImage>.from(
@@ -13,15 +12,15 @@ String imagesToJson(List<ComplementaryImage> data) =>
 
 class ComplementaryImage extends Equatable {
   const ComplementaryImage({
-    @required this.name,
+    required this.name,
     this.imageString,
     this.imageFile,
-    this.type,
+    required this.type,
   });
 
   final String name;
-  final String imageString;
-  final File imageFile;
+  final String? imageString;
+  final File? imageFile;
   final String type;
 
   factory ComplementaryImage.fromJson(Map<String, dynamic> json) {
@@ -40,8 +39,7 @@ class ComplementaryImage extends Equatable {
     };
   }
 
-  ComplementaryImage saveCache({@required String imageString}) {
-    assert(name != null, type != null);
+  ComplementaryImage saveCache({required String imageString}) {
     return ComplementaryImage(
       name: name,
       type: type,
@@ -59,7 +57,7 @@ class ComplementaryImage extends Equatable {
       name: name,
       type: type,
       imageFile: await base64StringToFile(
-        image: imageString,
+        image: imageString!,
         name: name,
         extension: type,
       ),

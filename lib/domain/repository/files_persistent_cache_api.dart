@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
   FilesPersistentCacheApi({
-    @required SharedPreferences plugin,
+    required SharedPreferences plugin,
   }) : _plugin = plugin {
     _init();
   }
@@ -22,7 +22,7 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
   static const kAdditionalDocumentsKey = '__additional_documents__';
   static const kComplementaryImagesKey = '__complementary_images__';
 
-  String _getValue(String key) => _plugin.getString(key);
+  String? _getValue(String key) => _plugin.getString(key);
   Future<bool> _setValue(String key, String value) async =>
       _plugin.setString(key, value);
 
@@ -37,10 +37,10 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
     }
   }
 
-  ComplementaryImage mainPhoto;
-  List<Document> requiredDocuments = [];
-  List<Document> additionalDocuments = [];
-  List<ComplementaryImage> complementaryImages = [];
+  ComplementaryImage? mainPhoto;
+  List<Document>? requiredDocuments = [];
+  List<Document>? additionalDocuments = [];
+  List<ComplementaryImage>? complementaryImages = [];
 
   @override
   List<Document> getAdditionalDocuments() {
@@ -48,7 +48,7 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
     if (documentString == null) return [];
     additionalDocuments = documentsFromJson(documentString);
 
-    return additionalDocuments;
+    return additionalDocuments!;
   }
 
   @override
@@ -56,11 +56,11 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
     final imagesString = _getValue(kComplementaryImagesKey);
     if (imagesString == null) return [];
     complementaryImages = imagesFromJson(imagesString);
-    return complementaryImages;
+    return complementaryImages!;
   }
 
   @override
-  ComplementaryImage getMainPhoto() {
+  ComplementaryImage? getMainPhoto() {
     final mainPhotoString = _getValue(kMainPhotoKey);
     if (mainPhotoString == null) return null;
     mainPhoto = ComplementaryImage.fromJson(json.decode(mainPhotoString));
@@ -72,19 +72,19 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
     final documentString = _getValue(kRequiredDocumentsKey);
     if (documentString == null) return [];
     requiredDocuments = documentsFromJson(documentString);
-    return requiredDocuments;
+    return requiredDocuments!;
   }
 
   @override
   void setAdditionalDocuments(List<Document> docs) {
     additionalDocuments = docs;
-    _setValue(kAdditionalDocumentsKey, documentsToJson(additionalDocuments));
+    _setValue(kAdditionalDocumentsKey, documentsToJson(additionalDocuments!));
   }
 
   @override
   void setComplementaryImages(List<ComplementaryImage> images) {
     complementaryImages = images;
-    _setValue(kComplementaryImagesKey, imagesToJson(complementaryImages));
+    _setValue(kComplementaryImagesKey, imagesToJson(complementaryImages!));
   }
 
   @override
@@ -107,38 +107,38 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
 
   @override
   void saveComplementaryImage(ComplementaryImage image) {
-    complementaryImages.add(image);
-    _setValue(kComplementaryImagesKey, imagesToJson(complementaryImages));
+    complementaryImages?.add(image);
+    _setValue(kComplementaryImagesKey, imagesToJson(complementaryImages!));
   }
 
   @override
   void removeComplementaryImage(ComplementaryImage image) {
-    complementaryImages.remove(image);
-    _setValue(kComplementaryImagesKey, imagesToJson(complementaryImages));
+    complementaryImages?.remove(image);
+    _setValue(kComplementaryImagesKey, imagesToJson(complementaryImages!));
   }
 
   @override
   void saveRequiredDocument(Document doc) {
-    requiredDocuments.add(doc);
-    _setValue(kRequiredDocumentsKey, documentsToJson(requiredDocuments));
+    requiredDocuments?.add(doc);
+    _setValue(kRequiredDocumentsKey, documentsToJson(requiredDocuments!));
   }
 
   @override
   void removeRequiredDocument(Document doc) {
-    requiredDocuments.remove(doc);
-    _setValue(kRequiredDocumentsKey, documentsToJson(requiredDocuments));
+    requiredDocuments?.remove(doc);
+    _setValue(kRequiredDocumentsKey, documentsToJson(requiredDocuments!));
   }
 
   @override
   void saveAdditionalDocument(Document doc) {
-    additionalDocuments.add(doc);
-    _setValue(kAdditionalDocumentsKey, documentsToJson(additionalDocuments));
+    additionalDocuments?.add(doc);
+    _setValue(kAdditionalDocumentsKey, documentsToJson(additionalDocuments!));
   }
 
   @override
   void removeAdditionalDocument(Document doc) {
-    additionalDocuments.remove(doc);
-    _setValue(kAdditionalDocumentsKey, documentsToJson(additionalDocuments));
+    additionalDocuments?.remove(doc);
+    _setValue(kAdditionalDocumentsKey, documentsToJson(additionalDocuments!));
   }
 
   @override

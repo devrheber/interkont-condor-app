@@ -15,11 +15,11 @@ class DelayFactor {
     this.description,
   });
 
-  int tipoFactorAtrasoId;
-  String tipoFactor;
-  int factorAtrasoId;
-  String factor;
-  String description;
+  int? tipoFactorAtrasoId;
+  String? tipoFactor;
+  int? factorAtrasoId;
+  String? factor;
+  String? description;
 
   factory DelayFactor.fromJson(Map<String, dynamic> json) => DelayFactor(
         tipoFactorAtrasoId: json['tipoFactorAtrasoId'],
