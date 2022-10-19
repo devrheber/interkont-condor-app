@@ -49,7 +49,7 @@ class ProjectsImpl implements ProjectsRepository {
 
   @override
   Future<DatosAlimentacion> getDatosAlimentacion({
-    @required String codigoProyecto,
+    required String codigoProyecto,
   }) async {
     String url = "$_url/datos-alimentacion";
 
@@ -130,7 +130,7 @@ class ProjectsImpl implements ProjectsRepository {
 
   @override
   Future<Map<String, dynamic>> sendData(AlimentacionRequest data,
-      {@required onSendProgress(int count, int value)}) async {
+      {required onSendProgress(int count, int value)}) async {
     x.Dio dio = x.Dio();
     dio.options = x.BaseOptions(
       connectTimeout: 1500,

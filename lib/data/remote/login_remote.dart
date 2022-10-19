@@ -31,7 +31,7 @@ class LoginRemote implements LoginRepository {
         // await obtenerListaProyectos();
 
         User user = User(
-            username: username, token: response.headers['authorization'][0]);
+            username: username, token: response.headers['authorization']![0]);
 
         return user;
       } else {

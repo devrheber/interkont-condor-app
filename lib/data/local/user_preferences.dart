@@ -5,7 +5,7 @@ class UserPreferences {
   UserPreferences._internal();
   static final UserPreferences _instancia = UserPreferences._internal();
 
-  SharedPreferences _prefs;
+  late SharedPreferences _prefs;
 
   String _localProyectKey = '__local_projects__key__';
   String _userDataKey = '__user_data_key__';
