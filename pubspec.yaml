@@ -19,7 +19,6 @@ environment:
 dependencies:
   animated_text_kit: ^4.2.1
   auto_size_text: ^3.0.0
-  # beauty_textfield: ^0.0.1
   cached_network_image: ^3.2.0
   carousel_slider: ^4.1.1
   cupertino_icons: ^1.0.5
@@ -31,7 +30,6 @@ dependencies:
   file_picker: ^4.6.1
   flutter:
     sdk: flutter
-  # flutter_keyboard_visibility: ^5.1.0
   flutter_localizations:
     sdk: flutter
   flutter_screenutil: ^5.5.4
@@ -54,6 +52,8 @@ dev_dependencies:
   flutter_launcher_icons: ^0.10.0
   flutter_test:
     sdk: flutter
+  flutter_lints: ^1.0.4
+  lints: ^1.0.1
 
 flutter_icons:
   android: "launcher_icon"
