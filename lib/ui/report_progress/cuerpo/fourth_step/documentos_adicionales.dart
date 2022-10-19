@@ -8,12 +8,12 @@ import 'package:appalimentacion/utils/seleccionar_foto_documentos.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class DocumentosAdicionales extends StatelessWidget {
-  const DocumentosAdicionales({Key key}) : super(key: key);
+  const DocumentosAdicionales({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,19 +27,21 @@ class DocumentosAdicionales extends StatelessWidget {
     );
 
     Future<void> agregarDocumento() async {
-      final FilePickerResult result = await FilePicker.platform.pickFiles();
+      final FilePickerResult? result = await FilePicker.platform.pickFiles();
 
       if (result == null) return;
 
       //if result is greater than 20mb show error message
       if (result.files.single.size > 20000000) {
-        Toast.show("El archivo no puede ser mayor a 20MB", context,
-            duration: 3, gravity: Toast.BOTTOM);
+        Toast.show("El archivo no puede ser mayor a 20MB",
+            duration: 3, gravity: Toast.bottom);
 
         return;
       }
 
-      File file = File(result.files.single.path);
+      // TODO Use try catch
+
+      File file = File(result.files.single.path!);
       fourthStepService.addAdditionalDocument(file);
     }
 
@@ -60,7 +62,7 @@ class DocumentosAdicionales extends StatelessWidget {
                       child: ImagenCaja(
                         isDocumento: getTypeFile(doc.file),
                         isMaxLimit: true,
-                        file: doc.file,
+                        file: doc.file!,
                         onRemoveImageTap: () {
                           fourthStepService.removeAdditionalDocument(doc);
                         },
@@ -101,8 +103,8 @@ class DocumentosAdicionales extends StatelessWidget {
                 file: null,
                 onTap: () async {
                   if (fourthStepService.tipoDocValue == null) {
-                    Toast.show('Seleccione un tipo de documento', context,
-                        gravity: Toast.BOTTOM);
+                    Toast.show('Seleccione un tipo de documento',
+                        gravity: Toast.bottom);
                     return;
                   }
                   await agregarDocumento();

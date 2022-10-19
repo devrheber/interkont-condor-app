@@ -1,19 +1,19 @@
+import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../globales/colores.dart';
 
-Widget factorRegistrado(int posicion, String tipo, String factor, onPressed) {
-  return FactorRegistrado();
-}
+// Widget factorRegistrado(int posicion, String tipo, String factor, onPressed) {
+//   return FactorRegistrado();
+// }
 
 class FactorRegistrado extends StatelessWidget {
   const FactorRegistrado({
-    Key key,
-    this.posicion,
-    this.tipo,
-    this.factor,
-    this.description,
-    this.onTap,
+    Key? key,
+    required this.posicion,
+    required this.tipo,
+    required this.factor,
+    required this.description,
+    required this.onTap,
   }) : super(key: key);
   final int posicion;
   final String tipo;
@@ -68,9 +68,9 @@ class FactorRegistrado extends StatelessWidget {
 
 class _FactorWidget extends StatelessWidget {
   const _FactorWidget({
-    Key key,
-    this.title,
-    this.text,
+    Key? key,
+    required this.title,
+    required this.text,
   }) : super(key: key);
   final String title;
   final String text;

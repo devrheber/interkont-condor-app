@@ -54,11 +54,11 @@ import '../../../../../globales/colores.dart';
 
 class SelectTypeDelayFactor extends StatelessWidget {
   const SelectTypeDelayFactor({
-    Key key,
-    @required this.hintText,
-    @required this.list,
-    @required this.onChanged,
-    @required this.value,
+    Key? key,
+    required this.hintText,
+    required this.list,
+    required this.onChanged,
+    required this.value,
   }) : super(key: key);
 
   final String hintText;
@@ -66,7 +66,7 @@ class SelectTypeDelayFactor extends StatelessWidget {
   final TiposFactorAtraso value;
 
   // valores,
-  final Function(TiposFactorAtraso) onChanged;
+  final void Function(TiposFactorAtraso?)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -110,16 +110,16 @@ class SelectTypeDelayFactor extends StatelessWidget {
 
 class SelectDelayFactor extends StatelessWidget {
   const SelectDelayFactor({
-    Key key,
-    @required this.hintText,
-    @required this.list,
-    @required this.onChanged,
-    @required this.value,
+    Key? key,
+    required this.hintText,
+    required this.list,
+    required this.onChanged,
+    required this.value,
   }) : super(key: key);
 
   final String hintText;
   final List<FactoresAtraso> list;
-  final Function(FactoresAtraso) onChanged;
+  final void Function(FactoresAtraso?)? onChanged;
   final FactoresAtraso value;
 
   @override

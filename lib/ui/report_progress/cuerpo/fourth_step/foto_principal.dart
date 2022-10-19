@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'local_widgets/imagen_caja.dart';
 
 class FotoPrincipal extends StatelessWidget {
-  const FotoPrincipal({Key key}) : super(key: key);
+  const FotoPrincipal({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

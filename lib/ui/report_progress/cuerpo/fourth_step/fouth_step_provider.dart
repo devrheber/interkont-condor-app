@@ -10,19 +10,18 @@ import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FourthStepProvider extends ChangeNotifier {
   FourthStepProvider({
-    @required ProjectsRepository projectRepository,
-    @required ProjectsCacheRepository projectsCacheRepository,
-    @required FilesPersistentCacheRepository nonPersistentCacheRepository,
+    required ProjectsRepository projectRepository,
+    required ProjectsCacheRepository projectsCacheRepository,
+    required FilesPersistentCacheRepository nonPersistentCacheRepository,
   })  : _projectsRepository = projectRepository,
         _projectsCacheRepository = projectsCacheRepository,
         _filesPersistentCacheRepository = nonPersistentCacheRepository {
     getDocumentTypes();
-    cache = _projectsCacheRepository.getCache();
+    cache = _projectsCacheRepository.getCache()!;
 
     loadFilesFromCacheNonPersistent();
   }
@@ -31,9 +30,9 @@ class FourthStepProvider extends ChangeNotifier {
   final ProjectsRepository _projectsRepository;
   final FilesPersistentCacheRepository _filesPersistentCacheRepository;
 
-  ProjectCache cache;
+  late ProjectCache cache;
 
-  ComplementaryImage mainPhoto;
+  ComplementaryImage? mainPhoto;
   List<Document> requiredDocuments = [];
   List<Document> additionalDocuments = [];
   List<TipoDoc> listaTipoDoc = [];
@@ -49,11 +48,11 @@ class FourthStepProvider extends ChangeNotifier {
 
   get projectCode => this.cache.projectCode;
 
-  TipoDoc _tipoDocValue;
+  TipoDoc? _tipoDocValue;
 
-  TipoDoc get tipoDocValue => _tipoDocValue;
+  TipoDoc? get tipoDocValue => _tipoDocValue;
 
-  set tipoDocValue(TipoDoc value) {
+  set tipoDocValue(TipoDoc? value) {
     _tipoDocValue = value;
     notifyListeners();
   }
@@ -64,10 +63,10 @@ class FourthStepProvider extends ChangeNotifier {
   }
 
   Future<void> getDocumentTypes() async {
-    List<TipoDoc> types = [];
+    List<TipoDoc>? types = [];
     try {
       gettingTypesDocument = true;
-      types = _projectsCacheRepository.getDocumentTypes();
+      types = _projectsCacheRepository.getDocumentTypes() ;
 
       if (types == null) {
         types = await getDocumentTypesFromRemote();
@@ -150,7 +149,7 @@ class FourthStepProvider extends ChangeNotifier {
     notifyListeners();
 
     _filesPersistentCacheRepository.setMainPhoto(
-      mainPhoto.saveCache(
+      mainPhoto!.saveCache(
         imageString: base64Encode(File(file.path).readAsBytesSync()),
       ),
     );
@@ -164,7 +163,7 @@ class FourthStepProvider extends ChangeNotifier {
     _filesPersistentCacheRepository.removeMainPhoto();
   }
 
-  void addDocument(File file, {@required int index}) {
+  void addDocument(File file, {required int index}) {
     final List<String> nameExtension = file.path.split('/').last.split('.');
     requiredDocuments[index] = requiredDocuments[index].copyWith(
       file: file,
@@ -194,11 +193,11 @@ class FourthStepProvider extends ChangeNotifier {
     final List<String> nameExtension = file.path.split('/').last.split('.');
     additionalDocuments.add(Document(
       documento: base64Encode(File(file.path).readAsBytesSync()),
-      tipoId: tipoDocValue.id,
+      tipoId: tipoDocValue!.id,
       nombre: nameExtension.first,
       extension: nameExtension.last,
       file: file,
-      typeName: tipoDocValue.nombre,
+      typeName: tipoDocValue!.nombre,
     ));
 
     tipoDocValue = null;

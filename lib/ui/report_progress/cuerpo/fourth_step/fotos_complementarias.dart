@@ -9,7 +9,7 @@ import 'package:toast/toast.dart';
 import 'local_widgets/imagen_caja.dart';
 
 class FotosComplementarias extends StatelessWidget {
-  const FotosComplementarias({Key key}) : super(key: key);
+  const FotosComplementarias({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +41,7 @@ class FotosComplementarias extends StatelessWidget {
         ImagenCaja(
           onTap: () {
             if (images.length >= 5) {
-              Toast.show('No puede agregar mas de 5 fotos', context,
-                  duration: 6);
+              Toast.show('No puede agregar mas de 5 fotos', duration: 6);
               return;
             }
 

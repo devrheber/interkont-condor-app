@@ -14,7 +14,7 @@ import 'widgets/campoSeleecionar.dart';
 import 'widgets/factorRegistrado.dart';
 
 class DelayFactorScreen extends StatefulWidget {
-  const DelayFactorScreen._({Key key}) : super(key: key);
+  const DelayFactorScreen._({Key? key}) : super(key: key);
 
   static Widget init() {
     return ChangeNotifierProvider(
@@ -30,13 +30,7 @@ class DelayFactorScreen extends StatefulWidget {
 }
 
 class DelayFactorScreenState extends State<DelayFactorScreen> {
-  TextEditingController descriptionController;
-
-  @override
-  void initState() {
-    super.initState();
-    descriptionController = TextEditingController();
-  }
+  TextEditingController descriptionController = TextEditingController();
 
   @override
   void dispose() {
@@ -84,16 +78,18 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
                     SelectTypeDelayFactor(
                       hintText: 'Selecciona el tipo de factor',
                       list: delayFactorService.detail.tiposFactorAtraso,
-                      value: delayFactorService.delayFactorTypeSelected,
-                      onChanged: (TiposFactorAtraso value) {
+                      value: delayFactorService.delayFactorTypeSelected!,
+                      onChanged: (TiposFactorAtraso? value) {
+                        if (value == null) return;
                         delayFactorService.selectTypeDelayFactor(value);
                       },
                     ),
                     SelectDelayFactor(
                       hintText: 'Selecciona el factor',
                       list: delayFactorService.delayFactorsFiltered,
-                      value: delayFactorService.delayFactorSelected,
-                      onChanged: (FactoresAtraso value) {
+                      value: delayFactorService.delayFactorSelected!,
+                      onChanged: (FactoresAtraso? value) {
+                        if (value == null) return;
                         delayFactorService.selectDelayFactor(value);
                       },
                     ),
@@ -133,20 +129,20 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
                     SizedBox(height: 10.h),
                     AddGreenButton(onTap: () {
                       if (delayFactorService.delayFactorTypeSelected == null) {
-                        Toast.show('Seleccione el tipo de factor', context,
-                            gravity: Toast.BOTTOM);
+                        Toast.show('Seleccione el tipo de factor',
+                            gravity: Toast.bottom);
                         return;
                       }
 
                       if (delayFactorService.delayFactorSelected == null) {
-                        Toast.show('Seleccione el factor', context,
-                            gravity: Toast.BOTTOM);
+                        Toast.show('Seleccione el factor',
+                            gravity: Toast.bottom);
                         return;
                       }
 
                       if (descriptionController.text.trim().isEmpty) {
-                        Toast.show('Ingrese una descripción', context,
-                            gravity: Toast.BOTTOM);
+                        Toast.show('Ingrese una descripción',
+                            gravity: Toast.bottom);
                         return;
                       }
 
@@ -173,9 +169,9 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
                                 .delayFactorsRegistered[index];
                             return FactorRegistrado(
                               posicion: index,
-                              tipo: delayFactor.tipoFactor,
-                              factor: delayFactor.factor,
-                              description: delayFactor.description,
+                              tipo: delayFactor.tipoFactor!,
+                              factor: delayFactor.factor!,
+                              description: delayFactor.description!,
                               onTap: () => delayFactorService.remove(index),
                             );
                           },
@@ -198,7 +194,7 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
               },
               accionSegundoBoton: () {
                 if (delayFactorService.secondButtonValidation) {
-                  Toast.show('Debe registrar los factores de atraso.', context,
+                  Toast.show('Debe registrar los factores de atraso.',
                       duration: 4);
                   return;
                 }

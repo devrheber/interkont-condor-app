@@ -5,7 +5,7 @@ import 'package:appalimentacion/utils/utils.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -13,7 +13,7 @@ import 'local_widgets/imagen_caja.dart';
 
 class RequiredDocuments extends StatelessWidget {
   const RequiredDocuments({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -22,18 +22,20 @@ class RequiredDocuments extends StatelessWidget {
     final requiredDocuments =
         context.watch<FourthStepProvider>().requiredDocuments;
 
-    Future<void> agregarDocumento({@required int index}) async {
-      final FilePickerResult result = await FilePicker.platform.pickFiles();
+    Future<void> agregarDocumento({required int index}) async {
+      final FilePickerResult? result = await FilePicker.platform.pickFiles();
       if (result == null) return;
 
       //if result is greater than 20mb show error message
       if (result.files.single.size > 20000000) {
-        Toast.show("El archivo no puede ser mayor a 20MB", context,
-            duration: 3, gravity: Toast.BOTTOM);
+        Toast.show("El archivo no puede ser mayor a 20MB",
+            duration: 3, gravity: Toast.bottom);
         return;
       }
 
-      final file = File(result.files.single.path);
+      // TODO Use try catch
+
+      final file = File(result.files.single.path!);
       fourthStepService.addDocument(file, index: index);
     }
 

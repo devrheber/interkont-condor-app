@@ -4,13 +4,13 @@ import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/size_extension.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path/path.dart';
 
 class ImagenCaja extends StatelessWidget {
   const ImagenCaja({
-    Key key,
+    Key? key,
     this.file,
     this.onTap,
     this.onRemoveImageTap,
@@ -18,9 +18,9 @@ class ImagenCaja extends StatelessWidget {
     this.isDocumento = false,
   }) : super(key: key);
 
-  final File file;
-  final void Function() onTap;
-  final void Function() onRemoveImageTap;
+  final File? file;
+  final void Function()? onTap;
+  final void Function()? onRemoveImageTap;
   final bool isMaxLimit;
   final bool isDocumento;
 
@@ -44,9 +44,9 @@ class ImagenCaja extends StatelessWidget {
             : Stack(
                 children: [
                   isDocumento
-                      ? _DocumentFile(file: file)
+                      ? _DocumentFile(file: file!)
                       : Image.file(
-                          file,
+                          file!,
                           width: 102.11.sp,
                           height: 102.63.sp,
                           fit: BoxFit.cover,
@@ -85,8 +85,8 @@ class ImagenCaja extends StatelessWidget {
 
 class _DocumentFile extends StatelessWidget {
   const _DocumentFile({
-    Key key,
-    @required this.file,
+    Key? key,
+    required this.file,
   }) : super(key: key);
 
   final File file;
@@ -125,12 +125,12 @@ class _DocumentFile extends StatelessWidget {
 
 class _NoImage extends StatelessWidget {
   const _NoImage({
-    Key key,
-    @required this.onTap,
-    @required this.isMaxLimit,
+    Key? key,
+    this.onTap,
+    required this.isMaxLimit,
   }) : super(key: key);
 
-  final void Function() onTap;
+  final void Function()? onTap;
   final bool isMaxLimit;
 
   @override

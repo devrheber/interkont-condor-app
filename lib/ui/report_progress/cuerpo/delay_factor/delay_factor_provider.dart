@@ -4,23 +4,23 @@ import 'package:flutter/material.dart';
 
 class DelayFactorProvider extends ChangeNotifier {
   DelayFactorProvider({
-    @required ProjectsCacheRepository projectsCacheRepository,
+    required ProjectsCacheRepository projectsCacheRepository,
   }) : _projectsCacheRepository = projectsCacheRepository {
-    cache = _projectsCacheRepository.getCache();
-    detail = _projectsCacheRepository.getDetail(projectCode);
+    cache = _projectsCacheRepository.getCache()!;
+    detail = _projectsCacheRepository.getDetail(projectCode)!;
     delayFactorsRegistered = cache.delayFactors ?? [];
   }
 
   final ProjectsCacheRepository _projectsCacheRepository;
-  DatosAlimentacion detail;
-  ProjectCache cache;
+  late DatosAlimentacion detail;
+  late ProjectCache cache;
 
   bool get isAllowedContinue => delayFactorsRegistered.isNotEmpty;
 
-  int get projectCode => cache.projectCode;
+  int get projectCode => cache.projectCode!;
 
-  TiposFactorAtraso delayFactorTypeSelected;
-  FactoresAtraso delayFactorSelected;
+  TiposFactorAtraso? delayFactorTypeSelected;
+  FactoresAtraso? delayFactorSelected;
 
   List<FactoresAtraso> delayFactorsFiltered = [];
 
@@ -47,16 +47,16 @@ class DelayFactorProvider extends ChangeNotifier {
   Future<void> add(String description) async {
     if (delayFactorsRegistered.any((factor) =>
         factor.tipoFactorAtrasoId ==
-            delayFactorTypeSelected.tipoFactorAtrasoId &&
-        factor.factorAtrasoId == delayFactorSelected.factorAtrasoId)) {
+            delayFactorTypeSelected!.tipoFactorAtrasoId &&
+        factor.factorAtrasoId == delayFactorSelected!.factorAtrasoId)) {
       return;
     }
 
     delayFactorsRegistered.add(DelayFactor(
-      tipoFactorAtrasoId: delayFactorTypeSelected.tipoFactorAtrasoId,
-      tipoFactor: delayFactorTypeSelected.tipoFactorAtraso,
-      factorAtrasoId: delayFactorSelected.factorAtrasoId,
-      factor: delayFactorSelected.factorAtraso,
+      tipoFactorAtrasoId: delayFactorTypeSelected!.tipoFactorAtrasoId,
+      tipoFactor: delayFactorTypeSelected!.tipoFactorAtraso,
+      factorAtrasoId: delayFactorSelected!.factorAtrasoId,
+      factor: delayFactorSelected!.factorAtraso,
       description: description,
     ));
 

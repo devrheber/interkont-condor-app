@@ -7,10 +7,10 @@ final titleColor = Color(0xff444444);
 
 class CajonTextoComentarios extends StatefulWidget {
   const CajonTextoComentarios({
-    Key key,
-    this.textoHint,
-    this.textoTitulo,
-    this.onChanged,
+    Key? key,
+    required this.textoHint,
+    required this.textoTitulo,
+    required this.onChanged,
   }) : super(key: key);
 
   final String textoTitulo;
@@ -29,7 +29,7 @@ class _CajonTextoComentariosState extends State<CajonTextoComentarios> {
   void initState() {
     super.initState();
     controllerCuartoPasoTxtComentarios.text =
-        context.read<FourthStepProvider>().cache.comment;
+        context.read<FourthStepProvider>().cache.comment ?? '';
   }
 
   @override
