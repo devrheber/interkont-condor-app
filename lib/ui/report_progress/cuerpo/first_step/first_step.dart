@@ -66,7 +66,7 @@ class FirstStepBody extends StatelessWidget {
                     ProgressCard(
                       activity: activity,
                       valueSaved: firstStepProvider
-                          .activitiesProgress[activity.getStringId],
+                          .activitiesProgress[activity.getStringId] ?? '0',
                       onChanged: (value) {
                         firstStepProvider.saveValue(
                             activity.actividadId, value);

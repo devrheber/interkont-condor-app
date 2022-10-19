@@ -23,7 +23,7 @@ class FifthStep extends StatelessWidget {
           child: Column(
             children: <Widget>[
               FifthStepCard(
-                title: 'Ahora',
+                title: 'Antes',
                 colorTitle: Color(0xff5994EF),
                 children: <FifthStepCardDetail>[
                   FifthStepCardDetail(
