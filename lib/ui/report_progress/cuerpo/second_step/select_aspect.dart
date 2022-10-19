@@ -6,10 +6,10 @@ final titleColor = Color(0xff384C68);
 
 class SelectAspect extends StatelessWidget {
   SelectAspect({
-    Key key,
-    @required this.aspectSelected,
-    @required this.aspectsToEvaluate,
-    @required this.onChanged,
+    Key? key,
+    required this.aspectSelected,
+    required this.aspectsToEvaluate,
+    required this.onChanged,
   }) : super(key: key);
 
   final AspectoEvaluar aspectSelected;
@@ -66,7 +66,8 @@ class SelectAspect extends StatelessWidget {
                           value: value,
                         ))
                     .toList(),
-                onChanged: (AspectoEvaluar value) {
+                onChanged: (AspectoEvaluar? value) {
+                  if (value == null) return;
                   onChanged(value);
                 },
               ),
@@ -80,8 +81,8 @@ class SelectAspect extends StatelessWidget {
 
 class _IconImage extends StatelessWidget {
   const _IconImage({
-    Key key,
-    @required this.text,
+    Key? key,
+    required this.text,
   }) : super(key: key);
 
   final String text;

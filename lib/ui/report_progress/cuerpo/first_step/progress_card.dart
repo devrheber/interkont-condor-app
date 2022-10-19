@@ -10,10 +10,10 @@ import 'package:toast/toast.dart';
 
 class ProgressCard extends StatefulWidget {
   const ProgressCard({
-    Key key,
-    @required this.valueSaved,
-    @required this.activity,
-    @required this.onChanged,
+    Key? key,
+    required this.valueSaved,
+    required this.activity,
+    required this.onChanged,
   }) : super(key: key);
 
   final String valueSaved;
@@ -25,7 +25,7 @@ class ProgressCard extends StatefulWidget {
 }
 
 class _ProgressCardState extends State<ProgressCard> {
-  TextEditingController controller;
+  late TextEditingController controller;
 
   @override
   void initState() {
@@ -45,28 +45,27 @@ class _ProgressCardState extends State<ProgressCard> {
       String value = stringValue == '' ? '0' : stringValue;
 
       final faltantePorEjecutar = widget.activity
-          .faltantePorEjecutar(double.tryParse(widget.valueSaved ?? '0'));
+          .faltantePorEjecutar(double.tryParse(widget.valueSaved) ?? 0.0);
 
       if (double.parse(faltantePorEjecutar.replaceAll(' %', '')) <= 0) {
         controller.text = '0';
 
-        Toast.show('Ejecución Actual está al 100%', context,
-            duration: 5, gravity: Toast.TOP);
+        Toast.show('Ejecución Actual está al 100%',
+            duration: 5, gravity: Toast.top);
         // widget.onChanged('0');
         return;
       }
 
       if (double.parse('$value') < 0) {
-        Toast.show("Lo sentimos, solo aceptamos numeros positivos", context,
-            duration: 3, gravity: Toast.BOTTOM);
+        Toast.show("Lo sentimos, solo aceptamos numeros positivos",
+            duration: 3, gravity: Toast.bottom);
         return;
       }
       if (double.parse('$value') > 100) {
         Toast.show(
             "El valor ejecutado de la actividad no puede superar el 100%",
-            context,
             duration: 3,
-            gravity: Toast.BOTTOM);
+            gravity: Toast.bottom);
         return;
       }
 
@@ -173,19 +172,19 @@ class _ProgressCardState extends State<ProgressCard> {
               ),
               _Celdas(
                 label: 'Avance del presente reporte',
-                value: '${widget.valueSaved ?? 0} %',
+                value: '${widget.valueSaved} %',
                 isNumericVariable: false,
               ),
               _Celdas(
                 label: 'Avance a hoy',
                 value: widget.activity
-                    .avanceAHoy(double.tryParse(widget.valueSaved ?? '0')),
+                    .avanceAHoy(double.tryParse(widget.valueSaved) ?? 0.0),
                 isNumericVariable: false,
               ),
               _Celdas(
                 label: 'Faltante por ejecutar',
                 value: widget.activity.faltantePorEjecutar(
-                    double.tryParse(widget.valueSaved ?? '0')),
+                    double.tryParse(widget.valueSaved) ?? 0.0),
                 isNumericVariable: false,
               ),
             ],
@@ -199,9 +198,9 @@ class _ProgressCardState extends State<ProgressCard> {
 
 class _Celdas extends StatelessWidget {
   const _Celdas({
-    Key key,
-    @required this.label,
-    @required this.value,
+    Key? key,
+    required this.label,
+    required this.value,
     this.bold = false,
     this.isNumericVariable = true,
   }) : super(key: key);

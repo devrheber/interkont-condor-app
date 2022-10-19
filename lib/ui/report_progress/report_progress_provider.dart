@@ -37,7 +37,7 @@ class ReportProgressProvider extends ChangeNotifier {
 
   int get stepNumber => cache.stepNumber;
 
-  AspectoEvaluar? aspectSelected;
+  late AspectoEvaluar aspectSelected;
 
   StreamSubscription<Map<String, ProjectCache>>? cacheSubscription;
 
@@ -78,10 +78,9 @@ class ReportProgressProvider extends ChangeNotifier {
   }
 
   void addQualitativeProgress({String? achive, String? difficulty}) {
-    if (aspectSelected == null) return;
     achievesAndDifficulties.add(QualitativeProgress(
-      aspectToEvaluateId: aspectSelected!.aspectoEvaluarId,
-      title: aspectSelected!.descripcionAspectoEvaluar,
+      aspectToEvaluateId: aspectSelected.aspectoEvaluarId,
+      title: aspectSelected.descripcionAspectoEvaluar,
       achive: achive,
       difficulty: difficulty,
     ));

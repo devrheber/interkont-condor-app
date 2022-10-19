@@ -16,14 +16,14 @@ final style = TextStyle(
 );
 
 class PerformanceIndicators extends StatefulWidget {
-  const PerformanceIndicators({Key key}) : super(key: key);
+  const PerformanceIndicators({Key? key}) : super(key: key);
 
   @override
   State<PerformanceIndicators> createState() => _PerformanceIndicatorsState();
 }
 
 class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
-  ReportProgressProvider reportProgressService;
+  late ReportProgressProvider reportProgressService;
 
   TextEditingController incomeGenerationDateCtrl = TextEditingController();
   TextEditingController rentalRepaymentDateCtrl = TextEditingController();
@@ -60,24 +60,24 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
     reportProgressService = context.read<ReportProgressProvider>();
     if (reportProgressService.incomeGenerationDate != null) {
       incomeGenerationDateCtrl.text =
-          DateTimeFormat.ddMMYYYY(reportProgressService.incomeGenerationDate);
+          DateTimeFormat.ddMMYYYY(reportProgressService.incomeGenerationDate!);
     }
 
     if (reportProgressService.rentalRepaymentDate != null) {
       rentalRepaymentDateCtrl.text =
-          DateTimeFormat.ddMMYYYY(reportProgressService.rentalRepaymentDate);
+          DateTimeFormat.ddMMYYYY(reportProgressService.rentalRepaymentDate!);
     }
 
     if (reportProgressService.generatedReturns != null) {
-      generatedReturnsCtrl.text = reportProgressService.generatedReturns;
+      generatedReturnsCtrl.text = reportProgressService.generatedReturns!;
     }
 
     if (reportProgressService.pastDueMonthReturns != null) {
-      pastDueMonthReturnsCtrl.text = reportProgressService.pastDueMonthReturns;
+      pastDueMonthReturnsCtrl.text = reportProgressService.pastDueMonthReturns!;
     }
 
     if (reportProgressService.currentMonthReturns != null) {
-      currentMonthReturnsCtrl.text = reportProgressService.currentMonthReturns;
+      currentMonthReturnsCtrl.text = reportProgressService.currentMonthReturns!;
     }
   }
 
@@ -100,18 +100,18 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
   @override
   Widget build(BuildContext context) {
     // TODO User other picker for ios
-    Future<DateTime> selectDate() async {
+    Future<DateTime?> selectDate() async {
       return showDatePicker(
         context: context,
         locale: const Locale('es', 'CO'),
-        builder: (BuildContext context, Widget child) {
+        builder: (BuildContext context, Widget? child) {
           return Theme(
             data: ThemeData.light().copyWith(
               colorScheme: const ColorScheme.light().copyWith(
                 primary: ColorTheme.primaryTint,
               ),
             ),
-            child: child,
+            child: child!,
           );
         },
         initialDate: DateTime.now(),
@@ -119,7 +119,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
         firstDate: DateTime(2000),
         // TODO
         lastDate: DateTime(2101),
-      ).then<DateTime>((date) {
+      ).then<DateTime?>((date) {
         if (date == null) return null;
         print(date.toIso8601String());
         return date;
@@ -225,19 +225,19 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
 class IndicatorField extends StatelessWidget {
   const IndicatorField(
     this.title, {
-    Key key,
-    @required this.icon,
+    Key? key,
+    required this.icon,
     this.hintText = '\$ 0.00',
-    @required this.onTap,
-    @required this.focusNode,
-    @required this.controller,
+    required this.onTap,
+    required this.focusNode,
+    required this.controller,
     this.enabled = true,
   }) : super(key: key);
 
   final String title;
   final IconData icon;
   final String hintText;
-  final Function onTap;
+  final void Function()? onTap;
   final FocusNode focusNode;
   final TextEditingController controller;
   final bool enabled;

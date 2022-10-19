@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QualitativeProgressCard extends StatelessWidget {
   const QualitativeProgressCard({
-    Key key,
-    @required this.item,
-    @required this.deleteMethod,
+    Key? key,
+    required this.item,
+    required this.deleteMethod,
   }) : super(key: key);
 
   final QualitativeProgress item;

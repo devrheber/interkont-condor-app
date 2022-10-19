@@ -13,15 +13,15 @@ import 'select_aspect.dart';
 final titleColor = Color(0xff444444);
 
 class SecondStepBody extends StatefulWidget {
-  const SecondStepBody({Key key}) : super(key: key);
+  const SecondStepBody({Key? key}) : super(key: key);
 
   @override
   SecondStepBodyState createState() => SecondStepBodyState();
 }
 
 class SecondStepBodyState extends State<SecondStepBody> {
-  TextEditingController achiveController;
-  TextEditingController difficultyController;
+  late TextEditingController achiveController;
+  late TextEditingController difficultyController;
 
   @override
   void initState() {
@@ -86,7 +86,6 @@ class SecondStepBodyState extends State<SecondStepBody> {
                         if (achiveController.text.trim().isEmpty &&
                             difficultyController.text.trim().isEmpty) {
                           Toast.show('Registre al menos un logro o dificultad',
-                              context,
                               duration: 5);
 
                           return;

@@ -6,16 +6,16 @@ final titleColor = Color(0xff444444);
 
 class CustomedTextField extends StatelessWidget {
   const CustomedTextField({
-    Key key,
-    @required this.title,
-    @required this.hintText,
-    @required this.onChanged,
-    @required this.controller,
+    Key? key,
+    required this.title,
+    required this.hintText,
+    required this.onChanged,
+    required this.controller,
   }) : super(key: key);
 
   final String title;
   final String hintText;
-  final Function onChanged;
+  final Function(String)? onChanged;
   final TextEditingController controller;
 
   @override

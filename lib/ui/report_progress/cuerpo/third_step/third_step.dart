@@ -12,7 +12,7 @@ import 'card_carousel_avances.dart';
 final titleColor = Color(0xff444444);
 
 class ThirdStep extends StatelessWidget {
-  const ThirdStep({Key key}) : super(key: key);
+  const ThirdStep({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +71,8 @@ class ThirdStep extends StatelessWidget {
                                   if (double.parse('$value') < 0) {
                                     Toast.show(
                                         "Lo sentimos, solo aceptamos numeros positivos",
-                                        context,
                                         duration: 3,
-                                        gravity: Toast.BOTTOM);
+                                        gravity: Toast.bottom);
                                   }
                                   reportProgressService
                                       .onChangedRangeIndicatorCard(

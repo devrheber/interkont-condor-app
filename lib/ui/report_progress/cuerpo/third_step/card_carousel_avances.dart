@@ -7,16 +7,16 @@ import '../../../../theme/color_theme.dart';
 
 class RangeIndicatorCard extends StatefulWidget {
   const RangeIndicatorCard({
-    Key key,
-    @required this.item,
-    @required this.inputValue,
-    @required this.onChanged,
+    Key? key,
+    required this.item,
+    required this.inputValue,
+    required this.onChanged,
   }) : super(key: key);
 
   final RangeIndicator item;
   final String inputValue;
 
-  final Function onChanged;
+  final void Function(String)? onChanged;
 
   @override
   State<RangeIndicatorCard> createState() => _RangeIndicatorCardState();

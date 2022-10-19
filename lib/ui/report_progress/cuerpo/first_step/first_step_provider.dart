@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 
 class FirstStepProvider extends ChangeNotifier {
   FirstStepProvider({
-    @required ProjectsCacheRepository projectsCacheRepository,
+    required ProjectsCacheRepository projectsCacheRepository,
   }) : _projectsCacheRepository = projectsCacheRepository {
-    cache = _projectsCacheRepository.getCache();
-    detail = _projectsCacheRepository.getDetail(cache.projectCode);
+    cache = _projectsCacheRepository.getCache()!;
+    detail = _projectsCacheRepository.getDetail(cache.projectCode!)!;
     project = _projectsCacheRepository.getProject();
     activitiesProgress = cache.activitiesProgress ?? {};
     filteredActivites = [...detail.actividades];
@@ -17,13 +17,13 @@ class FirstStepProvider extends ChangeNotifier {
     validateValueActivities();
   }
 
-  Project project;
-  ProjectCache cache;
-  DatosAlimentacion detail;
+  late Project project;
+  late ProjectCache cache;
+  late DatosAlimentacion detail;
   final ProjectsCacheRepository _projectsCacheRepository;
 
   Map<String, dynamic> activitiesProgress = {};
-  List<Actividad> filteredActivites;
+  late List<Actividad> filteredActivites;
   String txtBuscarAvance = '';
 
   Future<void> saveValue(int activityId, String value) async {
@@ -98,10 +98,11 @@ class FirstStepProvider extends ChangeNotifier {
     if (cache.activitiesProgress == null) return;
     for (final item in detail.actividades) {
       String faltantePorEjecutar = item.faltantePorEjecutar(
-          double.tryParse(cache?.activitiesProgress[item.getStringId] ?? '0'));
+          double.tryParse(cache.activitiesProgress![item.getStringId] ?? '0') ??
+              0.0);
 
       if (double.parse(faltantePorEjecutar.replaceAll(' %', '')) <= 0) {
-        cache.activitiesProgress[item.getStringId] = '0';
+        cache.activitiesProgress![item.getStringId] = '0';
       }
     }
 
