@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/fourth_step/required_documents.dart';
 import 'package:flutter/material.dart';
 
 class ReportProgressProvider extends ChangeNotifier {

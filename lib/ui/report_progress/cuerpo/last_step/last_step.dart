@@ -1,4 +1,5 @@
-import 'package:appalimentacion/ui/report_progress/last_step_provider.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step_provider.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,6 +15,7 @@ class LastStep extends StatefulWidget {
   static Widget init() {
     return ChangeNotifierProvider(
       create: (context) => LastStepProvider(
+        projectsRepository: context.read(),
         filesPersistentCacheRepository: context.read(),
         projectsCacheRepository: context.read(),
       ),
@@ -31,25 +33,33 @@ class _LastStepState extends State<LastStep>
   Animation<double> animation;
   String i = '0';
   String contadorRgb = '0';
-  bool correcto = false;
-  bool pasaron10Segundos = false;
+
+  LastStepProvider lastStepProvider;
 
   @override
   void initState() {
-    context.read<LastStepProvider>().guardarAlimentacion().then((value) {
-      if (value['success'] as bool) {
+    super.initState();
+    lastStepProvider = context.read<LastStepProvider>();
+    lastStepProvider.guardarAlimentacion();
+
+    lastStepProvider.sendData().then((Map<String, dynamic> value) {
+      if ((value['state'] as SendDataState) == SendDataState.success) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Felicitaciones()),
         );
-      } else {
-        Navigator.push(
+      } else if ((value['state'] as SendDataState) ==
+          SendDataState.noInternet) {
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => NoInternet()),
         );
+      } else {
+        Navigator.pop(context);
+        Toast.show(value['message'], context, duration: 6);
       }
     });
-    super.initState();
+
     _controller =
         AnimationController(duration: const Duration(seconds: 10), vsync: this);
     animation = Tween<double>(begin: 0, end: 100).animate(_controller)
@@ -60,25 +70,6 @@ class _LastStepState extends State<LastStep>
         });
       });
     _controller.forward();
-
-    // TODO
-    Future.delayed(
-      Duration(seconds: 10),
-      () {
-        setState(() {
-          pasaron10Segundos = true;
-        });
-        if (correcto == true) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Felicitaciones()),
-          );
-        } else {
-          Toast.show("Espere un momento en linea porfavor", context,
-              duration: 5, gravity: Toast.BOTTOM);
-        }
-      },
-    );
   }
 
   @override

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../theme/color_theme.dart';
-import '../../listaProyectos/home.dart';
+import '../../../../theme/color_theme.dart';
+import '../../../listaProyectos/home.dart';
 
 class Felicitaciones extends StatefulWidget {
   Felicitaciones({Key key}) : super(key: key);
@@ -18,6 +18,7 @@ class _FelicitacionesState extends State<Felicitaciones> {
   void initState() {
     super.initState();
     context.read<ProjectsProvider>().getRemoteProjects();
+    context.read<ProjectsProvider>().clearCache();
   }
 
   @override

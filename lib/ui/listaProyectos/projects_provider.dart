@@ -41,6 +41,12 @@ class ProjectsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> clearCache() async {
+    // TODO Navegar a home y luego borrar la data
+    //  projectsCacheRepository.clearData();
+    // filesPersistentCacheRepository.clearData();
+  }
+
   Future<void> getDocumentTypes() async {
     try {
       final types = await projectRepository.getTipoDoc();

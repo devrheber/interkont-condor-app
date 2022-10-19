@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+import 'package:http/http.dart' as http;
+
 import 'package:appalimentacion/constants/api_routes.dart';
 import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/helpers/respuestaHttp.dart';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as x;
 import 'package:flutter/foundation.dart';
 
 class ProjectsImpl implements ProjectsRepository {
@@ -86,12 +89,12 @@ class ProjectsImpl implements ProjectsRepository {
     final user = User.fromJson(json.decode(prefs.userData));
 
     try {
-    HttpClientRequest request =
-        await client.getUrl(Uri.parse(_url + ApiRoutes.tiposDocumento));
-    String authorization = user.token;
-    request.headers.set('content-type', 'application/json');
-    request.headers.set('Authorization', '$authorization');
-    HttpClientResponse response = await request.close();
+      HttpClientRequest request =
+          await client.getUrl(Uri.parse(_url + ApiRoutes.tiposDocumento));
+      String authorization = user.token;
+      request.headers.set('content-type', 'application/json');
+      request.headers.set('Authorization', '$authorization');
+      HttpClientResponse response = await request.close();
 
       if (response.statusCode == 200) {
         String responseBody = await response.transform(utf8.decoder).join();
@@ -109,9 +112,9 @@ class ProjectsImpl implements ProjectsRepository {
       final user = User.fromJson(json.decode(prefs.userData));
       String authorization = user.token;
 
-      Dio dio = Dio();
+      x.Dio dio = x.Dio();
       var response = await dio.get(_url + ApiRoutes.tiposDocumento,
-          options: Options(headers: {
+          options: x.Options(headers: {
             'content-type': 'application/json',
             'Authorization': '$authorization'
           }));
@@ -119,9 +122,77 @@ class ProjectsImpl implements ProjectsRepository {
         return tipoDocFromJson(json.encode(response.data));
       }
       return [];
-    } on DioError catch (e) {
+    } on x.DioError catch (e) {
       print(e);
       return [];
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> sendData(AlimentacionRequest data,
+      {@required onSendProgress(int count, int value)}) async {
+    x.Dio dio = x.Dio();
+    dio.options = x.BaseOptions(
+      connectTimeout: 1500,
+    );
+
+    String url = "$_url/guardar-alimentacion";
+    final user = User.fromJson(json.decode(prefs.userData));
+    try {
+      final x.Response<dynamic> response = await dio.post(
+        url,
+        options: x.Options(
+          headers: {
+            "Content-type": "application/json",
+            'Authorization': user.token
+          },
+        ),
+        data: jsonEncode(data.toJson()),
+        onSendProgress: onSendProgress,
+      );
+
+      inspect(response);
+      print(response);
+
+      // Uri uri = Uri.parse(url);
+      // var response = await http.post(
+      //   uri,
+      //   body: jsonEncode(data.toJson()),
+      //   headers: {
+      //     "Content-type": "application/json",
+      //     'Authorization': user.token
+      //   },
+      // );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return {
+          'success': true,
+        };
+      } else {
+        return {
+          'success': false,
+        };
+      }
+    } on x.DioError catch (error) {
+      inspect(error);
+      print(error);
+      switch (error.type) {
+        case x.DioErrorType.connectTimeout:
+          throw SlowConnectionException();
+        case x.DioErrorType.response:
+          throw ResponseException();
+        case x.DioErrorType.other:
+          throw NoInternetException();
+        case x.DioErrorType.sendTimeout:
+        case x.DioErrorType.receiveTimeout:
+        case x.DioErrorType.cancel:
+          throw OtherException('Error desconocido');
+      }
+      throw OtherException('Error desconocido');
+    } catch (_) {
+      inspect(_);
+      print(_);
+      throw OtherException('Error desconocido');
     }
   }
 }

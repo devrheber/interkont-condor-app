@@ -1,5 +1,6 @@
 import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/last_step.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/noInternet.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
@@ -76,6 +77,13 @@ class ReportProgressScreen extends StatelessWidget {
       }
 
       if (numeroPaso >= 5) {
+        // TODO Validar conectividad
+
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => NoInternet()),
+        // );
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => LastStep.init()),

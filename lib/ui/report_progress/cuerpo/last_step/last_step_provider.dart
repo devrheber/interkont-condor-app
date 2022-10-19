@@ -1,20 +1,29 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:appalimentacion/data/local/user_preferences.dart';
-import 'package:appalimentacion/domain/models/alimentacion_request.dart';
+
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
 import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
-import 'package:appalimentacion/globales/variables.dart';
+import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/helpers/project_helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:rxdart/rxdart.dart';
+
+enum SendDataState {
+  success,
+  noInternet,
+  other,
+}
 
 class LastStepProvider extends ChangeNotifier {
   LastStepProvider({
+    @required ProjectsRepository projectsRepository,
     @required ProjectsCacheRepository projectsCacheRepository,
     @required FilesPersistentCacheRepository filesPersistentCacheRepository,
-  })  : _projectsCacheRepository = projectsCacheRepository,
+  })  : _projectsRepository = projectsRepository,
+        _projectsCacheRepository = projectsCacheRepository,
         _filesPersistentCacheRepository = filesPersistentCacheRepository {
     _project = _projectsCacheRepository.getProject();
     _detail = _projectsCacheRepository.getDetail(_project.codigoproyecto);
@@ -33,21 +42,24 @@ class LastStepProvider extends ChangeNotifier {
   Project _project;
   DatosAlimentacion _detail;
   ProjectCache _cache;
+  final ProjectsRepository _projectsRepository;
   final ProjectsCacheRepository _projectsCacheRepository;
   final FilesPersistentCacheRepository _filesPersistentCacheRepository;
   String username;
   String userToken;
+
+  AlimentacionRequest data;
 
   ComplementaryImage mainPhoto;
   List<ComplementaryImage> complementaryImages = [];
   List<Document> requiredDocuments = [];
   List<Document> additionalDocuments = [];
 
+  PublishSubject<double> uploadPercentage;
+
   int get projectCode => _project.codigoproyecto;
 
-  Future<Map<String, dynamic>> guardarAlimentacion() async {
-    String url = "$urlGlobalApiCondor/guardar-alimentacion";
-
+  void guardarAlimentacion() {
     final user = User.fromJson(json.decode(prefs.userData));
 
     List<ActividadRequest> actividades = [];
@@ -124,7 +136,7 @@ class LastStepProvider extends ChangeNotifier {
       imagenesComplementarias.add(newImage);
     }
 
-    final data = AlimentacionRequest(
+    data = AlimentacionRequest(
       actividades: actividades,
       aspectosEvaluar: aspectosEvaluar,
       codigoproyecto: _project.codigoproyecto,
@@ -147,20 +159,22 @@ class LastStepProvider extends ChangeNotifier {
           ProjectHelpers.getDoubleValue(_cache.pastDueMonthReturns),
     );
 
-    // inspect(data.toJson());
+    inspect(data.toJson());
+  }
 
+  Future<Map<String, dynamic>> sendData() async {
     try {
-      var uri = Uri.parse(url);
-      var response = await http.post(
-        uri,
-        body: jsonEncode(data.toJson()),
-        headers: {
-          "Content-type": "application/json",
-          'Authorization': user.token
+      final result = await _projectsRepository.sendData(
+        data,
+        onSendProgress: (int count, int total) {
+          print('count: $count - total $total');
         },
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      // final result = {'success': false};
+      // await Future.delayed(const Duration(seconds: 2));
+
+      if (result['success'] as bool) {
         _projectsCacheRepository.saveProjectCache(
           projectCode,
           _cache.copyWith(
@@ -168,37 +182,26 @@ class LastStepProvider extends ChangeNotifier {
             stepNumber: 0,
           ),
         );
-
-        _projectsCacheRepository.clearData();
-        _filesPersistentCacheRepository.clearData();
-
         return {
           'success': true,
-          'correcto': true,
-          'message': true,
-        };
-
-        // TODO
-        // await obtenerListaProyectos();
-        // await actualizarProyectos();
-        // await obtenerDatosProyecto(project.codigoproyecto, false);
-        // if (pasaron10Segundos == true) {
-
-      } else {
-        _projectsCacheRepository.saveProjectCache(
-          projectCode,
-          _cache.copyWith(
-            porPublicar: true,
-            stepNumber: 5,
-          ),
-        );
-
-        return {
-          'success': false,
           'message': '',
+          'state': SendDataState.success,
         };
       }
-    } catch (erro) {
+
+      // TODO
+      // await obtenerListaProyectos();
+      // await actualizarProyectos();
+      // await obtenerDatosProyecto(project.codigoproyecto, false);
+    } on ProjectsRepositoryException catch (error) {
+      if (error is NoInternetException) {
+        return {
+          'success': false,
+          'message': 'No tiene conección a internet',
+          'state': SendDataState.noInternet,
+        };
+      }
+
       _projectsCacheRepository.saveProjectCache(
         projectCode,
         _cache.copyWith(
@@ -206,11 +209,19 @@ class LastStepProvider extends ChangeNotifier {
           stepNumber: 5,
         ),
       );
-
+    } catch (_) {
+      // TODO Error desconocido
       return {
         'success': false,
-        'message': '',
+        'message': 'Error desconocido',
+        'state': SendDataState.other
       };
     }
+
+    return {
+      'success': false,
+      'message': 'Error desconocido',
+      'state': SendDataState.other
+    };
   }
 }
