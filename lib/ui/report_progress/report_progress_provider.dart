@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 
 class ReportProgressProvider extends ChangeNotifier {
   ReportProgressProvider({
-    @required ProjectsCacheRepository projectsCacheRepository,
-    @required FilesPersistentCacheRepository filesPersistentCacheRepository,
+    required ProjectsCacheRepository projectsCacheRepository,
+    required FilesPersistentCacheRepository filesPersistentCacheRepository,
   })  : _projectsCacheRepository = projectsCacheRepository,
         _filesPersistentCacheRepository = filesPersistentCacheRepository {
-    cache = projectsCacheRepository.getCache();
+    cache = projectsCacheRepository.getCache() ?? ProjectCache();
     project = projectsCacheRepository.getProject();
 
-    detail = projectsCacheRepository.getDetail(project.codigoproyecto);
+    detail = projectsCacheRepository.getDetail(project.codigoproyecto)!;
 
     achievesAndDifficulties = cache.qualitativesProgress ?? [];
 
@@ -24,11 +24,11 @@ class ReportProgressProvider extends ChangeNotifier {
     _initFourthStep();
   }
 
-  Project project;
-  DatosAlimentacion detail;
+  late Project project;
+  late DatosAlimentacion detail;
   final ProjectsCacheRepository _projectsCacheRepository;
   final FilesPersistentCacheRepository _filesPersistentCacheRepository;
-  ProjectCache cache;
+  late ProjectCache cache;
 
   List<TipoDoc> listaTipoDoc = [];
   List<TextEditingController> textFieldControllers = [];
@@ -37,22 +37,28 @@ class ReportProgressProvider extends ChangeNotifier {
 
   int get stepNumber => cache.stepNumber;
 
-  AspectoEvaluar aspectSelected;
+  AspectoEvaluar? aspectSelected;
 
-  StreamSubscription<Map<String, ProjectCache>> cacheSubscription;
+  StreamSubscription<Map<String, ProjectCache>>? cacheSubscription;
+
+  DateTime? incomeGenerationDate;
+  DateTime? rentalRepaymentDate;
+  String? generatedReturns = '';
+  String? currentMonthReturns = '';
+  String? pastDueMonthReturns = '';
 
   /// Actualiza el objeto si fué modificado por un provider en un nivel inferior
   _init() {
     cacheSubscription =
         _projectsCacheRepository.getProjectsCache().listen((cache) {
-      this.cache = cache[project.getProjectCode];
+      this.cache = cache[project.getProjectCode]!;
       _initFourthStep();
     });
   }
 
   @override
   void dispose() {
-    cacheSubscription.cancel();
+    cacheSubscription?.cancel();
     super.dispose();
   }
 
@@ -71,10 +77,11 @@ class ReportProgressProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addQualitativeProgress({String achive, String difficulty}) {
+  void addQualitativeProgress({String? achive, String? difficulty}) {
+    if (aspectSelected == null) return;
     achievesAndDifficulties.add(QualitativeProgress(
-      aspectToEvaluateId: aspectSelected.aspectoEvaluarId,
-      title: aspectSelected.descripcionAspectoEvaluar,
+      aspectToEvaluateId: aspectSelected!.aspectoEvaluarId,
+      title: aspectSelected!.descripcionAspectoEvaluar,
       achive: achive,
       difficulty: difficulty,
     ));
@@ -94,7 +101,7 @@ class ReportProgressProvider extends ChangeNotifier {
     );
   }
 
-  onChangedRangeIndicatorCard({@required int index, @required String value}) {
+  onChangedRangeIndicatorCard({required int index, required String value}) {
     // TODO: save input value to indicator in cache
     final RangeIndicator indicator = rangeIndicators[index];
 
@@ -117,18 +124,12 @@ class ReportProgressProvider extends ChangeNotifier {
     final porcentajeEsperado = cache.porcentajeValorProyectadoSeleccionado -
         detail.limitePorcentajeAtraso;
 
-    if ((cache.porcentajeValorEjecutado * 100) < porcentajeEsperado) {
+    if (((cache.porcentajeValorEjecutado ?? 0) * 100) < porcentajeEsperado) {
       return true;
     } else {
       return false;
     }
   }
-
-  DateTime incomeGenerationDate;
-  DateTime rentalRepaymentDate;
-  String generatedReturns;
-  String currentMonthReturns;
-  String pastDueMonthReturns;
 
   void _initFourthStep() {
     incomeGenerationDate = this.cache.incomeGenerationDate;
@@ -177,15 +178,15 @@ class ReportProgressProvider extends ChangeNotifier {
           generatedReturns == null ||
           currentMonthReturns == null ||
           pastDueMonthReturns == null ||
-          generatedReturns.isEmpty ||
-          currentMonthReturns.isEmpty ||
-          pastDueMonthReturns.isEmpty;
+          (generatedReturns?.isEmpty ?? true) ||
+          (currentMonthReturns?.isEmpty ?? true) ||
+          (pastDueMonthReturns?.isEmpty ?? true);
     }
 
     return false;
   }
 
-  String stepValidations() {
+  String? stepValidations() {
     switch (stepNumber) {
       case 3:
         if (incomeGenerationDate == null ||
@@ -193,9 +194,9 @@ class ReportProgressProvider extends ChangeNotifier {
             generatedReturns == null ||
             currentMonthReturns == null ||
             pastDueMonthReturns == null ||
-            generatedReturns.isEmpty ||
-            currentMonthReturns.isEmpty ||
-            pastDueMonthReturns.isEmpty) {
+            (generatedReturns?.isEmpty ?? true) ||
+            (currentMonthReturns?.isEmpty ?? true) ||
+            (pastDueMonthReturns?.isEmpty ?? true)) {
           return 'Complete los indicadores de rendimiento';
         }
 

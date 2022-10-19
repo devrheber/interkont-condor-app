@@ -13,8 +13,8 @@ class ContenidoReportarAvance extends StatelessWidget {
   final int numeroPaso;
 
   ContenidoReportarAvance({
-    Key key,
-    @required this.numeroPaso,
+    Key? key,
+    required this.numeroPaso,
   }) : super(key: key);
 
   @override

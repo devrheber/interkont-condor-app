@@ -31,7 +31,7 @@ class ProjectCache {
     this.pastDueMonthReturns,
   });
   final int? projectCode;
-  final int? stepNumber;
+  final int stepNumber;
   final dynamic porPublicar;
   final DateTime? lastSyncDate;
   final int? periodoIdSeleccionado;

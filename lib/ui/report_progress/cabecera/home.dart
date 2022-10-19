@@ -10,8 +10,8 @@ import 'header_steps.dart';
 
 class CardHeadReporteAvance extends StatelessWidget {
   CardHeadReporteAvance({
-    Key key,
-    this.numeroPaso,
+    Key? key,
+    required this.numeroPaso,
   }) : super(key: key);
 
   final int numeroPaso;
@@ -41,8 +41,9 @@ class CardHeadReporteAvance extends StatelessWidget {
                         value: "Proyectado",
                         percentage: !snapshot.hasData
                             ? '0'
-                            : snapshot.data[project.codigoproyecto.toString()]
-                                .getPorcentajeValorProyectado);
+                            : (snapshot.data?[project.getProjectCode]
+                                    ?.getPorcentajeValorProyectado ??
+                                '0'));
                   }),
               const Expanded(child: SizedBox.shrink()),
               StreamBuilder<double>(
@@ -55,7 +56,7 @@ class CardHeadReporteAvance extends StatelessWidget {
 
                   return Percentage(
                     value: "Ejecutado",
-                    percentage: (snapshot.data * 100).toStringAsFixed(2),
+                    percentage: (snapshot.data! * 100).toStringAsFixed(2),
                   );
                 },
               ),
@@ -70,9 +71,9 @@ class CardHeadReporteAvance extends StatelessWidget {
 
 class Percentage extends StatelessWidget {
   const Percentage({
-    Key key,
-    @required this.percentage,
-    @required this.value,
+    Key? key,
+    required this.percentage,
+    required this.value,
   }) : super(key: key);
 
   final String percentage;

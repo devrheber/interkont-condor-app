@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 final titleColor = Color(0xff444444);
 
 class HeaderSteps extends StatelessWidget {
-  const HeaderSteps({Key key, this.pasoSeleccionado}) : super(key: key);
+  const HeaderSteps({Key? key, required this.pasoSeleccionado})
+      : super(key: key);
 
   final int pasoSeleccionado;
 
@@ -55,9 +56,9 @@ class HeaderSteps extends StatelessWidget {
 
 class Step extends StatelessWidget {
   const Step({
-    Key key,
-    @required this.text,
-    @required this.number,
+    Key? key,
+    required this.text,
+    required this.number,
     this.isCompleted = false,
   }) : super(key: key);
 

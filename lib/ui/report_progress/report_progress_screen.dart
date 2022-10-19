@@ -39,8 +39,8 @@ class ReportProgressScreen extends StatelessWidget {
       }
 
       // TODO Obtener datos de proyecto
-      Toast.show("El avance ha sido cancelado", context,
-          duration: 5, gravity: Toast.BOTTOM);
+      Toast.show("El avance ha sido cancelado",
+          duration: 5, gravity: Toast.bottom);
       Navigator.pop(context);
     }
 
@@ -59,10 +59,10 @@ class ReportProgressScreen extends StatelessWidget {
     }
 
     Future<void> secondButtonMethod() async {
-      final String errorMessage = reportProgressProvider.stepValidations();
+      final String? errorMessage = reportProgressProvider.stepValidations();
 
       if (errorMessage != null) {
-        Toast.show(errorMessage, context, duration: 3, gravity: Toast.BOTTOM);
+        Toast.show(errorMessage, duration: 3, gravity: Toast.bottom);
         return;
       }
 
