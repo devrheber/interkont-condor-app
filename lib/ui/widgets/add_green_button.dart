@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddGreenButton extends StatelessWidget {
-  const AddGreenButton({Key key, @required this.onTap,}) : super(key: key);
+  const AddGreenButton({Key? key, required this.onTap,}) : super(key: key);
 
-  final Function onTap;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {

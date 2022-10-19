@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class GlobalDrawer extends StatelessWidget {
-  const GlobalDrawer({Key key}) : super(key: key);
+  const GlobalDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class GlobalDrawer extends StatelessWidget {
                       (Route<dynamic> route) => false);
                 } else {
                   Toast.show(
-                      'Ocurrió un error al intentar cerrar sessión', context);
+                      'Ocurrió un error al intentar cerrar sessión');
                 }
               },
             ),

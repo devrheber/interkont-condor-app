@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Blanco extends StatefulWidget {
-  
-  Blanco({Key key}) : super(key: key);
+  Blanco({Key? key}) : super(key: key);
   
   @override
   BlancoState createState() => BlancoState();

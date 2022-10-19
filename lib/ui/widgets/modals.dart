@@ -2,7 +2,7 @@ import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class modalMensaje{
+class ModalMensaje{
   static void mensaje(
     BuildContext context, 
     String texto
@@ -10,7 +10,7 @@ class modalMensaje{
   {
     modalMostrarMensaje(context, texto);
   }
-  static Future<bool> modalMostrarMensaje(context, String texto) {
+  static Future<bool?> modalMostrarMensaje(context, String texto) {
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -78,7 +78,7 @@ class modalMensaje{
     modalOpcion(context, texto, opcion, colorOpcion);
   }
 
-  static Future<bool> modalOpcion(context, String texto, Function opcion, Color colorOpcion) {
+  static Future<bool?> modalOpcion(context, String texto, Function opcion, Color colorOpcion) {
     return showDialog(
         context: context,
         barrierDismissible: true,

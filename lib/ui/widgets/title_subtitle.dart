@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextSubtitle2 extends StatelessWidget {
-  const TextSubtitle2({Key key, @required this.text, this.isRequired = false})
+  const TextSubtitle2({Key? key, required this.text, this.isRequired = false})
       : super(key: key);
   final String text;
   final bool isRequired;
@@ -27,8 +27,8 @@ class TextSubtitle2 extends StatelessWidget {
 
 class TextSubtitle extends StatelessWidget {
   const TextSubtitle({
-    Key key,
-    @required this.text,
+    Key? key,
+    required this.text,
   }) : super(key: key);
   final String text;
   @override
@@ -48,8 +48,8 @@ class TextSubtitle extends StatelessWidget {
 
 class TextTitle extends StatelessWidget {
   const TextTitle({
-    Key key,
-    @required this.text,
+    Key? key,
+    required this.text,
   }) : super(key: key);
   final String text;
   @override

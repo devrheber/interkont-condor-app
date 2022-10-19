@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoadingText extends StatefulWidget {
-  const LoadingText(this.text, {Key key}) : super(key: key);
+  const LoadingText(this.text, {Key? key}) : super(key: key);
 
   final String text;
 
