@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -13,6 +14,7 @@ import 'package:rxdart/rxdart.dart';
 
 enum SendDataState {
   success,
+  backendError,
   noInternet,
   other,
 }
@@ -55,7 +57,7 @@ class LastStepProvider extends ChangeNotifier {
   List<Document> requiredDocuments = [];
   List<Document> additionalDocuments = [];
 
-  PublishSubject<double>? uploadPercentage;
+  final uploadPercentage = PublishSubject<double>();
 
   int get projectCode => _project.codigoproyecto;
 
@@ -162,19 +164,21 @@ class LastStepProvider extends ChangeNotifier {
     inspect(data!.toJson());
   }
 
+  void _onSendProgress(int count, int total) {
+    uploadPercentage.add(count / total);
+  }
+
+  void _onReceiveProgress(int count, int total) {
+    // TODO
+  }
+
   Future<Map<String, dynamic>> sendData() async {
     try {
-      final result = await _projectsRepository.sendData(
-        data!,
-        onSendProgress: (int count, int total) {
-          print('count: $count - total $total');
-        },
-      );
+      final result = await _projectsRepository.sendData(data!,
+          onSendProgress: _onSendProgress,
+          onReceiveProgress: _onReceiveProgress);
 
-      // final result = {'success': false};
-      // await Future.delayed(const Duration(seconds: 2));
-
-      if (result['success'] as bool) {
+      if (result['success'] as bool && result['status'] == 0) {
         _projectsCacheRepository.saveProjectCache(
           projectCode,
           _cache.copyWith(
@@ -189,10 +193,13 @@ class LastStepProvider extends ChangeNotifier {
         };
       }
 
-      // TODO
-      // await obtenerListaProyectos();
-      // await actualizarProyectos();
-      // await obtenerDatosProyecto(project.codigoproyecto, false);
+      if (result['status'] == 1) {
+        return {
+          'success': true,
+          'message': 'Ocurrió un error al grabar la información',
+          'state': SendDataState.backendError,
+        };
+      }
     } on ProjectsRepositoryException catch (error) {
       if (error is NoInternetException) {
         return {
@@ -210,7 +217,6 @@ class LastStepProvider extends ChangeNotifier {
         ),
       );
     } catch (_) {
-      // TODO Error desconocido
       return {
         'success': false,
         'message': 'Error desconocido',

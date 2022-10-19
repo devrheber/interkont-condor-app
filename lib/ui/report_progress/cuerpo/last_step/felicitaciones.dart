@@ -19,6 +19,11 @@ class _FelicitacionesState extends State<Felicitaciones> {
     super.initState();
     context.read<ProjectsProvider>().getRemoteProjects();
     context.read<ProjectsProvider>().clearCache();
+
+    // TODO
+    // await obtenerListaProyectos();
+    // await actualizarProyectos();
+    // await obtenerDatosProyecto(project.codigoproyecto, false);
   }
 
   @override

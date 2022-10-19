@@ -8,8 +8,11 @@ abstract class ProjectsRepository {
 
   Future<List<TipoDoc>> getTipoDoc();
 
-  Future<Map<String, dynamic>> sendData(AlimentacionRequest data,
-      {required void onSendProgress(int count, int total)});
+  Future<Map<String, dynamic>> sendData(
+    AlimentacionRequest data, {
+    required void onSendProgress(int count, int total),
+    required void onReceiveProgress(int count, int total),
+  });
 }
 
 abstract class ProjectsRepositoryException implements Exception {}

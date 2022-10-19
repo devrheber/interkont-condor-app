@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 
 import 'package:appalimentacion/constants/api_routes.dart';
 import 'package:appalimentacion/data/local/user_preferences.dart';
@@ -10,7 +9,6 @@ import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/globales/variables.dart';
 import 'package:appalimentacion/helpers/respuestaHttp.dart';
 import 'package:dio/dio.dart' as x;
-import 'package:flutter/foundation.dart';
 
 class ProjectsImpl implements ProjectsRepository {
   final UserPreferences prefs = UserPreferences();
@@ -130,7 +128,7 @@ class ProjectsImpl implements ProjectsRepository {
 
   @override
   Future<Map<String, dynamic>> sendData(AlimentacionRequest data,
-      {required onSendProgress(int count, int value)}) async {
+      {required onSendProgress(int count, int total), required onReceiveProgress(int count, int total)}) async {
     x.Dio dio = x.Dio();
     dio.options = x.BaseOptions(
       connectTimeout: 1500,
@@ -149,24 +147,16 @@ class ProjectsImpl implements ProjectsRepository {
         ),
         data: jsonEncode(data.toJson()),
         onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
       );
 
       inspect(response);
       print(response);
 
-      // Uri uri = Uri.parse(url);
-      // var response = await http.post(
-      //   uri,
-      //   body: jsonEncode(data.toJson()),
-      //   headers: {
-      //     "Content-type": "application/json",
-      //     'Authorization': user.token
-      //   },
-      // );
-
       if (response.statusCode == 200 || response.statusCode == 201) {
         return {
           'success': true,
+          'status': response.data['status'],
         };
       } else {
         return {
@@ -188,7 +178,6 @@ class ProjectsImpl implements ProjectsRepository {
         case x.DioErrorType.cancel:
           throw OtherException('Error desconocido');
       }
-      throw OtherException('Error desconocido');
     } catch (_) {
       inspect(_);
       print(_);

@@ -1,5 +1,4 @@
 import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step_provider.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,30 +9,24 @@ import 'felicitaciones.dart';
 import 'noInternet.dart';
 
 class LastStep extends StatefulWidget {
-  const LastStep._();
+  const LastStep._({Key? key}) : super(key: key);
 
-  static Widget init() {
+  static Widget init({Key? key}) {
     return ChangeNotifierProvider(
       create: (context) => LastStepProvider(
         projectsRepository: context.read(),
         filesPersistentCacheRepository: context.read(),
         projectsCacheRepository: context.read(),
       ),
-      child: const LastStep._(),
+      child: LastStep._(key: key),
     );
   }
 
   @override
-  State<StatefulWidget> createState() => _LastStepState();
+  State<StatefulWidget> createState() => LastStepState();
 }
 
-class _LastStepState extends State<LastStep>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> animation;
-  String i = '0';
-  String contadorRgb = '0';
-
+class LastStepState extends State<LastStep> {
   late LastStepProvider lastStepProvider;
 
   @override
@@ -56,85 +49,77 @@ class _LastStepState extends State<LastStep>
           context,
           MaterialPageRoute(builder: (context) => NoInternet()),
         );
+      } else if (value['state'] == SendDataState.backendError) {
+        Navigator.pop(context);
+        Toast.show(value['message'], duration: 6);
       } else {
         Navigator.pop(context);
         Toast.show(value['message'], duration: 6);
       }
     });
-
-    _controller =
-        AnimationController(duration: const Duration(seconds: 10), vsync: this);
-    animation = Tween<double>(begin: 0, end: 100).animate(_controller)
-      ..addListener(() {
-        setState(() {
-          // The state that has changed here is the animation objects value
-          i = animation.value.toStringAsFixed(0);
-        });
-      });
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   Future<Widget> getRootPage() async => Felicitaciones();
   @override
   Widget build(BuildContext context) {
+    final style = TextStyle(
+      fontFamily: 'montserrat',
+      fontWeight: FontWeight.bold,
+      fontSize: 30.sp,
+      color: Colors.white,
+    );
+
     return Scaffold(
       body: Container(
         color: Color(0xff2196F3),
         child: Stack(
           children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                    child: CircularPercentIndicator(
-                  radius: 120.sp,
-                  lineWidth: 6.sp,
-                  percent: double.parse('$i') / 100,
-                  center: Row(
+            StreamBuilder<double>(
+                stream: lastStepProvider.uploadPercentage,
+                initialData: 0.0,
+                builder: (context, AsyncSnapshot<double> snapshot) {
+                  double percentage = snapshot.data!;
+                  return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "$i",
-                        style: TextStyle(
-                          fontFamily: 'montserrat',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Colors.white,
+                    children: [
+                      Center(
+                        child: CircularPercentIndicator(
+                          radius: 120.sp,
+                          lineWidth: 6.sp,
+                          percent: percentage.clamp(0, 1),
+                          center: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "${(percentage.clamp(0, 1) * 100).round()}",
+                                style: style,
+                              ),
+                              Text(
+                                "%",
+                                style: style,
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+                          progressColor: Color(0xff90CBF9),
+                          animateFromLastPercent: true,
                         ),
                       ),
+                      SizedBox(height: 23.sp),
                       Text(
-                        "%",
+                        percentage == 1
+                            ? 'Obteniendo respuesta'
+                            : 'Estamos cargando tu proyecto',
                         style: TextStyle(
                           fontFamily: 'montserrat',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15.sp,
                           color: Colors.white,
                         ),
-                        textAlign: TextAlign.start,
                       ),
                     ],
-                  ),
-                  progressColor: Color(0xff90CBF9),
-                  animateFromLastPercent: true,
-                )),
-                SizedBox(height: 23.sp),
-                Text(
-                  "Estamos cargando tu proyecto",
-                  style: TextStyle(
-                    fontFamily: 'montserrat',
-                    fontWeight: FontWeight.w800,
-                    fontSize: 15.sp,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
+                  );
+                }),
 
             /*Positioned(
                 width: MediaQuery.of(context).size.width/2,
