@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 
 class ProjectDetailProvider extends ChangeNotifier {
   ProjectDetailProvider({
-    @required this.projectRepository,
-    @required this.projectsCacheRepository,
+    required this.projectRepository,
+    required this.projectsCacheRepository,
   }) {
     project = projectsCacheRepository.getProject();
     detail = projectsCacheRepository.getDetail(project.codigoproyecto);
@@ -22,12 +22,13 @@ class ProjectDetailProvider extends ChangeNotifier {
 
   int get projectCode => project.codigoproyecto;
 
-  Project project;
-  DatosAlimentacion detail;
+  late Project project;
+  DatosAlimentacion? detail;
   final ProjectsRepository projectRepository;
   final ProjectsCacheRepository projectsCacheRepository;
 
-  ProjectCache _cache;
+  late ProjectCache _cache;
+  Periodo? periodoSeleccionado;
 
   ProjectCache get cache => _cache;
 
@@ -35,24 +36,20 @@ class ProjectDetailProvider extends ChangeNotifier {
     _cache = value;
 
     Future.delayed(const Duration(seconds: 61)).then((_) {
-      if (!titleCardKey.currentState.mounted) return;
+      if (!(titleCardKey.currentState?.mounted ?? false)) return;
 
       notifyListeners();
     });
   }
 
-  Periodo periodoSeleccionado;
-
-  bool updateTitleCard;
-
   Map<String, DatosAlimentacion> projectDetails = {};
 
   void _getPosicionPeriodoSeleccionado() {
-    final index = this.detail.periodos.indexWhere(
-        (periodo) => periodo.periodoId == this.cache?.periodoIdSeleccionado);
+    final index = this.detail?.periodos.indexWhere(
+        (periodo) => periodo.periodoId == this.cache.periodoIdSeleccionado);
 
-    if (index < 0) return;
-    periodoSeleccionado = detail.periodos[index];
+    if ((index ?? -1) < 0) return;
+    periodoSeleccionado = detail?.periodos[index!];
   }
 
   Future<bool> syncDetail() async {
@@ -81,7 +78,7 @@ class ProjectDetailProvider extends ChangeNotifier {
   }
 
   void _updateSelectedPeriod() {
-    final int index = detail.periodos.indexWhere(
+    final int index = detail!.periodos.indexWhere(
         (period) => period.periodoId == periodoSeleccionado?.periodoId);
 
     if (index < 0) {
@@ -89,10 +86,11 @@ class ProjectDetailProvider extends ChangeNotifier {
       return;
     }
 
-    periodoSeleccionado = detail.periodos[index];
+    periodoSeleccionado = detail?.periodos[index];
   }
 
-  void cambiarPeriodoReportado(Periodo periodo) {
+  void cambiarPeriodoReportado(Periodo? periodo) {
+    if (periodo == null) return;
     this.cache = this.cache.copyWith(
           periodoIdSeleccionado: periodo.periodoId,
           porcentajeValorProyectadoSeleccionado: periodo.porcentajeProyectado,

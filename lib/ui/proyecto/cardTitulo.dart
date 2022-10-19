@@ -13,7 +13,7 @@ import '../../globales/customed_app_bar.dart';
 final titleColor = Color(0xff444444);
 
 class CardTitulo extends StatelessWidget {
-  const CardTitulo({Key key}) : super(key: key);
+  const CardTitulo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +48,8 @@ class CardTitulo extends StatelessWidget {
 
 class _CircleImageCard extends StatelessWidget {
   const _CircleImageCard({
-    Key key,
-    @required this.imgUrl,
+    Key? key,
+    required this.imgUrl,
   }) : super(key: key);
 
   final String imgUrl;
@@ -93,7 +93,7 @@ class _CircleImageCard extends StatelessWidget {
 }
 
 class _Title extends StatefulWidget {
-  const _Title({Key key}) : super(key: key);
+  const _Title({Key? key}) : super(key: key);
 
   @override
   State<_Title> createState() => TitleState();
@@ -163,23 +163,23 @@ class TitleState extends State<_Title> {
                     ),
                   ),
                   Visibility(
-                    visible: cache?.lastSyncDate == null,
+                    visible: cache.lastSyncDate == null,
                     child: Image.asset(
                       'assets/img/Desglose/Demas/icn-alert.png',
                       height: 14.sp,
                     ),
                   ),
                   Text(
-                    cache?.getLastDateSyncFormatted ?? '',
+                    cache.getLastDateSyncFormatted,
                     textAlign: TextAlign.center,
-                    style: cache?.lastSyncDate == null
+                    style: cache.lastSyncDate == null
                         ? TextStyle(
                             fontFamily: "montserrat",
                             fontWeight: FontWeight.w600,
                             fontSize: 15.sp,
                             color: Color(0xffC1272D),
                           )
-                        : cache?.synchronizationRequired ?? true
+                        : cache.synchronizationRequired
                             ? AppTheme.parrafoCelesteNegrita
                             : TextStyle(
                                 fontFamily: "montserrat",
@@ -218,7 +218,7 @@ class TitleState extends State<_Title> {
 
 class _SyncButton extends StatefulWidget {
   const _SyncButton({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -227,7 +227,7 @@ class _SyncButton extends StatefulWidget {
 
 class _SyncButtonState extends State<_SyncButton>
     with TickerProviderStateMixin {
-  AnimationController animationController;
+  AnimationController? animationController;
 
   @override
   void initState() {
@@ -238,7 +238,7 @@ class _SyncButtonState extends State<_SyncButton>
 
   @override
   void dispose() {
-    animationController.dispose();
+    animationController?.dispose();
     super.dispose();
   }
 
@@ -272,26 +272,24 @@ class _SyncButtonState extends State<_SyncButton>
                       final detailService =
                           context.read<ProjectDetailProvider>();
                       if (animationController != null &&
-                          animationController.isAnimating) return;
-                      animationController.repeat();
+                          (animationController?.isAnimating ?? false)) return;
+                      animationController?.repeat();
 
                       // TODO update projectData
 
                       final result = await detailService.syncDetail();
 
-                      animationController.reset();
-                      animationController.stop();
+                      animationController?.reset();
+                      animationController?.stop();
 
                       if (result) {
-                        Toast.show(
-                            "Proyecto sincronizado correctamente!", context,
-                            duration: 3, gravity: Toast.BOTTOM);
+                        Toast.show("Proyecto sincronizado correctamente!",
+                            duration: 3, gravity: Toast.bottom);
                       } else {
                         Toast.show(
                             "Lo sentimos, debe estar conectado a internet para sincronizar el proyecto",
-                            context,
                             duration: 3,
-                            gravity: Toast.BOTTOM);
+                            gravity: Toast.bottom);
                       }
                     },
                     child: Ink(
@@ -307,14 +305,15 @@ class _SyncButtonState extends State<_SyncButton>
                           children: <Widget>[
                             animationController != null
                                 ? AnimatedBuilder(
-                                    animation: animationController,
+                                    animation: animationController!,
                                     builder: (_, child) {
                                       print("\x1B[2J\x1B[0;0H");
 
                                       return Transform.rotate(
-                                        angle: animationController.value *
-                                            2 *
-                                            math.pi,
+                                        angle:
+                                            (animationController?.value ?? 0) *
+                                                2 *
+                                                math.pi,
                                         child: child,
                                       );
                                     },
@@ -349,9 +348,7 @@ class _SyncButtonState extends State<_SyncButton>
 }
 
 class SyncImage extends StatelessWidget {
-  const SyncImage({
-    Key key,
-  }) : super(key: key);
+  const SyncImage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

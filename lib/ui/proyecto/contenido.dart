@@ -7,9 +7,9 @@ final titleColor = Color(0xff444444);
 
 class ProjectContent extends StatelessWidget {
   ProjectContent({
-    Key key,
-    @required this.projectCache,
-    @required this.project,
+    Key? key,
+    required this.projectCache,
+    required this.project,
   }) : super(key: key);
 
   final ProjectCache projectCache;

@@ -7,7 +7,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     required this.colorFondo,
     required this.primerBotonDesactivado,
     required this.segundoBotonDesactivado,
-    required this.txtPrimerBoton,
+    this.txtPrimerBoton,
     required this.txtSegundoBoton,
     this.accionPrimerBoton,
     this.accionSegundoBoton,
@@ -16,7 +16,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final Color colorFondo;
   final bool primerBotonDesactivado;
   final bool segundoBotonDesactivado;
-  final String txtPrimerBoton;
+  final String? txtPrimerBoton;
   final String txtSegundoBoton;
   final dynamic accionPrimerBoton;
   final dynamic accionSegundoBoton;

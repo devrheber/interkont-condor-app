@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class DropDownPeriodo extends StatelessWidget {
-  const DropDownPeriodo({Key key}) : super(key: key);
+  const DropDownPeriodo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class DropDownPeriodo extends StatelessWidget {
                   ),
                 ),
                 value: periodoSeleccionado,
-                items: detailProvider.detail.periodos
+                items: detailProvider.detail?.periodos
                     .map((value) => DropdownMenuItem<Periodo>(
                           child: Row(
                             children: <Widget>[
@@ -66,7 +66,7 @@ class DropDownPeriodo extends StatelessWidget {
                           value: value,
                         ))
                     .toList(),
-                onChanged: (Periodo periodo) {
+                onChanged: (Periodo? periodo) {
                   detailProvider.cambiarPeriodoReportado(periodo);
                 },
               ),

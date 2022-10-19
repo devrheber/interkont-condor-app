@@ -9,7 +9,7 @@ import '../../globales/colores.dart';
 import 'widgets/seleccionaPeriodo.dart';
 
 class BodyCard extends StatelessWidget {
-  const BodyCard({Key key}) : super(key: key);
+  const BodyCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class BodyCard extends StatelessWidget {
     return Container(
       child: Stack(
         children: <Widget>[
-          projectCache?.lastSyncDate == null
+          projectCache.lastSyncDate == null
               ? Container(
                   width: double.infinity,
                   margin:
@@ -57,7 +57,7 @@ class BodyCard extends StatelessWidget {
           Container(
             width: double.infinity,
             margin: EdgeInsets.only(
-              top: (projectCache?.synchronizationRequired ?? true) ? 400.h : 400.h,
+              top: (projectCache.synchronizationRequired) ? 400.h : 400.h,
             ),
             child: Column(
               children: <Widget>[
@@ -138,9 +138,9 @@ class BodyCard extends StatelessWidget {
 
 class _Summary extends StatelessWidget {
   const _Summary({
-    Key key,
-    @required this.porcentajeAsiVa,
-    @required this.project,
+    Key? key,
+    required this.porcentajeAsiVa,
+    required this.project,
   }) : super(key: key);
 
   final int porcentajeAsiVa;
@@ -189,10 +189,10 @@ class _Summary extends StatelessWidget {
 
 class _Celdas extends StatelessWidget {
   const _Celdas({
-    Key key,
+    Key? key,
     this.semaforo = false,
-    this.leftText,
-    this.rightText,
+    required this.leftText,
+    required this.rightText,
   }) : super(key: key);
 
   final bool semaforo;

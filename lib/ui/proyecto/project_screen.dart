@@ -29,26 +29,24 @@ class ProyectScreen extends StatelessWidget {
       if (project.pendienteAprobacion) {
         Toast.show(
             'Lo sentimos, este proyecto esta pendiente de aprobación, sincroniza una vez mas el proyecto, si cree que este ya ha sido aprobado',
-            context,
             duration: 5,
-            gravity: Toast.BOTTOM);
+            gravity: Toast.bottom);
         return;
       }
       if (detailProvider.cache.synchronizationRequired) {
-        Toast.show('Debe sincronizar el proyecto', context,
-            duration: 5, gravity: Toast.BOTTOM);
+        Toast.show('Debe sincronizar el proyecto',
+            duration: 5, gravity: Toast.bottom);
         return;
       }
 
-      if (detailProvider.detail.periodos.isEmpty) {
+      if ((detailProvider.detail?.periodos.isEmpty ?? true)) {
         Toast.show('Lo sentimos, este proyecto no tiene periodos que reportar',
-            context,
-            duration: 3, gravity: Toast.BOTTOM);
+            duration: 3, gravity: Toast.bottom);
         return;
       }
       if (detailProvider.periodoSeleccionado == null) {
-        Toast.show('Seleccione el periodo a reportar', context,
-            duration: 3, gravity: Toast.BOTTOM);
+        Toast.show('Seleccione el periodo a reportar',
+            duration: 3, gravity: Toast.bottom);
 
         return;
       }
@@ -71,7 +69,7 @@ class ProyectScreen extends StatelessWidget {
           colorFondo: Color(0xff22B573),
           primerBotonDesactivado: false,
           segundoBotonDesactivado: project.pendienteAprobacion &&
-              (detailProvider.cache?.synchronizationRequired ?? false),
+              (detailProvider.cache.synchronizationRequired),
           txtPrimerBoton: null,
           txtSegundoBoton: 'Reportar Avance',
           accionPrimerBoton: null,
