@@ -19,16 +19,16 @@ enum SendDataState {
 
 class LastStepProvider extends ChangeNotifier {
   LastStepProvider({
-    @required ProjectsRepository projectsRepository,
-    @required ProjectsCacheRepository projectsCacheRepository,
-    @required FilesPersistentCacheRepository filesPersistentCacheRepository,
+    required ProjectsRepository projectsRepository,
+    required ProjectsCacheRepository projectsCacheRepository,
+    required FilesPersistentCacheRepository filesPersistentCacheRepository,
   })  : _projectsRepository = projectsRepository,
         _projectsCacheRepository = projectsCacheRepository,
         _filesPersistentCacheRepository = filesPersistentCacheRepository {
     _project = _projectsCacheRepository.getProject();
-    _detail = _projectsCacheRepository.getDetail(_project.codigoproyecto);
-    _cache = _projectsCacheRepository.getCache();
-    mainPhoto = _filesPersistentCacheRepository.getMainPhoto();
+    _detail = _projectsCacheRepository.getDetail(_project.codigoproyecto)!;
+    _cache = _projectsCacheRepository.getCache()!;
+    mainPhoto = _filesPersistentCacheRepository.getMainPhoto()!;
     complementaryImages =
         _filesPersistentCacheRepository.getComplementaryImages();
     requiredDocuments = _filesPersistentCacheRepository.getRequiredDocuments();
@@ -39,23 +39,23 @@ class LastStepProvider extends ChangeNotifier {
 
   UserPreferences prefs = UserPreferences();
 
-  Project _project;
-  DatosAlimentacion _detail;
-  ProjectCache _cache;
+  late Project _project;
+  late DatosAlimentacion _detail;
+  late ProjectCache _cache;
   final ProjectsRepository _projectsRepository;
   final ProjectsCacheRepository _projectsCacheRepository;
   final FilesPersistentCacheRepository _filesPersistentCacheRepository;
-  String username;
-  String userToken;
+  late String username;
+  late String userToken;
 
-  AlimentacionRequest data;
+  AlimentacionRequest? data;
 
-  ComplementaryImage mainPhoto;
+  late ComplementaryImage mainPhoto;
   List<ComplementaryImage> complementaryImages = [];
   List<Document> requiredDocuments = [];
   List<Document> additionalDocuments = [];
 
-  PublishSubject<double> uploadPercentage;
+  PublishSubject<double>? uploadPercentage;
 
   int get projectCode => _project.codigoproyecto;
 
@@ -68,7 +68,7 @@ class LastStepProvider extends ChangeNotifier {
     List<DocumentoRequest> documentosOpcionales = [];
     List<FactoresAtrasoRequest> factoresAtraso = [];
     FotoPrincipalRequest fotoPrincipal = FotoPrincipalRequest(
-      image: mainPhoto.imageString,
+      image: mainPhoto.imageString!,
       nombre: mainPhoto.name,
       tipo: mainPhoto.type,
     );
@@ -80,9 +80,9 @@ class LastStepProvider extends ChangeNotifier {
         cantidadEjecutada: _cache.activitiesProgress == null
             ? 0
             : item.getNewExecutedValue(
-                double.tryParse(
-                    _cache.activitiesProgress[item.actividadId.toString()] ??
-                        '0'),
+                double.tryParse(_cache
+                        .activitiesProgress?[item.actividadId.toString()]) ??
+                    0.0,
               ),
       );
       actividades.add(newActivity);
@@ -99,9 +99,9 @@ class LastStepProvider extends ChangeNotifier {
 
     for (final item in requiredDocuments) {
       final newDocument = DocumentoRequest(
-          documento: item.documento,
-          extension: item.extension,
-          nombre: item.nombre,
+          documento: item.documento!,
+          extension: item.extension!,
+          nombre: item.nombre!,
           tipoId: item.tipoId);
 
       documentosObligatorios.add(newDocument);
@@ -109,9 +109,9 @@ class LastStepProvider extends ChangeNotifier {
 
     for (final item in additionalDocuments) {
       final newDocument = DocumentoRequest(
-          documento: item.documento,
-          extension: item.extension,
-          nombre: item.nombre,
+          documento: item.documento!,
+          extension: item.extension!,
+          nombre: item.nombre!,
           tipoId: item.tipoId);
 
       documentosOpcionales.add(newDocument);
@@ -128,7 +128,7 @@ class LastStepProvider extends ChangeNotifier {
 
     for (final item in complementaryImages) {
       final newImage = FotoPrincipalRequest(
-        image: item.imageString,
+        image: item.imageString!,
         nombre: item.name,
         tipo: item.type,
       );
@@ -140,32 +140,32 @@ class LastStepProvider extends ChangeNotifier {
       actividades: actividades,
       aspectosEvaluar: aspectosEvaluar,
       codigoproyecto: _project.codigoproyecto,
-      descripcion: _cache.comment,
+      descripcion: _cache.comment!,
       documentosObligatorios: documentosObligatorios,
       documentosOpcionales: documentosOpcionales,
       factoresAtraso: factoresAtraso,
-      fechaGeneracionRendimientos: _cache.incomeGenerationDate,
-      fechaReintegroRendimientos: _cache.rentalRepaymentDate,
+      fechaGeneracionRendimientos: _cache.incomeGenerationDate!,
+      fechaReintegroRendimientos: _cache.rentalRepaymentDate!,
       fotoPrincipal: fotoPrincipal,
       imagenesComplementarias: imagenesComplementarias,
       indicadoresAlcance: [],
-      periodoId: _cache.periodoIdSeleccionado,
+      periodoId: _cache.periodoIdSeleccionado!,
       usuario: user.username,
       valorRendimientosGenerados:
-          ProjectHelpers.getDoubleValue(_cache.generatedReturns),
+          ProjectHelpers.getDoubleValue(_cache.generatedReturns!),
       valorRendimientosMesActual:
-          ProjectHelpers.getDoubleValue(_cache.currentMonthReturns),
+          ProjectHelpers.getDoubleValue(_cache.currentMonthReturns!),
       valorRendimientosMesVencido:
-          ProjectHelpers.getDoubleValue(_cache.pastDueMonthReturns),
+          ProjectHelpers.getDoubleValue(_cache.pastDueMonthReturns!),
     );
 
-    inspect(data.toJson());
+    inspect(data!.toJson());
   }
 
   Future<Map<String, dynamic>> sendData() async {
     try {
       final result = await _projectsRepository.sendData(
-        data,
+        data!,
         onSendProgress: (int count, int total) {
           print('count: $count - total $total');
         },

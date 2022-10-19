@@ -4,7 +4,7 @@ import '../../../../globales/colores.dart';
 import '../../../listaProyectos/home.dart';
 
 class NoInternet extends StatelessWidget {
-  NoInternet({Key key}) : super(key: key);
+  NoInternet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -29,12 +29,12 @@ class LastStep extends StatefulWidget {
 
 class _LastStepState extends State<LastStep>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> animation;
+  late AnimationController _controller;
+  late Animation<double> animation;
   String i = '0';
   String contadorRgb = '0';
 
-  LastStepProvider lastStepProvider;
+  late LastStepProvider lastStepProvider;
 
   @override
   void initState() {
@@ -56,7 +56,7 @@ class _LastStepState extends State<LastStep>
         );
       } else {
         Navigator.pop(context);
-        Toast.show(value['message'], context, duration: 6);
+        Toast.show(value['message'], duration: 6);
       }
     });
 

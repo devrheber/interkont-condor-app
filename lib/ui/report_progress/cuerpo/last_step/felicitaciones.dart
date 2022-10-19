@@ -7,7 +7,7 @@ import '../../../../theme/color_theme.dart';
 import '../../../listaProyectos/home.dart';
 
 class Felicitaciones extends StatefulWidget {
-  Felicitaciones({Key key}) : super(key: key);
+  Felicitaciones({Key? key}) : super(key: key);
 
   @override
   _FelicitacionesState createState() => _FelicitacionesState();

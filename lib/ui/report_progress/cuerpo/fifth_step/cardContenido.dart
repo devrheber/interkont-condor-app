@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FifthStepCard extends StatelessWidget {
   const FifthStepCard({
-    Key key,
-    @required this.title,
-    @required this.colorTitle,
-    @required this.children,
+    Key? key,
+    required this.title,
+    required this.colorTitle,
+    required this.children,
   }) : super(key: key);
 
   final String title;
@@ -57,16 +57,16 @@ class FifthStepCard extends StatelessWidget {
 
 class FifthStepCardDetail extends StatelessWidget {
   const FifthStepCardDetail({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.value,
     this.child,
     this.showDivider = true,
   }) : super(key: key);
 
   final String title;
-  final String value;
-  final Widget child;
+  final String? value;
+  final Widget? child;
   final bool showDivider;
 
   @override
@@ -95,7 +95,7 @@ class FifthStepCardDetail extends StatelessWidget {
               ),
             ),
           ),
-          if (child != null) child,
+          if (child != null) child!,
           Spacer(),
           if (value != null)
             Container(
@@ -105,7 +105,7 @@ class FifthStepCardDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    value,
+                    value!,
                     style: TextStyle(
                       fontSize: 13.sp,
                       color: Color(0xff808080),
@@ -123,7 +123,7 @@ class FifthStepCardDetail extends StatelessWidget {
 }
 
 class TrafficLight extends StatelessWidget {
-  const TrafficLight({Key key, @required this.icon}) : super(key: key);
+  const TrafficLight({Key? key, required this.icon}) : super(key: key);
 
   final String icon;
 

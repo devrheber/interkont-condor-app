@@ -8,7 +8,7 @@ import 'cardContenido.dart';
 
 @override
 class FifthStep extends StatelessWidget {
-  const FifthStep({Key key}) : super(key: key);
+  const FifthStep({Key? key}) : super(key: key);
 
   Widget build(BuildContext context) {
     final reportProgressService = Provider.of<ReportProgressProvider>(context);
