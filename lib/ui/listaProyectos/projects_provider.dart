@@ -6,8 +6,8 @@ import 'package:flutter/foundation.dart';
 
 class ProjectsProvider extends ChangeNotifier {
   ProjectsProvider({
-    @required this.projectRepository,
-    @required ProjectsCacheRepository projectsCacheRepository,
+    required this.projectRepository,
+    required ProjectsCacheRepository projectsCacheRepository,
   }) : _projectsCacheRepository = projectsCacheRepository {
     getRemoteProjects();
     getDocumentTypes();
@@ -72,7 +72,7 @@ class ProjectsProvider extends ChangeNotifier {
   }
 
   Future<void> _saveSyncDate(int projectCode, DateTime syncDate) async {
-    ProjectCache cache =
+    ProjectCache? cache =
         _projectsCacheRepository.getCacheByProjectCode(projectCode);
 
     if (cache == null) {
@@ -84,8 +84,8 @@ class ProjectsProvider extends ChangeNotifier {
     _projectsCacheRepository.saveProjectCache(projectCode, cache);
   }
 
-  Future<DatosAlimentacion> getProjectDetail(int codigoProyecto,
-      {@required int index}) async {
+  Future<DatosAlimentacion>? getProjectDetail(int codigoProyecto,
+      {required int index}) async {
     try {
       final localDetail = details['$codigoProyecto'];
 

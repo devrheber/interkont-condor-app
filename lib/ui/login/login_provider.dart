@@ -6,7 +6,7 @@ import 'package:appalimentacion/domain/repository/login_repository.dart';
 import 'package:flutter/material.dart';
 
 class LoginProvider extends ChangeNotifier {
-  LoginProvider({@required this.prefs, @required this.loginRepository}) {
+  LoginProvider({required this.prefs, required this.loginRepository}) {
     getUserCredentials();
   }
 
@@ -16,7 +16,7 @@ class LoginProvider extends ChangeNotifier {
   Map<String, dynamic> userDataSession = {};
 
   bool loading = false;
-  int estadoLogin;
+  int? estadoLogin;
 
   Future<void> getUserCredentials() async {
     final userData = prefs.userData;
@@ -25,8 +25,8 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
-  Future<User> login(
-      {@required String username, @required String password}) async {
+  Future<User?> login(
+      {required String username, required String password}) async {
     estadoLogin = null;
     loading = true;
 

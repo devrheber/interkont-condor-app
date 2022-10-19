@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
   AuthenticationProvider({
-    @required this.loginRepository,
-    @required this.prefsRepository,
+    required this.loginRepository,
+    required this.prefsRepository,
   }) {
     loadUserData();
   }
@@ -15,7 +15,7 @@ class AuthenticationProvider extends ChangeNotifier {
   final UserPreferences prefsRepository;
   final LoginRepository loginRepository;
 
-  User user;
+  User? user;
 
   void loadUserData() {
     final userData = prefsRepository.userData;

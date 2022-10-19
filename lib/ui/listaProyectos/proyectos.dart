@@ -60,7 +60,8 @@ class ProyectosContenido extends StatelessWidget {
                         height: 5.0.sp,
                       ),
                       Text(
-                        context.read<AuthenticationProvider>().user.username,
+                        context.read<AuthenticationProvider>().user?.username ??
+                            '',
                         style: TextStyle(
                           fontFamily: "montserrat",
                           fontWeight: FontWeight.w200,
@@ -141,7 +142,7 @@ class ProyectosContenido extends StatelessWidget {
                         ),
                       );
                     }
-                    final projects = snapshot.data;
+                    final projects = snapshot.data!;
 
                     return Container(
                       child: Column(
@@ -174,7 +175,7 @@ class ProyectosContenido extends StatelessWidget {
                                   await projectsProvider
                                       .getRemoteProjects()
                                       .onError((error, stackTrace) =>
-                                          Toast.show('Algo salió mal', context,
+                                          Toast.show('Algo salió mal',
                                               duration: 4));
                                   Navigator.pop(context);
                                 },
@@ -208,7 +209,7 @@ class ProyectosContenido extends StatelessWidget {
 }
 
 class ProjectCard extends StatelessWidget {
-  const ProjectCard({Key key, @required this.project, @required this.index})
+  const ProjectCard({Key? key, required this.project, required this.index})
       : super(key: key);
 
   final Project project;
@@ -401,11 +402,11 @@ class ProjectCard extends StatelessWidget {
 
                         if (cache != null) return SizedBox.shrink();
 
-                        if (cache[project.codigoproyecto.toString()] != null)
+                        if (cache?[project.codigoproyecto.toString()] != null)
                           return SizedBox.shrink();
 
-                        if (cache[project.codigoproyecto.toString()]
-                            .porPublicar)
+                        if (cache?[project.codigoproyecto.toString()]
+                            ?.porPublicar)
                           return Container(
                             margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: Row(
@@ -431,22 +432,21 @@ class ProjectCard extends StatelessWidget {
   Future<void> openProject(
     context, {
     nombreIcono,
-    @required Project project,
-    @required int index,
+    required Project project,
+    required int index,
   }) async {
     final provider = Provider.of<ProjectsProvider>(context, listen: false);
     provider.setCurrentProjectCode(project.codigoproyecto);
     loadingDialog(context);
 
-    final detail = await provider
+    final DatosAlimentacion? detail = await provider
         .getProjectDetail(project.codigoproyecto, index: index)
-        .onError((error, stackTrace) => null);
+        ?.onError((error, stackTrace) => Future.value(null)); // TODO
     Navigator.pop(context);
 
     if (detail == null) {
       Toast.show("Lo sentimos, este proyecto no fue sincronizado anteriormente",
-          context,
-          duration: 3, gravity: Toast.BOTTOM);
+          duration: 3, gravity: Toast.bottom);
       return;
     }
 

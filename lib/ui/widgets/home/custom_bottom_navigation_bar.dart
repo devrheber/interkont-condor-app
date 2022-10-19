@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({
-    Key key,
-    this.colorFondo,
-    this.primerBotonDesactivado,
-    this.segundoBotonDesactivado,
-    this.txtPrimerBoton,
-    this.txtSegundoBoton,
+    Key? key,
+    required this.colorFondo,
+    required this.primerBotonDesactivado,
+    required this.segundoBotonDesactivado,
+    required this.txtPrimerBoton,
+    required this.txtSegundoBoton,
     this.accionPrimerBoton,
     this.accionSegundoBoton,
   }) : super(key: key);

@@ -46,7 +46,8 @@ class GlobalDrawer extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        context.read<AuthenticationProvider>().user.username,
+                        context.read<AuthenticationProvider>().user?.username ??
+                            'usuario desconocido',
                         style: TextStyle(
                           fontFamily: "montserrat",
                           fontWeight: FontWeight.w200,
@@ -83,8 +84,7 @@ class GlobalDrawer extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => LoginPage.init()),
                       (Route<dynamic> route) => false);
                 } else {
-                  Toast.show(
-                      'Ocurrió un error al intentar cerrar sessión');
+                  Toast.show('Ocurrió un error al intentar cerrar sessión');
                 }
               },
             ),

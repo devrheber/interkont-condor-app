@@ -5,16 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FondoHome extends StatefulWidget {
-  final Widget body;
-  final Widget bottomNavigationBar;
-  final bool primeraPagina;
-
   FondoHome({
-    Key key,
-    this.body,
+    Key? key,
+    required this.body,
     this.bottomNavigationBar,
     this.primeraPagina,
   }) : super(key: key);
+
+  final Widget body;
+  final Widget? bottomNavigationBar;
+  final bool? primeraPagina;
 
   @override
   State<FondoHome> createState() => _FondoHomeState();
@@ -49,7 +49,7 @@ class _FondoHomeState extends State<FondoHome> {
                             right: 14.sp, left: 14.sp, top: 50.h),
                         child: IconButton(
                           onPressed: () {
-                            _drawerKey.currentState.openDrawer();
+                            _drawerKey.currentState?.openDrawer();
                           },
                           icon: Icon(
                             FontAwesomeIcons.bars,

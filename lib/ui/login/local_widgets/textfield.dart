@@ -4,27 +4,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../globales/sized_box.dart';
 
 class CustomedTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final void Function(String) onChanged;
-  final double fontSize;
-  final double height;
-  final double width;
-  final String imageIcon;
-  final String hintText;
-  final bool obscureText;
-  final TextInputType keyboardType;
   const CustomedTextField({
-    Key key,
+    Key? key,
     this.onChanged,
     this.fontSize = 13.0,
     this.height = 50,
     this.width = 350,
-    this.imageIcon,
+    required this.imageIcon,
     this.hintText,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
-    @required this.controller,
+    required this.controller,
   }) : super(key: key);
+
+  final TextEditingController controller;
+  final void Function(String)? onChanged;
+  final double fontSize;
+  final double height;
+  final double width;
+  final String imageIcon;
+  final String? hintText;
+  final bool obscureText;
+  final TextInputType keyboardType;
 
   @override
   Widget build(BuildContext context) {

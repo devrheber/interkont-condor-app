@@ -54,10 +54,10 @@ void main() async {
 
 class AppState extends StatelessWidget {
   const AppState({
-    Key key,
-    @required this.prefs,
-    @required this.projectsCacheRepository,
-    @required this.sharedPreferences,
+    Key? key,
+    required this.prefs,
+    required this.projectsCacheRepository,
+    required this.sharedPreferences,
   }) : super(key: key);
 
   final UserPreferences prefs;
@@ -100,7 +100,7 @@ class AppState extends StatelessWidget {
       ],
       child: ScreenUtilInit(
         designSize: Size(414, 896),
-        builder: () {
+        builder: (_,__) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: const App(),
