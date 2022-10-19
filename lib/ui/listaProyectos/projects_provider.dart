@@ -84,7 +84,7 @@ class ProjectsProvider extends ChangeNotifier {
     _projectsCacheRepository.saveProjectCache(projectCode, cache);
   }
 
-  Future<DatosAlimentacion>? getProjectDetail(int codigoProyecto,
+  Future<DatosAlimentacion?> getProjectDetail(int codigoProyecto,
       {required int index}) async {
     try {
       final localDetail = details['$codigoProyecto'];

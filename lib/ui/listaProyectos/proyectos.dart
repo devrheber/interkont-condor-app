@@ -444,7 +444,7 @@ class ProjectCard extends StatelessWidget {
 
     final DatosAlimentacion? detail = await provider
         .getProjectDetail(project.codigoproyecto, index: index)
-        ?.onError((error, stackTrace) => Future.value(null)); // TODO
+        .onError((error, stackTrace) => Future.value(null));
     Navigator.pop(context);
 
     if (detail == null) {
