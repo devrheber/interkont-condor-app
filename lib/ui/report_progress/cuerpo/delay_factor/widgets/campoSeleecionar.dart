@@ -63,7 +63,7 @@ class SelectTypeDelayFactor extends StatelessWidget {
 
   final String hintText;
   final List<TiposFactorAtraso> list;
-  final TiposFactorAtraso value;
+  final TiposFactorAtraso? value;
 
   // valores,
   final void Function(TiposFactorAtraso?)? onChanged;
@@ -120,7 +120,7 @@ class SelectDelayFactor extends StatelessWidget {
   final String hintText;
   final List<FactoresAtraso> list;
   final void Function(FactoresAtraso?)? onChanged;
-  final FactoresAtraso value;
+  final FactoresAtraso? value;
 
   @override
   Widget build(BuildContext context) {

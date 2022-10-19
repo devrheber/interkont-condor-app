@@ -81,7 +81,7 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
                     SelectTypeDelayFactor(
                       hintText: 'Selecciona el tipo de factor',
                       list: delayFactorService.detail.tiposFactorAtraso,
-                      value: delayFactorService.delayFactorTypeSelected!,
+                      value: delayFactorService.delayFactorTypeSelected,
                       onChanged: (TiposFactorAtraso? value) {
                         if (value == null) return;
                         delayFactorService.selectTypeDelayFactor(value);
@@ -90,7 +90,7 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
                     SelectDelayFactor(
                       hintText: 'Selecciona el factor',
                       list: delayFactorService.delayFactorsFiltered,
-                      value: delayFactorService.delayFactorSelected!,
+                      value: delayFactorService.delayFactorSelected,
                       onChanged: (FactoresAtraso? value) {
                         if (value == null) return;
                         delayFactorService.selectDelayFactor(value);
