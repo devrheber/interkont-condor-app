@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 
-Future<File> base64StringToFile(
-    {String image, String name, String extension}) async {
+Future<File?> base64StringToFile(
+    {String? image, String? name, String? extension}) async {
   if (extension == null) extension = 'jpg';
   if (image == null) return null;
   if (image.isEmpty) return null;

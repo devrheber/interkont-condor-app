@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void seleccionarGaleriaCamara(context,
-    {void Function() onCameraTap, void Function() onGalleryTap}) {
+    {required void Function() onCameraTap,
+    required void Function() onGalleryTap}) {
   showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
@@ -31,7 +32,7 @@ void seleccionarGaleriaCamara(context,
       });
 }
 
-bool getTypeFile(File document) {
+bool getTypeFile(File? document) {
   if (document == null) return false;
   String path = document.path;
   //if is all types of images return false else return true

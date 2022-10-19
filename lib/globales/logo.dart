@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LogoImg extends StatelessWidget {
   const LogoImg({
-    Key key,
+    Key? key,
     this.assetImageRoute = Assets.assetsNewSplashLogoAnimated,
     this.width = 142.0,
     this.height = 142.0,
@@ -24,7 +24,7 @@ class LogoImg extends StatelessWidget {
 
 class FooterImg extends StatelessWidget {
   const FooterImg({
-    Key key,
+    Key? key,
     this.assetImageRoute = Assets.assetsNewLoginFooter,
     this.width = 142.0,
     this.height = 142.0,

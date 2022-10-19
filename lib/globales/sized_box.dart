@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BuildSizedBox extends StatelessWidget {
   const BuildSizedBox({
-    Key key,
+    Key? key,
     this.height = 0.0,
     this.width = 0.0,
   }) : super(key: key);

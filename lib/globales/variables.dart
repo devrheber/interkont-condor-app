@@ -2,10 +2,10 @@ library my_prj.variables;
 
 bool boolestSegundoBtnreportarAvance = false;
 bool conexionInternet = true;
-int idAspectoEvaluar;
-int keyboardVisibilitySubscriberId;
-int keyboardVisibilitySubscriberId2;
-int keyboardVisibilitySubscriberId3; // DE TODA LA CARPETA DE REPORTAR AVANCE
+int? idAspectoEvaluar;
+int? keyboardVisibilitySubscriberId;
+int? keyboardVisibilitySubscriberId2;
+int? keyboardVisibilitySubscriberId3; // DE TODA LA CARPETA DE REPORTAR AVANCE
 int posListaProySelec = 0;
 String numeroVersion = "1.0.0";
 String txtBtnDesplegableAvanceCualitativo = '';
