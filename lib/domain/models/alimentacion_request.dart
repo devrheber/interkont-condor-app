@@ -12,42 +12,42 @@ String alimentacionRequestToJson(AlimentacionRequest data) =>
 
 class AlimentacionRequest {
   AlimentacionRequest({
-    required this.actividades,
+    this.actividades,
     this.aspectosEvaluar,
     required this.codigoproyecto,
     required this.descripcion,
     required this.documentosObligatorios,
     this.documentosOpcionales,
     this.factoresAtraso,
-    required this.fechaGeneracionRendimientos,
-    required this.fechaReintegroRendimientos,
-    required this.fotoPrincipal,
+    this.fechaGeneracionRendimientos,
+    this.fechaReintegroRendimientos,
+    this.fotoPrincipal,
     this.imagenesComplementarias,
     this.indicadoresAlcance,
     required this.periodoId,
     required this.usuario,
-    required this.valorRendimientosGenerados,
-    required this.valorRendimientosMesActual,
-    required this.valorRendimientosMesVencido,
+    this.valorRendimientosGenerados,
+    this.valorRendimientosMesActual,
+    this.valorRendimientosMesVencido,
   });
 
-  List<ActividadRequest> actividades;
-  List<AspectoEvaluarRequest>? aspectosEvaluar;
-  int codigoproyecto;
-  String descripcion;
-  List<DocumentoRequest> documentosObligatorios;
-  List<DocumentoRequest>? documentosOpcionales;
-  List<FactoresAtrasoRequest>? factoresAtraso;
-  DateTime fechaGeneracionRendimientos;
-  DateTime fechaReintegroRendimientos;
-  FotoPrincipalRequest fotoPrincipal;
-  List<FotoPrincipalRequest>? imagenesComplementarias;
-  List<IndicadoresAlcanceRequest>? indicadoresAlcance;
-  int periodoId;
-  String usuario;
-  double valorRendimientosGenerados;
-  double valorRendimientosMesActual;
-  double valorRendimientosMesVencido;
+  final List<ActividadRequest>? actividades;
+  final List<AspectoEvaluarRequest>? aspectosEvaluar;
+  final int codigoproyecto;
+  final String descripcion;
+  final List<DocumentoRequest> documentosObligatorios;
+  final List<DocumentoRequest>? documentosOpcionales;
+  final List<FactoresAtrasoRequest>? factoresAtraso;
+  final DateTime? fechaGeneracionRendimientos;
+  final DateTime? fechaReintegroRendimientos;
+  final FotoPrincipalRequest? fotoPrincipal;
+  final List<FotoPrincipalRequest>? imagenesComplementarias;
+  final List<IndicadoresAlcanceRequest>? indicadoresAlcance;
+  final int periodoId;
+  final String usuario;
+  final double? valorRendimientosGenerados;
+  final double? valorRendimientosMesActual;
+  final double? valorRendimientosMesVencido;
 
   factory AlimentacionRequest.fromJson(Map<String, dynamic> json) =>
       AlimentacionRequest(
@@ -85,7 +85,9 @@ class AlimentacionRequest {
       );
 
   Map<String, dynamic> toJson() => {
-        "actividades": List<dynamic>.from(actividades.map((x) => x.toJson())),
+        "actividades": actividades == null
+            ? null
+            : List<dynamic>.from(actividades!.map((x) => x.toJson())),
         "aspectosEvaluar": aspectosEvaluar == null
             ? null
             : List<dynamic>.from(aspectosEvaluar!.map((x) => x.toJson())),
@@ -100,10 +102,10 @@ class AlimentacionRequest {
             ? null
             : List<dynamic>.from(factoresAtraso!.map((x) => x.toJson())),
         "fechaGeneracionRendimientos":
-            fechaGeneracionRendimientos.toIso8601String(),
+            fechaGeneracionRendimientos?.toIso8601String(),
         "fechaReintegroRendimientos":
-            fechaReintegroRendimientos.toIso8601String(),
-        "fotoPrincipal": fotoPrincipal.toJson(),
+            fechaReintegroRendimientos?.toIso8601String(),
+        "fotoPrincipal": fotoPrincipal?.toJson(),
         "imagenesComplementarias": imagenesComplementarias == null
             ? null
             : List<dynamic>.from(

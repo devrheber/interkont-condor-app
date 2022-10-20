@@ -33,7 +33,7 @@ class LastStepState extends State<LastStep> {
   void initState() {
     super.initState();
     lastStepProvider = context.read<LastStepProvider>();
-    lastStepProvider.guardarAlimentacion();
+    // lastStepProvider.guardarAlimentacion();
 
     ToastContext().init(context);
 

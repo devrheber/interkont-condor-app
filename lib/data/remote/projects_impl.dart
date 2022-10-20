@@ -128,7 +128,8 @@ class ProjectsImpl implements ProjectsRepository {
 
   @override
   Future<Map<String, dynamic>> sendData(AlimentacionRequest data,
-      {required onSendProgress(int count, int total), required onReceiveProgress(int count, int total)}) async {
+      {required onSendProgress(int count, int total),
+      required onReceiveProgress(int count, int total)}) async {
     x.Dio dio = x.Dio();
     dio.options = x.BaseOptions(
       connectTimeout: 1500,
@@ -145,7 +146,7 @@ class ProjectsImpl implements ProjectsRepository {
             'Authorization': user.token
           },
         ),
-        data: jsonEncode(data.toJson()),
+        data: data.toJson(),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );

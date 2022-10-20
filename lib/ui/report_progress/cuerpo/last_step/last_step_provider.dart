@@ -71,7 +71,8 @@ class LastStepProvider extends ChangeNotifier {
     List<FactoresAtrasoRequest> factoresAtraso = [];
     FotoPrincipalRequest fotoPrincipal = FotoPrincipalRequest(
       image: mainPhoto.imageString!,
-      nombre: mainPhoto.name,
+      // nombre: mainPhoto.name,
+      nombre: 'fotoPrincipal',
       tipo: mainPhoto.type,
     );
     List<FotoPrincipalRequest> imagenesComplementarias = [];
@@ -81,11 +82,13 @@ class LastStepProvider extends ChangeNotifier {
         actividadId: item.actividadId,
         cantidadEjecutada: _cache.activitiesProgress == null
             ? 0
-            : item.getNewExecutedValue(
-                double.tryParse(_cache
-                        .activitiesProgress?[item.actividadId.toString()]) ??
-                    0.0,
-              ),
+            : _cache.activitiesProgress!.containsKey(item.getStringId)
+                ? item.getNewExecutedValue(
+                    double.tryParse(
+                            _cache.activitiesProgress?[item.getStringId]) ??
+                        0.0,
+                  )
+                : 0,
       );
       actividades.add(newActivity);
     }

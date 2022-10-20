@@ -70,7 +70,7 @@ class ProyectScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigationBar(
           colorFondo: Color(0xff22B573),
           primerBotonDesactivado: false,
-          segundoBotonDesactivado: project.pendienteAprobacion &&
+          segundoBotonDesactivado: project.pendienteAprobacion ||
               (detailProvider.cache.synchronizationRequired),
           txtPrimerBoton: null,
           txtSegundoBoton: 'Reportar Avance',
