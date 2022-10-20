@@ -30,7 +30,8 @@ class _ProgressCardState extends State<ProgressCard> {
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController(text: widget.valueSaved);
+    controller = TextEditingController(
+        text: widget.valueSaved == '0' ? '' : widget.valueSaved);
   }
 
   @override
@@ -42,25 +43,27 @@ class _ProgressCardState extends State<ProgressCard> {
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
-    
+
     void calcutate(String stringValue) {
       String value = stringValue == '' ? '0' : stringValue;
 
-      final faltantePorEjecutar = widget.activity
-          .faltantePorEjecutar(double.tryParse(widget.valueSaved) ?? 0.0);
+      final ejecutadoActual = widget.activity.getCurrentProgressDouble;
 
-      if (double.parse(faltantePorEjecutar.replaceAll(' %', '')) <= 0) {
-        controller.text = '0';
+      if ((ejecutadoActual + double.parse(value)) > 100) {
+        controller.text = '';
+        final val = TextSelection.collapsed(offset: controller.text.length);
+        controller.selection = val;
 
         Toast.show('Ejecución Actual está al 100%',
-            duration: 5, gravity: Toast.top);
-        // widget.onChanged('0');
+            duration: 5, gravity: Toast.bottom);
+        widget.onChanged('0');
         return;
       }
 
       if (double.parse('$value') < 0) {
         Toast.show("Lo sentimos, solo aceptamos numeros positivos",
             duration: 3, gravity: Toast.bottom);
+        widget.onChanged('0');
         return;
       }
       if (double.parse('$value') > 100) {
@@ -68,6 +71,7 @@ class _ProgressCardState extends State<ProgressCard> {
             "El valor ejecutado de la actividad no puede superar el 100%",
             duration: 3,
             gravity: Toast.bottom);
+        widget.onChanged('0');
         return;
       }
 

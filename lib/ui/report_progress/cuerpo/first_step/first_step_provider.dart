@@ -10,7 +10,6 @@ class FirstStepProvider extends ChangeNotifier {
     project = _projectsCacheRepository.getProject();
     cache = _projectsCacheRepository.getCache() ??
         ProjectCache(projectCode: project.codigoproyecto);
-    // TODO Manage null
     detail = _projectsCacheRepository.getDetail(cache.projectCode)!;
     activitiesProgress = cache.activitiesProgress ?? {};
     filteredActivites = [...detail.actividades];

@@ -69,15 +69,23 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
     }
 
     if (reportProgressService.generatedReturns != null) {
-      generatedReturnsCtrl.text = reportProgressService.generatedReturns!;
+      generatedReturnsCtrl.text = reportProgressService.generatedReturns == '0.0'
+          ? ''
+          : reportProgressService.generatedReturns!;
     }
 
     if (reportProgressService.pastDueMonthReturns != null) {
-      pastDueMonthReturnsCtrl.text = reportProgressService.pastDueMonthReturns!;
+      pastDueMonthReturnsCtrl.text =
+          reportProgressService.pastDueMonthReturns == '0.0'
+              ? ''
+              : reportProgressService.pastDueMonthReturns!;
     }
 
     if (reportProgressService.currentMonthReturns != null) {
-      currentMonthReturnsCtrl.text = reportProgressService.currentMonthReturns!;
+      currentMonthReturnsCtrl.text =
+          reportProgressService.currentMonthReturns == '0.0'
+              ? ''
+              : reportProgressService.currentMonthReturns!;
     }
   }
 

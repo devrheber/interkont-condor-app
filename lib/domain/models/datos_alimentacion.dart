@@ -144,6 +144,10 @@ class Actividad {
     return '${value.round()} %';
   }
 
+  double get getCurrentProgressDouble {
+    return (cantidadEjecutadaInicial / cantidadProgramada) * 100;
+  }
+
   String avanceAHoy(double valorAvance) {
     final value = (cantidadEjecutadaInicial / cantidadProgramada) * 100;
 
