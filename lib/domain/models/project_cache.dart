@@ -100,8 +100,12 @@ class ProjectCache {
             : List<dynamic>.from(delayFactors!.map((x) => x.toJson())),
         'comment': comment,
         'fileFotoPrincipal': fileFotoPrincipal,
-        'fechaGeneracionRendimientos': incomeGenerationDate?.toIso8601String(),
-        'fechaReintegroRendimientos': rentalRepaymentDate?.toIso8601String(),
+        'fechaGeneracionRendimientos': incomeGenerationDate == null
+            ? null
+            : incomeGenerationDate?.toIso8601String(),
+        'fechaReintegroRendimientos': rentalRepaymentDate == null
+            ? null
+            : rentalRepaymentDate?.toIso8601String(),
         'valorRendimientosGenerados':
             generatedReturns == null || generatedReturns == ''
                 ? 0.0

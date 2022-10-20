@@ -1,6 +1,9 @@
 import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
 import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
+import 'package:appalimentacion/ui/proyecto/project_screen.dart';
 import 'package:appalimentacion/ui/widgets/cargando.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,11 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
-
-import '../../globales/colores.dart';
-import '../../globales/variables.dart';
-import '../../theme/color_theme.dart';
-import '../proyecto/project_screen.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -22,7 +20,6 @@ class ProyectosContenido extends StatelessWidget {
     final projectsProvider = Provider.of<ProjectsProvider>(context);
 
     ToastContext().init(context);
-    
     return Stack(
       children: <Widget>[
         Container(
@@ -252,18 +249,14 @@ class ProjectCard extends StatelessWidget {
                         constraints:
                             BoxConstraints(maxWidth: 50, maxHeight: 50),
                         child: ClipOval(
-                          child: conexionInternet
-                              ? CachedNetworkImage(
-                                  imageUrl: project.imagencategoria,
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                )
-                              : Image.asset(
-                                  'assets/img/Desglose/Demas/question.png',
-                                ),
-                        ),
+                            child: CachedNetworkImage(
+                          imageUrl: project.imagencategoria,
+                          placeholder: (_, __) => Image.asset(
+                            'assets/img/Desglose/Demas/question.png',
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        )),
                       ),
                       Spacer(),
                       Expanded(

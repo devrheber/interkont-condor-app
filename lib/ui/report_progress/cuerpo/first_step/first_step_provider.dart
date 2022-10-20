@@ -43,17 +43,24 @@ class FirstStepProvider extends ChangeNotifier {
     double valorEjecucionProyecto = 0;
 
     for (int i = 0; i < activities.length; i++) {
-      if (activitiesProgress
-          .containsKey(activities[i].actividadId.toString())) {
+      if (activitiesProgress.containsKey(activities[i].getStringId)) {
+
+        /// Ir sumando lo que representa el porcentaje ingresado en [Avance actual]
         valorEjecucionProyecto += activities[i].getNewExecutedValue(
-            double.parse(
-                activitiesProgress[activities[i].actividadId.toString()]));
+            double.parse(activitiesProgress[activities[i].getStringId]));
       }
+
+      /// Se obtiene el total de cantidad programada para el proyecto
+      /// Sumar los valores programados de las actividades
       totalCantidadProgramada += activities[i].cantidadProgramada;
     }
 
+    // A lo que representa el nuevo valor ejecutado se le suma el valor ejecutado
+    // registrado en reportes previos.
     valorEjecucionProyecto += calculateRemoteExecutedValuePercentage();
 
+    // Se obtiene el porcentaje del valor ejecutado considerando los registros anteriores
+    // y el registro actual
     final porcentajeValorEjecutado =
         (valorEjecucionProyecto / totalCantidadProgramada);
 

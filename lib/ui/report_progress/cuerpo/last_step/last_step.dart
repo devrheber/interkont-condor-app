@@ -37,6 +37,8 @@ class LastStepState extends State<LastStep> {
 
     ToastContext().init(context);
 
+    lastStepProvider.guardarAlimentacion();
+
     lastStepProvider.sendData().then((Map<String, dynamic> value) {
       if ((value['state'] as SendDataState) == SendDataState.success) {
         Navigator.pushReplacement(

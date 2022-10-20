@@ -1,0 +1,1 @@
+String urlGlobalApiCondor =  'https://avanzamepruebas.minenergia.gov.co/avanzame-ws';

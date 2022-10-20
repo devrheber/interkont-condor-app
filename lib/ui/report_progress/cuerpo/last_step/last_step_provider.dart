@@ -36,7 +36,6 @@ class LastStepProvider extends ChangeNotifier {
     requiredDocuments = _filesPersistentCacheRepository.getRequiredDocuments();
     additionalDocuments =
         _filesPersistentCacheRepository.getAdditionalDocuments();
-    guardarAlimentacion();
   }
 
   UserPreferences prefs = UserPreferences();
@@ -149,19 +148,19 @@ class LastStepProvider extends ChangeNotifier {
       documentosObligatorios: documentosObligatorios,
       documentosOpcionales: documentosOpcionales,
       factoresAtraso: factoresAtraso,
-      fechaGeneracionRendimientos: _cache.incomeGenerationDate!,
-      fechaReintegroRendimientos: _cache.rentalRepaymentDate!,
+      fechaGeneracionRendimientos: _cache.incomeGenerationDate,
+      fechaReintegroRendimientos: _cache.rentalRepaymentDate,
       fotoPrincipal: fotoPrincipal,
       imagenesComplementarias: imagenesComplementarias,
       indicadoresAlcance: [],
       periodoId: _cache.periodoIdSeleccionado!,
       usuario: user.username,
       valorRendimientosGenerados:
-          ProjectHelpers.getDoubleValue(_cache.generatedReturns!),
+          ProjectHelpers.getDoubleValue(_cache.generatedReturns),
       valorRendimientosMesActual:
-          ProjectHelpers.getDoubleValue(_cache.currentMonthReturns!),
+          ProjectHelpers.getDoubleValue(_cache.currentMonthReturns),
       valorRendimientosMesVencido:
-          ProjectHelpers.getDoubleValue(_cache.pastDueMonthReturns!),
+          ProjectHelpers.getDoubleValue(_cache.pastDueMonthReturns),
     );
 
     inspect(data!.toJson());

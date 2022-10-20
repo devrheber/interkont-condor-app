@@ -16,7 +16,6 @@ cambiarFormatoFecha(fecha)
     case 'Oct': listaFecha[0] = 'Octubre'; break;
     case 'Nov': listaFecha[0] = 'Noviem'; break;
     case 'Dec': listaFecha[0] = 'Diciem'; break;
-      break;
     default:
   }
 
