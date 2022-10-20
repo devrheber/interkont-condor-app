@@ -34,4 +34,8 @@ abstract class FilesPersistentCacheRepository {
   void removeAdditionalDocument(Document doc);
 
   void clearData();
+
+  void setCurrentProjectCode(int projectCode);
+
+  void removeCacheByCode(int projectCode);
 }

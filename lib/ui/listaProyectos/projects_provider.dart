@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
+import 'package:appalimentacion/domain/repository/files_persistent_cache_api.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:flutter/foundation.dart';
 
@@ -8,7 +9,9 @@ class ProjectsProvider extends ChangeNotifier {
   ProjectsProvider({
     required this.projectRepository,
     required ProjectsCacheRepository projectsCacheRepository,
-  }) : _projectsCacheRepository = projectsCacheRepository {
+    required FilesPersistentCacheApi filesPersistentCacheApi,
+  })  : _projectsCacheRepository = projectsCacheRepository,
+        _filesPersistentCacheApi = filesPersistentCacheApi {
     getRemoteProjects();
     getDocumentTypes();
     _init();
@@ -16,6 +19,7 @@ class ProjectsProvider extends ChangeNotifier {
 
   final ProjectsRepository projectRepository;
   final ProjectsCacheRepository _projectsCacheRepository;
+  final FilesPersistentCacheApi _filesPersistentCacheApi;
 
   Map<String, DatosAlimentacion> details = {};
 
@@ -43,7 +47,8 @@ class ProjectsProvider extends ChangeNotifier {
 
   void clearCache(int projectCode) async {
     _projectsCacheRepository.removeCacheByCode(projectCode);
-    // TODO Borrar cache de archivos
+    _filesPersistentCacheApi.removeCacheByCode(projectCode);
+    _projectsCacheRepository.saveCache(ProjectCache(projectCode: projectCode));
   }
 
   Future<void> getDocumentTypes() async {
@@ -75,7 +80,9 @@ class ProjectsProvider extends ChangeNotifier {
         _projectsCacheRepository.getCacheByProjectCode(projectCode);
 
     if (cache == null) {
-      cache = ProjectCache(lastSyncDate: syncDate);
+      cache = ProjectCache(
+      projectCode: projectCode,
+      lastSyncDate: syncDate);
     } else {
       cache = cache.copyWith(lastSyncDate: syncDate);
     }
@@ -117,5 +124,6 @@ class ProjectsProvider extends ChangeNotifier {
 
   void setCurrentProjectCode(int projectCode) {
     _projectsCacheRepository.setCurrentProjectCode(projectCode);
+    _filesPersistentCacheApi.setCurrentProjectCode(projectCode);
   }
 }

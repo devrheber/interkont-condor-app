@@ -17,7 +17,7 @@ class DelayFactorProvider extends ChangeNotifier {
 
   bool get isAllowedContinue => delayFactorsRegistered.isNotEmpty;
 
-  int get projectCode => cache.projectCode!;
+  int get projectCode => cache.projectCode;
 
   TiposFactorAtraso? delayFactorTypeSelected;
   FactoresAtraso? delayFactorSelected;

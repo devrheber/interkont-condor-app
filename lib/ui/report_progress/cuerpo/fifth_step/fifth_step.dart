@@ -69,7 +69,7 @@ class FifthStep extends StatelessWidget {
                   FifthStepCardDetail(
                     title: 'Programado del Periodo',
                     value: PercentajeFormat.percentaje(
-                      cache.porcentajeValorProyectadoSeleccionado,
+                      cache.porcentajeValorProyectadoSeleccionado ?? 0,
                     ),
                   ),
                   FifthStepCardDetail(
@@ -80,7 +80,7 @@ class FifthStep extends StatelessWidget {
                             (cache.newExecutedValue / project.valorproyecto) *
                                 100,
                         projectedValue:
-                            cache.porcentajeValorProyectadoSeleccionado,
+                            cache.porcentajeValorProyectadoSeleccionado ?? 0,
                         latePercentageLimit: detail.limitePorcentajeAtraso,
                         yellowLatePercentageLimit:
                             detail.limitePorcentajeAtrasoAmarillo,

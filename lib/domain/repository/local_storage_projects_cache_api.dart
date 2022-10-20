@@ -158,6 +158,7 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   Future<void> saveDetail(DatosAlimentacion detail) {
     final map = {..._detailStreamController.value};
     map[currentProjectCode.toString()] = detail;
+    _detailStreamController.add(map);
     return _setValue(kDetailsKey, projetsDetailToJson(map));
   }
 
@@ -169,7 +170,7 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
     _projectsCacheStreamController.add(map);
 
     _executedValuePercentageStreamController
-        .add(map[currentProjectCode.toString()]!.porcentajeValorEjecutado!);
+        .add(map[currentProjectCode.toString()]?.porcentajeValorEjecutado ?? 0);
 
     return _setValue(kCacheMapKey, projectsCacheToJson(map));
   }

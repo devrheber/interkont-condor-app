@@ -11,8 +11,9 @@ class ReportProgressProvider extends ChangeNotifier {
     required FilesPersistentCacheRepository filesPersistentCacheRepository,
   })  : _projectsCacheRepository = projectsCacheRepository,
         _filesPersistentCacheRepository = filesPersistentCacheRepository {
-    cache = projectsCacheRepository.getCache() ?? ProjectCache();
     project = projectsCacheRepository.getProject();
+    cache = projectsCacheRepository.getCache() ??
+        ProjectCache(projectCode: project.codigoproyecto);
 
     detail = projectsCacheRepository.getDetail(project.codigoproyecto)!;
 
@@ -51,7 +52,8 @@ class ReportProgressProvider extends ChangeNotifier {
   _init() {
     cacheSubscription =
         _projectsCacheRepository.getProjectsCache().listen((cache) {
-      this.cache = cache[project.getProjectCode] ?? ProjectCache();
+      this.cache = cache[project.getProjectCode] ??
+          ProjectCache(projectCode: project.codigoproyecto);
       _initFourthStep();
     });
   }
@@ -120,8 +122,9 @@ class ReportProgressProvider extends ChangeNotifier {
 
   bool registerDelayFactors() {
     // calculateExecutedValuePercentage();
-    final porcentajeEsperado = cache.porcentajeValorProyectadoSeleccionado -
-        detail.limitePorcentajeAtraso;
+    final porcentajeEsperado =
+        (cache.porcentajeValorProyectadoSeleccionado ?? 0) -
+            detail.limitePorcentajeAtraso;
 
     if (((cache.porcentajeValorEjecutado ?? 0) * 100) < porcentajeEsperado) {
       return true;

@@ -12,7 +12,8 @@ class ProjectDetailProvider extends ChangeNotifier {
   }) {
     project = projectsCacheRepository.getProject();
     detail = projectsCacheRepository.getDetail(project.codigoproyecto);
-    cache = projectsCacheRepository.getCache() ?? ProjectCache();
+    cache = projectsCacheRepository.getCache() ??
+        ProjectCache(projectCode: project.codigoproyecto);
 
     cache = cache.copyWith(projectCode: project.codigoproyecto);
     _getPosicionPeriodoSeleccionado();

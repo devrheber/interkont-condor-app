@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/theme/color_theme.dart';

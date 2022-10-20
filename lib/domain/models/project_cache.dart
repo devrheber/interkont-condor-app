@@ -11,7 +11,7 @@ String projectsCacheToJson(Map<String, ProjectCache> data) => json.encode(
 
 class ProjectCache {
   const ProjectCache({
-    this.projectCode,
+    required this.projectCode,
     this.stepNumber = 1,
     this.porPublicar,
     this.lastSyncDate,
@@ -30,12 +30,12 @@ class ProjectCache {
     this.currentMonthReturns,
     this.pastDueMonthReturns,
   });
-  final int? projectCode;
+  final int projectCode;
   final int stepNumber;
   final dynamic porPublicar;
   final DateTime? lastSyncDate;
   final int? periodoIdSeleccionado;
-  final dynamic porcentajeValorProyectadoSeleccionado;
+  final double? porcentajeValorProyectadoSeleccionado;
   final double? porcentajeValorEjecutado;
   final dynamic newExecutedValue;
   final Map<String, dynamic>? activitiesProgress;
@@ -168,7 +168,7 @@ class ProjectCache {
   }
 
   String get getPorcentajeValorProyectado {
-    return porcentajeValorProyectadoSeleccionado.round().toString();
+    return porcentajeValorProyectadoSeleccionado?.round().toString() ?? '--';
   }
 
   double porcentajeAsiVaEn(double valorproyecto) =>

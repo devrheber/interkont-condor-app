@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:appalimentacion/domain/models/document.dart';
-import 'package:appalimentacion/domain/models/complementary_image.dart';
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
@@ -16,141 +15,203 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
 
   final SharedPreferences _plugin;
 
+  int? _currentProjectCode;
+
+  String? get projectCode => _currentProjectCode.toString();
+
   @visibleForTesting
-  static const kMainPhotoKey = '__main_photo';
-  static const kRequiredDocumentsKey = '__required_documents__';
-  static const kAdditionalDocumentsKey = '__additional_documents__';
-  static const kComplementaryImagesKey = '__complementary_images__';
+  static const kFilesCacheKey = '__files_cache__';
 
   String? _getValue(String key) => _plugin.getString(key);
   Future<bool> _setValue(String key, String value) async =>
       _plugin.setString(key, value);
 
   void _init() {
-    final _mainPhoto = _getValue(kMainPhotoKey);
-    final _requiredDocuments = _getValue(kRequiredDocumentsKey);
-    final _additionalDocuments = _getValue(kAdditionalDocumentsKey);
-    final _complementaryImages = _getValue(kComplementaryImagesKey);
+    try {
+      final cache = _getValue(kFilesCacheKey);
 
-    if (_mainPhoto != null) {
-      mainPhoto = ComplementaryImage.fromJson(json.decode(_mainPhoto));
+      if (cache == null) return;
+
+      final jsonCache = filesCacheFromJson(cache);
+
+      _filesCache = jsonCache;
+
+    } catch (_) {
+      if (kDebugMode) {
+        print('ocurrió un error al intentar obtener el cache de archivos');
+      }
     }
   }
 
-  ComplementaryImage? mainPhoto;
-  List<Document>? requiredDocuments = [];
-  List<Document>? additionalDocuments = [];
-  List<ComplementaryImage>? complementaryImages = [];
+  Map<String, FilesCache> _filesCache = {};
 
   @override
   List<Document> getAdditionalDocuments() {
-    final documentString = _getValue(kAdditionalDocumentsKey);
-    if (documentString == null) return [];
-    additionalDocuments = documentsFromJson(documentString);
-
-    return additionalDocuments!;
+    if (!_filesCache.containsKey(projectCode)) return [];
+    final filesCache = _filesCache[projectCode];
+    if (filesCache?.additionalDocuments == null) return [];
+    return filesCache?.additionalDocuments ?? [];
   }
 
   @override
   List<ComplementaryImage> getComplementaryImages() {
-    final imagesString = _getValue(kComplementaryImagesKey);
-    if (imagesString == null) return [];
-    complementaryImages = imagesFromJson(imagesString);
-    return complementaryImages!;
+    if (!_filesCache.containsKey(projectCode)) return [];
+    final filesCache = _filesCache[projectCode];
+    if (filesCache?.complementaryImages == null) return [];
+    return filesCache?.complementaryImages ?? [];
   }
 
   @override
   ComplementaryImage? getMainPhoto() {
-    final mainPhotoString = _getValue(kMainPhotoKey);
-    if (mainPhotoString == null) return null;
-    mainPhoto = ComplementaryImage.fromJson(json.decode(mainPhotoString));
-    return mainPhoto;
+    if (!_filesCache.containsKey(projectCode)) return null;
+    final filesCache = _filesCache[projectCode];
+    if (filesCache?.mainPhoto == null) return null;
+
+    return filesCache?.mainPhoto;
   }
 
   @override
   List<Document> getRequiredDocuments() {
-    final documentString = _getValue(kRequiredDocumentsKey);
-    if (documentString == null) return [];
-    requiredDocuments = documentsFromJson(documentString);
-    return requiredDocuments!;
+    if (!_filesCache.containsKey(projectCode)) return [];
+    final filesCache = _filesCache[projectCode];
+    if (filesCache?.requiredDocuments == null) return [];
+
+    return filesCache?.requiredDocuments ?? [];
   }
 
   @override
   void setAdditionalDocuments(List<Document> docs) {
-    additionalDocuments = docs;
-    _setValue(kAdditionalDocumentsKey, documentsToJson(additionalDocuments!));
+    _filesCache[projectCode!] =
+        _filesCache[projectCode!]?.copyWith(additionalDocuments: docs) ??
+            FilesCache(
+              additionalDocuments: docs,
+            );
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void setComplementaryImages(List<ComplementaryImage> images) {
-    complementaryImages = images;
-    _setValue(kComplementaryImagesKey, imagesToJson(complementaryImages!));
+    _filesCache[projectCode!] =
+        _filesCache[projectCode!]?.copyWith(complementaryImages: images) ??
+            FilesCache(
+              complementaryImages: images,
+            );
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void setMainPhoto(ComplementaryImage photo) {
-    mainPhoto = photo;
-    _setValue(kMainPhotoKey, json.encode(photo.toJson()));
+    _filesCache[projectCode!] =
+        _filesCache[projectCode!]?.copyWith(mainPhoto: photo) ??
+            FilesCache(
+              mainPhoto: photo,
+            );
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void removeMainPhoto() {
-    mainPhoto = null;
-    _plugin.remove(kMainPhotoKey);
+    _filesCache[projectCode!] =
+        _filesCache[projectCode!]?.removeMainPhoto() ?? FilesCache();
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void setRequiredDocuments(List<Document> docs) {
-    requiredDocuments = docs;
-    _setValue(kRequiredDocumentsKey, documentsToJson(docs));
+    _filesCache[projectCode!] =
+        _filesCache[projectCode!]?.copyWith(requiredDocuments: docs) ??
+            FilesCache(
+              requiredDocuments: docs,
+            );
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void saveComplementaryImage(ComplementaryImage image) {
-    complementaryImages?.add(image);
-    _setValue(kComplementaryImagesKey, imagesToJson(complementaryImages!));
+    FilesCache fileCache = _filesCache[projectCode] ?? FilesCache();
+
+    fileCache = fileCache.copyWith(
+        complementaryImages: [...fileCache.complementaryImages ?? [], image]);
+
+    _filesCache[projectCode!] = _filesCache[projectCode!]!
+        .copyWith(complementaryImages: fileCache.complementaryImages);
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void removeComplementaryImage(ComplementaryImage image) {
-    complementaryImages?.remove(image);
-    _setValue(kComplementaryImagesKey, imagesToJson(complementaryImages!));
+    _filesCache[projectCode!] =
+        _filesCache[projectCode!]?.removeComplementaryImages() ?? FilesCache();
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void saveRequiredDocument(Document doc) {
-    requiredDocuments?.add(doc);
-    _setValue(kRequiredDocumentsKey, documentsToJson(requiredDocuments!));
+    FilesCache fileCache = _filesCache[projectCode] ?? FilesCache();
+
+    fileCache = fileCache.copyWith(
+        requiredDocuments: [...fileCache.requiredDocuments ?? [], doc]);
+
+    _filesCache[projectCode!] = _filesCache[projectCode!]!
+        .copyWith(requiredDocuments: fileCache.requiredDocuments);
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void removeRequiredDocument(Document doc) {
-    requiredDocuments?.remove(doc);
-    _setValue(kRequiredDocumentsKey, documentsToJson(requiredDocuments!));
+    _filesCache[projectCode!] =
+        _filesCache[projectCode!]?.removeRequiredDocuments() ?? FilesCache();
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void saveAdditionalDocument(Document doc) {
-    additionalDocuments?.add(doc);
-    _setValue(kAdditionalDocumentsKey, documentsToJson(additionalDocuments!));
+    FilesCache fileCache = _filesCache[projectCode] ?? FilesCache();
+
+    fileCache = fileCache.copyWith(
+        additionalDocuments: [...fileCache.additionalDocuments ?? [], doc]);
+
+    _filesCache[projectCode!] = _filesCache[projectCode!]!
+        .copyWith(additionalDocuments: fileCache.additionalDocuments);
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void removeAdditionalDocument(Document doc) {
-    additionalDocuments?.remove(doc);
-    _setValue(kAdditionalDocumentsKey, documentsToJson(additionalDocuments!));
+    _filesCache[projectCode!] =
+        _filesCache[projectCode!]?.removeAdditionalDocuments() ?? FilesCache();
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void clearData() {
-    _plugin.remove(kMainPhotoKey);
-    _plugin.remove(kAdditionalDocumentsKey);
-    _plugin.remove(kRequiredDocumentsKey);
-    _plugin.remove(kComplementaryImagesKey);
+    _plugin.remove(kFilesCacheKey);
 
-    mainPhoto = null;
-    additionalDocuments = [];
-    requiredDocuments = [];
-    complementaryImages = [];
+    _filesCache = {};
+  }
+
+  @override
+  void setCurrentProjectCode(int projectCode) {
+    _currentProjectCode = projectCode;
+  }
+
+  @override
+  void removeCacheByCode(int projectCode) {
+    if (!_filesCache.containsKey(projectCode.toString())) return;
+
+    _filesCache.remove(projectCode.toString());
+
+    _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 }

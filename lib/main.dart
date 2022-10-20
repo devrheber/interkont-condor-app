@@ -43,12 +43,17 @@ void main() async {
     projectsCacheApi: projectsCacheApi,
   );
 
+  final filesPersistentCacheApi = FilesPersistentCacheApi(
+    plugin: instance,
+  );
+
   await prefs.initPrefs();
 
   runApp(AppState(
     prefs: prefs,
     projectsCacheRepository: projectsCacheRepository,
     sharedPreferences: instance,
+    filesPersistentCacheApi: filesPersistentCacheApi,
   ));
 }
 
@@ -57,11 +62,13 @@ class AppState extends StatelessWidget {
     Key? key,
     required this.prefs,
     required this.projectsCacheRepository,
+    required this.filesPersistentCacheApi,
     required this.sharedPreferences,
   }) : super(key: key);
 
   final UserPreferences prefs;
   final ProjectsCacheRepository projectsCacheRepository;
+  final FilesPersistentCacheApi filesPersistentCacheApi;
   final SharedPreferences sharedPreferences;
 
   @override
@@ -72,10 +79,7 @@ class AppState extends StatelessWidget {
           create: (_) => projectsCacheRepository,
         ),
         Provider<FilesPersistentCacheRepository>(
-          create: (_) => FilesPersistentCacheApi(
-            plugin: sharedPreferences,
-          ),
-        ),
+            create: (_) => filesPersistentCacheApi),
         Provider<LoginRepository>(
           create: (_) => LoginRemote(),
         ),
@@ -95,12 +99,13 @@ class AppState extends StatelessWidget {
           create: (_) => ProjectsProvider(
             projectsCacheRepository: projectsCacheRepository,
             projectRepository: ProjectsImpl(),
+            filesPersistentCacheApi: filesPersistentCacheApi,
           ),
         ),
       ],
       child: ScreenUtilInit(
         designSize: Size(414, 896),
-        builder: (_,__) {
+        builder: (_, __) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: const App(),

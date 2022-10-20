@@ -7,10 +7,11 @@ class FirstStepProvider extends ChangeNotifier {
   FirstStepProvider({
     required ProjectsCacheRepository projectsCacheRepository,
   }) : _projectsCacheRepository = projectsCacheRepository {
-    cache = _projectsCacheRepository.getCache() ?? ProjectCache();
-    // TODO Manage null
-    detail = _projectsCacheRepository.getDetail(cache.projectCode!)!;
     project = _projectsCacheRepository.getProject();
+    cache = _projectsCacheRepository.getCache() ??
+        ProjectCache(projectCode: project.codigoproyecto);
+    // TODO Manage null
+    detail = _projectsCacheRepository.getDetail(cache.projectCode)!;
     activitiesProgress = cache.activitiesProgress ?? {};
     filteredActivites = [...detail.actividades];
 
@@ -45,7 +46,6 @@ class FirstStepProvider extends ChangeNotifier {
 
     for (int i = 0; i < activities.length; i++) {
       if (activitiesProgress.containsKey(activities[i].getStringId)) {
-
         /// Ir sumando lo que representa el porcentaje ingresado en [Avance actual]
         valorEjecucionProyecto += activities[i].getNewExecutedValue(
             double.parse(activitiesProgress[activities[i].getStringId]));
