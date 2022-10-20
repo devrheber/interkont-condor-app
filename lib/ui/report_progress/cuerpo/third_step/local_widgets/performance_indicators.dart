@@ -186,7 +186,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   enabled: false,
                 ),
                 SizedBox(height: 10.sp),
-                IndicatorField('Valor de Rendimientos Generados',
+                IndicatorField('Valor Rendimientos Generados',
                     icon: Icons.monetization_on_outlined,
                     focusNode: generatedReturnsFocusNode,
                     controller: generatedReturnsCtrl, onTap: () {
@@ -194,7 +194,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                 }),
                 SizedBox(height: 10.sp),
                 IndicatorField(
-                  'Valor de Rendimientos Mes Actual',
+                  'Valor Reintegrado',
                   icon: Icons.monetization_on_outlined,
                   focusNode: currentMonthReturnsFocusNode,
                   controller: currentMonthReturnsCtrl,
@@ -204,7 +204,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                 ),
                 SizedBox(height: 10.sp),
                 IndicatorField(
-                  'Valor de Rendimientos Mes Vencido',
+                  'Saldo Final en Extracto',
                   icon: Icons.monetization_on_outlined,
                   focusNode: pastDueMonthReturnsFocusNode,
                   controller: pastDueMonthReturnsCtrl,
@@ -258,7 +258,11 @@ class IndicatorField extends StatelessWidget {
               children: [
                 SizedBox(width: 10.sp),
                 // TODO Use asset
-                Icon(icon, size: 23.sp),
+                Icon(
+                  icon,
+                  size: 23.sp,
+                  color: Color(0xff556A8D),
+                ),
                 SizedBox(width: 10.sp),
                 Flexible(
                   fit: FlexFit.tight,

@@ -171,36 +171,11 @@ class ReportProgressProvider extends ChangeNotifier {
   }
 
   bool get secondButtonValidation {
-    if (stepNumber == 3) {
-      return incomeGenerationDate == null ||
-          rentalRepaymentDate == null ||
-          generatedReturns == null ||
-          currentMonthReturns == null ||
-          pastDueMonthReturns == null ||
-          (generatedReturns?.isEmpty ?? true) ||
-          (currentMonthReturns?.isEmpty ?? true) ||
-          (pastDueMonthReturns?.isEmpty ?? true);
-    }
-
     return false;
   }
 
   String? stepValidations() {
     switch (stepNumber) {
-      case 3:
-        if (incomeGenerationDate == null ||
-            rentalRepaymentDate == null ||
-            generatedReturns == null ||
-            currentMonthReturns == null ||
-            pastDueMonthReturns == null ||
-            (generatedReturns?.isEmpty ?? true) ||
-            (currentMonthReturns?.isEmpty ?? true) ||
-            (pastDueMonthReturns?.isEmpty ?? true)) {
-          return 'Complete los indicadores de rendimiento';
-        }
-
-        return null;
-
       case 4:
         final comment = cache.comment;
 

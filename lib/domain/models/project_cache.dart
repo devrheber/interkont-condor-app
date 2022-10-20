@@ -102,9 +102,18 @@ class ProjectCache {
         'fileFotoPrincipal': fileFotoPrincipal,
         'fechaGeneracionRendimientos': incomeGenerationDate?.toIso8601String(),
         'fechaReintegroRendimientos': rentalRepaymentDate?.toIso8601String(),
-        'valorRendimientosGenerados': generatedReturns,
-        'valorRendimientosMesActual': currentMonthReturns,
-        'valorRendimientosMesVencido': pastDueMonthReturns,
+        'valorRendimientosGenerados':
+            generatedReturns == null || generatedReturns == ''
+                ? 0.0
+                : generatedReturns,
+        'valorRendimientosMesActual':
+            currentMonthReturns == null || currentMonthReturns == ''
+                ? 0.0
+                : currentMonthReturns,
+        'valorRendimientosMesVencido':
+            pastDueMonthReturns == null || pastDueMonthReturns == ''
+                ? 0.0
+                : pastDueMonthReturns,
       };
 
   ProjectCache copyWith({

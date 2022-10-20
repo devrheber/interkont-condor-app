@@ -57,7 +57,7 @@ class FifthStep extends StatelessWidget {
                   FifthStepCardDetail(
                     title: 'Asi va en',
                     value: PercentajeFormat.percentaje(
-                      cache.newExecutedValue / project.valorproyecto,
+                      (cache.newExecutedValue / project.valorproyecto) * 100,
                     ),
                   ),
                   FifthStepCardDetail(
