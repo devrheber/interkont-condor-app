@@ -76,9 +76,9 @@ class ProjectCache {
         rentalRepaymentDate: json['fechaReintegroRendimientos'] == null
             ? null
             : DateTime.parse(json['fechaReintegroRendimientos']),
-        generatedReturns: json['valorRendimientosGenerados'],
-        currentMonthReturns: json['valorRendimientosMesActual'],
-        pastDueMonthReturns: json['valorRendimientosMesVencido'],
+        generatedReturns: json['valorRendimientosGenerados'].toString(),
+        currentMonthReturns: json['valorRendimientosMesActual'].toString(),
+        pastDueMonthReturns: json['valorRendimientosMesVencido'].toString(),
       );
 
   Map<String, dynamic> toJson() => {

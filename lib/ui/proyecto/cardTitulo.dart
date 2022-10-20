@@ -76,7 +76,9 @@ class _CircleImageCard extends StatelessWidget {
                   height: 77.sp,
                   width: 77.sp,
                   fit: BoxFit.fitWidth,
-                  placeholder: (context, url) => CircularProgressIndicator(),
+                  placeholder: (_, __) => Image.asset(
+                    'assets/img/Desglose/Demas/question.png',
+                  ),
                   errorWidget: (context, url, error) => Image.asset(
                     'assets/img/Desglose/Demas/question.png',
                     height: 77.sp,

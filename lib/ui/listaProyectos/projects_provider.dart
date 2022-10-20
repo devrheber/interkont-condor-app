@@ -41,10 +41,9 @@ class ProjectsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> clearCache() async {
-    // TODO Navegar a home y luego borrar la data
-    //  projectsCacheRepository.clearData();
-    // filesPersistentCacheRepository.clearData();
+  void clearCache(int projectCode) async {
+    _projectsCacheRepository.removeCacheByCode(projectCode);
+    // TODO Borrar cache de archivos
   }
 
   Future<void> getDocumentTypes() async {
@@ -92,7 +91,7 @@ class ProjectsProvider extends ChangeNotifier {
       if (localDetail != null) {
         return localDetail;
       } else {
-        final detail = await _getRemoteProjectDetail(codigoProyecto);
+        final detail = await getRemoteProjectDetail(codigoProyecto);
         return detail;
       }
     } catch (_) {
@@ -100,7 +99,7 @@ class ProjectsProvider extends ChangeNotifier {
     }
   }
 
-  Future<DatosAlimentacion> _getRemoteProjectDetail(int codigoProyecto) async {
+  Future<DatosAlimentacion> getRemoteProjectDetail(int codigoProyecto) async {
     try {
       final detail = await projectRepository.getDatosAlimentacion(
           codigoProyecto: '$codigoProyecto');

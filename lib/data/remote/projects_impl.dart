@@ -131,7 +131,7 @@ class ProjectsImpl implements ProjectsRepository {
       required onReceiveProgress(int count, int total)}) async {
     x.Dio dio = x.Dio();
     dio.options = x.BaseOptions(
-      connectTimeout: 1500,
+      connectTimeout: 3500,
     );
 
     String url = "$_url/guardar-alimentacion";

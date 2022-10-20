@@ -51,7 +51,7 @@ class ReportProgressProvider extends ChangeNotifier {
   _init() {
     cacheSubscription =
         _projectsCacheRepository.getProjectsCache().listen((cache) {
-      this.cache = cache[project.getProjectCode]!;
+      this.cache = cache[project.getProjectCode] ?? ProjectCache();
       _initFourthStep();
     });
   }

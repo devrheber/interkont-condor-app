@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
@@ -393,16 +395,20 @@ class ProjectCard extends StatelessWidget {
                         if (!snapshot.hasData) {
                           return SizedBox.shrink();
                         }
-
                         final cache = snapshot.data;
 
-                        if (cache != null) return SizedBox.shrink();
+                        if (cache == null) return SizedBox.shrink();
 
-                        if (cache?[project.codigoproyecto.toString()] != null)
+                        if (!cache.containsKey(project.getProjectCode))
                           return SizedBox.shrink();
 
-                        if (cache?[project.codigoproyecto.toString()]
-                            ?.porPublicar)
+                        if (cache[project.getProjectCode] == null)
+                          return SizedBox.shrink();
+
+                        if (cache[project.getProjectCode]?.porPublicar == null)
+                          return SizedBox.shrink();
+
+                        if (cache[project.getProjectCode]?.porPublicar)
                           return Container(
                             margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: Row(

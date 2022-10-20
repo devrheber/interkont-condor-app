@@ -53,4 +53,7 @@ class ProjectsCacheRepository {
       _projectsCacheApi.setCurrentProjectCode(projectCode);
 
   void clearData() => _projectsCacheApi.clearData();
+
+  void removeCacheByCode(int projectCode) =>
+      _projectsCacheApi.removeCacheByCode(projectCode);
 }

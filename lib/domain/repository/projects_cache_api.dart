@@ -36,6 +36,8 @@ abstract class ProjectsCacheApi {
   void setCurrentProjectCode(int projectCode);
 
   void clearData();
+
+  void removeCacheByCode(int projectCode);
 }
 
 class CacheNotFoundException implements Exception {}

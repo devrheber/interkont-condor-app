@@ -33,7 +33,6 @@ class LastStepState extends State<LastStep> {
   void initState() {
     super.initState();
     lastStepProvider = context.read<LastStepProvider>();
-    // lastStepProvider.guardarAlimentacion();
 
     ToastContext().init(context);
 
@@ -43,7 +42,10 @@ class LastStepState extends State<LastStep> {
       if ((value['state'] as SendDataState) == SendDataState.success) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Felicitaciones()),
+          MaterialPageRoute(
+              builder: (context) => Felicitaciones(
+                    projectCode: lastStepProvider.projectCode,
+                  )),
         );
       } else if ((value['state'] as SendDataState) ==
           SendDataState.noInternet) {
@@ -51,6 +53,7 @@ class LastStepState extends State<LastStep> {
           context,
           MaterialPageRoute(builder: (context) => NoInternet()),
         );
+        lastStepProvider.saveDataPendingToPublish();
       } else if (value['state'] == SendDataState.backendError) {
         Navigator.pop(context);
         Toast.show(value['message'], duration: 6);
@@ -61,7 +64,6 @@ class LastStepState extends State<LastStep> {
     });
   }
 
-  Future<Widget> getRootPage() async => Felicitaciones();
   @override
   Widget build(BuildContext context) {
     final style = TextStyle(

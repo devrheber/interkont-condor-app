@@ -194,6 +194,16 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   }
 
   @override
+  void removeCacheByCode(int projectCode) {
+    final map = {..._projectsCacheStreamController.value};
+    if (!map.containsKey(projectCode.toString())) return;
+
+    map.remove(projectCode.toString());
+    _projectsCacheStreamController.add(map);
+    _setValue(kCacheMapKey, projectsCacheToJson(map));
+  }
+
+  @override
   ProjectCache? getCacheByProjectCode(int projectCode) {
     final projectsCache = {..._projectsCacheStreamController.value};
     if (projectsCache.containsKey(projectCode.toString())) {

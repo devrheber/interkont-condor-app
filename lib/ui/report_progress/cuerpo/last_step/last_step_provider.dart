@@ -232,4 +232,13 @@ class LastStepProvider extends ChangeNotifier {
       'state': SendDataState.other
     };
   }
+
+  void saveDataPendingToPublish() {
+    _projectsCacheRepository.saveCache(
+      this._cache.copyWith(
+            porPublicar: true,
+            stepNumber: 5,
+          ),
+    );
+  }
 }
