@@ -190,8 +190,8 @@ class DelayFactorScreenState extends State<DelayFactorScreen> {
               primerBotonDesactivado: false,
               segundoBotonDesactivado:
                   delayFactorService.secondButtonValidation,
-              txtPrimerBoton: "Cancelar",
-              txtSegundoBoton: "Siguiente Paso",
+              txtPrimerBoton: 'Retroceder',
+              txtSegundoBoton: 'Siguiente Paso',
               accionPrimerBoton: () {
                 Navigator.pop(context);
               },

@@ -177,6 +177,17 @@ class ReportProgressProvider extends ChangeNotifier {
     return false;
   }
 
+  String get firstButtonTitle {
+    switch (cache.stepNumber) {
+      case 0:
+      case 1:
+        return 'Cancelar';
+
+      default:
+        return 'Retroceder';
+    }
+  }
+
   String? stepValidations() {
     switch (stepNumber) {
       case 4:

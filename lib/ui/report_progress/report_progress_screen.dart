@@ -25,7 +25,7 @@ class ReportProgressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportProgressProvider = Provider.of<ReportProgressProvider>(context);
-  
+
     ToastContext().init(context);
 
     final numeroPaso = reportProgressProvider.stepNumber < 1
@@ -100,7 +100,7 @@ class ReportProgressScreen extends StatelessWidget {
         colorFondo: AppTheme.bottomPrincipal,
         primerBotonDesactivado: false,
         segundoBotonDesactivado: reportProgressProvider.secondButtonValidation,
-        txtPrimerBoton: 'Cancelar',
+        txtPrimerBoton: reportProgressProvider.firstButtonTitle,
         txtSegundoBoton: numeroPaso >= 5 ? 'Finalizar' : 'Siguiente Paso',
         accionPrimerBoton: () => firstButtonMethod(),
         accionSegundoBoton: () => secondButtonMethod(),
