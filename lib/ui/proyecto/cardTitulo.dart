@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
 import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
 import 'package:appalimentacion/utils/assets/assets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -272,13 +273,15 @@ class _SyncButtonState extends State<_SyncButton>
                       ),
                     ),
                     onPressed: () async {
+                      final projectsService = context.read<ProjectsProvider>();
                       final detailService =
                           context.read<ProjectDetailProvider>();
                       if (animationController != null &&
                           (animationController?.isAnimating ?? false)) return;
                       animationController?.repeat();
 
-                      // TODO update projectData
+                      await projectsService.getRemoteProjects();
+                      detailService.updateProject();
 
                       final result = await detailService.syncDetail();
 

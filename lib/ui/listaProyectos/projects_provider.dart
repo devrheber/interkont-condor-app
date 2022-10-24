@@ -80,9 +80,7 @@ class ProjectsProvider extends ChangeNotifier {
         _projectsCacheRepository.getCacheByProjectCode(projectCode);
 
     if (cache == null) {
-      cache = ProjectCache(
-      projectCode: projectCode,
-      lastSyncDate: syncDate);
+      cache = ProjectCache(projectCode: projectCode, lastSyncDate: syncDate);
     } else {
       cache = cache.copyWith(lastSyncDate: syncDate);
     }

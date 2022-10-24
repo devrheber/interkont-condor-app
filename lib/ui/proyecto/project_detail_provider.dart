@@ -104,4 +104,8 @@ class ProjectDetailProvider extends ChangeNotifier {
     Future.delayed(const Duration(milliseconds: 200))
         .then((_) => notifyListeners());
   }
+
+  void updateProject() {
+     project = projectsCacheRepository.getProject();
+  }
 }
