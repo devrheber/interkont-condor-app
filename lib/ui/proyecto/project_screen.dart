@@ -1,7 +1,10 @@
+import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_screen.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
+import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +30,7 @@ class ProyectScreen extends StatelessWidget {
 
     ToastContext().init(context);
 
-    void goToNextScreen() {
+    Future<void> goToNextScreen() async {
       if (project.pendienteAprobacion) {
         Toast.show(
             'Lo sentimos, este proyecto esta pendiente de aprobación, sincroniza una vez mas el proyecto, si cree que este ya ha sido aprobado',
@@ -52,6 +55,29 @@ class ProyectScreen extends StatelessWidget {
 
         return;
       }
+
+      if (detailProvider.cache.porPublicar) {
+        final confirm = await DialogHelper.showConfirmDialog(
+          context,
+          child: ConfirmDialog(
+              description: 'Este proyecto está pendiente de publicar.',
+              continueButtonText: 'Publicar ahora',
+              cancelButtonText: 'Editar avance'),
+        );
+
+        if (confirm == null) return;
+
+        if (confirm) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LastStep.init()),
+          );
+          return;
+        } else {
+          detailProvider.updateStepToPendingPublish();
+        }
+      }
+
       Navigator.push(
         context,
         MaterialPageRoute(
