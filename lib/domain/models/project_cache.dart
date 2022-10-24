@@ -13,7 +13,7 @@ class ProjectCache {
   const ProjectCache({
     required this.projectCode,
     this.stepNumber = 1,
-    this.porPublicar,
+    this.porPublicar = false,
     this.lastSyncDate,
     this.periodoIdSeleccionado,
     this.porcentajeValorProyectadoSeleccionado,
@@ -32,7 +32,7 @@ class ProjectCache {
   });
   final int projectCode;
   final int stepNumber;
-  final dynamic porPublicar;
+  final bool porPublicar;
   final DateTime? lastSyncDate;
   final int? periodoIdSeleccionado;
   final double? porcentajeValorProyectadoSeleccionado;
@@ -52,7 +52,7 @@ class ProjectCache {
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         projectCode: json['project_code'],
         stepNumber: json['strep_number'],
-        porPublicar: json['porPublicar'],
+        porPublicar: json['porPublicar'] == null ? false : json['porPublicar'],
         lastSyncDate: DateTime.parse(json['ultimaFechaSincro']),
         periodoIdSeleccionado: json['periodoIdSeleccionado'],
         porcentajeValorProyectadoSeleccionado:

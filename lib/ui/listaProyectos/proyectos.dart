@@ -406,7 +406,7 @@ class ProjectCard extends StatelessWidget {
                         if (cache[project.getProjectCode]?.porPublicar == null)
                           return SizedBox.shrink();
 
-                        if (cache[project.getProjectCode]?.porPublicar)
+                        if (cache[project.getProjectCode]?.porPublicar ?? false)
                           return Container(
                             margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: Row(
