@@ -1,8 +1,8 @@
 import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
@@ -45,7 +45,20 @@ class _ProgressCardState extends State<ProgressCard> {
     ToastContext().init(context);
 
     void calcutate(String stringValue) {
+      // print(stringValue);
+      // return;
+
+      if (stringValue.contains(',')) {
+        Toast.show('Para la parte decimal debe usar el caracter "." (punto)',
+            duration: 6, gravity: Toast.bottom);
+        controller.text = controller.text.replaceAll(',', '');
+        final val = TextSelection.collapsed(offset: controller.text.length);
+        controller.selection = val;
+        return;
+      }
+
       String value = stringValue == '' ? '0' : stringValue;
+      value = value.replaceAll(',', '');
 
       final ejecutadoActual = widget.activity.getCurrentProgressDouble;
 
@@ -144,8 +157,10 @@ class _ProgressCardState extends State<ProgressCard> {
                         decimal: true,
                         signed: false,
                       ),
-                      inputFormatters: [
-                        DecimalTextInputFormatter(decimalRange: 2),
+                      inputFormatters: <FilteringTextInputFormatter>[
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'^(\d+)?(\.?)(\,?)(\d{0,2})'),
+                        ),
                       ],
                       controller: controller,
                       onChanged: calcutate,
