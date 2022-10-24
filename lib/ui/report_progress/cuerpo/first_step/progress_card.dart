@@ -54,7 +54,6 @@ class _ProgressCardState extends State<ProgressCard> {
         controller.text = controller.text.replaceAll(',', '');
         final val = TextSelection.collapsed(offset: controller.text.length);
         controller.selection = val;
-        return;
       }
 
       String value = stringValue == '' ? '0' : stringValue;
@@ -89,6 +88,7 @@ class _ProgressCardState extends State<ProgressCard> {
       }
 
       widget.onChanged(value);
+      print('saving value: $value');
     }
 
     return Container(
@@ -159,7 +159,7 @@ class _ProgressCardState extends State<ProgressCard> {
                       ),
                       inputFormatters: <FilteringTextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                          RegExp(r'^(\d+)?(\.?)(\,?)(\d{0,2})'),
+                          RegExp(r'^(100|(\d{0})(\.?)(\,?)(\d{0,2}))'),
                         ),
                       ],
                       controller: controller,

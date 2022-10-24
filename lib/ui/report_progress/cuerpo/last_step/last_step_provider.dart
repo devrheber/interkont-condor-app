@@ -196,9 +196,12 @@ class LastStepProvider extends ChangeNotifier {
       }
 
       if (result['status'] == 1) {
+        print(result['messages']);
+        inspect(result['messages']);
+        
         return {
           'success': true,
-          'message': 'Ocurrió un error al grabar la información',
+          'message': result['messages'].first,
           'state': SendDataState.backendError,
         };
       }

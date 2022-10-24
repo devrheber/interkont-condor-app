@@ -79,6 +79,9 @@ class ProjectDetailProvider extends ChangeNotifier {
   }
 
   void _updateSelectedPeriod() {
+    periodoSeleccionado = null;
+    return;
+
     final int index = detail!.periodos.indexWhere(
         (period) => period.periodoId == periodoSeleccionado?.periodoId);
 
@@ -106,6 +109,6 @@ class ProjectDetailProvider extends ChangeNotifier {
   }
 
   void updateProject() {
-     project = projectsCacheRepository.getProject();
+    project = projectsCacheRepository.getProject();
   }
 }

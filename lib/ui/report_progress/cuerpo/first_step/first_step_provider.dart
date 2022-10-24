@@ -14,8 +14,8 @@ class FirstStepProvider extends ChangeNotifier {
     activitiesProgress = cache.activitiesProgress ?? {};
     filteredActivites = [...detail.actividades];
 
-    calculateExecutedValuePercentage();
     validateValueActivities();
+    calculateExecutedValuePercentage();
   }
 
   late Project project;
@@ -108,7 +108,9 @@ class FirstStepProvider extends ChangeNotifier {
           double.tryParse(cache.activitiesProgress![item.getStringId] ?? '0') ??
               0.0);
 
-      if (double.parse(faltantePorEjecutar.replaceAll(' %', '')) <= 0) {
+      if (double.parse(faltantePorEjecutar.replaceAll(' %', '')) < 0 || 
+      double.parse(faltantePorEjecutar.replaceAll(' %', '')) > 100
+      ) {
         cache.activitiesProgress![item.getStringId] = '0';
       }
     }

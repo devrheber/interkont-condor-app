@@ -113,15 +113,22 @@ class Actividad {
         unidadMedida: json["unidadMedida"],
         valorUnitario: json["valorUnitario"].toDouble(),
         cantidadProgramada: json["cantidadProgramada"].toDouble(),
-        cantidadEjecutada: json["cantidadEjecutada"] is int
-            ? double.parse(json["cantidadEjecutada"])
-            : json["cantidadEjecutada"] as double,
+        cantidadEjecutada: json["cantidadEjecutada"] == null
+            ? 0.0
+            : json["cantidadEjecutada"] is int
+                ? double.parse(json["cantidadEjecutada"])
+                : json["cantidadEjecutada"] as double,
         valorProgramado: json["valorProgramado"].toDouble(),
         valorEjecutado: json["valorEjecutado"].toDouble(),
-        porcentajeAvance: json["porcentajeAvance"].toDouble(),
-        cantidadEjecutadaInicial: json["cantidadEjecutadaInicial"].toDouble(),
+        porcentajeAvance: json["porcentajeAvance"] == null
+            ? 0.0
+            : json["porcentajeAvance"].toDouble(),
+        cantidadEjecutadaInicial: json["cantidadEjecutadaInicial"] == null
+            ? 0.0
+            : json["cantidadEjecutadaInicial"].toDouble(),
         valorEjecutadoInicial: json["valorEjecutadoInicial"].toDouble(),
-        porcentajeAvanceInicial: json["porcentajeAvanceInicial"].toDouble(),
+        porcentajeAvanceInicial:
+            (json["porcentajeAvanceInicial"] ?? 0.0).toDouble(),
       );
 
   Map<String, dynamic> toJson() => {

@@ -154,9 +154,16 @@ class ProjectsImpl implements ProjectsRepository {
       print(response);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        final messages = List<dynamic>.from(
+            json.decode(json.encode(response.data['mensajes'])).map((x) => x['mensaje'])).toList();
+
         return {
           'success': true,
           'status': response.data['status'],
+          // 'messages': response.data['mensajes'],
+          'messages': messages.isEmpty
+              ? 'Ocurrió un error al grabar la información'
+              : messages
         };
       } else {
         return {
