@@ -1,34 +1,58 @@
 import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:toast/toast.dart';
 
-import '../../../../theme/color_theme.dart';
 
 class RangeIndicatorCard extends StatefulWidget {
   const RangeIndicatorCard({
     Key? key,
+    required this.valueSaved,
     required this.item,
     required this.inputValue,
     required this.onChanged,
   }) : super(key: key);
 
-  final RangeIndicator item;
+  final String valueSaved;
+  final IndicadoresDeAlcance item;
   final String inputValue;
-
-  final void Function(String)? onChanged;
+  final void Function(int, String) onChanged;
 
   @override
   State<RangeIndicatorCard> createState() => _RangeIndicatorCardState();
 }
 
 class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
-  TextEditingController controllerTercerPasoTxtEjecucion =
-      TextEditingController();
+  late TextEditingController controller;
+
+  late double quantityExecuted;
+  late double scheduledQuantity;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = TextEditingController(
+        text: widget.valueSaved == '0' ? '' : widget.valueSaved);
+
+    quantityExecuted = widget.item.cantidadEjecutada;
+    scheduledQuantity = widget.item.cantidadProgramada;
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    NumberFormat f = new NumberFormat("#,##0.0", "es_AR");
+    NumberFormat f = new NumberFormat("#,##0.0", "en_US");
+
+    ToastContext().init(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -94,8 +118,13 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
                       textInputAction: TextInputAction.send,
                       keyboardType: TextInputType.numberWithOptions(
                           decimal: true, signed: true),
-                      controller: controllerTercerPasoTxtEjecucion,
-                      onChanged: widget.onChanged,
+                      controller: controller,
+                      onChanged: calculate,
+                      inputFormatters: <FilteringTextInputFormatter>[
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'^(\d+)(\.?)(\,?)(\-?)'),
+                        )
+                      ],
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -177,5 +206,61 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
         ],
       ),
     );
+  }
+
+  void calculate(String valueString) {
+    if (valueString.contains(',') || valueString.contains('.')) {
+      Toast.show("Lo sentimos, solo puede ingresar números enteros",
+          duration: 5, gravity: Toast.bottom);
+
+      controller.text = controller.text.replaceAll(',', '');
+      controller.text = controller.text.replaceAll('.', '');
+      final val = TextSelection.collapsed(offset: controller.text.length);
+      controller.selection = val;
+
+      return;
+    }
+
+    if (valueString.contains('-')) {
+      Toast.show("Lo sentimos, solo aceptamos numeros positivos",
+          duration: 5, gravity: Toast.bottom);
+
+      controller.text = controller.text.replaceAll('-', '');
+      controller.selection = TextSelection.collapsed(
+        offset: controller.text.length,
+      );
+
+      return;
+    }
+
+    String value = valueString;
+    value = valueString.trim() == '' ? '0' : valueString.trim();
+    double valueDouble = double.parse(value);
+
+    double maxValueAllowed = scheduledQuantity - quantityExecuted;
+
+    if (maxValueAllowed == 0) {
+      return Toast.show(
+          "Lo sentimos, Toda la cantidad programada fué ejecutada",
+          duration: 6,
+          gravity: Toast.bottom);
+    }
+
+    if (valueDouble > maxValueAllowed) {
+      Toast.show("Lo sentimos, Cantidad máxima permitida es $maxValueAllowed",
+          duration: 6, gravity: Toast.bottom);
+
+      controller.text = '';
+      controller.selection = TextSelection.collapsed(
+        offset: controller.text.length,
+      );
+
+      widget.onChanged(widget.item.indicadorAlcanceId, '0');
+      return;
+    }
+
+    // print(value.toString() == '' ? '0' : value.toString());
+
+    widget.onChanged(widget.item.indicadorAlcanceId, value.toString());
   }
 }

@@ -19,7 +19,7 @@ class ThirdStep extends StatelessWidget {
     final reportProgressService = Provider.of<ReportProgressProvider>(context);
 
     ToastContext().init(context);
-    
+
     return Stack(
       children: <Widget>[
         Container(
@@ -35,9 +35,9 @@ class ThirdStep extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(left: 20.0, right: 20.0),
-                      padding:
-                          EdgeInsets.only(right: 5.0, left: 5.0, bottom: 10.0),
+                      margin: EdgeInsets.only(left: 20.0.sp, right: 20.0.sp),
+                      padding: EdgeInsets.only(
+                          right: 5.0.sp, left: 5.0.sp, bottom: 10.0.sp),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -49,42 +49,45 @@ class ThirdStep extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 18.sp),
-                    if (reportProgressService.rangeIndicators.isEmpty)
-                      // TODO Show apropiated message
-                      Visibility(
-                        visible:
-                            reportProgressService.rangeIndicators.isNotEmpty,
-                        child: CarouselSlider(
-                          options: CarouselOptions(
-                            enableInfiniteScroll: false,
-                            enlargeCenterPage: true,
-                            height: 350.h,
+                    // SizedBox(height: 18.sp),
+
+                    reportProgressService.detail.indicadoresAlcance.isNotEmpty
+                        ?
+                        // TODO Show apropiated message when list is empty
+
+                        Padding(
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            child: CarouselSlider(
+                              options: CarouselOptions(
+                                enableInfiniteScroll: false,
+                                enlargeCenterPage: true,
+                                height: 350.h,
+                              ),
+                              items: <Widget>[
+                                for (final item in reportProgressService
+                                    .detail.indicadoresAlcance)
+                                  RangeIndicatorCard(
+                                      valueSaved:
+                                          reportProgressService.rangeIndicators[
+                                                  item.indicadorAlcanceId
+                                                      .toString()] ??
+                                              '0',
+                                      item: item,
+                                      inputValue:
+                                          '', // Value to indicator from cache
+                                      onChanged: reportProgressService
+                                          .onChangedRangeIndicatorCard)
+                              ],
+                            ),
+                          )
+                        : Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.sp, right: 25.sp, bottom: 22.sp),
+                            child: TextSubtitle(
+                                text:
+                                    '- Este proyecto no presenta indicadores.'),
                           ),
-                          items: <Widget>[
-                            for (int i = 0;
-                                i <
-                                    reportProgressService
-                                        .rangeIndicators.length;
-                                i++)
-                              RangeIndicatorCard(
-                                item: reportProgressService.rangeIndicators[i],
-                                inputValue: '', // Value to indicator from cache
-                                onChanged: (value) {
-                                  if (double.parse('$value') < 0) {
-                                    Toast.show(
-                                        "Lo sentimos, solo aceptamos numeros positivos",
-                                        duration: 3,
-                                        gravity: Toast.bottom);
-                                  }
-                                  reportProgressService
-                                      .onChangedRangeIndicatorCard(
-                                          index: i, value: value);
-                                },
-                              )
-                          ],
-                        ),
-                      ),
+
                     const PerformanceIndicators(),
                   ],
                 ),

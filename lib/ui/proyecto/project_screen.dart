@@ -5,6 +5,7 @@ import 'package:appalimentacion/ui/report_progress/report_progress_screen.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,12 +32,14 @@ class ProyectScreen extends StatelessWidget {
     ToastContext().init(context);
 
     Future<void> goToNextScreen() async {
-      if (project.pendienteAprobacion) {
-        Toast.show(
-            'Lo sentimos, este proyecto esta pendiente de aprobación, sincroniza una vez mas el proyecto, si cree que este ya ha sido aprobado',
-            duration: 5,
-            gravity: Toast.bottom);
-        return;
+      if (!kDebugMode) {
+        if (project.pendienteAprobacion) {
+          Toast.show(
+              'Lo sentimos, este proyecto esta pendiente de aprobación, sincroniza una vez mas el proyecto, si cree que este ya ha sido aprobado',
+              duration: 5,
+              gravity: Toast.bottom);
+          return;
+        }
       }
       if (detailProvider.cache.synchronizationRequired) {
         Toast.show('Debe sincronizar el proyecto',

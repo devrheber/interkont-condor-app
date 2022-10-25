@@ -19,10 +19,15 @@ class ReportProgressProvider extends ChangeNotifier {
 
     achievesAndDifficulties = cache.qualitativesProgress ?? [];
 
+    rangeIndicators = cache.rangeIndicators ?? {};
+
     aspectSelected = detail.apectosEvaluar.first;
 
     _init();
     _initFourthStep();
+    // TODO This method is duplicate,
+    // There is in FirstStepProvider and here.
+    calculateExecutedValuePercentage();
   }
 
   late Project project;
@@ -34,7 +39,7 @@ class ReportProgressProvider extends ChangeNotifier {
   List<TipoDoc> listaTipoDoc = [];
   List<TextEditingController> textFieldControllers = [];
   List<QualitativeProgress> achievesAndDifficulties = [];
-  List<RangeIndicator> rangeIndicators = [];
+  Map<String, dynamic> rangeIndicators = {};
 
   int get stepNumber => cache.stepNumber;
 
@@ -102,22 +107,15 @@ class ReportProgressProvider extends ChangeNotifier {
     );
   }
 
-  onChangedRangeIndicatorCard({required int index, required String value}) {
-    // TODO: save input value to indicator in cache
-    final RangeIndicator indicator = rangeIndicators[index];
+  onChangedRangeIndicatorCard(int id, String value) {
+    rangeIndicators[id.toString()] = value;
+    print('indicator value: ${rangeIndicators[id.toString()]}');
 
-    double cantidadEjecutadaInicial = indicator.cantidadEjecutadaInicial;
-    double cantidadEjecutada = indicator.cantidadEjecutada;
-    double cantidadProgramada = indicator.cantidadProgramada;
+    this.cache = this.cache.copyWith(rangeIndicators: rangeIndicators);
 
-    rangeIndicators[index] = indicator.copyWith(
-      cantidadEjecutada: cantidadEjecutadaInicial + double.parse(value),
-      porcentajeAvance: cantidadEjecutada / cantidadProgramada * 100,
-    );
+    _projectsCacheRepository.saveCache(this.cache);
 
-    notifyListeners();
-
-    // TODO: save indicator in cache
+    // notifyListeners();
   }
 
   bool registerDelayFactors() {
@@ -210,5 +208,61 @@ class ReportProgressProvider extends ChangeNotifier {
       default:
         return null;
     }
+  }
+
+  void calculateExecutedValuePercentage() {
+    final activities = this.detail.actividades;
+
+    double totalCantidadProgramada = 0;
+    double valorEjecucionProyecto = 0;
+
+    for (int i = 0; i < activities.length; i++) {
+      if (this
+              .cache
+              .activitiesProgress
+              ?.containsKey(activities[i].getStringId) ??
+          false) {
+        /// Ir sumando lo que representa el porcentaje ingresado en [Avance actual]
+        valorEjecucionProyecto += activities[i].getNewExecutedValue(
+            double.parse(
+                this.cache.activitiesProgress![activities[i].getStringId]));
+      }
+
+      /// Se obtiene el total de cantidad programada para el proyecto
+      /// Sumar los valores programados de las actividades
+      totalCantidadProgramada += activities[i].cantidadProgramada;
+    }
+
+    // A lo que representa el nuevo valor ejecutado se le suma el valor ejecutado
+    // registrado en reportes previos.
+    valorEjecucionProyecto += calculateRemoteExecutedValuePercentage();
+
+    // Se obtiene el porcentaje del valor ejecutado considerando los registros anteriores
+    // y el registro actual
+    final porcentajeValorEjecutado =
+        (valorEjecucionProyecto / totalCantidadProgramada);
+
+    final newExecutedValue = project.valorproyecto * porcentajeValorEjecutado;
+
+    this.cache = this.cache.copyWith(
+          porcentajeValorEjecutado: porcentajeValorEjecutado,
+          newExecutedValue: newExecutedValue,
+        );
+
+    _projectsCacheRepository.saveCache(this.cache);
+  }
+
+  double calculateRemoteExecutedValuePercentage() {
+    final activities = this.detail.actividades;
+
+    double valorEjecucionProyecto = 0;
+
+    for (int i = 0; i < activities.length; i++) {
+      valorEjecucionProyecto += activities[i].getNewExecutedValue(
+          (activities[i].cantidadEjecutada / activities[i].cantidadProgramada) *
+              100);
+    }
+
+    return valorEjecucionProyecto;
   }
 }
