@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
-
 class RangeIndicatorCard extends StatefulWidget {
   const RangeIndicatorCard({
     Key? key,
@@ -28,8 +27,17 @@ class RangeIndicatorCard extends StatefulWidget {
 class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
   late TextEditingController controller;
 
-  late double quantityExecuted;
-  late double scheduledQuantity;
+  late final double quantityExecuted;
+  late final double scheduledQuantity;
+
+  double? _newquantityExecuted;
+
+  double get newQuantityExecuted =>
+      _newquantityExecuted ?? widget.item.cantidadEjecutada;
+
+  set newQuantityExecuted(double value) {
+    _newquantityExecuted = widget.item.cantidadEjecutada + value;
+  }
 
   @override
   void initState() {
@@ -152,10 +160,7 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
                   'Cantidad programada',
                   f.format(double.parse('${widget.item.cantidadProgramada}')),
                   false),
-              celdas(
-                  'Cantidad ejecutada',
-                  f.format(double.parse('${widget.item.cantidadEjecutada}')),
-                  true),
+              celdas('Cantidad ejecutada', f.format(newQuantityExecuted), true),
               celdas(
                   'Porcentaje de avance',
                   f.format(double.parse('${widget.item.porcentajeAvance}')) +
@@ -256,11 +261,13 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
       );
 
       widget.onChanged(widget.item.indicadorAlcanceId, '0');
+      newQuantityExecuted = 0;
       return;
     }
 
     // print(value.toString() == '' ? '0' : value.toString());
 
     widget.onChanged(widget.item.indicadorAlcanceId, value.toString());
+    newQuantityExecuted = double.parse(value);
   }
 }
