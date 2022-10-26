@@ -8,6 +8,7 @@ class ColorTheme {
   static const Color secondary = Color(0xff3FA57E);
   static const Color secondaryTint = Color(0xff76BB5A);
   static const Color tertiary = Color(0xff4BCBF1);
+  static const Color tertiaryShade = Color(0xff1A8DBE);
   static const Color tertiaryTint = Color(0xff4C85FC);
 
   static const Color success = Color(0xff51D686);
@@ -16,6 +17,7 @@ class ColorTheme {
   static const Color danger = Color(0xffF4917C);
 
   static const Color dark = Color(0xff1a1a1a);
+  static const Color darkShade = Color(0xff364A66);
   static const Color darkOpaque = Color(0xff666666);
 
   static const Color medium = Color(0xff808080);

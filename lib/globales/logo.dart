@@ -1,6 +1,7 @@
-import 'package:appalimentacion/utils/assets/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../utils/assets/assets.dart';
 
 class LogoImg extends StatelessWidget {
   const LogoImg({

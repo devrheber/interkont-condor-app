@@ -42,3 +42,4 @@ app.*.map.json
 
 # Fvm
 .fvm/flutter_sdk
+.vscode/settings.json

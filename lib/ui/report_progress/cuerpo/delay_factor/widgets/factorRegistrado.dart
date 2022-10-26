@@ -1,5 +1,6 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../globales/colores.dart';
 
 
 // Widget factorRegistrado(int posicion, String tipo, String factor, onPressed) {

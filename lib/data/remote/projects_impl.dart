@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:appalimentacion/constants/constants.dart';
-import 'package:appalimentacion/data/local/user_preferences.dart';
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/projects_repository.dart';
-import 'package:appalimentacion/helpers/respuestaHttp.dart';
 import 'package:dio/dio.dart' as x;
+
+import '../../constants/constants.dart';
+import '../../domain/models/models.dart';
+import '../../domain/repository/projects_repository.dart';
+import '../../helpers/respuestaHttp.dart';
+import '../local/user_preferences.dart';
 
 class ProjectsImpl implements ProjectsRepository {
   final UserPreferences prefs = UserPreferences();

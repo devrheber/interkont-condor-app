@@ -1,6 +1,7 @@
-import 'package:appalimentacion/domain/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../domain/models/models.dart';
 
 final titleColor = Color(0xff384C68);
 

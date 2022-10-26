@@ -1,16 +1,17 @@
-import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/home/fondoHome.dart';
 import 'proyectos.dart';
 
-class ListaProyectos extends StatelessWidget {
-  const ListaProyectos();
+class ListaProyectosPage extends StatelessWidget {
+  const ListaProyectosPage();
 
   @override
   Widget build(BuildContext context) {
     return FondoHome(
       body: ProyectosContenido(),
       bottomNavigationBar: null,
-      primeraPagina: true,
+      showMenuButton: true,
     );
   }
 }

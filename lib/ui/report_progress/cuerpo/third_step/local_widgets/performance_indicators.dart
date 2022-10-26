@@ -1,10 +1,11 @@
-import 'package:appalimentacion/theme/color_theme.dart';
-import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
-import 'package:appalimentacion/utils/utils.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../../theme/color_theme.dart';
+import '../../../../../utils/utils.dart';
+import '../../../report_progress_provider.dart';
 
 final date = DateTime.now();
 

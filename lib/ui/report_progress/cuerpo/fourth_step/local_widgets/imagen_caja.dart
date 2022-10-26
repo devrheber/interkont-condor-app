@@ -1,12 +1,13 @@
 import 'dart:io';
 
-import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path/path.dart';
+
+import '../../../../../theme/color_theme.dart';
 
 class ImagenCaja extends StatelessWidget {
   const ImagenCaja({

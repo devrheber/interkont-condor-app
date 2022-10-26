@@ -1,5 +1,6 @@
-import 'package:appalimentacion/domain/models/models.dart';
 import 'package:flutter/material.dart';
+
+import '../../domain/models/models.dart';
 import 'cardTitulo.dart';
 import 'cuerpo.dart';
 

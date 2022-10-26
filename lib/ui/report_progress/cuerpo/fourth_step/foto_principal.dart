@@ -1,10 +1,11 @@
 import 'dart:async';
-import 'package:appalimentacion/ui/report_progress/cuerpo/fourth_step/fouth_step_provider.dart';
-import 'package:appalimentacion/utils/utils.dart';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../utils/utils.dart';
+import 'fouth_step_provider.dart';
 import 'local_widgets/imagen_caja.dart';
 
 class FotoPrincipal extends StatelessWidget {

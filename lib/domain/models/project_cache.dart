@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/helpers/project_helpers.dart';
+
+import '../../helpers/project_helpers.dart';
+import 'models.dart';
 
 Map<String, ProjectCache> projectsCacheFromJson(String str) =>
     Map.from(json.decode(str)).map(

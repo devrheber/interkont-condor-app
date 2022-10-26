@@ -1,20 +1,21 @@
-import 'package:appalimentacion/theme/color_theme.dart';
-import 'package:appalimentacion/ui/widgets/global_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../../theme/color_theme.dart';
+import '../global_drawer.dart';
 
 class FondoHome extends StatefulWidget {
   FondoHome({
     Key? key,
     required this.body,
+     this.showMenuButton = false,
     this.bottomNavigationBar,
-    this.primeraPagina,
   }) : super(key: key);
 
   final Widget body;
   final Widget? bottomNavigationBar;
-  final bool? primeraPagina;
+  final bool showMenuButton;
 
   @override
   State<FondoHome> createState() => _FondoHomeState();
@@ -41,23 +42,24 @@ class _FondoHomeState extends State<FondoHome> {
               ),
             ),
             widget.body,
-            widget.primeraPagina != null
-                ? Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                        padding: EdgeInsets.only(
-                            right: 14.sp, left: 14.sp, top: 50.h),
-                        child: IconButton(
-                          onPressed: () {
-                            _drawerKey.currentState?.openDrawer();
-                          },
-                          icon: Icon(
-                            FontAwesomeIcons.bars,
-                            color: Colors.white,
-                            size: 25.sp,
-                          ),
-                        )))
-                : Text('')
+            if (widget.showMenuButton)
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding:
+                      EdgeInsets.only(right: 14.sp, left: 14.sp, top: 50.h),
+                  child: IconButton(
+                    onPressed: () {
+                      _drawerKey.currentState?.openDrawer();
+                    },
+                    icon: Icon(
+                      FontAwesomeIcons.bars,
+                      color: Colors.white,
+                      size: 25.sp,
+                    ),
+                  ),
+                ),
+              )
           ],
         ),
         bottomNavigationBar: widget.bottomNavigationBar != null

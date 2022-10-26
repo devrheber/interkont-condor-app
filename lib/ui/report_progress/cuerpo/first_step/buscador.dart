@@ -50,7 +50,7 @@ Widget buscador({dynamic onChanged, dynamic onPressed}) {
             ],
           ),
         ),
-      ),
+      ), 
       SizedBox(width: 7.73.w),
       Expanded(
         child: Container(

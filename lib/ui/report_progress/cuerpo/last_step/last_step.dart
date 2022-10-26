@@ -1,11 +1,11 @@
-import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
+
 import 'felicitaciones.dart';
+import 'last_step_provider.dart';
 import 'noInternet.dart';
 
 class LastStep extends StatefulWidget {

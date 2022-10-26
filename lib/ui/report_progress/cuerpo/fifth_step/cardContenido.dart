@@ -1,6 +1,7 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../globales/colores.dart';
 
 class FifthStepCard extends StatelessWidget {
   const FifthStepCard({

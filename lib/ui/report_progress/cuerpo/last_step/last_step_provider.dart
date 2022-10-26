@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:appalimentacion/data/local/user_preferences.dart';
-
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/cache_repository.dart';
-import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
-import 'package:appalimentacion/domain/repository/projects_repository.dart';
-import 'package:appalimentacion/helpers/project_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../../../../data/local/user_preferences.dart';
+import '../../../../domain/models/models.dart';
+import '../../../../domain/repository/cache_repository.dart';
+import '../../../../domain/repository/files_persistent_cache_repository.dart';
+import '../../../../domain/repository/projects_repository.dart';
+import '../../../../helpers/project_helpers.dart';
 
 enum SendDataState {
   success,

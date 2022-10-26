@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:appalimentacion/constants/constants.dart';
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/login_repository.dart';
-import 'package:appalimentacion/helpers/respuestaHttp.dart';
+import '../../constants/constants.dart';
+import '../../domain/models/models.dart';
+import '../../domain/repository/login_repository.dart';
+import '../../helpers/respuestaHttp.dart';
 
 class LoginRemote implements LoginRepository {
   @override

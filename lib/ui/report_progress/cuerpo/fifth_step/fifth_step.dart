@@ -1,9 +1,9 @@
-import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
-import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../utils/utils.dart';
+import '../../report_progress_provider.dart';
 import 'cardContenido.dart';
 
 @override

@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/cache_repository.dart';
-import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
-import 'package:appalimentacion/domain/repository/projects_repository.dart';
-import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:image_picker/image_picker.dart';
+
+import '../../../../domain/models/models.dart';
+import '../../../../domain/repository/cache_repository.dart';
+import '../../../../domain/repository/files_persistent_cache_repository.dart';
+import '../../../../domain/repository/projects_repository.dart';
+import '../../../../helpers/helpers.dart';
 
 class FourthStepProvider extends ChangeNotifier {
   FourthStepProvider({

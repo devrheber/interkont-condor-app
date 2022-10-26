@@ -1,5 +1,6 @@
-import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../globales/customed_app_bar.dart';
 
 class CardHeadReporteAvanceQuintoPaso extends StatelessWidget {
   final int numeroPaso;

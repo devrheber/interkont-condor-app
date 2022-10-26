@@ -1,9 +1,10 @@
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+
+import '../../../domain/models/models.dart';
+import '../../../globales/colores.dart';
+import '../project_detail_provider.dart';
 
 class DropDownPeriodo extends StatelessWidget {
   const DropDownPeriodo({Key? key}) : super(key: key);

@@ -1,6 +1,7 @@
-import 'package:appalimentacion/globales/colores.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../globales/colores.dart';
 
 class ModalMensaje{
   static void mensaje(
@@ -26,7 +27,7 @@ class ModalMensaje{
                       Padding(
                         padding: EdgeInsets.only(top: 20.0),
                         child: Icon(
-                          FontAwesomeIcons.exclamationTriangle, 
+                          FontAwesomeIcons.triangleExclamation, 
                           size: 50.0,
                           color: Colors.redAccent,
                         ),
@@ -60,7 +61,7 @@ class ModalMensaje{
                           ],
                         ),
                       )
-                    ],
+                    ], 
                   ),
                 ),
             );
@@ -94,7 +95,7 @@ class ModalMensaje{
                       Padding(
                         padding: EdgeInsets.only(top: 20.0),
                         child: Icon(
-                          FontAwesomeIcons.exclamationTriangle, 
+                          FontAwesomeIcons.triangleExclamation, 
                           size: 50.0,
                           color: Colors.redAccent,
                         ),

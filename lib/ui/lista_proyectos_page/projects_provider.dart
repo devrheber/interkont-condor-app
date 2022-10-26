@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/cache_repository.dart';
-import 'package:appalimentacion/domain/repository/files_persistent_cache_api.dart';
-import 'package:appalimentacion/domain/repository/projects_repository.dart';
+
 import 'package:flutter/foundation.dart';
+
+import '../../domain/models/models.dart';
+import '../../domain/repository/cache_repository.dart';
+import '../../domain/repository/files_persistent_cache_api.dart';
+import '../../domain/repository/projects_repository.dart';
 
 class ProjectsProvider extends ChangeNotifier {
   ProjectsProvider({
@@ -40,7 +42,7 @@ class ProjectsProvider extends ChangeNotifier {
 
   Future<void> getRemoteProjects() async {
     final projects = await projectRepository.getProjects();
-
+    
     _saveProjectsInLocalStorage(projects);
     notifyListeners();
   }

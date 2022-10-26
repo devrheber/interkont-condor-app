@@ -1,5 +1,6 @@
-import 'package:appalimentacion/globales/funciones/cambiarFormatoFecha.dart';
 import 'package:date_format/date_format.dart';
+
+import '../globales/funciones/cambiarFormatoFecha.dart';
 
 class ProjectHelpers {
   static String setUltimaFechaSincro() {

@@ -1,15 +1,14 @@
-import 'package:appalimentacion/globales/colores.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/noInternet.dart';
-import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
-import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
-import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
+import '../../globales/colores.dart';
+import '../widgets/home/custom_bottom_navigation_bar.dart';
+import '../widgets/home/fondoHome.dart';
 import 'contenido.dart';
 import 'cuerpo/delay_factor/delay_factor_screen.dart';
+import 'cuerpo/last_step/last_step.dart';
+import 'report_progress_provider.dart';
 
 class ReportProgressScreen extends StatelessWidget {
   const ReportProgressScreen._();
@@ -91,7 +90,7 @@ class ReportProgressScreen extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => LastStep.init()),
         );
-      }
+      } 
     }
 
     return FondoHome(

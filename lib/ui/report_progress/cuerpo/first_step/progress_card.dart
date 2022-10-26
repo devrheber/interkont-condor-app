@@ -1,12 +1,11 @@
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/theme/color_theme.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-
 import 'package:toast/toast.dart';
+
+import '../../../../domain/models/models.dart';
+import '../../../../theme/color_theme.dart';
 
 class ProgressCard extends StatefulWidget {
   const ProgressCard({

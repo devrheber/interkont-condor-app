@@ -1,7 +1,8 @@
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/cache_repository.dart';
-import 'package:appalimentacion/helpers/activities_helpers.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../domain/models/models.dart';
+import '../../../../domain/repository/cache_repository.dart';
+import '../../../../helpers/activities_helpers.dart';
 
 class FirstStepProvider extends ChangeNotifier {
   FirstStepProvider({

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -30,18 +31,21 @@ Widget customedAppBar(
                   ),
                   last
                       ? Container()
-                      : Text(
-                          title,
-                          style: TextStyle(
-                            fontFamily: "montserrat",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18.sp,
-                            color: Colors.white,
+                      : Expanded(
+                          child: AutoSizeText(
+                            title,
+                            maxLines: 2,
+                            style: TextStyle(
+                              fontFamily: "montserrat",
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18.sp,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                 ],
               ),
-              last 
+              last
                   ? Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,

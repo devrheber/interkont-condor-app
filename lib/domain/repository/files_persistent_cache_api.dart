@@ -1,10 +1,8 @@
-import 'dart:convert';
-
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:flutter/foundation.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/models.dart';
+import 'files_persistent_cache_repository.dart';
 
 class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
   FilesPersistentCacheApi({

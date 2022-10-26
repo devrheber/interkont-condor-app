@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:appalimentacion/helpers/helpers.dart';
+
 import 'package:equatable/equatable.dart';
+
+import '../../helpers/helpers.dart';
 
 List<ComplementaryImage> imagesFromJson(String str) =>
     List<ComplementaryImage>.from(

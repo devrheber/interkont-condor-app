@@ -1,9 +1,9 @@
 import 'dart:convert';
-
 import 'dart:io';
 
-import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../helpers/helpers.dart';
 
 List<Document> documentsFromJson(String str) =>
     List<Document>.from(json.decode(str).map((x) => Document.fromJson(x)));

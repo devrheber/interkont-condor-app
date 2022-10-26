@@ -1,7 +1,5 @@
 import 'dart:math' as math;
-import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
-import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
-import 'package:appalimentacion/utils/assets/assets.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +8,10 @@ import 'package:toast/toast.dart';
 
 import '../../globales/colores.dart';
 import '../../globales/customed_app_bar.dart';
+import '../../utils/assets/assets.dart';
+import '../lista_proyectos_page/projects_provider.dart';
+import '../report_progress/cuerpo/last_step/noInternet.dart';
+import 'project_detail_provider.dart';
 
 final titleColor = Color(0xff444444);
 
@@ -72,18 +74,20 @@ class _CircleImageCard extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 5),
                 ),
-                child: CachedNetworkImage(
-                  imageUrl: imgUrl,
-                  height: 77.sp,
-                  width: 77.sp,
-                  fit: BoxFit.fitWidth,
-                  placeholder: (_, __) => Image.asset(
-                    'assets/img/Desglose/Demas/question.png',
-                  ),
-                  errorWidget: (context, url, error) => Image.asset(
-                    'assets/img/Desglose/Demas/question.png',
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: imgUrl,
                     height: 77.sp,
                     width: 77.sp,
+                    fit: BoxFit.fitWidth,
+                    placeholder: (_, __) => Image.asset(
+                      'assets/img/Desglose/Demas/question.png',
+                    ),
+                    errorWidget: (context, url, error) => Image.asset(
+                      'assets/img/Desglose/Demas/question.png',
+                      height: 77.sp,
+                      width: 77.sp,
+                    ),
                   ),
                 ),
               ),
@@ -280,7 +284,20 @@ class _SyncButtonState extends State<_SyncButton>
                           (animationController?.isAnimating ?? false)) return;
                       animationController?.repeat();
 
-                      await projectsService.getRemoteProjects();
+                      await projectsService
+                          .getRemoteProjects()
+                          .then((value) => Navigator.pop(context))
+                          .onError(
+                        (Object? error, StackTrace stackTrace) {
+                          Navigator.pop(context);
+                          noInternetConnection(context);
+                          Toast.show(
+                            'Algo salió mal',
+                            duration: 4,
+                          );
+                        },
+                      );
+                      ;
                       detailService.updateProject();
 
                       final result = await detailService.syncDetail();

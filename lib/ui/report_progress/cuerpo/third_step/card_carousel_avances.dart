@@ -1,8 +1,8 @@
-import 'package:appalimentacion/domain/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../domain/models/models.dart';
 import '../../../../theme/color_theme.dart';
 
 class RangeIndicatorCard extends StatefulWidget {

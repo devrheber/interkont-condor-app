@@ -1,13 +1,13 @@
-import 'package:appalimentacion/ui/report_progress/cuerpo/third_step/local_widgets/performance_indicators.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
-import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
-import 'package:appalimentacion/ui/widgets/widgets.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
+import '../../../widgets/widgets.dart';
+import '../../report_progress_provider.dart';
 import 'card_carousel_avances.dart';
+import 'local_widgets/performance_indicators.dart';
 
 final titleColor = Color(0xff444444);
 

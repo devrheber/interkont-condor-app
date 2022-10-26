@@ -1,4 +1,4 @@
-import 'package:appalimentacion/domain/models/models.dart';
+import '../models/models.dart';
 
 abstract class ProjectsRepository {
   Future<List<Project>> getProjects();

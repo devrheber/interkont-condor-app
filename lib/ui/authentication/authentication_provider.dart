@@ -1,8 +1,10 @@
 import 'dart:convert';
-import 'package:appalimentacion/data/local/user_preferences.dart';
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/login_repository.dart';
+
 import 'package:flutter/material.dart';
+
+import '../../data/local/user_preferences.dart';
+import '../../domain/models/models.dart';
+import '../../domain/repository/login_repository.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
   AuthenticationProvider({

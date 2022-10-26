@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
-import 'package:appalimentacion/ui/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
+import '../../../widgets/widgets.dart';
+import '../../report_progress_provider.dart';
 import 'customed_text_field.dart';
 import 'qualitative_progress_card.dart';
 import 'select_aspect.dart';

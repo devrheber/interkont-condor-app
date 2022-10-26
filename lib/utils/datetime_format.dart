@@ -1,5 +1,6 @@
-import 'package:appalimentacion/utils/capitalization.dart';
 import 'package:intl/intl.dart';
+
+import 'capitalization.dart';
 
 class DateTimeFormat {
   static String dateNow() {

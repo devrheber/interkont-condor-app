@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -108,12 +109,14 @@ Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
             // color: AppTheme.bottomPrincipal,
 
             child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 1.sp),
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  child: Text(
+                  child: AutoSizeText(
                     '$texto',
+                    maxLines: 1,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: texto != "Siguiente Paso"

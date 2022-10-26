@@ -1,11 +1,11 @@
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
-import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../domain/models/models.dart';
 import '../../../globales/customed_app_bar.dart';
+import '../../lista_proyectos_page/projects_provider.dart';
+import '../report_progress_provider.dart';
 import 'header_steps.dart';
 
 class CardHeadReporteAvance extends StatelessWidget {

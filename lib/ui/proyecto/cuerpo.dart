@@ -1,11 +1,12 @@
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/models/project.dart';
-import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../domain/models/models.dart';
+import '../../domain/models/project.dart';
 import '../../globales/colores.dart';
+import 'project_detail_provider.dart';
 import 'widgets/seleccionaPeriodo.dart';
 
 class BodyCard extends StatelessWidget {

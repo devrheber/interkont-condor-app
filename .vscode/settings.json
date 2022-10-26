@@ -1,7 +1,7 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    // "dart.flutterSdkPath": "\\Users\\USUARIO HP\\fvm\\versions\\2.10.5",
-    "dart.flutterSdkPath": ".fvm/flutter_sdk",
+    "dart.flutterSdkPath": "D:/src/flutter",
+    // "dart.flutterSdkPath": "D:/src/flutter",
       // Remove .fvm files from search
       "search.exclude": {
         "**/.fvm": true,

@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/cache_repository.dart';
-import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:flutter/material.dart';
+
+import '../../domain/models/models.dart';
+import '../../domain/repository/cache_repository.dart';
+import '../../domain/repository/files_persistent_cache_repository.dart';
 
 class ReportProgressProvider extends ChangeNotifier {
   ReportProgressProvider({

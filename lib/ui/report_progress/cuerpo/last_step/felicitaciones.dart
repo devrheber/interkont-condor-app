@@ -1,10 +1,10 @@
-import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../routes/app_routes.dart';
 import '../../../../theme/color_theme.dart';
-import '../../../listaProyectos/home.dart';
+import '../../../lista_proyectos_page/projects_provider.dart';
 
 class Felicitaciones extends StatefulWidget {
   Felicitaciones({Key? key, required this.projectCode}) : super(key: key);
@@ -19,7 +19,7 @@ class _FelicitacionesState extends State<Felicitaciones> {
   @override
   void initState() {
     super.initState();
-    context.read<ProjectsProvider>().getRemoteProjects();
+    context.read<ProjectsProvider>().getRemoteProjects(); 
     context.read<ProjectsProvider>().clearCache(widget.projectCode);
     context.read<ProjectsProvider>().getRemoteProjectDetail(widget.projectCode);
   }
@@ -28,10 +28,7 @@ class _FelicitacionesState extends State<Felicitaciones> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => ListaProyectos()),
-        );
+         await Navigator.of(context).pushReplacementNamed(AppRoutes.listaProyectos);
 
         return false;
       },
@@ -77,12 +74,8 @@ class _FelicitacionesState extends State<Felicitaciones> {
                     height: 50.0,
                   ),
                   GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ListaProyectos()),
-                        );
+                      onTap: () async {
+                         await Navigator.of(context).pushReplacementNamed(AppRoutes.listaProyectos);
                       },
                       child: Container(
                         height: 53.sp,

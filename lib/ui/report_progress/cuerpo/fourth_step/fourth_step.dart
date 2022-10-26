@@ -1,13 +1,13 @@
-import 'package:appalimentacion/ui/report_progress/cuerpo/fourth_step/fouth_step_provider.dart';
-import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../widgets/widgets.dart';
 import 'cajonTexto.dart';
 import 'documentos_adicionales.dart';
 import 'foto_principal.dart';
 import 'fotos_complementarias.dart';
+import 'fouth_step_provider.dart';
 import 'required_documents.dart';
 
 final titleColor = Color(0xff444444);

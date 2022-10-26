@@ -1,5 +1,5 @@
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/projects_cache_api.dart';
+import '../models/models.dart';
+import 'projects_cache_api.dart';
 
 class ProjectsCacheRepository {
   const ProjectsCacheRepository({

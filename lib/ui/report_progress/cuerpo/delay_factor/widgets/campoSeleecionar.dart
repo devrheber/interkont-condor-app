@@ -1,8 +1,8 @@
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../domain/models/models.dart';
 import '../../../../../globales/colores.dart';
+import '../../../../../theme/color_theme.dart';
 
 // Widget campoSeleccionar(
 //     String txtHint,

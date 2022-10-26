@@ -1,11 +1,12 @@
-import 'package:appalimentacion/ui/report_progress/cuerpo/fifth_step/cabecera.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/fifth_step/fifth_step.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/first_step/first_step.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/second_step/second_step.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/third_step/third_step.dart';
 import 'package:flutter/material.dart';
+
 import 'cabecera/home.dart';
+import 'cuerpo/fifth_step/cabecera.dart';
+import 'cuerpo/fifth_step/fifth_step.dart';
+import 'cuerpo/first_step/first_step.dart';
 import 'cuerpo/fourth_step/fourth_step.dart';
+import 'cuerpo/second_step/second_step.dart';
+import 'cuerpo/third_step/third_step.dart';
 
 final titleColor = Color(0xff444444);
 

@@ -1,15 +1,16 @@
-import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
-import 'package:appalimentacion/ui/login/login_provider.dart';
-import 'package:appalimentacion/utils/assets/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+
 import '../../globales/colores.dart';
 import '../../globales/logo.dart';
 import '../../globales/sized_box.dart';
+import '../../routes/app_routes.dart';
 import '../../theme/color_theme.dart';
-import '../listaProyectos/home.dart';
+import '../../utils/assets/assets.dart';
+import '../authentication/authentication_provider.dart';
 import 'local_widgets/textfield.dart';
+import 'login_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage._();
@@ -108,18 +109,14 @@ class _LoginPageState extends State<LoginPage> {
                                 final user = await context
                                     .read<LoginProvider>()
                                     .login(
-                                        username: usuario.text,
+                                        username: usuario.text, 
                                         password: contrasena.text);
 
                                 if (user != null) {
                                   context
                                       .read<AuthenticationProvider>()
                                       .updateUser(user);
-                                  await Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ListaProyectos()),
-                                  );
+                                  await Navigator.of(context).pushReplacementNamed(AppRoutes.listaProyectos);
                                 }
                                 // validarLogin();
                                 // Navigator.push(

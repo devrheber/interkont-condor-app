@@ -1,8 +1,9 @@
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/projects_cache_api.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/models.dart';
+import 'projects_cache_api.dart';
 
 class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
   LocalStorageProjectsCacheApi({

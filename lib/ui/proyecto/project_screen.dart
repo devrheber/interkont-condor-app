@@ -1,12 +1,12 @@
-import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
-import 'package:appalimentacion/ui/report_progress/report_progress_screen.dart';
-import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
-import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:toast/toast.dart';
+
+import '../report_progress/report_progress_screen.dart';
+import '../widgets/home/custom_bottom_navigation_bar.dart';
+import '../widgets/home/fondoHome.dart';
 import 'contenido.dart';
+import 'project_detail_provider.dart';
 
 class ProyectScreen extends StatelessWidget {
   const ProyectScreen._();
