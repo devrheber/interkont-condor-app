@@ -1,6 +1,7 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/models/project.dart';
 import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
+import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -28,8 +29,8 @@ class BodyCard extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(15.sp)),
                   ),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 20.sp, vertical: 13.sp),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.sp, vertical: 13.sp),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -143,12 +144,12 @@ class _Summary extends StatelessWidget {
     required this.project,
   }) : super(key: key);
 
-  final int porcentajeAsiVa;
+  final double porcentajeAsiVa;
   final Project project;
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat f2 = NumberFormat("#,##0.00", "es_AR");
+    final NumberFormat f2 = NumberFormat("#,##0.00", "en_US");
     return Container(
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 10.0, left: 28.sp, right: 28.sp),
@@ -166,11 +167,12 @@ class _Summary extends StatelessWidget {
           ),
           _Celdas(
             leftText: 'Asi va',
-            rightText: '$porcentajeAsiVa%',
+            rightText: PercentajeFormat.percentaje(porcentajeAsiVa),
           ),
           _Celdas(
             leftText: 'Asi deberia ir',
-            rightText: '${project.porcentajeProyectado.round()}%',
+            rightText:
+                PercentajeFormat.percentaje(project.porcentajeProyectado),
           ),
           _Celdas(
             leftText: 'Contratista',

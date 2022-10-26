@@ -173,8 +173,8 @@ class ProjectCache {
     );
   }
 
-  String get getPorcentajeValorProyectado {
-    return porcentajeValorProyectadoSeleccionado?.round().toString() ?? '--';
+  double get getPorcentajeValorProyectado {
+    return porcentajeValorProyectadoSeleccionado ?? 0;
   }
 
   double porcentajeAsiVaEn(double valorproyecto) =>

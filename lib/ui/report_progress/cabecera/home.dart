@@ -1,6 +1,7 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
+import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -41,9 +42,10 @@ class CardHeadReporteAvance extends StatelessWidget {
                         value: "Proyectado",
                         percentage: !snapshot.hasData
                             ? '0'
-                            : (snapshot.data?[project.getProjectCode]
+                            : PercentajeFormat.percentaje(snapshot
+                                    .data![project.getProjectCode]
                                     ?.getPorcentajeValorProyectado ??
-                                '0'));
+                                0));
                   }),
               const Expanded(child: SizedBox.shrink()),
               StreamBuilder<double>(
@@ -56,7 +58,8 @@ class CardHeadReporteAvance extends StatelessWidget {
 
                   return Percentage(
                     value: "Ejecutado",
-                    percentage: (snapshot.data! * 100).toStringAsFixed(2),
+                    percentage:
+                        PercentajeFormat.percentaje(snapshot.data! * 100),
                   );
                 },
               ),
@@ -109,7 +112,7 @@ class Percentage extends StatelessWidget {
             children: <Widget>[
               const Expanded(child: SizedBox.shrink()),
               Text(
-                '$percentage %',
+                '$percentage',
                 style: TextStyle(
                   fontFamily: "montserrat",
                   fontWeight: FontWeight.w700,
