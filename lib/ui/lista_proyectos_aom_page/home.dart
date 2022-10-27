@@ -9,7 +9,7 @@ class ListaProyectosAomPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FondoHome(
-      body: ProyectosContenidoAOM(),
+      body: const ProyectsoContenidoAOMState(),
       showMenuButton: true,
     );
   }
