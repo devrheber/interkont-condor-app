@@ -2,9 +2,12 @@ import 'package:appalimentacion/domain/models/project.dart';
 import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:appalimentacion/routes/app_routes.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
+import 'package:appalimentacion/ui/aom_detalle_page/cubit/clasification_cubit.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
+import 'package:appalimentacion/ui/widgets/shimmer_button_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AomDetallePage extends StatelessWidget {
@@ -12,19 +15,9 @@ class AomDetallePage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-//Get argument
   @override
   Widget build(BuildContext context) {
     final proyecto = ModalRoute.of(context)!.settings.arguments as Project;
-
-    //!FAKE DATA
-    //nombre, pendiente,paso
-    Map<String, Map<bool, int>> activosGenerales = {
-      'Compensación Reactiva': {true: 3},
-      'Equipos de Control y Comunicaciones': {false: 1},
-      'Líneas Aéreas': {false: 2},
-      'Sistemas Solares Fotovoltaicos SSFV de\nAlta Tensión': {false: 3},
-    };
 
     return FondoHome(
       body: Stack(
@@ -108,34 +101,83 @@ class AomDetallePage extends StatelessWidget {
                 ),
                 SizedBox(height: 20.sp),
                 //rounded elevated button
-                ...activosGenerales.entries.map(
-                  (e) {
-                    String text = e.key;
-                    bool pending = e.value.entries.first.key;
-                    int step = e.value.entries.first.value;
-                    return ActivoGeneral(
-                      pending: pending,
-                      text: text,
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes.aomDetalleCategoria,
-                          arguments: {
-                            'nombre': text,
-                            'pendiente': pending,
-                            'paso': step,
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
+                _Clasifications.init(),
                 SizedBox(height: 20.sp),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _Clasifications extends StatelessWidget {
+  const _Clasifications._({Key? key}) : super(key: key);
+
+  static Widget init({Key? key}) {
+    return BlocProvider(
+      lazy: false,
+      create: (context) => ClasificationCubit(
+        aomProjectsRepository: context.read(),
+      )..getClasifications(),
+      child: _Clasifications._(key: key),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //!FAKE DATA
+    //nombre, pendiente,paso
+    Map<String, Map<bool, int>> activosGenerales = {
+      'Compensación Reactiva': {true: 3},
+      'Equipos de Control y Comunicaciones': {false: 1},
+      'Líneas Aéreas': {false: 2},
+      'Sistemas Solares Fotovoltaicos SSFV de\nAlta Tensión': {false: 3},
+    };
+
+    // TODO Create shimmer
+
+    final state = context.select((ClasificationCubit cubit) => cubit.state);
+
+    if (state.status == ClasificationsStatus.loading) {
+      return ListView.separated(
+        shrinkWrap: true,
+        itemCount: 4,
+        itemBuilder: (_, int index) {
+          return ShimmerButton(delay: Duration(milliseconds: index * 30));
+        },
+        separatorBuilder: (_, __) => SizedBox(height: 10.h),
+      );
+    }
+
+    // TODO Use FadeIn
+    return Column(
+      children: [
+        ...state.clasifications.map(
+          (e) {
+            String text = e.descripcion;
+            // TODO pending, step
+            bool pending = false;
+            int step = 1;
+            return ActivoGeneral(
+              pending: pending,
+              text: text,
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.aomDetalleCategoria,
+                  arguments: {
+                    'nombre': text,
+                    'pendiente': pending,
+                    'paso': step,
+                  },
+                );
+              },
+            );
+          },
+        )
+      ],
     );
   }
 }
