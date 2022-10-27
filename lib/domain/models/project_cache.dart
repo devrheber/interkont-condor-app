@@ -14,13 +14,14 @@ class ProjectCache {
   const ProjectCache({
     required this.projectCode,
     this.stepNumber = 1,
-    this.porPublicar,
+    this.porPublicar = false,
     this.lastSyncDate,
     this.periodoIdSeleccionado,
     this.porcentajeValorProyectadoSeleccionado,
     this.porcentajeValorEjecutado,
     this.newExecutedValue = 0.0,
     this.activitiesProgress,
+    this.rangeIndicators,
     this.qualitativesProgress,
     this.delayFactors,
     this.comment,
@@ -33,13 +34,14 @@ class ProjectCache {
   });
   final int projectCode;
   final int stepNumber;
-  final dynamic porPublicar;
+  final bool porPublicar;
   final DateTime? lastSyncDate;
   final int? periodoIdSeleccionado;
   final double? porcentajeValorProyectadoSeleccionado;
   final double? porcentajeValorEjecutado;
   final dynamic newExecutedValue;
   final Map<String, dynamic>? activitiesProgress;
+  final Map<String, dynamic>? rangeIndicators;
   final List<QualitativeProgress>? qualitativesProgress;
   final List<DelayFactor>? delayFactors;
   final String? comment;
@@ -53,7 +55,7 @@ class ProjectCache {
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         projectCode: json['project_code'],
         stepNumber: json['strep_number'],
-        porPublicar: json['porPublicar'],
+        porPublicar: json['porPublicar'] == null ? false : json['porPublicar'],
         lastSyncDate: DateTime.parse(json['ultimaFechaSincro']),
         periodoIdSeleccionado: json['periodoIdSeleccionado'],
         porcentajeValorProyectadoSeleccionado:
@@ -61,6 +63,7 @@ class ProjectCache {
         porcentajeValorEjecutado: json['porcentajeValorEjecutado'],
         newExecutedValue: json['new_executed_value'],
         activitiesProgress: json['activities_progress'] ?? <String, String>{},
+        rangeIndicators: json['range_indicators'] ?? <String, String>{},
         delayFactors: json['delay_factors'] == null
             ? null
             : List<DelayFactor>.from(
@@ -93,6 +96,7 @@ class ProjectCache {
         'porcentajeValorEjecutado': porcentajeValorEjecutado,
         'new_executed_value': newExecutedValue,
         'activities_progress': activitiesProgress,
+        'range_indicators': rangeIndicators,
         'qualitatives_progress': qualitativesProgress == null
             ? null
             : List<dynamic>.from(qualitativesProgress!.map((x) => x.toJson())),
@@ -131,6 +135,7 @@ class ProjectCache {
     double? porcentajeValorEjecutado,
     double? newExecutedValue,
     Map<String, dynamic>? activitiesProgress,
+    Map<String, dynamic>? rangeIndicators,
     List<QualitativeProgress>? qualitativesProgress,
     List<DelayFactor>? delayFactors,
     String? fileFotoPrincipal,
@@ -156,6 +161,7 @@ class ProjectCache {
           porcentajeValorEjecutado ?? this.porcentajeValorEjecutado,
       newExecutedValue: newExecutedValue ?? this.newExecutedValue,
       activitiesProgress: activitiesProgress ?? this.activitiesProgress,
+      rangeIndicators: rangeIndicators ?? this.rangeIndicators,
       qualitativesProgress: qualitativesProgress ?? this.qualitativesProgress,
       delayFactors: delayFactors ?? this.delayFactors,
       fileFotoPrincipal: fileFotoPrincipal ?? this.fileFotoPrincipal,
@@ -168,8 +174,8 @@ class ProjectCache {
     );
   }
 
-  String get getPorcentajeValorProyectado {
-    return porcentajeValorProyectadoSeleccionado?.round().toString() ?? '--';
+  double get getPorcentajeValorProyectado {
+    return porcentajeValorProyectadoSeleccionado ?? 0;
   }
 
   double porcentajeAsiVaEn(double valorproyecto) =>

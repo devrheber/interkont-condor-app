@@ -33,7 +33,7 @@ class DatosAlimentacion {
   double limitePorcentajeAtrasoAmarillo;
   List<Periodo> periodos;
   List<Actividad> actividades;
-  List<dynamic> indicadoresAlcance; // TODO List<RangeIndicator>
+  List<IndicadoresDeAlcance> indicadoresAlcance;
   List<AspectoEvaluar> apectosEvaluar;
   List<TiposFactorAtraso> tiposFactorAtraso;
   List<FactoresAtraso> factoresAtraso;
@@ -47,8 +47,9 @@ class DatosAlimentacion {
             json["periodos"].map((x) => Periodo.fromJson(x))),
         actividades: List<Actividad>.from(
             json["actividades"].map((x) => Actividad.fromJson(x))),
-        indicadoresAlcance:
-            List<dynamic>.from(json["indicadoresAlcance"].map((x) => x)),
+        indicadoresAlcance: List<IndicadoresDeAlcance>.from(
+            json["indicadoresAlcance"]
+                .map((x) => IndicadoresDeAlcance.fromJson(x))),
         apectosEvaluar: List<AspectoEvaluar>.from(
             json["apectosEvaluar"].map((x) => AspectoEvaluar.fromJson(x))),
         tiposFactorAtraso: List<TiposFactorAtraso>.from(
@@ -278,4 +279,64 @@ class TiposFactorAtraso {
         "tipoFactorAtrasoId": tipoFactorAtrasoId,
         "tipoFactorAtraso": tipoFactorAtraso,
       };
+}
+
+List<IndicadoresDeAlcance> indicadoresDeAlcanceFromJson(String str) =>
+    List<IndicadoresDeAlcance>.from(
+        json.decode(str).map((x) => IndicadoresDeAlcance.fromJson(x)));
+
+String indicadoresDeAlcanceToJson(List<IndicadoresDeAlcance> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class IndicadoresDeAlcance {
+  IndicadoresDeAlcance({
+    required this.indicadorAlcanceId,
+    required this.descripcionIndicadorAlcance,
+    required this.unidadMedida,
+    required this.cantidadProgramada,
+    required this.cantidadEjecutada,
+    required this.porcentajeAvance,
+    required this.cantidadEjecutadaInicial,
+    required this.porcentajeAvanceInicial,
+  });
+
+  int indicadorAlcanceId;
+  String descripcionIndicadorAlcance;
+  String unidadMedida;
+  double cantidadProgramada;
+  double cantidadEjecutada;
+  double porcentajeAvance;
+  double cantidadEjecutadaInicial;
+  double porcentajeAvanceInicial;
+
+  factory IndicadoresDeAlcance.fromJson(Map<String, dynamic> json) =>
+      IndicadoresDeAlcance(
+        indicadorAlcanceId: json["indicadorAlcanceId"],
+        descripcionIndicadorAlcance: json["descripcionIndicadorAlcance"],
+        unidadMedida: json["unidadMedida"],
+        cantidadProgramada: json["cantidadProgramada"] is int
+            ? double.parse(json["cantidadProgramada"])
+            : json["cantidadProgramada"] ?? 0.0,
+        cantidadEjecutada: json["cantidadEjecutada"] is int
+            ? double.parse(json["cantidadEjecutada"])
+            : json["cantidadEjecutada"] ?? 0.0,
+        porcentajeAvance: json["porcentajeAvance"].toDouble(),
+        cantidadEjecutadaInicial: json["cantidadEjecutadaInicial"] is int
+            ? double.parse(json["cantidadEjecutadaInicial"])
+            : json["cantidadEjecutadaInicial"] ?? 0.0,
+        porcentajeAvanceInicial: json["porcentajeAvanceInicial"].toDouble(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "indicadorAlcanceId": indicadorAlcanceId,
+        "descripcionIndicadorAlcance": descripcionIndicadorAlcance,
+        "unidadMedida": unidadMedida,
+        "cantidadProgramada": cantidadProgramada,
+        "cantidadEjecutada": cantidadEjecutada,
+        "porcentajeAvance": porcentajeAvance,
+        "cantidadEjecutadaInicial": cantidadEjecutadaInicial,
+        "porcentajeAvanceInicial": porcentajeAvanceInicial,
+      };
+
+  String get getId => indicadorAlcanceId.toString();
 }

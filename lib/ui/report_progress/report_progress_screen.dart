@@ -81,11 +81,6 @@ class ReportProgressScreen extends StatelessWidget {
       if (numeroPaso >= 5) {
         // TODO Validar conectividad
 
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => NoInternet()),
-        // );
-
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => LastStep.init()),

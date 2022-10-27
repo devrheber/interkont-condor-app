@@ -101,8 +101,8 @@ class Project {
     return int.parse(colorTitulo);
   }
 
-  int get asiVaPorcentaje {
-    final value = ((100 * valorejecutado) / valorproyecto).round();
+  double get asiVaPorcentaje {
+    final value = ((100 * valorejecutado) / valorproyecto);
 
     return value;
   }

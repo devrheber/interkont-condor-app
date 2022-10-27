@@ -237,7 +237,8 @@ class ProyectosContenido extends StatelessWidget {
                                       null) return SizedBox.shrink();
 
                                   if (cache[projects[index].getProjectCode]
-                                      ?.porPublicar)
+                                          ?.porPublicar ??
+                                      false)
                                     return Container(
                                       margin: EdgeInsets.only(
                                           top: 5.0, bottom: 5.0),
@@ -294,4 +295,3 @@ class ProyectosContenido extends StatelessWidget {
     );
   }
 }
-

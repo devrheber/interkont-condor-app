@@ -112,4 +112,10 @@ class ProjectDetailProvider extends ChangeNotifier {
   void updateProject() {
     project = projectsCacheRepository.getProject();
   }
+
+  void updateStepToPendingPublish() {
+    if (cache.stepNumber != 4) return;
+    this.cache = this.cache.copyWith(stepNumber: 4);
+    projectsCacheRepository.saveCache(this.cache);
+  }
 }

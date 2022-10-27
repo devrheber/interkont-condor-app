@@ -234,8 +234,8 @@ class _Celdas extends StatelessWidget {
     FontWeight fontWeight = bold ? FontWeight.w700 : FontWeight.w300;
     String newValue = value;
     if (isNumericVariable) {
-      NumberFormat nFormatOneDecimal = NumberFormat("#,##0.0", "es_AR");
-      NumberFormat nFormatTwoDecimal = NumberFormat("#,##0.00", "es_AR");
+      NumberFormat nFormatOneDecimal = NumberFormat("#,##0.0", "en_US");
+      NumberFormat nFormatTwoDecimal = NumberFormat("#,##0.00", "en_US");
 
       List<String> valueSplitted = value.split(" ");
 

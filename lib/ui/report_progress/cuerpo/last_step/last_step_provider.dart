@@ -64,6 +64,7 @@ class LastStepProvider extends ChangeNotifier {
     final user = User.fromJson(json.decode(prefs.userData));
 
     List<ActividadRequest> actividades = [];
+    List<IndicadoresAlcanceRequest> indicadoresDeAlcance = [];
     List<AspectoEvaluarRequest> aspectosEvaluar = [];
     List<DocumentoRequest> documentosObligatorios = [];
     List<DocumentoRequest> documentosOpcionales = [];
@@ -90,6 +91,19 @@ class LastStepProvider extends ChangeNotifier {
                 : 0,
       );
       actividades.add(newActivity);
+    }
+
+    for (final item in _detail.indicadoresAlcance) {
+      final element = IndicadoresAlcanceRequest(
+          cantidadEjecucion: item.indicadorAlcanceId,
+          indicadorAlcanceId: _cache.rangeIndicators == null
+              ? 0
+              : _cache.rangeIndicators!.containsKey(item.getId)
+                  ? int.tryParse(_cache.rangeIndicators?[
+                          item.indicadorAlcanceId.toString()]) ??
+                      0
+                  : 0);
+      indicadoresDeAlcance.add(element);
     }
 
     for (final item in _cache.qualitativesProgress ?? []) {
@@ -152,7 +166,7 @@ class LastStepProvider extends ChangeNotifier {
       fechaReintegroRendimientos: _cache.rentalRepaymentDate,
       fotoPrincipal: fotoPrincipal,
       imagenesComplementarias: imagenesComplementarias,
-      indicadoresAlcance: [],
+      indicadoresAlcance: indicadoresDeAlcance,
       periodoId: _cache.periodoIdSeleccionado!,
       usuario: user.username,
       valorRendimientosGenerados:
@@ -198,7 +212,7 @@ class LastStepProvider extends ChangeNotifier {
       if (result['status'] == 1) {
         print(result['messages']);
         inspect(result['messages']);
-        
+
         return {
           'success': true,
           'message': result['messages'].first,
