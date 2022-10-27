@@ -10,12 +10,12 @@ class AomProjectsState extends Equatable {
   final List<Project> projects;
 
   AomProjectsState copyWith({
-    AomProjectsStatus? status,
-    List<Project>? projects,
+    AomProjectsStatus Function()? status,
+    List<Project> Function()? projects,
   }) {
     return AomProjectsState(
-      status: status ?? this.status,
-      projects: projects ?? this.projects,
+      status: status != null ? status() : this.status,
+      projects: projects != null ? projects() : this.projects,
     );
   }
 

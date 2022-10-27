@@ -20,17 +20,18 @@ class AomProjectsBloc extends Bloc<AomProjectsEvent, AomProjectsState> {
     AomProjectsEvent event,
     Emitter<AomProjectsState> emit,
   ) async {
-    emit(state.copyWith(status: AomProjectsStatus.loading));
+    emit(state.copyWith(status: () => AomProjectsStatus.loading));
 
     try {
       final projects = await _projectsRepository.getProjects();
       emit(
-        state.copyWith(status: AomProjectsStatus.success, projects: projects),
+        state.copyWith(
+            status: () => AomProjectsStatus.success, projects: () => projects),
       );
     } catch (e) {
       emit(state.copyWith(
-        status: AomProjectsStatus.failure,
-        projects: [],
+        status: () => AomProjectsStatus.failure,
+        projects: () => [],
       ));
     }
   }
