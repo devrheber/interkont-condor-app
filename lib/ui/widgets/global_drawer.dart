@@ -112,7 +112,11 @@ class GlobalDrawer extends StatelessWidget {
   Future<void> _toReportPage(BuildContext context) async {
     Navigator.pop(context);
     if (getCurrentPageName(context) != AppRoutes.listaProyectos) {
-      await Navigator.of(context).pushNamed(AppRoutes.listaProyectos);
+      await Navigator.of(context)
+          .pushReplacementNamed(AppRoutes.listaProyectos);
+    }
+    if (getCurrentPageName(context) == AppRoutes.listaProyectosAOM) {
+      Navigator.pop(context);
     }
   }
 }

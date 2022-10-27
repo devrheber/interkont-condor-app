@@ -6,10 +6,10 @@ import '../../../theme/color_theme.dart';
 import '../global_drawer.dart';
 
 class FondoHome extends StatefulWidget {
-  FondoHome({
+  const FondoHome({
     Key? key,
     required this.body,
-     this.showMenuButton = false,
+    this.showMenuButton = false,
     this.bottomNavigationBar,
   }) : super(key: key);
 

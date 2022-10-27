@@ -23,6 +23,7 @@ class AomProjectsBloc extends Bloc<AomProjectsEvent, AomProjectsState> {
     emit(state.copyWith(status: () => AomProjectsStatus.loading));
 
     try {
+      // TODO Allow cancel
       final projects = await _projectsRepository.getProjects();
       emit(
         state.copyWith(
@@ -34,5 +35,12 @@ class AomProjectsBloc extends Bloc<AomProjectsEvent, AomProjectsState> {
         projects: () => [],
       ));
     }
+  }
+
+  @override
+  Future<void> close() {
+    // TODO: implement close
+    // TODO: Cancel request 
+    return super.close();
   }
 }

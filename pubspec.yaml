@@ -21,6 +21,7 @@ dependencies:
   auto_size_text: ^3.0.0
   cached_network_image: ^3.2.1
   carousel_slider: ^4.1.1
+  connectivity_plus: ^2.3.9
   cupertino_icons: ^1.0.5
   currency_text_input_formatter: ^2.1.7
   date_format: ^2.0.7

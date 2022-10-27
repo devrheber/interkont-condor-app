@@ -18,11 +18,12 @@ class ProyectsoContenidoAOMState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<AomProjectsBloc>(
       create: (context) => AomProjectsBloc(
         projectsRepository: context.read(),
       )..add(AomProjectsGetProjects()),
       child: const ProyectosContenidoAOM(),
+      // TODO Manejar otros problemas de red
     );
   }
 }
@@ -34,7 +35,7 @@ class ProyectosContenidoAOM extends StatelessWidget {
   Widget build(BuildContext context) {
     ToastContext().init(context);
     return BlocListener<AomProjectsBloc, AomProjectsState>(
-      listenWhen: (previus, current) => previus.status != current.status,
+      listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         if (state.status == AomProjectsStatus.failure) {
           LoadingDialog.hide(context);
@@ -93,10 +94,6 @@ class ProyectosContenidoAOM extends StatelessWidget {
                                   context
                                       .read<AomProjectsBloc>()
                                       .add(AomProjectsGetProjects());
-
-                                  // TODO show this when there is not internet
-                                  // noInternetConnection(context);
-                                  //
                                 },
                                 child: Icon(Icons.replay_outlined),
                               )

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../globales/colores.dart';
 
 class NoInternet extends StatelessWidget {
-  NoInternet({Key? key}) : super(key: key);
+  const NoInternet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
