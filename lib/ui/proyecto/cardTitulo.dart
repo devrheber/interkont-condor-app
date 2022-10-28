@@ -283,21 +283,8 @@ class _SyncButtonState extends State<_SyncButton>
                       if (animationController != null &&
                           (animationController?.isAnimating ?? false)) return;
                       animationController?.repeat();
-
-                      await projectsService
-                          .getRemoteProjects()
-                          .then((value) => Navigator.pop(context))
-                          .onError(
-                        (Object? error, StackTrace stackTrace) {
-                          Navigator.pop(context);
-                          noInternetConnection(context);
-                          Toast.show(
-                            'Algo salió mal',
-                            duration: 4,
-                          );
-                        },
-                      );
-                      ;
+                      
+                      await projectsService.getRemoteProjects();
                       detailService.updateProject();
 
                       final result = await detailService.syncDetail();

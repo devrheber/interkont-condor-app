@@ -56,9 +56,7 @@ class FifthStep extends StatelessWidget {
                 children: <FifthStepCardDetail>[
                   FifthStepCardDetail(
                     title: 'Asi va en',
-                    value: PercentajeFormat.percentaje(
-                      (cache.newExecutedValue / project.valorproyecto) * 100,
-                    ),
+                    value: PercentajeFormat.percentaje(cache.porcentajeAsiVaEn(project.valorproyecto)),
                   ),
                   FifthStepCardDetail(
                     title: 'Debería ir en',
@@ -77,8 +75,7 @@ class FifthStep extends StatelessWidget {
                     child: TrafficLight(
                       icon: project.getNewTrafficLightColor(
                         currentProgress:
-                            (cache.newExecutedValue / project.valorproyecto) *
-                                100,
+                            cache.porcentajeAsiVaEn(project.valorproyecto),
                         projectedValue:
                             cache.porcentajeValorProyectadoSeleccionado ?? 0,
                         latePercentageLimit: detail.limitePorcentajeAtraso,

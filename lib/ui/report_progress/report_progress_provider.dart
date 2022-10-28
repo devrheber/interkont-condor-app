@@ -213,9 +213,22 @@ class ReportProgressProvider extends ChangeNotifier {
 
   void calculateExecutedValuePercentage() {
     final activities = this.detail.actividades;
+    double valoresEjecutados = 0;
+    double valorProyecto = 0; // Valor Proyectado
+    for (int i = 0; i < activities.length; i++) {
+      valoresEjecutados += activities[i].valorEjecutado;
+      valorProyecto += activities[i].valorProgramado;
+    }
 
-    double totalCantidadProgramada = 0;
-    double valorEjecucionProyecto = 0;
+    double porcentajeInicial = valoresEjecutados / valorProyecto * 100;
+
+    // Porcentaje Nuevo avance
+
+    double nuevoValorEjecutado = 0.0;
+
+    double porcentajeNuevoValorEjectuado = 0.0;
+
+    double totalPorcentajeEjectuaado = 0.0;
 
     for (int i = 0; i < activities.length; i++) {
       if (this
@@ -223,47 +236,23 @@ class ReportProgressProvider extends ChangeNotifier {
               .activitiesProgress
               ?.containsKey(activities[i].getStringId) ??
           false) {
-        /// Ir sumando lo que representa el porcentaje ingresado en [Avance actual]
-        valorEjecucionProyecto += activities[i].getNewExecutedValue(
-            double.parse(
-                this.cache.activitiesProgress![activities[i].getStringId]));
+        nuevoValorEjecutado += activities[i].valorProgramado *
+            (double.parse(
+                    this.cache.activitiesProgress![activities[i].getStringId]) /
+                100);
       }
 
-      /// Se obtiene el total de cantidad programada para el proyecto
-      /// Sumar los valores programados de las actividades
-      totalCantidadProgramada += activities[i].cantidadProgramada;
+      porcentajeNuevoValorEjectuado =
+          (nuevoValorEjecutado / valorProyecto) * 100;
+
+      totalPorcentajeEjectuaado =
+          porcentajeInicial + porcentajeNuevoValorEjectuado;
     }
 
-    // A lo que representa el nuevo valor ejecutado se le suma el valor ejecutado
-    // registrado en reportes previos.
-    valorEjecucionProyecto += calculateRemoteExecutedValuePercentage();
-
-    // Se obtiene el porcentaje del valor ejecutado considerando los registros anteriores
-    // y el registro actual
-    final porcentajeValorEjecutado =
-        (valorEjecucionProyecto / totalCantidadProgramada);
-
-    final newExecutedValue = project.valorproyecto * porcentajeValorEjecutado;
-
     this.cache = this.cache.copyWith(
-          porcentajeValorEjecutado: porcentajeValorEjecutado,
-          newExecutedValue: newExecutedValue,
+          porcentajeValorEjecutado: totalPorcentajeEjectuaado,
         );
 
     _projectsCacheRepository.saveCache(this.cache);
-  }
-
-  double calculateRemoteExecutedValuePercentage() {
-    final activities = this.detail.actividades;
-
-    double valorEjecucionProyecto = 0;
-
-    for (int i = 0; i < activities.length; i++) {
-      valorEjecucionProyecto += activities[i].getNewExecutedValue(
-          (activities[i].cantidadEjecutada / activities[i].cantidadProgramada) *
-              100);
-    }
-
-    return valorEjecucionProyecto;
   }
 }

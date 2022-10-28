@@ -71,7 +71,7 @@ class BodyCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       _Summary(
-                        porcentajeAsiVa: project.asiVaPorcentaje,
+                        porcentajeAsiVa: project.asiVaPorcentajeDouble,
                         project: project,
                       ),
                       SizedBox(

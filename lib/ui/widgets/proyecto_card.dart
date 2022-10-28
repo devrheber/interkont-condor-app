@@ -1,3 +1,4 @@
+import 'package:appalimentacion/utils/utils.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -140,7 +141,9 @@ class ProjectCard extends StatelessWidget {
                                                 ),
                                                 child: Center(
                                                   child: Text(
-                                                    project.percentageByValue,
+                                                    PercentajeFormat.percentaje(
+                                                        project
+                                                            .percentageByValue),
                                                     style: TextStyle(
                                                       fontFamily: "montserrat",
                                                       fontWeight:

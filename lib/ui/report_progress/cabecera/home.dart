@@ -61,7 +61,7 @@ class CardHeadReporteAvance extends StatelessWidget {
                   return Percentage(
                     value: "Ejecutado",
                     percentage:
-                        PercentajeFormat.percentaje(snapshot.data! * 100),
+                        PercentajeFormat.percentaje(snapshot.data!),
                   );
                 },
               ),

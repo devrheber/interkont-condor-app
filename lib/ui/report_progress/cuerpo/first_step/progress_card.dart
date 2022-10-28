@@ -87,7 +87,6 @@ class _ProgressCardState extends State<ProgressCard> {
       }
 
       widget.onChanged(value);
-      print('saving value: $value');
     }
 
     return Container(
