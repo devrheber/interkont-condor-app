@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:appalimentacion/blocs/network/network_bloc.dart';
+import 'package:appalimentacion/data/local/aom_projects_api_impl.dart';
 import 'package:appalimentacion/data/remote/aom_projects_impl.dart';
+import 'package:appalimentacion/domain/repository/aom_projects_api.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
 import 'package:appalimentacion/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -99,6 +101,9 @@ class AppState extends StatelessWidget {
         ),
         Provider<AomProjectsRepository>(
           create: (_) => AomProjectsImpl(),
+        ),
+        Provider<AomProjectsApi>(
+          create: (_) => AomProjectsApiImpl(),
         ),
         ChangeNotifierProvider<AuthenticationProvider>(
           create: (_) => AuthenticationProvider(

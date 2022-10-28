@@ -1,24 +1,37 @@
-part of 'clasification_cubit.dart';
+part of 'aomdetail_cubit.dart';
 
-enum ClasificationsStatus { initial, loading, success, failure }
+enum AomDetailStatus { initial, loading, success, failure }
 
-class ClasificationState extends Equatable {
-  const ClasificationState({
-    this.status = ClasificationsStatus.initial,
+class AomDetailState extends Equatable {
+  const AomDetailState({
+    this.status = AomDetailStatus.initial,
+    this.generalData,
+    this.contratista,
     this.clasifications = const [],
+    this.errorResponse,
   });
 
-  final ClasificationsStatus status;
-  final List<Clasificacion> clasifications;
+  final AomDetailStatus status;
+  final AomDatosGenerales? generalData;
+  final Contratista? contratista;
+  final List<CategoriaObra> clasifications;
+  final Map<String, dynamic>? errorResponse;
 
-  ClasificationState copyWith({
-    ClasificationsStatus Function()? status,
-    List<Clasificacion> Function()? clasifications,
+  AomDetailState copyWith({
+    AomDetailStatus Function()? status,
+    AomDatosGenerales Function()? generalData,
+    Contratista? Function()? contratista,
+    List<CategoriaObra> Function()? clasifications,
+    Map<String, dynamic> Function()? errorResponse,
   }) {
-    return ClasificationState(
+    return AomDetailState(
       status: status != null ? status() : this.status,
+      generalData: generalData != null ? generalData() : this.generalData,
+      contratista: contratista != null ? contratista() : this.contratista,
       clasifications:
           clasifications != null ? clasifications() : this.clasifications,
+      errorResponse:
+          errorResponse != null ? errorResponse() : this.errorResponse,
     );
   }
 

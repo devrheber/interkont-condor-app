@@ -2,22 +2,49 @@ import 'package:appalimentacion/domain/models/project.dart';
 import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:appalimentacion/routes/app_routes.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
-import 'package:appalimentacion/ui/aom_detalle_page/cubit/clasification_cubit.dart';
+import 'package:appalimentacion/ui/aom_detalle_page/cubit/aomdetail_cubit.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
 import 'package:appalimentacion/ui/widgets/shimmer_button_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toast/toast.dart';
 
 class AomDetallePage extends StatelessWidget {
-  const AomDetallePage({
-    Key? key,
-  }) : super(key: key);
+  const AomDetallePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final proyecto = ModalRoute.of(context)!.settings.arguments as Project;
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    final Project project = arguments['project'];
+
+    final int projectCode = arguments['projectCode'];
+
+    return BlocProvider(
+      lazy: false,
+      create: (context) => AomDetailCubit(
+        aomProjectsRepository: context.read(),
+        aomProjectsApi: context.read(),
+      )..loadData(projectCode),
+      child: AomDetalleView(project),
+    );
+  }
+}
+
+class AomDetalleView extends StatelessWidget {
+  const AomDetalleView(
+    this.proyecto, {
+    Key? key,
+  }) : super(key: key);
+
+  final Project proyecto;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.select((AomDetailCubit cubit) => cubit.state);
 
     return FondoHome(
       body: Stack(
@@ -63,23 +90,25 @@ class AomDetallePage extends StatelessWidget {
                     children: <Widget>[
                       _TitleContent(
                         title: 'Operador AOM',
-                        content: 'OPERADOR AIR-E\nS.A.S ESO',
+                        content: state.contratista?.contratista ?? '--',
                       ),
                       Divider(),
                       _TitleContent(
                         title:
                             'Fecha de Finalización de\Administración de Recursos',
-                        content: '08 - May - 2028',
+                        content: state.generalData?.fechaFinalizacionRecursos ??
+                            '--',
                       ),
                       Divider(),
                       _TitleContent(
                         title: 'Fecha de Inicio AOM',
-                        content: '08 - May - 2028',
+                        content: state.generalData?.fechaInicio ?? '--',
                       ),
                       Divider(),
                       _TitleContent(
                         title: 'Fecha de Recepción\nde los Activos',
-                        content: '08 - May - 2028',
+                        content:
+                            state.generalData?.fechaRecepcionActivos ?? '--',
                       ),
                       Divider(),
                       _TitleContent(
@@ -101,7 +130,7 @@ class AomDetallePage extends StatelessWidget {
                 ),
                 SizedBox(height: 20.sp),
                 //rounded elevated button
-                _Clasifications.init(),
+                const _Clasifications(),
                 SizedBox(height: 20.sp),
               ],
             ),
@@ -113,20 +142,12 @@ class AomDetallePage extends StatelessWidget {
 }
 
 class _Clasifications extends StatelessWidget {
-  const _Clasifications._({Key? key}) : super(key: key);
-
-  static Widget init({Key? key}) {
-    return BlocProvider(
-      lazy: false,
-      create: (context) => ClasificationCubit(
-        aomProjectsRepository: context.read(),
-      )..getClasifications(),
-      child: _Clasifications._(key: key),
-    );
-  }
+  const _Clasifications({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('building clasifications');
+
     //!FAKE DATA
     //nombre, pendiente,paso
     Map<String, Map<bool, int>> activosGenerales = {
@@ -136,11 +157,10 @@ class _Clasifications extends StatelessWidget {
       'Sistemas Solares Fotovoltaicos SSFV de\nAlta Tensión': {false: 3},
     };
 
-    // TODO Create shimmer
+    final state = context.select((AomDetailCubit cubit) => cubit.state);
+    print(state.status);
 
-    final state = context.select((ClasificationCubit cubit) => cubit.state);
-
-    if (state.status == ClasificationsStatus.loading) {
+    if (state.status == AomDetailStatus.loading) {
       return ListView.separated(
         shrinkWrap: true,
         itemCount: 4,
@@ -151,12 +171,48 @@ class _Clasifications extends StatelessWidget {
       );
     }
 
+    if (state.status == AomDetailStatus.failure &&
+        state.clasifications.isEmpty) {
+      return DefaultTextStyle(
+        style: TextStyle(
+          fontSize: 13.sp,
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+        ),
+        child: Column(children: [
+          // TODO Put an image
+          Text('Ocurrió un error al obtener las categorías.'),
+          SizedBox(height: 10.r),
+          Text(state.errorResponse?['message']),
+          SizedBox(height: 10.r),
+          TextButton(
+              onPressed: () {
+                if (state.generalData?.obraId == null) {
+                  Toast.show(
+                    'No es posible recargar. Salga y vuelva a esta pantalla',
+                    duration: 6,
+                  );
+                  return;
+                }
+
+                context
+                    .read<AomDetailCubit>()
+                    .loadData(state.generalData!.obraId!);
+              },
+              child: Text(
+                'Reintentar',
+                style: TextStyle(color: Colors.red),
+              ))
+        ]),
+      );
+    }
+
     // TODO Use FadeIn
     return Column(
       children: [
         ...state.clasifications.map(
           (e) {
-            String text = e.descripcion;
+            String text = e.clasificacionActivos.descripcion;
             // TODO pending, step
             bool pending = false;
             int step = 1;

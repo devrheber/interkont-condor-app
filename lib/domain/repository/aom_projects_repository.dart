@@ -1,13 +1,25 @@
-import 'package:appalimentacion/domain/models/clasificacion.dart';
+import 'package:appalimentacion/domain/models/aom_datos_generales.dart';
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:dio/dio.dart';
 
 abstract class AomProjectsRepository {
   Future<List<Clasificacion>> getClasifications({CancelToken? cancelToken});
+
+  Future<AomDatosGenerales> getDatosGenerales(int projectCode,
+      {CancelToken? cancelToken});
+
+  Future<List<Contratista>> getContratistas({CancelToken? cancelToken});
+
+  Future<List<CategoriaObra>> categoriasByObraId(int obraId,
+      {CancelToken? cancelToken});
 }
 
 abstract class AomProjectsRepositoryException implements Exception {}
 
-class AomProjectsBackendErrorException extends AomProjectsRepositoryException {}
+class AomProjectsBackendErrorException extends AomProjectsRepositoryException {
+  AomProjectsBackendErrorException([this.response]);
+  final dynamic response;
+}
 
 class AomProjectsSlowConnectionException
     extends AomProjectsRepositoryException {}

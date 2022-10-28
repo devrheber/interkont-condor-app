@@ -118,7 +118,10 @@ class ProyectosContenidoAOM extends StatelessWidget {
                                 Navigator.pushNamed(
                                   context,
                                   AppRoutes.aomDetalle,
-                                  arguments: project,
+                                  arguments: {
+                                    'project': project,
+                                    'projectCode': project.codigoproyecto,
+                                  },
                                 );
                               },
                               stream: Container(),

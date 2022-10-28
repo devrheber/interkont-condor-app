@@ -1,6 +1,8 @@
 export 'alimentacion_request.dart';
+export 'categoria_obra.dart';
 export 'clasificacion.dart';
 export 'complementary_image.dart';
+export 'contratista.dart';
 export 'datos_alimentacion.dart';
 export 'delay_factor.dart';
 export 'document.dart';
