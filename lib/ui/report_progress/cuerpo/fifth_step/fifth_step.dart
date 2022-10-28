@@ -1,9 +1,9 @@
-import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
-import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../utils/utils.dart';
+import '../../report_progress_provider.dart';
 import 'cardContenido.dart';
 
 @override
@@ -56,9 +56,7 @@ class FifthStep extends StatelessWidget {
                 children: <FifthStepCardDetail>[
                   FifthStepCardDetail(
                     title: 'Asi va en',
-                    value: PercentajeFormat.percentaje(
-                      (cache.newExecutedValue / project.valorproyecto) * 100,
-                    ),
+                    value: PercentajeFormat.percentaje(cache.porcentajeAsiVaEn(project.valorproyecto)),
                   ),
                   FifthStepCardDetail(
                     title: 'Debería ir en',
@@ -77,8 +75,7 @@ class FifthStep extends StatelessWidget {
                     child: TrafficLight(
                       icon: project.getNewTrafficLightColor(
                         currentProgress:
-                            (cache.newExecutedValue / project.valorproyecto) *
-                                100,
+                            cache.porcentajeAsiVaEn(project.valorproyecto),
                         projectedValue:
                             cache.porcentajeValorProyectadoSeleccionado ?? 0,
                         latePercentageLimit: detail.limitePorcentajeAtraso,

@@ -3,8 +3,10 @@ import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
 import 'package:appalimentacion/ui/listaProyectos/projects_provider.dart';
+
 import 'package:appalimentacion/ui/proyecto/project_screen.dart';
 import 'package:appalimentacion/ui/widgets/cargando.dart';
+import 'package:appalimentacion/utils/utils.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -344,7 +346,9 @@ class ProjectCard extends StatelessWidget {
                                                 ),
                                                 child: Center(
                                                   child: Text(
-                                                    project.percentageByValue,
+                                                    PercentajeFormat.percentaje(
+                                                        project
+                                                            .percentageByValue),
                                                     style: TextStyle(
                                                       fontFamily: "montserrat",
                                                       fontWeight:

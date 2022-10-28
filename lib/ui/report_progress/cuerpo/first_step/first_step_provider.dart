@@ -1,7 +1,10 @@
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/domain/repository/cache_repository.dart';
-import 'package:appalimentacion/helpers/activities_helpers.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+
+import '../../../../domain/models/models.dart';
+import '../../../../domain/repository/cache_repository.dart';
+import '../../../../helpers/activities_helpers.dart';
 
 class FirstStepProvider extends ChangeNotifier {
   FirstStepProvider({
@@ -39,53 +42,54 @@ class FirstStepProvider extends ChangeNotifier {
 
   void calculateExecutedValuePercentage() {
     final activities = this.detail.actividades;
+    double valoresEjecutados = 0;
+    double valorProyecto = 0; // Valor Proyectado
+    for (int i = 0; i < activities.length; i++) {
+      valoresEjecutados += activities[i].valorEjecutado;
+      valorProyecto += activities[i].valorProgramado;
+    }
 
-    double totalCantidadProgramada = 0;
-    double valorEjecucionProyecto = 0;
+    debugPrint('valoresEjecutados $valoresEjecutados');
+    debugPrint('valoresProgramado $valorProyecto');
+
+    double porcentajeInicial = valoresEjecutados / valorProyecto * 100;
+
+    debugPrint('Porcentaje Avance: $porcentajeInicial');
+
+    // Porcentaje Nuevo avance
+
+    double nuevoValorEjecutado = 0.0;
+
+    inspect(activitiesProgress);
+
+    double porcentajeNuevoValorEjectuado = 0.0;
+
+    double totalPorcentajeEjectuaado = 0.0;
 
     for (int i = 0; i < activities.length; i++) {
       if (activitiesProgress.containsKey(activities[i].getStringId)) {
-        /// Ir sumando lo que representa el porcentaje ingresado en [Avance actual]
-        valorEjecucionProyecto += activities[i].getNewExecutedValue(
-            double.parse(activitiesProgress[activities[i].getStringId]));
+        nuevoValorEjecutado += activities[i].valorProgramado *
+            (double.parse(activitiesProgress[activities[i].getStringId]) / 100);
       }
 
-      /// Se obtiene el total de cantidad programada para el proyecto
-      /// Sumar los valores programados de las actividades
-      totalCantidadProgramada += activities[i].cantidadProgramada;
+      debugPrint('NuevoValor Ejecutado: $nuevoValorEjecutado');
+
+      porcentajeNuevoValorEjectuado =
+          (nuevoValorEjecutado / valorProyecto) * 100;
+
+      debugPrint('Nuevo Porcentaje de Avance: $porcentajeNuevoValorEjectuado');
+
+      debugPrint(
+          'Total porcentaje ejectuado: ${(porcentajeInicial + porcentajeNuevoValorEjectuado)}');
+      totalPorcentajeEjectuaado =
+          porcentajeInicial + porcentajeNuevoValorEjectuado;
     }
 
-    // A lo que representa el nuevo valor ejecutado se le suma el valor ejecutado
-    // registrado en reportes previos.
-    valorEjecucionProyecto += calculateRemoteExecutedValuePercentage();
-
-    // Se obtiene el porcentaje del valor ejecutado considerando los registros anteriores
-    // y el registro actual
-    final porcentajeValorEjecutado =
-        (valorEjecucionProyecto / totalCantidadProgramada);
-
-    final newExecutedValue = project.valorproyecto * porcentajeValorEjecutado;
-
     this.cache = this.cache.copyWith(
-          porcentajeValorEjecutado: porcentajeValorEjecutado,
-          newExecutedValue: newExecutedValue,
+          porcentajeValorEjecutado: totalPorcentajeEjectuaado,
         );
 
     _projectsCacheRepository.saveCache(this.cache);
-  }
-
-  double calculateRemoteExecutedValuePercentage() {
-    final activities = this.detail.actividades;
-
-    double valorEjecucionProyecto = 0;
-
-    for (int i = 0; i < activities.length; i++) {
-      valorEjecucionProyecto += activities[i].getNewExecutedValue(
-          (activities[i].cantidadEjecutada / activities[i].cantidadProgramada) *
-              100);
-    }
-
-    return valorEjecucionProyecto;
   }
 
   void filter(String value) {
@@ -108,9 +112,8 @@ class FirstStepProvider extends ChangeNotifier {
           double.tryParse(cache.activitiesProgress![item.getStringId] ?? '0') ??
               0.0);
 
-      if (double.parse(faltantePorEjecutar.replaceAll(' %', '')) < 0 || 
-      double.parse(faltantePorEjecutar.replaceAll(' %', '')) > 100
-      ) {
+      if (double.parse(faltantePorEjecutar.replaceAll(' %', '')) < 0 ||
+          double.parse(faltantePorEjecutar.replaceAll(' %', '')) > 100) {
         cache.activitiesProgress![item.getStringId] = '0';
       }
     }

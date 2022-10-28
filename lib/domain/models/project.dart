@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-
+ 
 class Project {
   Project({
     required this.codigoproyecto,
@@ -91,10 +90,10 @@ class Project {
     return '\$ $valorProyectoRedondeado M';
   }
 
-  String get percentageByValue {
-    int porcentaje = ((100 * valorejecutado) / valorproyecto).round();
+  double get percentageByValue {
+    double porcentaje = (100 * valorejecutado) / valorproyecto;
 
-    return '$porcentaje %';
+    return porcentaje;
   }
 
   int get titleColor {
@@ -102,16 +101,10 @@ class Project {
     return int.parse(colorTitulo);
   }
 
-  double get asiVaPorcentaje {
+  double get asiVaPorcentajeDouble {
     final value = ((100 * valorejecutado) / valorproyecto);
 
     return value;
-  }
-
-  double get asiVaPorcentajeDouble {
-    final value = ((100 * valorejecutado) / valorproyecto).round();
-
-    return value * 1.0;
   }
 
   double get deberiaIr {

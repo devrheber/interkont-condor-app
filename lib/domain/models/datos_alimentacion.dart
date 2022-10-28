@@ -168,11 +168,11 @@ class Actividad {
     return '${(100 - (value + valorAvance)).round()} %';
   }
 
-  double getNewExecutedValue(double valorAvance) {
-    final progressValuePercentage = valorProgramado * valorAvance / 100;
-    final newExcutedValue =
-        cantidadProgramada * (progressValuePercentage / valorProgramado);
-    return newExcutedValue;
+  double getNewExecutedValue(double porcentajeAvance) {
+    final nuevoValorDeAvance = valorProgramado * (porcentajeAvance / 100);
+    final nuevaCantidadDeAvance =
+        cantidadProgramada * (nuevoValorDeAvance / valorProgramado);
+    return nuevaCantidadDeAvance;
   }
 
   String get getStringId {

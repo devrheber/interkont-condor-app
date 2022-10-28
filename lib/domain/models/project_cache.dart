@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:appalimentacion/domain/models/models.dart';
-import 'package:appalimentacion/helpers/project_helpers.dart';
+
+import '../../helpers/project_helpers.dart';
+import 'models.dart';
 
 Map<String, ProjectCache> projectsCacheFromJson(String str) =>
     Map.from(json.decode(str)).map(
@@ -18,7 +19,6 @@ class ProjectCache {
     this.periodoIdSeleccionado,
     this.porcentajeValorProyectadoSeleccionado,
     this.porcentajeValorEjecutado,
-    this.newExecutedValue = 0.0,
     this.activitiesProgress,
     this.rangeIndicators,
     this.qualitativesProgress,
@@ -38,7 +38,6 @@ class ProjectCache {
   final int? periodoIdSeleccionado;
   final double? porcentajeValorProyectadoSeleccionado;
   final double? porcentajeValorEjecutado;
-  final dynamic newExecutedValue;
   final Map<String, dynamic>? activitiesProgress;
   final Map<String, dynamic>? rangeIndicators;
   final List<QualitativeProgress>? qualitativesProgress;
@@ -60,7 +59,6 @@ class ProjectCache {
         porcentajeValorProyectadoSeleccionado:
             json['porcentajeValorProyectadoSeleccionado'],
         porcentajeValorEjecutado: json['porcentajeValorEjecutado'],
-        newExecutedValue: json['new_executed_value'],
         activitiesProgress: json['activities_progress'] ?? <String, String>{},
         rangeIndicators: json['range_indicators'] ?? <String, String>{},
         delayFactors: json['delay_factors'] == null
@@ -93,7 +91,6 @@ class ProjectCache {
         'porcentajeValorProyectadoSeleccionado':
             porcentajeValorProyectadoSeleccionado,
         'porcentajeValorEjecutado': porcentajeValorEjecutado,
-        'new_executed_value': newExecutedValue,
         'activities_progress': activitiesProgress,
         'range_indicators': rangeIndicators,
         'qualitatives_progress': qualitativesProgress == null
@@ -132,7 +129,6 @@ class ProjectCache {
     dynamic periodoIdSeleccionado,
     double? porcentajeValorProyectadoSeleccionado,
     double? porcentajeValorEjecutado,
-    double? newExecutedValue,
     Map<String, dynamic>? activitiesProgress,
     Map<String, dynamic>? rangeIndicators,
     List<QualitativeProgress>? qualitativesProgress,
@@ -158,7 +154,6 @@ class ProjectCache {
               this.porcentajeValorProyectadoSeleccionado,
       porcentajeValorEjecutado:
           porcentajeValorEjecutado ?? this.porcentajeValorEjecutado,
-      newExecutedValue: newExecutedValue ?? this.newExecutedValue,
       activitiesProgress: activitiesProgress ?? this.activitiesProgress,
       rangeIndicators: rangeIndicators ?? this.rangeIndicators,
       qualitativesProgress: qualitativesProgress ?? this.qualitativesProgress,
@@ -178,7 +173,7 @@ class ProjectCache {
   }
 
   double porcentajeAsiVaEn(double valorproyecto) =>
-      ((newExecutedValue ?? 0) / valorproyecto) * 100;
+      (porcentajeValorEjecutado ?? 0.0);
 
   String get getLastDateSyncFormatted {
     if (lastSyncDate == null) {

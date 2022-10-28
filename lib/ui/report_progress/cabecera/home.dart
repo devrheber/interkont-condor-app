@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../domain/models/models.dart';
 import '../../../globales/customed_app_bar.dart';
+import '../report_progress_provider.dart';
 import 'header_steps.dart';
 
 class CardHeadReporteAvance extends StatelessWidget {
@@ -59,7 +61,7 @@ class CardHeadReporteAvance extends StatelessWidget {
                   return Percentage(
                     value: "Ejecutado",
                     percentage:
-                        PercentajeFormat.percentaje(snapshot.data! * 100),
+                        PercentajeFormat.percentaje(snapshot.data!),
                   );
                 },
               ),

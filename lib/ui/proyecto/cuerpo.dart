@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../domain/models/models.dart';
+import '../../domain/models/project.dart';
 import '../../globales/colores.dart';
+import 'project_detail_provider.dart';
 import 'widgets/seleccionaPeriodo.dart';
 
 class BodyCard extends StatelessWidget {
@@ -67,7 +71,7 @@ class BodyCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       _Summary(
-                        porcentajeAsiVa: project.asiVaPorcentaje,
+                        porcentajeAsiVa: project.asiVaPorcentajeDouble,
                         project: project,
                       ),
                       SizedBox(
