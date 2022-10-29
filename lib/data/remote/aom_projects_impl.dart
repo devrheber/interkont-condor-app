@@ -30,6 +30,29 @@ class AomProjectsImpl implements AomProjectsRepository {
     user = User.fromJson(json.decode(prefs.userData));
   }
 
+  Exception manageDioError(x.DioError e) {
+    switch (e.type) {
+      case x.DioErrorType.connectTimeout:
+        throw AomProjectsSlowConnectionException();
+      case x.DioErrorType.response:
+        if (e.response?.statusCode == 500) {
+          throw AomProjectsBackendErrorException();
+        }
+        if (e.response?.statusCode == 403) {
+          throw AomProjectsForbiddenException();
+        }
+        throw AomProjectsOtherEception();
+      case x.DioErrorType.cancel:
+        throw AomProjectsCancelException();
+      case x.DioErrorType.sendTimeout:
+      case x.DioErrorType.receiveTimeout:
+      case x.DioErrorType.other:
+        throw AomProjectsOtherEception();
+      default:
+        throw AomProjectsOtherEception();
+    }
+  }
+
   @override
   Future<List<Clasificacion>> getClasifications({
     x.CancelToken? cancelToken,
@@ -124,8 +147,7 @@ class AomProjectsImpl implements AomProjectsRepository {
         cancelToken: cancelToken,
       );
 
-      if (response.data is Map &&
-          response.data['status'] == false) {
+      if (response.data is Map && response.data['status'] == false) {
         // Se infiere que si respuesta regres
         throw AomProjectsBackendErrorException(
           response.data,
@@ -142,27 +164,37 @@ class AomProjectsImpl implements AomProjectsRepository {
       throw manageDioError(e);
     }
   }
-}
 
-Exception manageDioError(x.DioError e) {
-  switch (e.type) {
-    case x.DioErrorType.connectTimeout:
-      throw AomProjectsSlowConnectionException();
-    case x.DioErrorType.response:
-      if (e.response?.statusCode == 500) {
-        throw AomProjectsBackendErrorException();
+  @override
+  Future<List<GestionAom>> getGestionAom(int obraId,
+      {x.CancelToken? cancelToken}) async {
+    try {
+      final x.Response<dynamic> response = await _dio.get(
+        '${ApiRoutes.getGestionAomByObraId}/$obraId',
+        options: x.Options(
+          headers: {
+            'Content-type': 'application/json',
+            'Authorization': user.token,
+          },
+        ),
+        cancelToken: cancelToken,
+      );
+
+      if (response.data is Map && response.data['status'] == false) {
+        // Se infiere que si respuesta regres
+        throw AomProjectsBackendErrorException(
+          response.data,
+        );
       }
-      if (e.response?.statusCode == 403) {
-        throw AomProjectsForbiddenException();
+
+      if (response.statusCode == 200) {
+        final list = gestionAomFromJson(json.encode(response.data));
+        return list;
       }
+
       throw AomProjectsOtherEception();
-    case x.DioErrorType.cancel:
-      throw AomProjectsCancelException();
-    case x.DioErrorType.sendTimeout:
-    case x.DioErrorType.receiveTimeout:
-    case x.DioErrorType.other:
-      throw AomProjectsOtherEception();
-    default:
-      throw AomProjectsOtherEception();
+    } on x.DioError catch (e) {
+      throw manageDioError(e);
+    }
   }
 }

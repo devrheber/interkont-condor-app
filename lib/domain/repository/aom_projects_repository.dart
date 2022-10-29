@@ -12,6 +12,9 @@ abstract class AomProjectsRepository {
 
   Future<List<CategoriaObra>> categoriasByObraId(int obraId,
       {CancelToken? cancelToken});
+
+  Future<List<GestionAom>> getGestionAom(int obraId,
+      {CancelToken? cancelToken});
 }
 
 abstract class AomProjectsRepositoryException implements Exception {}

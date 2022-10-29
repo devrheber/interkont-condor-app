@@ -7,4 +7,5 @@ class ApiRoutes {
   static const String getContratistas = '/Contratistas';
   static const String getCategoriasObra = '/clasificionByObraId';
   static const String getClasifications = '/AllClasificacion';
+  static const String getGestionAomByObraId = '/gestionAomObraId';
 }

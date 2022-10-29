@@ -7,6 +7,7 @@ export 'datos_alimentacion.dart';
 export 'delay_factor.dart';
 export 'document.dart';
 export 'files_cache.dart';
+export 'gestion_aom.dart';
 export 'project.dart';
 export 'project_cache.dart';
 export 'qualitative_progress.dart';
