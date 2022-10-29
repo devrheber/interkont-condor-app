@@ -3,6 +3,7 @@ export 'add_green_button.dart';
 export 'custom_dialogs.dart';
 export 'global_drawer.dart';
 export 'loading_text.dart';
+export 'purple_rounded_gradient_container_widget.dart';
 export 'shimmer_button_widget.dart';
 export 'shiny_animation_widget.dart';
 export 'skelton_widget.dart';

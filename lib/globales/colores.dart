@@ -180,6 +180,7 @@ class AppTheme {
     bodyText1: body2,
     bodyText2: body1,
     caption: caption,
+    button: button,
   );
 
   static const TextStyle display1 = TextStyle(
@@ -244,5 +245,13 @@ class AppTheme {
     fontSize: 12,
     letterSpacing: 0.2,
     color: lightText, // was lightText
+  );
+
+  static const TextStyle button = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.w700,
+    fontSize: 14,
+    letterSpacing: 0.2,
+    color: Color(0xffffffff),
   );
 }

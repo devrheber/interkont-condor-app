@@ -317,7 +317,9 @@ class _TitleContent extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 10.sp),
       child: Row(
         children: <Widget>[
-          Expanded(child: Text(title, style: TextStyle(fontSize: 14.sp))),
+          Expanded(
+            child: Text(title, style: Theme.of(context).textTheme.button),
+          ),
           SizedBox(width: 5.sp),
           Expanded(
               child: Text(content,

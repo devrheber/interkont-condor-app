@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:appalimentacion/globales/colores.dart';
@@ -20,6 +21,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import 'widgets/detail_card_widget.dart';
+
 class AomDetalleCategoriaPage extends StatelessWidget {
   const AomDetalleCategoriaPage({
     Key? key,
@@ -28,9 +31,19 @@ class AomDetalleCategoriaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //get pushnamed arguments
-    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    String nombre = arguments['nombre'];
-    int paso = arguments['paso'];
+    // final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    // String nombre = arguments['nombre'];
+    // int paso = arguments['paso'];
+    String nombre = 'Nombre';
+    int paso = 1;
+
+    TextStyle textStyleStepSelected = TextStyle(
+      fontFamily: "montserrat",
+      fontSize: 10.sp,
+      color: Color(0xff556A8D),
+      fontWeight: FontWeight.w700,
+    );
+
     return FondoHome(
       bottomNavigationBar: Container(
         margin: EdgeInsets.only(top: 15.sp),
@@ -83,31 +96,40 @@ class AomDetalleCategoriaPage extends StatelessWidget {
                   text: 'Detalle de\nlos Activos',
                   number: '1',
                   isCompleted: paso >= 1,
+                  completedColor: Color(0xFF1A8DBE),
+                  pendingColor: Color(0xFF745FF2),
+                  style: paso == 1 ? textStyleStepSelected : null,
                 ),
                 StepIndicator(
                   text: 'Actualización\ncualitativo',
                   number: '2',
                   isCompleted: paso >= 2,
+                  completedColor: Color(0xFF1A8DBE),
+                  pendingColor: Color(0xFF745FF2),
+                  style: paso == 2 ? textStyleStepSelected : null,
                 ),
                 StepIndicator(
                   text: 'Imágen o\n video',
                   number: '3',
                   isCompleted: paso >= 3,
+                  completedColor: Color(0xFF1A8DBE),
+                  pendingColor: Color(0xFF745FF2),
+                  style: paso == 3 ? textStyleStepSelected : null,
                 ),
               ],
             ),
           ),
           Visibility(
             visible: paso == 1,
-            child: ContenidoPaso1AOM(),
+            child: const ContenidoPaso1AOM(),
           ),
           Visibility(
             visible: paso == 2,
-            child: ContenidoPaso2AOM(),
+            child: const ContenidoPaso2AOM(),
           ),
           Visibility(
             visible: paso == 3,
-            child: ContenidoPaso3AOM(),
+            child: const ContenidoPaso3AOM(),
           ),
         ],
       ),
@@ -791,223 +813,9 @@ class ContenidoPaso1AOM extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20.sp),
-          for (var i = 1; i <= 3; i++)
-            PurpleRoundedGradientContainer(
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                children: [
-                  Text(
-                    'Descripción:',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    'Activo $i de Compensación reactiva, Vereda San Juan',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w100,
-                    ),
-                  ),
-                  SizedBox(height: 10.sp),
-                  Row(
-                    children: [
-                      Text(
-                        'Estado:',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Spacer(),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            value: 'EN OPERACIÓN',
-                            icon: const Icon(
-                              Icons.arrow_drop_down,
-                              color: ColorTheme.dark,
-                            ),
-                            iconSize: 24,
-                            elevation: 16,
-                            style: TextStyle(
-                              color: ColorTheme.dark,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            underline: Container(
-                              height: 2,
-                            ),
-                            onChanged: (String? newValue) {},
-                            items: <String>[
-                              'EN OPERACIÓN',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          'Operatividad:',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Radio(
-                              activeColor: Colors.white,
-                              fillColor:
-                                  MaterialStateProperty.all(Colors.white),
-                              value: 0,
-                              groupValue: 0,
-                              onChanged: (value) {},
-                            ),
-                            Text(
-                              'Si',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            Radio(
-                              activeColor: Colors.white,
-                              fillColor:
-                                  MaterialStateProperty.all(Colors.white),
-                              value: 1,
-                              groupValue: 0,
-                              onChanged: (value) {},
-                            ),
-                            Text(
-                              'No',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Cantidad Actual:',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Spacer(),
-                      //-+ counter
-                      Container(
-                        width: 130.sp,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.remove,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: () {},
-                                ),
-                              ),
-                            ),
-                            Text(
-                              '17',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.add,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: () {},
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 20.sp),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          for (var i = 1; i <= 3; i++) DetailCardWidget(i),
         ],
       ),
-    );
-  }
-}
-
-class PurpleRoundedGradientContainer extends StatelessWidget {
-  const PurpleRoundedGradientContainer({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-  final Widget child;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-              color: Color(0xff666666).withOpacity(0.26),
-              blurRadius: 14.sp,
-              spreadRadius: 0.4.sp,
-              offset: Offset(4.sp, 10.sp)),
-        ],
-        borderRadius: BorderRadius.circular(16.13.sp),
-        gradient: ColorTheme.cardGradient,
-      ),
-      padding: EdgeInsets.only(
-        left: 15.sp,
-        right: 15.sp,
-        top: 20.45.sp,
-        bottom: 20.45.sp,
-      ),
-      margin: EdgeInsets.symmetric(vertical: 10.sp),
-      child: child,
     );
   }
 }

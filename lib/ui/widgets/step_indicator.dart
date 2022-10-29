@@ -7,19 +7,25 @@ class StepIndicator extends StatelessWidget {
     required this.text,
     required this.number,
     this.isCompleted = false,
+    this.completedColor = const Color(0xff745FF2),
+    this.pendingColor = const Color(0xff556A8D),
+    this.style,
   }) : super(key: key);
 
   final String text;
   final String number;
   final bool isCompleted;
+  final Color completedColor;
+  final Color pendingColor;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
     Color circleBgColor;
     if (isCompleted) {
-      circleBgColor = Color(0xff745FF2);
+      circleBgColor = completedColor;
     } else {
-      circleBgColor = Color(0xff556A8D);
+      circleBgColor = pendingColor;
     }
 
     return Expanded(
@@ -59,12 +65,13 @@ class StepIndicator extends StatelessWidget {
               child: Text(
                 '$text',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: "montserrat",
-                  fontSize: 12.sp,
-                  color: Color(0xff556A8D),
-                  fontWeight: FontWeight.w500,
-                ),
+                style: style ??
+                    TextStyle(
+                      fontFamily: "montserrat",
+                      fontSize: 12.sp,
+                      color: Color(0xff556A8D),
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
             )
           ],
