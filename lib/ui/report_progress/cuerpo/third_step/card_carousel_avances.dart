@@ -1,5 +1,6 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
+import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,6 +38,17 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
 
   set newQuantityExecuted(double value) {
     _newquantityExecuted = widget.item.cantidadEjecutada + value;
+    newPercentageOfCompletion = newPercentageOfCompletion;
+  }
+
+  double? _newPercentageOfCompletion;
+
+  double get newPercentageOfCompletion =>
+      (_newPercentageOfCompletion ?? widget.item.porcentajeAvance);
+
+  set newPercentageOfCompletion(double value) {
+    _newPercentageOfCompletion =
+        (newQuantityExecuted / widget.item.cantidadProgramada) * 100;
   }
 
   @override
@@ -48,6 +60,9 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
 
     quantityExecuted = widget.item.cantidadEjecutada;
     scheduledQuantity = widget.item.cantidadProgramada;
+    newQuantityExecuted = double.parse(widget.valueSaved);
+
+    calculate(widget.valueSaved);
   }
 
   @override
@@ -163,8 +178,8 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
               celdas('Cantidad ejecutada', f.format(newQuantityExecuted), true),
               celdas(
                   'Porcentaje de avance',
-                  f.format(double.parse('${widget.item.porcentajeAvance}')) +
-                      '%',
+                  PercentajeFormat.percentaje(newPercentageOfCompletion,
+                      precision: 1),
                   true),
             ],
           )
