@@ -72,6 +72,8 @@ class FourthStepProvider extends ChangeNotifier {
         types = await getDocumentTypesFromRemote();
       }
 
+      types.sort((a, b) => a.nombre.compareTo(b.nombre));
+
       listaTipoDoc = types;
       await _loadRequiredDocumentsFromCache(types);
       await _loadAdditionalDocumentsFromCache();

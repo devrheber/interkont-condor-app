@@ -88,19 +88,34 @@ class ProjectsImplLocal implements ProjectsRepository {
   Future<List<TipoDoc>> getTipoDoc() async {
     return [
       TipoDoc(
-          id: 1,
+          id: 105,
+          nombre: 'R Doc de Prueba',
+          obligatorio: false,
+          intparametipdoc: 1),
+      TipoDoc(
+          id: 105,
+          nombre: 'Z Doc de Prueba',
+          obligatorio: false,
+          intparametipdoc: 1),
+      TipoDoc(
+          id: 102,
           nombre: 'B Doc de Prueba',
           obligatorio: true,
           intparametipdoc: 1),
       TipoDoc(
-          id: 2,
+          id: 101,
+          nombre: 'M Doc de Prueba',
+          obligatorio: false,
+          intparametipdoc: 1),
+      TipoDoc(
+          id: 103,
           nombre: 'A Doc de Prueba',
           obligatorio: true,
           intparametipdoc: 1),
       TipoDoc(
-          id: 3,
+          id: 104,
           nombre: 'T Doc de Prueba',
-          obligatorio: true,
+          obligatorio: false,
           intparametipdoc: 1),
     ];
   }
