@@ -8,4 +8,10 @@ abstract class AomProjectsApi {
   void saveContratistas(List<Contratista> list);
 
   Contratista? getContratistaById(int? id);
+
+  List<EstadoDeActivo> getEstadosDeActivos();
+
+  void saveEstadosDeActivos(List<EstadoDeActivo> list);
+
+  EstadoDeActivo? getEstadoById(int? id);
 }

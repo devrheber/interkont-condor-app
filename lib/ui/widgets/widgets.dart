@@ -1,6 +1,7 @@
 export 'add_green_button.dart';
 export 'add_green_button.dart';
 export 'custom_dialogs.dart';
+export 'fade_in_widget.dart';
 export 'global_drawer.dart';
 export 'loading_text.dart';
 export 'purple_rounded_gradient_container_widget.dart';

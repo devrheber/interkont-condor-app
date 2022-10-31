@@ -50,7 +50,7 @@ class GestionAom {
     int categoriaId;
     int descripcionId;
     String descripcionCategoria;
-    int valorDepreciacion;
+    double valorDepreciacion;
     int estadoSupervisorId;
     String estadoNombreSupervisor;
     int cantidad;
@@ -72,7 +72,7 @@ class GestionAom {
     double longitud;
     String ubicacion;
     dynamic observacion;
-    int valorInicial;
+    double valorInicial;
     DateTime vidaUtilRemanente;
     int anosRestantes;
     dynamic kmlLineaUrl;
@@ -89,7 +89,7 @@ class GestionAom {
         valorDepreciacion: json["valor_depreciacion"],
         estadoSupervisorId: json["estadoSupervisorId"],
         estadoNombreSupervisor: json["estadoNombreSupervisor"],
-        cantidad: json["cantidad"],
+        cantidad: json["cantidad"].round(),
         estadoInventarioId: json["estadoInventarioId"],
         estadoNombreInventario: json["estadoNombreInventario"],
         estadoAomId: json["estadoAomId"],
@@ -110,7 +110,7 @@ class GestionAom {
         observacion: json["observacion"],
         valorInicial: json["valorInicial"],
         vidaUtilRemanente: DateTime.parse(json["vidaUtilRemanente"]),
-        anosRestantes: json["anosRestantes"],
+        anosRestantes: json["anosRestantes"].round(),
         kmlLineaUrl: json["kmlLineaUrl"],
         kmlPoligonoUrl: json["kmlPoligonoUrl"],
         tipoMapaActivo: json["tipoMapaActivo"],

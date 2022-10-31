@@ -6,6 +6,7 @@ export 'contratista.dart';
 export 'datos_alimentacion.dart';
 export 'delay_factor.dart';
 export 'document.dart';
+export 'estado_de_activo.dart';
 export 'files_cache.dart';
 export 'gestion_aom.dart';
 export 'project.dart';

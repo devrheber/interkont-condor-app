@@ -5,16 +5,19 @@ import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:appalimentacion/routes/app_routes.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
+import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_detail_categories_cubit.dart';
 import 'package:appalimentacion/ui/report_progress/cabecera/header_steps.dart';
+import 'package:appalimentacion/ui/widgets/fade_in_widget.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
+import 'package:appalimentacion/ui/widgets/shimmer_detalle_activo_widget.dart';
 import 'package:appalimentacion/ui/widgets/step_indicator.dart';
 import 'package:appalimentacion/utils/seleccionar_foto_documentos.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,6 +25,8 @@ import 'package:toast/toast.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import 'widgets/detail_card_widget.dart';
+import 'widgets/question_one_widget.dart';
+import 'widgets/yes_no_purple_widget.dart';
 
 class AomDetalleCategoriaPage extends StatelessWidget {
   const AomDetalleCategoriaPage({
@@ -44,6 +49,13 @@ class AomDetalleCategoriaPage extends StatelessWidget {
       fontWeight: FontWeight.w700,
     );
 
+    TextStyle textStyleStep = TextStyle(
+      fontFamily: "montserrat",
+      fontSize: 10.sp,
+      color: Color(0xff556A8D),
+      fontWeight: FontWeight.w400,
+    );
+
     return FondoHome(
       bottomNavigationBar: Container(
         margin: EdgeInsets.only(top: 15.sp),
@@ -60,7 +72,7 @@ class AomDetalleCategoriaPage extends StatelessWidget {
           accionSegundoBoton: () {
             if (paso == 3) {
               Navigator.pushNamed(
-                context, 
+                context,
                 AppRoutes.aomLastStep,
               );
             }
@@ -98,30 +110,33 @@ class AomDetalleCategoriaPage extends StatelessWidget {
                   isCompleted: paso >= 1,
                   completedColor: Color(0xFF1A8DBE),
                   pendingColor: Color(0xFF745FF2),
-                  style: paso == 1 ? textStyleStepSelected : null,
+                  style: paso == 1 ? textStyleStepSelected : textStyleStep,
                 ),
                 StepIndicator(
-                  text: 'Actualización\ncualitativo',
+                  text: 'Actualización\nCualitativo',
                   number: '2',
                   isCompleted: paso >= 2,
                   completedColor: Color(0xFF1A8DBE),
                   pendingColor: Color(0xFF745FF2),
-                  style: paso == 2 ? textStyleStepSelected : null,
+                  style: paso == 2 ? textStyleStepSelected : textStyleStep,
                 ),
                 StepIndicator(
-                  text: 'Imágen o\n video',
+                  text: 'Imágen o\n Video',
                   number: '3',
                   isCompleted: paso >= 3,
                   completedColor: Color(0xFF1A8DBE),
                   pendingColor: Color(0xFF745FF2),
-                  style: paso == 3 ? textStyleStepSelected : null,
+                  style: paso == 3 ? textStyleStepSelected : textStyleStep,
                 ),
               ],
             ),
           ),
           Visibility(
             visible: paso == 1,
-            child: const ContenidoPaso1AOM(),
+            child: ContenidoPaso1AOM.init(
+              //! Replace
+              projectCode: 2979,
+            ),
           ),
           Visibility(
             visible: paso == 2,
@@ -486,6 +501,8 @@ class ContenidoPaso2AOM extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int monthsInitialValue = 241;
+
     return Container(
       width: double.infinity,
       margin: EdgeInsets.only(top: 265.h, left: 28.sp, right: 28.sp),
@@ -496,14 +513,14 @@ class ContenidoPaso2AOM extends StatelessWidget {
             child: Text(
               'Vida remantente actual del activo:',
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 15.sp,
                 color: ColorTheme.darkShade,
               ),
             ),
           ),
           Center(
             child: Text(
-              '241 Meses (20,08 Años)',
+              '$monthsInitialValue Meses (20,08 Años)',
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
@@ -512,148 +529,12 @@ class ContenidoPaso2AOM extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20.sp),
-          Center(
-            child: Text(
-              '1. ¿Está de acuerdo con el valor de vida remanente del activo?',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: ColorTheme.darkShade,
-              ),
-            ),
-          ),
-          YesNoPurple(),
-          Visibility(
-            //TODO: SI LA PREGUNTA 1 ESTÁ SELECCIONADA EN NO MOSTRAR LO SIGUIENTE, CASO CONTRARIO OCULTARLO
-            visible: true,
-            child: Column(
-              children: <Widget>[
-                //ROUNDED CONTAINER WITH SHADOW
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                    top: 20.sp,
-                    left: 10.sp,
-                    right: 10.sp,
-                  ),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: titleColor.withOpacity(.1),
-                        blurRadius: 20,
-                        spreadRadius: 1,
-                        offset: Offset(2, 10),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        'Explique por qué considera diferente el valor de vida remanente:',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                          color: ColorTheme.primary,
-                        ),
-                      ),
-                      SizedBox(height: 10.sp),
-                      //texfield max char 250
-                      TextField(
-                        maxLines: 3,
-                        maxLength: 250,
-                        decoration: InputDecoration(
-                          hintText: 'Escriba aquí...',
-                          hintStyle: TextStyle(
-                            fontSize: 14.sp,
-                            color: ColorTheme.darkShade,
-                          ),
-                          //no border
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 20.sp,
-                    left: 10.sp,
-                    right: 10.sp,
-                  ),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-                  child: Column(
-                    children: [
-                      Text(
-                        '¿Cuál es la vida útil que usted considera para el activo (En meses)?',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: ColorTheme.darkShade,
-                        ),
-                      ),
-                      //numeric textfield
-
-                      Center(
-                        child: Container(
-                          width: 130.sp,
-                          margin: EdgeInsets.symmetric(
-                            vertical: 15.sp,
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: titleColor.withOpacity(.1),
-                                blurRadius: 20,
-                                spreadRadius: 1,
-                                offset: Offset(2, 10),
-                              ),
-                            ],
-                          ),
-                          child: TextField(
-                            //make texfield text center
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.numberWithOptions(
-                                decimal: false, signed: false),
-                            //only numbers
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                              color: ColorTheme.darkShade,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Escriba aquí...',
-                              hintStyle: TextStyle(
-                                fontSize: 14.sp,
-                                color: ColorTheme.darkShade,
-                              ),
-                              //no border
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          QuestionOne(monthsInitialValue: monthsInitialValue),
           Text(
             'Evidencias Externas:',
             style: TextStyle(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w700,
               color: ColorTheme.primary,
             ),
           ),
@@ -663,29 +544,35 @@ class ContenidoPaso2AOM extends StatelessWidget {
               '2. ¿El activo a disminuido su valor de mercado significativamente más de lo esperado por el paso del tiempo o de su uso normal?',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
                 color: ColorTheme.darkShade,
               ),
             ),
           ),
-          YesNoPurple(),
+          YesNoPurple(
+            onChanged: (int? value) {},
+          ),
           SizedBox(height: 20.sp),
           Center(
             child: Text(
               '3. ¿Durante el periodo se evidencian cambios adversos de tipo legal o económico que afecte el valor de mercado del activo o la forma en que este es utilizado por Minergia?',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
                 color: ColorTheme.darkShade,
               ),
             ),
           ),
-          YesNoPurple(),
+          YesNoPurple(
+            onChanged: (int? value) {},
+          ),
           Text(
             'Deterioro de Valor:',
             style: TextStyle(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w700,
               color: ColorTheme.primary,
             ),
           ),
@@ -695,127 +582,139 @@ class ContenidoPaso2AOM extends StatelessWidget {
               '4. ¿El activo tiene evidencias de daño físico que den como resultado una disminución de su capacidad productiva o de su valor de mercado?',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
                 color: ColorTheme.darkShade,
               ),
             ),
           ),
-          YesNoPurple(),
+          YesNoPurple(
+            onChanged: (int? value) {},
+          ),
           SizedBox(height: 20.sp),
           Center(
             child: Text(
               '5. ¿Han tenido lugar, o se espera que tengan lugar en un futuro inmediato, cambio en la forma en que se usa el activo lo cual conlleve a una disminución del potencial de servicio del activo?\n(Ej. Se deje de utilizar)',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
                 color: ColorTheme.darkShade,
               ),
             ),
           ),
-          YesNoPurple(),
+          YesNoPurple(
+            onChanged: (int? value) {},
+          ),
           SizedBox(height: 20.sp),
           Center(
             child: Text(
               '6. ¿Se decide detener la construcción del activo antes de su finalización o de su puesta en condiciones de funcionamiento?',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
                 color: ColorTheme.darkShade,
               ),
             ),
           ),
-          YesNoPurple(),
+          YesNoPurple(
+            onChanged: (int? value) {},
+          ),
           SizedBox(height: 20.sp),
           Center(
             child: Text(
               '7. ¿Se dispone de evidencia procedente de informes internos que indican que la capacidad del activo para suministrar bienes o servicios, ha disminuido o va a ser inferior a la esperada?',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
                 color: ColorTheme.darkShade,
               ),
             ),
           ),
-          YesNoPurple(),
+          YesNoPurple(
+            onChanged: (int? value) {},
+          ),
           SizedBox(height: 20.sp),
         ],
       ),
-    );
-  }
-}
-
-class YesNoPurple extends StatelessWidget {
-  const YesNoPurple({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Radio(
-          activeColor: ColorTheme.primaryTint,
-          fillColor: MaterialStateProperty.all(ColorTheme.primaryTint),
-          value: 1,
-          groupValue: 0,
-          onChanged: (value) {},
-        ),
-        Text(
-          'Si',
-          style: TextStyle(
-            color: ColorTheme.darkShade,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(width: 10),
-        Radio(
-          activeColor: ColorTheme.primaryTint,
-          fillColor: MaterialStateProperty.all(ColorTheme.primaryTint),
-          value: 0,
-          groupValue: 0,
-          onChanged: (value) {},
-        ),
-        Text(
-          'No',
-          style: TextStyle(
-            color: ColorTheme.darkShade,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ],
     );
   }
 }
 
 class ContenidoPaso1AOM extends StatelessWidget {
-  const ContenidoPaso1AOM({
+  const ContenidoPaso1AOM._({
     Key? key,
   }) : super(key: key);
 
+  static Widget init({Key? key, required int projectCode}) {
+    return BlocProvider(
+      lazy: false,
+      create: (context) => AomDetailCategoriesCubit(
+        aomProjectsRepository: context.read(),
+        aomProjectsApi: context.read(),
+      )..loadData(projectCode),
+      child: ContenidoPaso1AOM._(key: key),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(top: 265.h, left: 28.sp, right: 28.sp),
-      child: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: <Widget>[
-          AutoSizeText(
-            'Registre los cambios a reportar de cada activo de la lista',
-            style: TextStyle(
-              fontFamily: "montserrat",
-              fontSize: 15.sp,
-              color: titleColor,
-              fontWeight: FontWeight.w500,
+    return BlocBuilder<AomDetailCategoriesCubit, AomDetailCategoriesState>(
+      buildWhen: ((previous, current) => previous.status != current.status),
+      builder: (context, state) {
+        if (state.status == AomDetailCategoriesStatus.loading) {
+          return Builder(builder: (context) {
+            return Container(
+              margin: EdgeInsets.only(top: 265.h, left: 28.sp, right: 28.sp),
+              child: ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 3,
+                itemBuilder: (_, int index) {
+                  return Container(
+                      margin: EdgeInsets.symmetric(vertical: 10.sp),
+                      padding: EdgeInsets.only(
+                        left: 15.sp,
+                        right: 15.sp,
+                        top: 20.45.sp,
+                        bottom: 20.45.sp,
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.13.sp),
+                          color: ColorTheme.primary.withOpacity(0.05)),
+                      child: ShimmerDetallerActivoWidget());
+                },
+                separatorBuilder: (_, int index) => SizedBox(height: 10.sp),
+              ),
+            );
+          });
+        }
+
+        return FadeIn(
+          duration: const Duration(milliseconds: 1500),
+          child: Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 265.h, left: 28.sp, right: 28.sp),
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: <Widget>[
+                AutoSizeText(
+                  'Registre los cambios a reportar de cada activo de la lista',
+                  style: TextStyle(
+                    fontFamily: "montserrat",
+                    fontSize: 15.sp,
+                    color: titleColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: 20.sp),
+                for (final item in state.gestionAom) DetailCardWidget(item),
+              ],
             ),
           ),
-          SizedBox(height: 20.sp),
-          for (var i = 1; i <= 3; i++) DetailCardWidget(i),
-        ],
-      ),
+        );
+      },
     );
   }
 }

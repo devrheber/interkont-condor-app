@@ -197,4 +197,37 @@ class AomProjectsImpl implements AomProjectsRepository {
       throw manageDioError(e);
     }
   }
+
+  @override
+  Future<List<EstadoDeActivo>> getEstados({x.CancelToken? cancelToken}) async {
+    try {
+      final x.Response<dynamic> response = await _dio.get(
+        ApiRoutes.getListaEstados,
+        options: x.Options(
+          headers: {
+            'Content-type': 'application/json',
+            'Authorization': user.token,
+          },
+        ),
+        cancelToken: cancelToken,
+      );
+
+      if (response.data is Map && response.data['status'] == false) {
+        // Se infiere que si respuesta regresa con compo status,
+        // este será false, indicando que ocurrió un error.
+        throw AomProjectsBackendErrorException(
+          response.data,
+        );
+      }
+
+      if (response.statusCode == 200) {
+        final list = estadoDeActivoFromJson(json.encode(response.data));
+        return list;
+      }
+
+      throw AomProjectsOtherEception();
+    } on x.DioError catch (e) {
+      throw manageDioError(e);
+    }
+  }
 }

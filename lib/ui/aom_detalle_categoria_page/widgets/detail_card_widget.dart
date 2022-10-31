@@ -1,25 +1,33 @@
 import 'dart:async';
-import 'dart:math';
 
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
+import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_detail_categories_cubit.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toast/toast.dart';
 
 class DetailCardWidget extends StatefulWidget {
-  const DetailCardWidget(this.numeroDeActivo, {Key? key}) : super(key: key);
+  const DetailCardWidget(this.item, {Key? key}) : super(key: key);
 
-  final int numeroDeActivo;
+  final GestionAom item;
 
   @override
   State<DetailCardWidget> createState() => _DetailCardWidgetState();
 }
 
 class _DetailCardWidgetState extends State<DetailCardWidget> {
-  var intValue = Random().nextInt(20) + 7;
   Timer? timer;
-  late int count;
+  int _count = 0;
+
+  int get count => _count;
+
+  set count(int value) {
+    debugPrint('value to save: ${((value - widget.item.cantidad).abs())}');
+    setState(() => _count = value);
+  }
 
   int _operatividad = 0;
 
@@ -32,7 +40,7 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
   @override
   void initState() {
     super.initState();
-    count = intValue;
+    _count = widget.item.cantidad;
   }
 
   void increment() {
@@ -57,8 +65,11 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
 
     screenWidth = MediaQuery.of(context).size.width;
     double factor = ((screenWidth ?? 0) / 414.0);
-    print('screenwidth: $screenWidth');
-    print('FACTOR: $factor');
+
+    final cubit =
+        BlocProvider.of<AomDetailCategoriesCubit>(context, listen: true);
+    // print('screenwidth: $screenWidth');
+    // print('FACTOR: $factor');
     return PurpleRoundedGradientContainer(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: (361 * factor).sp),
@@ -66,8 +77,9 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           children: [
-            Wrap(
-              runSpacing: (3 * factor).sp,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Descripción:',
@@ -77,8 +89,9 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+                SizedBox(height: 5.sp),
                 Text(
-                  'Activo ${widget.numeroDeActivo} de Compensación reactiva, Vereda San Juan',
+                  widget.item.descripcionDetalle,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.sp,
@@ -111,43 +124,14 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: 'EN OPERACIÓN',
-                      icon: const Icon(
-                        Icons.arrow_drop_down,
-                        color: ColorTheme.dark,
-                      ),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: TextStyle(
-                        color: ColorTheme.dark,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      underline: Container(
-                        height: 2,
-                      ),
-                      onChanged: (String? newValue) {},
-                      items: <String>[
-                        'EN OPERACIÓN',
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                ?.copyWith(
-                                    color: Color(0xFF384C68),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500),
-                          ),
-                        );
-                      }).toList(),
-                    ),
+                  child: DropDownEstado(
+                    list: cubit.state.estados,
+                    value: cubit.state.getEstadoSeleccionado(
+                        widget.item.id, widget.item.estadoSupervisorId),
+                    onChanged: (EstadoDeActivo? newValue) {
+                      print(newValue?.strNombreEstado);
+                      cubit.updateEstadoDeActivo(widget.item.id, newValue);
+                    },
                   ),
                 ),
               ],
@@ -299,7 +283,7 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
               ],
             ),
             SizedBox(height: 26.sp),
-            const _DisposicionActualField(),
+            _DisposicionActualField(widget.item.observacion ?? ''),
           ],
         ),
       ),
@@ -307,10 +291,66 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
   }
 }
 
+class DropDownEstado extends StatelessWidget {
+  const DropDownEstado({
+    Key? key,
+    required this.list,
+    required this.value,
+    required this.onChanged,
+  }) : super(key: key);
+
+  final List<EstadoDeActivo> list;
+  final EstadoDeActivo? value;
+  final Function(EstadoDeActivo? value) onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonHideUnderline(
+      child: DropdownButton<EstadoDeActivo>(
+        isExpanded: true,
+        value: value,
+        icon: const Icon(
+          Icons.arrow_drop_down,
+          color: ColorTheme.dark,
+        ),
+        iconSize: 24,
+        elevation: 16,
+        style: TextStyle(
+          color: ColorTheme.dark,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w400,
+        ),
+        underline: Container(
+          height: 2,
+        ),
+        onChanged: (EstadoDeActivo? newValue) {
+          onChanged(newValue);
+        },
+        items:
+            list.map<DropdownMenuItem<EstadoDeActivo>>((EstadoDeActivo item) {
+          return DropdownMenuItem<EstadoDeActivo>(
+            value: item,
+            child: Text(
+              item.strNombreEstado,
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                  color: Color(0xFF384C68),
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
 class _DisposicionActualField extends StatefulWidget {
-  const _DisposicionActualField({
+  const _DisposicionActualField(
+    this.value, {
     Key? key,
   }) : super(key: key);
+
+  final String value;
 
   @override
   State<_DisposicionActualField> createState() =>
@@ -318,13 +358,14 @@ class _DisposicionActualField extends StatefulWidget {
 }
 
 class _DisposicionActualFieldState extends State<_DisposicionActualField> {
-  TextEditingController controller = TextEditingController();
+  late TextEditingController controller;
 
   late String hintText;
 
   @override
   void initState() {
     super.initState();
+    controller = TextEditingController(text: widget.value);
     hintText =
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore';
   }
