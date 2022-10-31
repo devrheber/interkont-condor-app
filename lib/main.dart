@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:appalimentacion/data/local/projects_impl_local.dart';
 import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/data/remote/login_remote.dart';
 import 'package:appalimentacion/data/remote/projects_impl.dart';
@@ -35,6 +36,8 @@ void main() async {
 
   final instance = await SharedPreferences.getInstance();
 
+  final projectsRepository = ProjectsImplLocal();
+
   final projectsCacheApi = LocalStorageProjectsCacheApi(
     plugin: instance,
   );
@@ -51,6 +54,7 @@ void main() async {
 
   runApp(AppState(
     prefs: prefs,
+    projectsRepository: projectsRepository,
     projectsCacheRepository: projectsCacheRepository,
     sharedPreferences: instance,
     filesPersistentCacheApi: filesPersistentCacheApi,
@@ -61,12 +65,14 @@ class AppState extends StatelessWidget {
   const AppState({
     Key? key,
     required this.prefs,
+    required this.projectsRepository,
     required this.projectsCacheRepository,
     required this.filesPersistentCacheApi,
     required this.sharedPreferences,
   }) : super(key: key);
 
   final UserPreferences prefs;
+  final ProjectsRepository projectsRepository;
   final ProjectsCacheRepository projectsCacheRepository;
   final FilesPersistentCacheApi filesPersistentCacheApi;
   final SharedPreferences sharedPreferences;
@@ -87,7 +93,7 @@ class AppState extends StatelessWidget {
           create: (_) => prefs,
         ),
         Provider<ProjectsRepository>(
-          create: (_) => ProjectsImpl(),
+          create: (_) => projectsRepository,
         ),
         ChangeNotifierProvider<AuthenticationProvider>(
           create: (_) => AuthenticationProvider(
@@ -98,7 +104,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProjectsProvider(
             projectsCacheRepository: projectsCacheRepository,
-            projectRepository: ProjectsImpl(),
+            projectRepository: projectsRepository,
             filesPersistentCacheApi: filesPersistentCacheApi,
           ),
         ),
