@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:appalimentacion/blocs/network/network_bloc.dart';
 import 'package:appalimentacion/data/local/projects_impl_local.dart';
 import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/data/remote/login_remote.dart';
@@ -18,6 +19,7 @@ import 'package:appalimentacion/ui/login/login.dart';
 import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -109,20 +111,23 @@ class AppState extends StatelessWidget {
           ),
         ),
       ],
-      child: ScreenUtilInit(
-        designSize: Size(414, 896),
-        builder: (_, __) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: const App(),
-            localizationsDelegates: LocalizationDelegates.delegates,
-            supportedLocales: SupportedLocales.locale,
-            theme: ThemeData(
-              fontFamily: 'WorkSans',
-              textTheme: AppTheme.textTheme,
-            ),
-          );
-        },
+      child: BlocProvider(
+        create: (context) => NetworkBloc()..add(NetworkObserve()),
+        child: ScreenUtilInit(
+          designSize: Size(414, 896),
+          builder: (_, __) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: const App(),
+              localizationsDelegates: LocalizationDelegates.delegates,
+              supportedLocales: SupportedLocales.locale,
+              theme: ThemeData(
+                fontFamily: 'WorkSans',
+                textTheme: AppTheme.textTheme,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
