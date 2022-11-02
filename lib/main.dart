@@ -22,6 +22,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'globales/colores.dart';
 import 'globales/logo.dart';
@@ -29,6 +30,7 @@ import 'theme/color_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   HttpOverrides.global = MyHttpOverrides();
 
   SystemChrome.setPreferredOrientations(
@@ -54,13 +56,20 @@ void main() async {
 
   await prefs.initPrefs();
 
-  runApp(AppState(
-    prefs: prefs,
-    projectsRepository: projectsRepository,
-    projectsCacheRepository: projectsCacheRepository,
-    sharedPreferences: instance,
-    filesPersistentCacheApi: filesPersistentCacheApi,
-  ));
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://dcdb599c3313428eaea9318ae8407d2a@o1172295.ingest.sentry.io/4504091069972480';
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(AppState(
+      prefs: prefs,
+      projectsRepository: projectsRepository,
+      projectsCacheRepository: projectsCacheRepository,
+      sharedPreferences: instance,
+      filesPersistentCacheApi: filesPersistentCacheApi,
+    )),
+  );
 }
 
 class AppState extends StatelessWidget {

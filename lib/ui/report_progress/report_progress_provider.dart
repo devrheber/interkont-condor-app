@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../domain/models/models.dart';
 import '../../domain/repository/cache_repository.dart';
 import '../../domain/repository/files_persistent_cache_repository.dart';
+import 'package:sentry/sentry.dart';
 
 class ReportProgressProvider extends ChangeNotifier {
   ReportProgressProvider({
@@ -75,6 +76,15 @@ class ReportProgressProvider extends ChangeNotifier {
       this.detail = detailUpdated;
       notifyListeners();
     });
+
+    try {
+      throw Exception('Excepción de prueba para Sentry');
+    } catch (exception, stackTrace) {
+      Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   @override

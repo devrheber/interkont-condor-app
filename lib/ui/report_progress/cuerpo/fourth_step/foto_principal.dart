@@ -4,6 +4,8 @@ import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:toast/toast.dart';
 
 import 'local_widgets/imagen_caja.dart';
 
@@ -15,12 +17,19 @@ class FotoPrincipal extends StatelessWidget {
     final fourthStepProvider = context.read<FourthStepProvider>();
     final mainPhoto = context.watch<FourthStepProvider>().mainPhoto;
 
+    ToastContext().init(context);
+
     Future<void> obtenerImagen(ImageSource source) async {
-      final picked = await ImagePicker().pickImage(source: source);
+      try {
+        final picked = await ImagePicker().pickImage(source: source);
 
-      if (picked == null) return;
+        if (picked == null) return;
 
-      fourthStepProvider.saveMainPhoto(picked);
+        fourthStepProvider.saveMainPhoto(picked);
+      } catch (exception, stackTrace) {
+        await Sentry.captureException(exception, stackTrace: stackTrace);
+        Toast.show('Algo salió mal, incidencia reportada.');
+      }
     }
 
     return Container(
