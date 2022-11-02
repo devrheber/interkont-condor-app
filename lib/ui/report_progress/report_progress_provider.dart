@@ -47,6 +47,7 @@ class ReportProgressProvider extends ChangeNotifier {
   late AspectoEvaluar aspectSelected;
 
   StreamSubscription<Map<String, ProjectCache>>? cacheSubscription;
+  StreamSubscription<Map<String, DatosAlimentacion>>? detailsSubscription;
 
   DateTime? incomeGenerationDate;
   DateTime? rentalRepaymentDate;
@@ -62,11 +63,25 @@ class ReportProgressProvider extends ChangeNotifier {
           ProjectCache(projectCode: project.codigoproyecto);
       _initFourthStep();
     });
+
+    detailsSubscription =
+        _projectsCacheRepository.getDetails().listen((details) {
+      final detailUpdated = details[project.getProjectCode];
+
+      if (detailUpdated == null) return;
+      if (detailUpdated == this.detail) {
+        return;
+      }
+      this.detail = detailUpdated;
+      notifyListeners();
+    });
   }
 
   @override
   void dispose() {
+    debugPrint('dispose reportProgressProvider');
     cacheSubscription?.cancel();
+    detailsSubscription?.cancel();
     super.dispose();
   }
 
