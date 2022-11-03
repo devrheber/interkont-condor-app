@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../utils/utils.dart';
@@ -19,11 +20,16 @@ class FotosComplementarias extends StatelessWidget {
     ToastContext().init(context);
 
     Future obtenerImagen(ImageSource source) async {
-      final picked = await ImagePicker().pickImage(source: source);
+      try {
+        final picked = await ImagePicker().pickImage(source: source);
 
-      if (picked == null) return;
+        if (picked == null) return;
 
-      fourthStepService.saveImage(picked);
+        fourthStepService.saveImage(picked);
+      } catch (exception, stackTrace) {
+        await Sentry.captureException(exception, stackTrace: stackTrace);
+        Toast.show('Algo salió mal, incidencia reportada.');
+      }
     }
 
     return Wrap(

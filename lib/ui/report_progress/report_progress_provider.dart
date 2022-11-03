@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../domain/models/models.dart';
 import '../../domain/repository/cache_repository.dart';
 import '../../domain/repository/files_persistent_cache_repository.dart';
+import 'package:sentry/sentry.dart';
 
 class ReportProgressProvider extends ChangeNotifier {
   ReportProgressProvider({
@@ -47,6 +48,7 @@ class ReportProgressProvider extends ChangeNotifier {
   late AspectoEvaluar aspectSelected;
 
   StreamSubscription<Map<String, ProjectCache>>? cacheSubscription;
+  StreamSubscription<Map<String, DatosAlimentacion>>? detailsSubscription;
 
   DateTime? incomeGenerationDate;
   DateTime? rentalRepaymentDate;
@@ -62,11 +64,34 @@ class ReportProgressProvider extends ChangeNotifier {
           ProjectCache(projectCode: project.codigoproyecto);
       _initFourthStep();
     });
+
+    detailsSubscription =
+        _projectsCacheRepository.getDetails().listen((details) {
+      final detailUpdated = details[project.getProjectCode];
+
+      if (detailUpdated == null) return;
+      if (detailUpdated == this.detail) {
+        return;
+      }
+      this.detail = detailUpdated;
+      notifyListeners();
+    });
+
+    try {
+      throw Exception('Excepción de prueba para Sentry');
+    } catch (exception, stackTrace) {
+      Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   @override
   void dispose() {
+    debugPrint('dispose reportProgressProvider');
     cacheSubscription?.cancel();
+    detailsSubscription?.cancel();
     super.dispose();
   }
 

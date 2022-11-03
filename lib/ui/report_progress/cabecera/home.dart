@@ -4,8 +4,6 @@ import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
-import '../../../domain/models/models.dart';
 import '../../../globales/customed_app_bar.dart';
 import '../../lista_proyectos_page/projects_provider.dart';
 import '../report_progress_provider.dart';

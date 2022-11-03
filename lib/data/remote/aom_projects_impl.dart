@@ -36,7 +36,7 @@ class AomProjectsImpl implements AomProjectsRepository {
         throw AomProjectsSlowConnectionException();
       case x.DioErrorType.response:
         if (e.response?.statusCode == 500) {
-          throw AomProjectsBackendErrorException();
+          throw AomProjectsBackendErrorException(e.response?.data);
         }
         if (e.response?.statusCode == 403) {
           throw AomProjectsForbiddenException();

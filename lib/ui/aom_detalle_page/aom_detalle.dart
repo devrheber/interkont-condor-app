@@ -113,7 +113,7 @@ class AomDetalleView extends StatelessWidget {
                       Divider(),
                       _TitleContent(
                         title: 'Cantidad de Activos',
-                        content: '25',
+                        content: '${state.clasifications.length}',
                       ),
                     ],
                   ),
@@ -147,6 +147,7 @@ class _Clasifications extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('building clasifications');
+    ToastContext().init(context);
 
     //!FAKE DATA
     //nombre, pendiente,paso
@@ -266,7 +267,7 @@ class ActivoGeneral extends StatelessWidget {
             textAlign: TextAlign.center,
             text: TextSpan(
               text: text,
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
               children: pending
                   ? [
                       TextSpan(
@@ -307,6 +308,7 @@ class _TitleContent extends StatelessWidget {
     Key? key,
     required this.title,
     required this.content,
+    
   }) : super(key: key);
   final String title;
   final String content;
@@ -318,13 +320,24 @@ class _TitleContent extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-            child: Text(title, style: Theme.of(context).textTheme.button),
+            child: Text(title,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                )),
           ),
           SizedBox(width: 5.sp),
           Expanded(
-              child: Text(content,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14.sp))),
+            child: Text(
+              content,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 13.93.sp,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF808080),
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -17,7 +17,7 @@ DatosAlimentacion datosAlimentacionFromJson(String str) =>
 String datosAlimentacionToJson(DatosAlimentacion data) =>
     json.encode(data.toJson());
 
-class DatosAlimentacion {
+class DatosAlimentacion extends Equatable {
   DatosAlimentacion({
     required this.limitePorcentajeAtraso,
     required this.limitePorcentajeAtrasoAmarillo,
@@ -29,14 +29,14 @@ class DatosAlimentacion {
     required this.factoresAtraso,
   });
 
-  double limitePorcentajeAtraso;
-  double limitePorcentajeAtrasoAmarillo;
-  List<Periodo> periodos;
-  List<Actividad> actividades;
-  List<IndicadoresDeAlcance> indicadoresAlcance;
-  List<AspectoEvaluar> apectosEvaluar;
-  List<TiposFactorAtraso> tiposFactorAtraso;
-  List<FactoresAtraso> factoresAtraso;
+  final double limitePorcentajeAtraso;
+  final double limitePorcentajeAtrasoAmarillo;
+  final List<Periodo> periodos;
+  final List<Actividad> actividades;
+  final List<IndicadoresDeAlcance> indicadoresAlcance;
+  final List<AspectoEvaluar> apectosEvaluar;
+  final List<TiposFactorAtraso> tiposFactorAtraso;
+  final List<FactoresAtraso> factoresAtraso;
 
   factory DatosAlimentacion.fromJson(Map<String, dynamic> json) =>
       DatosAlimentacion(
@@ -74,12 +74,24 @@ class DatosAlimentacion {
             List<dynamic>.from(factoresAtraso.map((x) => x.toJson())),
       };
 
+  @override
+  List<Object?> get props => [
+        limitePorcentajeAtraso,
+        limitePorcentajeAtrasoAmarillo,
+        periodos,
+        actividades,
+        indicadoresAlcance,
+        apectosEvaluar,
+        tiposFactorAtraso,
+        factoresAtraso,
+      ];
+
   // static DatosAlimentacion get empty {
   //   return DatosAlimentacion();
   // }
 }
 
-class Actividad {
+class Actividad extends Equatable {
   Actividad({
     required this.actividadId,
     required this.descripcionActividad,
@@ -178,9 +190,25 @@ class Actividad {
   String get getStringId {
     return actividadId.toString();
   }
+
+  @override
+  List<Object?> get props => [
+        actividadId,
+        descripcionActividad,
+        unidadMedida,
+        valorUnitario,
+        cantidadProgramada,
+        cantidadEjecutada,
+        valorProgramado,
+        valorEjecutado,
+        porcentajeAvance,
+        cantidadEjecutadaInicial,
+        valorEjecutadoInicial,
+        porcentajeAvanceInicial,
+      ];
 }
 
-class AspectoEvaluar {
+class AspectoEvaluar extends Equatable {
   AspectoEvaluar({
     required this.aspectoEvaluarId,
     required this.descripcionAspectoEvaluar,
@@ -198,9 +226,15 @@ class AspectoEvaluar {
         "aspectoEvaluarId": aspectoEvaluarId,
         "descripcionAspectoEvaluar": descripcionAspectoEvaluar,
       };
+
+  @override
+  List<Object?> get props => [
+        aspectoEvaluarId,
+        descripcionAspectoEvaluar,
+      ];
 }
 
-class FactoresAtraso {
+class FactoresAtraso extends Equatable {
   FactoresAtraso({
     required this.factorAtrasoId,
     required this.factorAtraso,
@@ -222,6 +256,13 @@ class FactoresAtraso {
         "factorAtraso": factorAtraso,
         "tipoFactorAtrasoId": tipoFactorAtrasoId,
       };
+
+  @override
+  List<Object?> get props => [
+        factorAtrasoId,
+        factorAtraso,
+        tipoFactorAtrasoId,
+      ];
 }
 
 class Periodo extends Equatable {
@@ -260,7 +301,7 @@ class Periodo extends Equatable {
       [periodoId, fechaFinPeriodo, fechaFinPeriodo, porcentajeProyectado];
 }
 
-class TiposFactorAtraso {
+class TiposFactorAtraso extends Equatable {
   TiposFactorAtraso({
     required this.tipoFactorAtrasoId,
     required this.tipoFactorAtraso,
@@ -279,6 +320,12 @@ class TiposFactorAtraso {
         "tipoFactorAtrasoId": tipoFactorAtrasoId,
         "tipoFactorAtraso": tipoFactorAtraso,
       };
+
+  @override
+  List<Object?> get props => [
+        tipoFactorAtrasoId,
+        tipoFactorAtraso,
+      ];
 }
 
 List<IndicadoresDeAlcance> indicadoresDeAlcanceFromJson(String str) =>
@@ -288,7 +335,7 @@ List<IndicadoresDeAlcance> indicadoresDeAlcanceFromJson(String str) =>
 String indicadoresDeAlcanceToJson(List<IndicadoresDeAlcance> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class IndicadoresDeAlcance {
+class IndicadoresDeAlcance extends Equatable {
   IndicadoresDeAlcance({
     required this.indicadorAlcanceId,
     required this.descripcionIndicadorAlcance,
@@ -339,4 +386,16 @@ class IndicadoresDeAlcance {
       };
 
   String get getId => indicadorAlcanceId.toString();
+
+  @override
+  List<Object?> get props => [
+        indicadorAlcanceId,
+        descripcionIndicadorAlcance,
+        unidadMedida,
+        cantidadProgramada,
+        cantidadEjecutada,
+        porcentajeAvance,
+        cantidadEjecutadaInicial,
+        porcentajeAvanceInicial,
+      ];
 }

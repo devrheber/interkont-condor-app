@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../domain/models/tipo_doc_model.dart';
@@ -22,7 +23,7 @@ class DocumentosAdicionales extends StatelessWidget {
     final documents = context.watch<FourthStepProvider>().additionalDocuments;
 
     ToastContext().init(context);
-    
+
     var textStyle = TextStyle(
       fontFamily: 'montserrat',
       fontSize: 14.sp,
@@ -31,22 +32,27 @@ class DocumentosAdicionales extends StatelessWidget {
     );
 
     Future<void> agregarDocumento() async {
-      final FilePickerResult? result = await FilePicker.platform.pickFiles();
+      try {
+        final FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-      if (result == null) return;
+        if (result == null) return;
 
-      //if result is greater than 20mb show error message
-      if (result.files.single.size > 20000000) {
-        Toast.show("El archivo no puede ser mayor a 20MB",
-            duration: 3, gravity: Toast.bottom);
+        //if result is greater than 20mb show error message
+        if (result.files.single.size > 20000000) {
+          Toast.show("El archivo no puede ser mayor a 20MB",
+              duration: 3, gravity: Toast.bottom);
 
-        return;
+          return;
+        }
+
+        // TODO Use try catch
+
+        File file = File(result.files.single.path!);
+        fourthStepService.addAdditionalDocument(file);
+      } catch (exception, stackTrace) {
+        await Sentry.captureException(exception, stackTrace: stackTrace);
+        Toast.show('Algo salió mal, incidencia reportada.');
       }
-
-      // TODO Use try catch
-
-      File file = File(result.files.single.path!);
-      fourthStepService.addAdditionalDocument(file);
     }
 
     return Column(

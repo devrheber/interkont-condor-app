@@ -28,19 +28,35 @@ import 'widgets/detail_card_widget.dart';
 import 'widgets/question_one_widget.dart';
 import 'widgets/yes_no_purple_widget.dart';
 
-class AomDetalleCategoriaPage extends StatelessWidget {
+class AomDetalleCategoriaPage extends StatefulWidget {
   const AomDetalleCategoriaPage({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<AomDetalleCategoriaPage> createState() =>
+      _AomDetalleCategoriaPageState();
+}
+
+class _AomDetalleCategoriaPageState extends State<AomDetalleCategoriaPage> {
+  int paso = 1;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    paso = arguments['paso'];
+  }
+
+  @override
   Widget build(BuildContext context) {
-    //get pushnamed arguments
-    // final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    // String nombre = arguments['nombre'];
+    // get pushnamed arguments
+    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    String nombre = arguments['nombre'];
     // int paso = arguments['paso'];
-    String nombre = 'Nombre';
-    int paso = 1;
+    // String nombre = 'Nombre';
+    // int paso = 1;
 
     TextStyle textStyleStepSelected = TextStyle(
       fontFamily: "montserrat",
@@ -75,7 +91,9 @@ class AomDetalleCategoriaPage extends StatelessWidget {
                 context,
                 AppRoutes.aomLastStep,
               );
+              return;
             }
+            setState(() => paso++);
           },
         ),
       ),

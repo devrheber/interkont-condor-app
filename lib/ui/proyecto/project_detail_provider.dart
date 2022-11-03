@@ -80,8 +80,8 @@ class ProjectDetailProvider extends ChangeNotifier {
   }
 
   void _updateSelectedPeriod() {
-    periodoSeleccionado = null;
-    return;
+    // periodoSeleccionado = null;
+    // return;
 
     final int index = detail!.periodos.indexWhere(
         (period) => period.periodoId == periodoSeleccionado?.periodoId);

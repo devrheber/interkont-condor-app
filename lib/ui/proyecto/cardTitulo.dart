@@ -1,7 +1,9 @@
 import 'dart:math' as math;
 
+import 'package:appalimentacion/blocs/network/network_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
@@ -10,7 +12,6 @@ import '../../globales/colores.dart';
 import '../../globales/customed_app_bar.dart';
 import '../../utils/assets/assets.dart';
 import '../lista_proyectos_page/projects_provider.dart';
-import '../report_progress/cuerpo/last_step/noInternet.dart';
 import 'project_detail_provider.dart';
 
 final titleColor = Color(0xff444444);
@@ -252,108 +253,151 @@ class _SyncButtonState extends State<_SyncButton>
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      child: Container(
-        color: Colors.transparent,
-        margin: EdgeInsets.only(top: 226.sp),
-        width: double.infinity,
-        child: Center(
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  height: 35.sp,
-                  width: 143.sp,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.sp),
-                  ),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.sp),
-                      ),
+    return BlocListener<NetworkBloc, NetworkState>(
+      listener: (context, state) {
+        if (state is NetworkSuccess) {
+          if (animationController?.isAnimating ?? false) {
+            return;
+          }
+          _sync();
+        }
+      },
+      child: Positioned(
+        child: Container(
+          color: Colors.transparent,
+          margin: EdgeInsets.only(top: 226.sp),
+          width: double.infinity,
+          child: Center(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: 35.sp,
+                    width: 143.sp,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.sp),
                     ),
-                    onPressed: () async {
-                      final projectsService = context.read<ProjectsProvider>();
-                      final detailService =
-                          context.read<ProjectDetailProvider>();
-                      if (animationController != null &&
-                          (animationController?.isAnimating ?? false)) return;
-                      animationController?.repeat();
-                      
-                      await projectsService.getRemoteProjects();
-                      detailService.updateProject();
-
-                      final result = await detailService.syncDetail();
-
-                      animationController?.reset();
-                      animationController?.stop();
-
-                      if (result) {
-                        Toast.show("Proyecto sincronizado correctamente!",
-                            duration: 3, gravity: Toast.bottom);
-                      } else {
-                        Toast.show(
-                            "Lo sentimos, debe estar conectado a internet para sincronizar el proyecto",
-                            duration: 3,
-                            gravity: Toast.bottom);
-                      }
-                    },
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Color(0XFF735EF0), width: 5),
-                        color: Color(0XFF735EF0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
                       ),
-                      child: Container(
-                        height: 35.sp,
-                        width: 143.sp,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            animationController != null
-                                ? AnimatedBuilder(
-                                    animation: animationController!,
-                                    builder: (_, child) {
-                                      print("\x1B[2J\x1B[0;0H");
-
-                                      return Transform.rotate(
-                                        angle:
-                                            (animationController?.value ?? 0) *
-                                                2 *
-                                                math.pi,
-                                        child: child,
-                                      );
-                                    },
-                                    child: SyncImage(),
-                                  )
-                                : SyncImage(),
-                            Padding(
-                              padding: EdgeInsets.only(left: 7.7.sp),
-                              child: Text(
-                                'Sincronizar',
-                                style: TextStyle(
-                                  fontFamily: "montserrat",
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12.sp,
-                                  color: Colors.white,
+                      onPressed: () {
+                        final isConnected = verifyConnection();
+                        if (!isConnected) {
+                          Toast.show(
+                            'Lo sentimos, debe estar conectado a internet para sincronizar el proyecto',
+                            duration: 5,
+                            gravity: Toast.bottom,
+                          );
+                          return;
+                        }
+                        _sync();
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Color(0XFF735EF0), width: 5),
+                          color: Color(0XFF735EF0),
+                        ),
+                        child: Container(
+                          height: 35.sp,
+                          width: 143.sp,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              animationController != null
+                                  ? AnimatedBuilder(
+                                      animation: animationController!,
+                                      builder: (_, child) {
+                                        // print("\x1B[2J\x1B[0;0H");
+                                        
+                                        return Transform.rotate(
+                                          angle: (animationController?.value ??
+                                                  0) *
+                                              2 *
+                                              math.pi,
+                                          child: child,
+                                        );
+                                      },
+                                      child: SyncImage(),
+                                    )
+                                  : SyncImage(),
+                              Padding(
+                                padding: EdgeInsets.only(left: 7.7.sp),
+                                child: Text(
+                                  (animationController?.isAnimating ?? false)
+                                      ? 'Sincronizando'
+                                      : 'Sincronizar',
+                                  style: TextStyle(
+                                    fontFamily: "montserrat",
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12.sp,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _sync() async {
+    setState(() {});
+    final projectsService = context.read<ProjectsProvider>();
+    final detailService = context.read<ProjectDetailProvider>();
+    if (animationController != null &&
+        (animationController?.isAnimating ?? false)) return;
+    animationController?.repeat();
+
+    try {
+      await projectsService.getRemoteProjects();
+      detailService.updateProject();
+
+      final result = await detailService.syncDetail();
+
+      animationController?.reset();
+      animationController?.stop();
+
+      if (result) {
+        Toast.show("Proyecto sincronizado correctamente!",
+            duration: 3, gravity: Toast.bottom);
+      } else {
+        Toast.show(
+            "Lo sentimos, debe estar conectado a internet para sincronizar el proyecto",
+            duration: 3,
+            gravity: Toast.bottom);
+      }
+      setState(() {});
+    } catch (_) {
+      Toast.show("Lo sentimos, Algo salió mal",
+          duration: 5, gravity: Toast.bottom);
+      setState(() {});
+    }
+  }
+
+  bool verifyConnection() {
+    final state = context.read<NetworkBloc>().state;
+
+    if (state is NetworkFailure) {
+      return false;
+    }
+
+    return true;
   }
 }
 

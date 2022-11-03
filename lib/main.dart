@@ -1,16 +1,31 @@
 import 'dart:io';
-
 import 'package:appalimentacion/blocs/network/network_bloc.dart';
 import 'package:appalimentacion/data/local/aom_projects_api_impl.dart';
+import 'package:appalimentacion/data/local/projects_impl_local.dart';
+import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/data/remote/aom_projects_impl.dart';
+import 'package:appalimentacion/data/remote/login_remote.dart';
+import 'package:appalimentacion/data/remote/projects_impl.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_api.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
+import 'package:appalimentacion/domain/repository/cache_repository.dart';
+import 'package:appalimentacion/domain/repository/local_storage_projects_cache_api.dart';
+import 'package:appalimentacion/domain/repository/login_repository.dart';
+import 'package:appalimentacion/domain/repository/files_persistent_cache_api.dart';
+import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
+import 'package:appalimentacion/domain/repository/projects_repository.dart';
+import 'package:appalimentacion/globales/ssl_solution.dart';
 import 'package:appalimentacion/routes/app_routes.dart';
+import 'package:appalimentacion/translation/localizations_delegates.dart';
+import 'package:appalimentacion/translation/supported_locales.dart';
+import 'package:appalimentacion/ui/login/login.dart';
+import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/local/user_preferences.dart';
@@ -34,6 +49,7 @@ import 'ui/lista_proyectos_page/projects_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   HttpOverrides.global = MyHttpOverrides();
 
   SystemChrome.setPreferredOrientations(
@@ -42,6 +58,8 @@ void main() async {
   final UserPreferences prefs = UserPreferences();
 
   final instance = await SharedPreferences.getInstance();
+
+  final projectsRepository = ProjectsImpl();
 
   final projectsCacheApi = LocalStorageProjectsCacheApi(
     plugin: instance,
@@ -57,13 +75,19 @@ void main() async {
 
   await prefs.initPrefs();
 
-  runApp(
-    AppState(
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://dcdb599c3313428eaea9318ae8407d2a@o1172295.ingest.sentry.io/4504091069972480';
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(AppState(
       prefs: prefs,
+      projectsRepository: projectsRepository,
       projectsCacheRepository: projectsCacheRepository,
       sharedPreferences: instance,
       filesPersistentCacheApi: filesPersistentCacheApi,
-    ),
+    )),
   );
 }
 
@@ -71,12 +95,14 @@ class AppState extends StatelessWidget {
   const AppState({
     Key? key,
     required this.prefs,
+    required this.projectsRepository,
     required this.projectsCacheRepository,
     required this.filesPersistentCacheApi,
     required this.sharedPreferences,
   }) : super(key: key);
 
   final UserPreferences prefs;
+  final ProjectsRepository projectsRepository;
   final ProjectsCacheRepository projectsCacheRepository;
   final FilesPersistentCacheApi filesPersistentCacheApi;
   final SharedPreferences sharedPreferences;
@@ -97,7 +123,7 @@ class AppState extends StatelessWidget {
           create: (_) => prefs,
         ),
         Provider<ProjectsRepository>(
-          create: (_) => ProjectsImpl(),
+          create: (_) => projectsRepository,
         ),
         Provider<AomProjectsRepository>(
           create: (_) => AomProjectsImpl(),
@@ -114,7 +140,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProjectsProvider(
             projectsCacheRepository: projectsCacheRepository,
-            projectRepository: ProjectsImpl(),
+            projectRepository: projectsRepository,
             filesPersistentCacheApi: filesPersistentCacheApi,
           ),
         ),

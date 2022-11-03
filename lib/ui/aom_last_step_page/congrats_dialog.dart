@@ -13,7 +13,7 @@ class CongratsDialog extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         await Navigator.of(context)
-            .pushReplacementNamed(AppRoutes.listaProyectosAOM);
+            .pushNamed(AppRoutes.listaProyectosAOM);
 
         return false;
       },
