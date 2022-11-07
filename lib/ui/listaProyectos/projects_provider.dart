@@ -72,9 +72,9 @@ class ProjectsProvider extends ChangeNotifier {
 
   Future<void> saveDetail(int codigoProyecto, DatosAlimentacion data) async {
     data.periodos
-          .sort((a, b) => a.getFechaIniDateTime.compareTo(b.getFechaIniDateTime));
+        .sort((a, b) => a.getFechaIniDateTime.compareTo(b.getFechaIniDateTime));
     details[codigoProyecto.toString()] = data;
-    
+
     await _projectsCacheRepository.saveProjectDetails(codigoProyecto, data);
   }
 

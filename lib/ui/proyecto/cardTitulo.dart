@@ -316,7 +316,7 @@ class _SyncButtonState extends State<_SyncButton>
                                 ? AnimatedBuilder(
                                     animation: animationController!,
                                     builder: (_, child) {
-                                      print("\x1B[2J\x1B[0;0H");
+                                      // print("\x1B[2J\x1B[0;0H");
 
                                       return Transform.rotate(
                                         angle:
