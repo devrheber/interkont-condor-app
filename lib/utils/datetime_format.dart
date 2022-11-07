@@ -12,6 +12,14 @@ class DateTimeFormat {
     return DateFormat('MMMM - yyyy', 'es_CO').format(date).toTitleCase();
   }
 
+  static String yyyyMMMDD(DateTime date) {
+    return DateFormat('yyyy-MMM-dd', 'es_CO')
+        .format(date)
+        .toTitleCase()
+        .toUpperCase()
+        .replaceAll('.', '');
+  }
+
   static String ddMMYYYY(DateTime date) {
     String fecha = date.toString().split(' ')[0];
     List<String> fechaSplit = fecha.split('-');

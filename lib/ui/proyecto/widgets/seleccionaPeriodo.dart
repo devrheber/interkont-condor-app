@@ -1,6 +1,7 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
+import 'package:appalimentacion/utils/datetime_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -59,10 +60,10 @@ class DropDownPeriodo extends StatelessWidget {
                           child: Row(
                             children: <Widget>[
                               Text('del ', style: AppTheme.parrafo),
-                              Text(value.fechaIniPeriodo,
+                              Text(DateTimeFormat.yyyyMMMDD(value.getFechaIniDateTime),
                                   style: AppTheme.parrafoNegrita),
                               Text(' hasta el ', style: AppTheme.parrafo),
-                              Text(value.fechaFinPeriodo,
+                              Text(DateTimeFormat.yyyyMMMDD(value.getFechaFinDateTime),
                                   style: AppTheme.parrafoNegrita),
                             ],
                           ),
