@@ -71,7 +71,10 @@ class ProjectsProvider extends ChangeNotifier {
   }
 
   Future<void> saveDetail(int codigoProyecto, DatosAlimentacion data) async {
+    data.periodos
+          .sort((a, b) => a.getFechaIniDateTime.compareTo(b.getFechaIniDateTime));
     details[codigoProyecto.toString()] = data;
+    
     await _projectsCacheRepository.saveProjectDetails(codigoProyecto, data);
   }
 
@@ -88,8 +91,9 @@ class ProjectsProvider extends ChangeNotifier {
     _projectsCacheRepository.saveProjectCache(projectCode, cache);
   }
 
-  Future<DatosAlimentacion?> getProjectDetail(int codigoProyecto,
-      {required int index}) async {
+  Future<DatosAlimentacion?> getProjectDetail(
+    int codigoProyecto,
+  ) async {
     try {
       final localDetail = details['$codigoProyecto'];
 

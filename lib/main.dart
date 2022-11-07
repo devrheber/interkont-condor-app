@@ -38,7 +38,7 @@ void main() async {
 
   final instance = await SharedPreferences.getInstance();
 
-  final projectsRepository = ProjectsImplLocal();
+  final projectsRepository = ProjectsImpl();
 
   final projectsCacheApi = LocalStorageProjectsCacheApi(
     plugin: instance,

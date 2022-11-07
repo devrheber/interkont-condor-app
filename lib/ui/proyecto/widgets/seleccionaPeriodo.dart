@@ -15,6 +15,9 @@ class DropDownPeriodo extends StatelessWidget {
     final detailProvider =
         Provider.of<ProjectDetailProvider>(context, listen: false);
 
+    final periodos = detailProvider.detail?.periodos ?? [];
+    periodos.sort((a, b ) => a.getFechaIniDateTime.compareTo(b.getFechaIniDateTime));
+
     return Container(
       width: double.infinity,
       height: 58.0.sp,
@@ -51,7 +54,7 @@ class DropDownPeriodo extends StatelessWidget {
                   ),
                 ),
                 value: periodoSeleccionado,
-                items: detailProvider.detail?.periodos
+                items: periodos
                     .map((value) => DropdownMenuItem<Periodo>(
                           child: Row(
                             children: <Widget>[
