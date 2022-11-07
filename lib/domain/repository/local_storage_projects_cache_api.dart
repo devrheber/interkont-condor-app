@@ -199,7 +199,8 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
     final map = {..._projectsCacheStreamController.value};
     if (!map.containsKey(projectCode.toString())) return;
 
-    map.remove(projectCode.toString());
+    map[projectCode.toString()] = map[projectCode.toString()]!.newCache();
+
     _projectsCacheStreamController.add(map);
     _setValue(kCacheMapKey, projectsCacheToJson(map));
   }

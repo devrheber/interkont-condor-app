@@ -48,7 +48,6 @@ class ProjectsProvider extends ChangeNotifier {
   void clearCache(int projectCode) async {
     _projectsCacheRepository.removeCacheByCode(projectCode);
     _filesPersistentCacheApi.removeCacheByCode(projectCode);
-    _projectsCacheRepository.saveCache(ProjectCache(projectCode: projectCode));
   }
 
   Future<void> getDocumentTypes() async {
