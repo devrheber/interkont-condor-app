@@ -299,6 +299,10 @@ class Periodo extends Equatable {
   @override
   List<Object> get props =>
       [periodoId, fechaFinPeriodo, fechaFinPeriodo, porcentajeProyectado];
+
+  DateTime get getFechaIniDateTime => DateTime.parse(fechaIniPeriodo);
+
+  DateTime get getFechaFinDateTime => DateTime.parse(fechaFinPeriodo);
 }
 
 class TiposFactorAtraso extends Equatable {

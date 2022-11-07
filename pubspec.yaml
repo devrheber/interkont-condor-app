@@ -96,6 +96,7 @@ flutter:
     - assets/new/login/
     - assets/new/splash/
     - assets/new/home/
+    - assets/img/
 
   fonts:
     - family: montserrat

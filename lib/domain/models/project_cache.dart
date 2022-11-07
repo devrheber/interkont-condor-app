@@ -1,6 +1,8 @@
 import 'dart:convert';
 
-import '../../helpers/project_helpers.dart';
+import 'package:appalimentacion/helpers/helpers.dart';
+import 'package:equatable/equatable.dart';
+
 import 'models.dart';
 
 Map<String, ProjectCache> projectsCacheFromJson(String str) =>
@@ -10,7 +12,7 @@ Map<String, ProjectCache> projectsCacheFromJson(String str) =>
 String projectsCacheToJson(Map<String, ProjectCache> data) => json.encode(
     Map.from(data).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())));
 
-class ProjectCache {
+class ProjectCache extends Equatable {
   const ProjectCache({
     required this.projectCode,
     this.stepNumber = 1,
@@ -54,7 +56,9 @@ class ProjectCache {
         projectCode: json['project_code'],
         stepNumber: json['strep_number'],
         porPublicar: json['porPublicar'] == null ? false : json['porPublicar'],
-        lastSyncDate: DateTime.parse(json['ultimaFechaSincro']),
+        lastSyncDate: json['ultimaFechaSincro'] == null
+            ? null
+            : DateTime.parse(json['ultimaFechaSincro']),
         periodoIdSeleccionado: json['periodoIdSeleccionado'],
         porcentajeValorProyectadoSeleccionado:
             json['porcentajeValorProyectadoSeleccionado'],
@@ -124,7 +128,7 @@ class ProjectCache {
   ProjectCache copyWith({
     int? projectCode,
     int? stepNumber,
-    dynamic porPublicar,
+    bool? porPublicar,
     DateTime? lastSyncDate,
     dynamic periodoIdSeleccionado,
     double? porcentajeValorProyectadoSeleccionado,
@@ -168,6 +172,16 @@ class ProjectCache {
     );
   }
 
+  ProjectCache newCache() => ProjectCache(
+        projectCode: projectCode,
+        lastSyncDate: this.lastSyncDate,
+        periodoIdSeleccionado: periodoIdSeleccionado,
+      );
+
+  static ProjectCache empty(int projectCode) => ProjectCache(
+        projectCode: projectCode,
+      );
+
   double get getPorcentajeValorProyectado {
     return porcentajeValorProyectadoSeleccionado ?? 0;
   }
@@ -190,4 +204,26 @@ class ProjectCache {
   bool get synchronizationRequired {
     return lastSyncDate == null;
   }
+
+  @override
+  List<Object?> get props => [
+        projectCode,
+        stepNumber,
+        porPublicar,
+        lastSyncDate,
+        periodoIdSeleccionado,
+        porcentajeValorProyectadoSeleccionado,
+        porcentajeValorEjecutado,
+        activitiesProgress,
+        rangeIndicators,
+        qualitativesProgress,
+        delayFactors,
+        comment,
+        fileFotoPrincipal,
+        incomeGenerationDate,
+        rentalRepaymentDate,
+        generatedReturns,
+        currentMonthReturns,
+        pastDueMonthReturns,
+      ];
 }

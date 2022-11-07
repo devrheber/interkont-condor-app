@@ -305,45 +305,45 @@ class _SyncButtonState extends State<_SyncButton>
                           color: Color(0XFF735EF0),
                         ),
                         child: Container(
-                          height: 35.sp,
-                          width: 143.sp,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              animationController != null
-                                  ? AnimatedBuilder(
-                                      animation: animationController!,
-                                      builder: (_, child) {
-                                        // print("\x1B[2J\x1B[0;0H");
-                                        
-                                        return Transform.rotate(
-                                          angle: (animationController?.value ??
-                                                  0) *
-                                              2 *
-                                              math.pi,
-                                          child: child,
-                                        );
-                                      },
-                                      child: SyncImage(),
-                                    )
-                                  : SyncImage(),
-                              Padding(
-                                padding: EdgeInsets.only(left: 7.7.sp),
-                                child: Text(
-                                  (animationController?.isAnimating ?? false)
-                                      ? 'Sincronizando'
-                                      : 'Sincronizar',
-                                  style: TextStyle(
-                                    fontFamily: "montserrat",
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12.sp,
-                                    color: Colors.white,
+                            height: 35.sp,
+                            width: 143.sp,
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  animationController != null
+                                      ? AnimatedBuilder(
+                                          animation: animationController!,
+                                          builder: (_, child) {
+                                            // print("\x1B[2J\x1B[0;0H");
+
+                                            return Transform.rotate(
+                                              angle:
+                                                  (animationController?.value ??
+                                                          0) *
+                                                      2 *
+                                                      math.pi,
+                                              child: child,
+                                            );
+                                          },
+                                          child: SyncImage(),
+                                        )
+                                      : SyncImage(),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 7.7.sp),
+                                    child: Text(
+                                      (animationController?.isAnimating ??
+                                              false)
+                                          ? 'Sincronizando'
+                                          : 'Sincronizar',
+                                      style: TextStyle(
+                                        fontFamily: "montserrat",
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12.sp,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
+                                ])),
                       ),
                     ),
                   ),

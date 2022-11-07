@@ -1,3 +1,12 @@
+import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/helpers/helpers.dart';
+import 'package:appalimentacion/ui/lista_proyectos_page/projects_provider.dart';
+import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step.dart';
+import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
+import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
+import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
+import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
@@ -13,10 +22,12 @@ import 'report_progress_provider.dart';
 class ReportProgressScreen extends StatelessWidget {
   const ReportProgressScreen._();
 
-  static Widget init() => ChangeNotifierProvider(
+  static Widget init({required Periodo periodoSeleccionado}) =>
+      ChangeNotifierProvider(
         create: (context) => ReportProgressProvider(
           projectsCacheRepository: context.read(),
           filesPersistentCacheRepository: context.read(),
+          periodoSeleccionado: periodoSeleccionado,
         ),
         child: ReportProgressScreen._(),
       );
@@ -24,6 +35,7 @@ class ReportProgressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportProgressProvider = Provider.of<ReportProgressProvider>(context);
+    final projectsProvider = Provider.of<ProjectsProvider>(context);
 
     ToastContext().init(context);
 
@@ -33,6 +45,28 @@ class ReportProgressScreen extends StatelessWidget {
             ? 5
             : reportProgressProvider.stepNumber;
 
+    Future<void> cancelReportProgress() async {
+      final confirm = await DialogHelper.showConfirmDialog(
+        context,
+        child: ConfirmDialog(
+            description:
+                'Esta acción borrará el avance y los archivos adjuntos.',
+            continueButtonText: 'Cancelar Avance',
+            cancelButtonText: 'Atrás'),
+      );
+
+      if (confirm == null || !confirm) return;
+
+      // TODO Obtener datos de proyecto
+      Toast.show("El avance ha sido cancelado",
+          duration: 5, gravity: Toast.bottom);
+
+      projectsProvider
+          .clearCache(reportProgressProvider.project.codigoproyecto);
+
+      Navigator.pop(context);
+    }
+
     void firstButtonMethod() {
       if (numeroPaso != 1) {
         // Paso Anterior
@@ -40,10 +74,7 @@ class ReportProgressScreen extends StatelessWidget {
         return;
       }
 
-      // TODO Obtener datos de proyecto
-      Toast.show("El avance ha sido cancelado",
-          duration: 5, gravity: Toast.bottom);
-      Navigator.pop(context);
+      cancelReportProgress();
     }
 
     Future<bool> goToDelayFactors() async {

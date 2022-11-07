@@ -102,9 +102,6 @@ class FourthStepProvider extends ChangeNotifier {
   }
 
   Future<void> _loadRequiredDocumentsFromCache(List<TipoDoc> list) async {
-    //* First type document is always required
-    list[0] = list[0].copyWith(obligatorio: true);
-
     for (final doc in list) {
       if (!doc.obligatorio) continue;
       requiredDocuments.add(

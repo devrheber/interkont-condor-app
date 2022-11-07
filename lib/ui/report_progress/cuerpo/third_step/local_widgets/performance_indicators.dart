@@ -70,9 +70,10 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
     }
 
     if (reportProgressService.generatedReturns != null) {
-      generatedReturnsCtrl.text = reportProgressService.generatedReturns == '0.0'
-          ? ''
-          : reportProgressService.generatedReturns!;
+      generatedReturnsCtrl.text =
+          reportProgressService.generatedReturns == '0.0'
+              ? ''
+              : reportProgressService.generatedReturns!;
     }
 
     if (reportProgressService.pastDueMonthReturns != null) {
@@ -152,7 +153,9 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                 style: style.copyWith(fontSize: 14.sp),
                 children: <InlineSpan>[
                   TextSpan(
-                    text: DateTimeFormat.mmmmYYYY(date).toUpperCase(),
+                    text: DateTimeFormat.mmmmYYYY(reportProgressService
+                            .periodoSeleccionado.getFechaIniDateTime)
+                        .toUpperCase(),
                     style: style.copyWith(
                         fontWeight: FontWeight.w400, fontSize: 14.sp),
                   )
@@ -165,7 +168,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
               children: [
                 IndicatorField(
                   'Fecha de Generación de Rendimientos',
-                  icon: Icons.watch_later_outlined,
+                  assetIcon: 'assets/img/paso3-icon1.png',
                   hintText: 'DD-MM-YYYY',
                   focusNode: incomeGenerationDateFocusNode,
                   controller: incomeGenerationDateCtrl,
@@ -181,7 +184,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                 SizedBox(height: 10.sp),
                 IndicatorField(
                   'Fecha de Reintegro de Rendimientos',
-                  icon: Icons.watch_later_outlined,
+                  assetIcon: 'assets/img/paso3-icon1.png',
                   hintText: 'DD-MM-YYYY',
                   focusNode: rentalRepaymentDateFocusNode,
                   controller: rentalRepaymentDateCtrl,
@@ -196,7 +199,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                 ),
                 SizedBox(height: 10.sp),
                 IndicatorField('Valor Rendimientos Generados',
-                    icon: Icons.monetization_on_outlined,
+                    assetIcon: 'assets/img/paso3-icon2.png',
                     focusNode: generatedReturnsFocusNode,
                     controller: generatedReturnsCtrl, onTap: () {
                   generatedReturnsFocusNode.requestFocus();
@@ -204,7 +207,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                 SizedBox(height: 10.sp),
                 IndicatorField(
                   'Valor Reintegrado',
-                  icon: Icons.monetization_on_outlined,
+                  assetIcon: 'assets/img/paso3-icon3.png',
                   focusNode: currentMonthReturnsFocusNode,
                   controller: currentMonthReturnsCtrl,
                   onTap: () {
@@ -214,7 +217,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                 SizedBox(height: 10.sp),
                 IndicatorField(
                   'Saldo Final en Extracto',
-                  icon: Icons.monetization_on_outlined,
+                  assetIcon: 'assets/img/paso3-icon3.png',
                   focusNode: pastDueMonthReturnsFocusNode,
                   controller: pastDueMonthReturnsCtrl,
                   onTap: () {
@@ -235,16 +238,19 @@ class IndicatorField extends StatelessWidget {
   const IndicatorField(
     this.title, {
     Key? key,
-    required this.icon,
+    this.icon,
+    this.assetIcon,
     this.hintText = '\$ 0.00',
     required this.onTap,
     required this.focusNode,
     required this.controller,
     this.enabled = true,
-  }) : super(key: key);
+  })  : assert(assetIcon != null || icon != null),
+        super(key: key);
 
   final String title;
-  final IconData icon;
+  final IconData? icon;
+  final String? assetIcon;
   final String hintText;
   final void Function()? onTap;
   final FocusNode focusNode;
@@ -266,12 +272,14 @@ class IndicatorField extends StatelessWidget {
             Row(
               children: [
                 SizedBox(width: 10.sp),
-                // TODO Use asset
-                Icon(
-                  icon,
-                  size: 23.sp,
-                  color: Color(0xff556A8D),
-                ),
+                if (assetIcon != null)
+                  Image.asset(assetIcon!, width: 25.sp, height: 25.sp)
+                else
+                  Icon(
+                    icon,
+                    size: 23.sp,
+                    color: Color(0xff556A8D),
+                  ),
                 SizedBox(width: 10.sp),
                 Flexible(
                   fit: FlexFit.tight,
