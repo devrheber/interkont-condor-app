@@ -1,6 +1,6 @@
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/noInternet.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
@@ -14,10 +14,12 @@ import 'cuerpo/delay_factor/delay_factor_screen.dart';
 class ReportProgressScreen extends StatelessWidget {
   const ReportProgressScreen._();
 
-  static Widget init() => ChangeNotifierProvider(
+  static Widget init({required Periodo periodoSeleccionado}) =>
+      ChangeNotifierProvider(
         create: (context) => ReportProgressProvider(
           projectsCacheRepository: context.read(),
           filesPersistentCacheRepository: context.read(),
+          periodoSeleccionado: periodoSeleccionado,
         ),
         child: ReportProgressScreen._(),
       );

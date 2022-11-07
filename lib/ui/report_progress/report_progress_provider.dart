@@ -10,6 +10,7 @@ class ReportProgressProvider extends ChangeNotifier {
   ReportProgressProvider({
     required ProjectsCacheRepository projectsCacheRepository,
     required FilesPersistentCacheRepository filesPersistentCacheRepository,
+    required this.periodoSeleccionado,
   })  : _projectsCacheRepository = projectsCacheRepository,
         _filesPersistentCacheRepository = filesPersistentCacheRepository {
     project = projectsCacheRepository.getProject();
@@ -41,6 +42,7 @@ class ReportProgressProvider extends ChangeNotifier {
   List<TextEditingController> textFieldControllers = [];
   List<QualitativeProgress> achievesAndDifficulties = [];
   Map<String, dynamic> rangeIndicators = {};
+  final Periodo periodoSeleccionado;
 
   int get stepNumber => cache.stepNumber;
 

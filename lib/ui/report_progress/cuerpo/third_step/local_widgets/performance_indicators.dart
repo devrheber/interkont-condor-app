@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-final date = DateTime.now();
-
 final style = TextStyle(
   color: Color(0xff556A8D),
   fontSize: 15.sp,
@@ -69,9 +67,10 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
     }
 
     if (reportProgressService.generatedReturns != null) {
-      generatedReturnsCtrl.text = reportProgressService.generatedReturns == '0.0'
-          ? ''
-          : reportProgressService.generatedReturns!;
+      generatedReturnsCtrl.text =
+          reportProgressService.generatedReturns == '0.0'
+              ? ''
+              : reportProgressService.generatedReturns!;
     }
 
     if (reportProgressService.pastDueMonthReturns != null) {
@@ -151,7 +150,9 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                 style: style.copyWith(fontSize: 14.sp),
                 children: <InlineSpan>[
                   TextSpan(
-                    text: DateTimeFormat.mmmmYYYY(date).toUpperCase(),
+                    text: DateTimeFormat.mmmmYYYY(reportProgressService
+                            .periodoSeleccionado.getFechaIniDateTime)
+                        .toUpperCase(),
                     style: style.copyWith(
                         fontWeight: FontWeight.w400, fontSize: 14.sp),
                   )

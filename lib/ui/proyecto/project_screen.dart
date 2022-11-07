@@ -85,7 +85,8 @@ class ProyectScreen extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return ReportProgressScreen.init();
+            return ReportProgressScreen.init(
+                periodoSeleccionado: detailProvider.periodoSeleccionado!);
           },
         ),
       );
