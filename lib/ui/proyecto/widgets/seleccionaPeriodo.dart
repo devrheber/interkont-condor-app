@@ -21,7 +21,8 @@ class DropDownPeriodo extends StatelessWidget {
         Provider.of<ProjectDetailProvider>(context, listen: false);
 
     final periodos = detailProvider.detail?.periodos ?? [];
-    periodos.sort((a, b ) => a.getFechaIniDateTime.compareTo(b.getFechaIniDateTime));
+    periodos
+        .sort((a, b) => a.getFechaIniDateTime.compareTo(b.getFechaIniDateTime));
 
     return Container(
       width: double.infinity,
@@ -58,16 +59,23 @@ class DropDownPeriodo extends StatelessWidget {
                     ],
                   ),
                 ),
-                value: periodoSeleccionado,
+                value: periodos.any((periodo) =>
+                        periodo.periodoId == periodoSeleccionado?.periodoId)
+                    ? periodoSeleccionado
+                    : null,
                 items: periodos
                     .map((value) => DropdownMenuItem<Periodo>(
                           child: Row(
                             children: <Widget>[
                               Text('del ', style: AppTheme.parrafo),
-                              Text(DateTimeFormat.yyyyMMMDD(value.getFechaIniDateTime),
+                              Text(
+                                  DateTimeFormat.yyyyMMMDD(
+                                      value.getFechaIniDateTime),
                                   style: AppTheme.parrafoNegrita),
                               Text(' hasta el ', style: AppTheme.parrafo),
-                              Text(DateTimeFormat.yyyyMMMDD(value.getFechaFinDateTime),
+                              Text(
+                                  DateTimeFormat.yyyyMMMDD(
+                                      value.getFechaFinDateTime),
                                   style: AppTheme.parrafoNegrita),
                             ],
                           ),

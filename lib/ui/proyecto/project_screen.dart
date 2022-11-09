@@ -56,7 +56,11 @@ class ProyectScreen extends StatelessWidget {
             duration: 3, gravity: Toast.bottom);
         return;
       }
-      if (detailProvider.periodoSeleccionado == null) {
+      // if (detailProvider.periodoSeleccionado == null) {
+      if (!(detailProvider.detail?.periodos.any((periodo) =>
+              periodo.periodoId ==
+              detailProvider.periodoSeleccionado?.periodoId) ??
+          false)) {
         Toast.show('Seleccione el periodo a reportar',
             duration: 3, gravity: Toast.bottom);
 
