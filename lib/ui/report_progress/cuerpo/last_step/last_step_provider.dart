@@ -95,8 +95,8 @@ class LastStepProvider extends ChangeNotifier {
 
     for (final item in _detail.indicadoresAlcance) {
       final element = IndicadoresAlcanceRequest(
-          cantidadEjecucion: item.indicadorAlcanceId,
-          indicadorAlcanceId: _cache.rangeIndicators == null
+          indicadorAlcanceId: item.indicadorAlcanceId,
+          cantidadEjecucion: _cache.rangeIndicators == null
               ? 0
               : _cache.rangeIndicators!.containsKey(item.getId)
                   ? int.tryParse(_cache.rangeIndicators?[
