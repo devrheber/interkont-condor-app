@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:appalimentacion/blocs/network/network_bloc.dart';
 import 'package:appalimentacion/data/local/aom_projects_api_impl.dart';
-import 'package:appalimentacion/data/local/projects_impl_local.dart';
 import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/data/remote/aom_projects_impl.dart';
 import 'package:appalimentacion/data/remote/login_remote.dart';
@@ -19,7 +18,6 @@ import 'package:appalimentacion/helpers/remote_config_service.dart';
 import 'package:appalimentacion/routes/app_routes.dart';
 import 'package:appalimentacion/translation/localizations_delegates.dart';
 import 'package:appalimentacion/translation/supported_locales.dart';
-import 'package:appalimentacion/ui/login/login.dart';
 import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -52,7 +50,7 @@ import 'ui/lista_proyectos_page/projects_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -88,8 +86,7 @@ void main() async {
 
   await SentryFlutter.init(
     (options) {
-      options.dsn =
-          'https://dcdb599c3313428eaea9318ae8407d2a@o1172295.ingest.sentry.io/4504091069972480';
+      options.dsn = remoteConfig.getString('sentry_dsn');
       options.tracesSampleRate = 1.0;
     },
     appRunner: () => runApp(AppState(

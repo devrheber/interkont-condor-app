@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 
@@ -20,10 +18,11 @@ class RemoteConfigService {
     ));
 
     await remoteConfig.setDefaults(const {
+      'sentry_dsn':
+          'https://dcdb599c3313428eaea9318ae8407d2a@o1172295.ingest.sentry.io/4504091069972480',
       'feature_estado_obra_aom': 1,
       'feature_estado_obra_alimentacion': 9,
     });
-
 
     await remoteConfig.fetch();
     await remoteConfig.fetchAndActivate();
