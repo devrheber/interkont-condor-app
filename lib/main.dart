@@ -15,6 +15,7 @@ import 'package:appalimentacion/domain/repository/files_persistent_cache_api.dar
 import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/globales/ssl_solution.dart';
+import 'package:appalimentacion/helpers/remote_config_service.dart';
 import 'package:appalimentacion/routes/app_routes.dart';
 import 'package:appalimentacion/translation/localizations_delegates.dart';
 import 'package:appalimentacion/translation/supported_locales.dart';
@@ -27,6 +28,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'data/local/user_preferences.dart';
 import 'data/remote/login_remote.dart';
@@ -49,6 +52,10 @@ import 'ui/lista_proyectos_page/projects_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   HttpOverrides.global = MyHttpOverrides();
 
@@ -58,6 +65,10 @@ void main() async {
   final UserPreferences prefs = UserPreferences();
 
   final instance = await SharedPreferences.getInstance();
+
+  final RemoteConfigService remoteConfig = RemoteConfigService();
+
+  remoteConfig.init();
 
   final projectsRepository = ProjectsImpl();
 
