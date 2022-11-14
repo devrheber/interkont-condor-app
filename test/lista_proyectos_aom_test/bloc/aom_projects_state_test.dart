@@ -4,18 +4,20 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   Project mockProject = Project(
-      codigoproyecto: 001,
-      nombreproyecto: 'Proyecto de Prueba',
-      valorproyecto: 10000,
-      valorejecutado: 0,
-      porcentajeProyectado: 0,
-      semaforoproyecto: 'verde',
-      codigocategoria: 001,
-      imagencategoria: '',
-      colorcategoria: 'colorCategorio',
-      nombrecategoria: 'categoria-1',
-      objeto: 'objeto',
-      pendienteAprobacion: false);
+    codigoproyecto: 001,
+    nombreproyecto: 'Proyecto de Prueba',
+    valorproyecto: 10000,
+    valorejecutado: 0,
+    porcentajeProyectado: 0,
+    semaforoproyecto: 'verde',
+    codigocategoria: 001,
+    imagencategoria: '',
+    colorcategoria: 'colorCategorio',
+    nombrecategoria: 'categoria-1',
+    objeto: 'objeto',
+    pendienteAprobacion: false,
+    estadoobra: 9,
+  );
 
   final mockProjects = [mockProject];
 

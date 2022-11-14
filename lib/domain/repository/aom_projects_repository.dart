@@ -19,6 +19,7 @@ abstract class AomProjectsRepository {
   Future<List<EstadoDeActivo>> getEstados({CancelToken? cancelToken});
 }
 
+// TODO Estas clases debererín funcionar para Projectos Aom y de Alimentación
 abstract class AomProjectsRepositoryException implements Exception {}
 
 class AomProjectsBackendErrorException extends AomProjectsRepositoryException {

@@ -12,44 +12,50 @@ class FakeProject extends Fake implements Project {}
 void main() {
   final mockProjects = [
     Project(
-        codigoproyecto: 001,
-        nombreproyecto: 'Proyecto de Prueba',
-        valorproyecto: 10000,
-        valorejecutado: 0,
-        porcentajeProyectado: 0,
-        semaforoproyecto: 'verde',
-        codigocategoria: 001,
-        imagencategoria: '',
-        colorcategoria: 'colorCategorio',
-        nombrecategoria: 'categoria-1',
-        objeto: 'objeto',
-        pendienteAprobacion: false),
+      codigoproyecto: 001,
+      nombreproyecto: 'Proyecto de Prueba',
+      valorproyecto: 10000,
+      valorejecutado: 0,
+      porcentajeProyectado: 0,
+      semaforoproyecto: 'verde',
+      codigocategoria: 001,
+      imagencategoria: '',
+      colorcategoria: 'colorCategorio',
+      nombrecategoria: 'categoria-1',
+      objeto: 'objeto',
+      pendienteAprobacion: false,
+      estadoobra: 9,
+    ),
     Project(
-        codigoproyecto: 002,
-        nombreproyecto: 'Proyecto de Prueba 2',
-        valorproyecto: 10000,
-        valorejecutado: 0,
-        porcentajeProyectado: 0,
-        semaforoproyecto: 'verde',
-        codigocategoria: 001,
-        imagencategoria: '',
-        colorcategoria: 'colorCategorio',
-        nombrecategoria: 'categoria-1',
-        objeto: 'objeto',
-        pendienteAprobacion: false),
+      codigoproyecto: 002,
+      nombreproyecto: 'Proyecto de Prueba 2',
+      valorproyecto: 10000,
+      valorejecutado: 0,
+      porcentajeProyectado: 0,
+      semaforoproyecto: 'verde',
+      codigocategoria: 001,
+      imagencategoria: '',
+      colorcategoria: 'colorCategorio',
+      nombrecategoria: 'categoria-1',
+      objeto: 'objeto',
+      pendienteAprobacion: false,
+      estadoobra: 9,
+    ),
     Project(
-        codigoproyecto: 003,
-        nombreproyecto: 'Proyecto de Prueba 3',
-        valorproyecto: 10000,
-        valorejecutado: 0,
-        porcentajeProyectado: 0,
-        semaforoproyecto: 'verde',
-        codigocategoria: 001,
-        imagencategoria: '',
-        colorcategoria: 'colorCategorio',
-        nombrecategoria: 'categoria-1',
-        objeto: 'objeto',
-        pendienteAprobacion: false),
+      codigoproyecto: 003,
+      nombreproyecto: 'Proyecto de Prueba 3',
+      valorproyecto: 10000,
+      valorejecutado: 0,
+      porcentajeProyectado: 0,
+      semaforoproyecto: 'verde',
+      codigocategoria: 001,
+      imagencategoria: '',
+      colorcategoria: 'colorCategorio',
+      nombrecategoria: 'categoria-1',
+      objeto: 'objeto',
+      pendienteAprobacion: false,
+      estadoobra: 9,
+    ),
   ];
 
   group('AOMProjectsBloc', () {
@@ -62,7 +68,7 @@ void main() {
     setUp(() {
       projectsRepository = MockProjectsRepository();
       when(
-        () => projectsRepository.getProjects(),
+        () => projectsRepository.getAomProjects(),
       ).thenAnswer((_) => Future.value(mockProjects));
     });
 
@@ -86,7 +92,7 @@ void main() {
           build: buildBloc,
           act: (bloc) => bloc.add(AomProjectsGetProjects()),
           verify: (_) {
-            verify(() => projectsRepository.getProjects()).called(1);
+            verify(() => projectsRepository.getAomProjects()).called(1);
           });
     });
 
@@ -110,7 +116,7 @@ void main() {
       'when repository getProjects emits error',
       setUp: () {
         when(
-          () => projectsRepository.getProjects(),
+          () => projectsRepository.getAomProjects(),
         ).thenAnswer((_) => Future.error(Exception('oops')));
       },
       build: buildBloc,

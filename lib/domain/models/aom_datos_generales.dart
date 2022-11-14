@@ -95,7 +95,7 @@ class RelacionContrato {
   int id;
   int obraOriginal;
   Contrato contrato;
-  int numvalorrelacion;
+  double numvalorrelacion;
 
   factory RelacionContrato.fromJson(Map<String, dynamic> json) =>
       RelacionContrato(
@@ -123,7 +123,7 @@ class Contrato {
 
   int id;
   String numeroContrato;
-  int valorDisponible;
+  double valorDisponible;
   int tipoContrato;
 
   factory Contrato.fromJson(Map<String, dynamic> json) => Contrato(

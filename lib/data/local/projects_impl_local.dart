@@ -66,7 +66,7 @@ class ProjectsImplLocal implements ProjectsRepository {
   }
 
   @override
-  Future<List<Project>> getProjects() async {
+  Future<List<Project>> getAlimentacionProjects() async {
     return [
       Project(
           codigoproyecto: 001,
@@ -80,7 +80,9 @@ class ProjectsImplLocal implements ProjectsRepository {
           colorcategoria: '#FFFFFF',
           nombrecategoria: 'Categoría de prueba',
           objeto: 'Descripción de Prueba.',
-          pendienteAprobacion: false)
+          pendienteAprobacion: false,
+          estadoobra: 9
+          )
     ];
   }
 
@@ -125,6 +127,12 @@ class ProjectsImplLocal implements ProjectsRepository {
       {required void Function(int count, int total) onSendProgress,
       required void Function(int count, int total) onReceiveProgress}) {
     // TODO: implement sendData
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<List<Project>> getAomProjects() {
+    // TODO: implement getAomProjects
     throw UnimplementedError();
   }
 }

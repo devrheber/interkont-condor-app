@@ -29,6 +29,9 @@ dependencies:
   dotted_border: ^2.0.0+2
   equatable: ^2.0.5
   file_picker: ^4.6.1
+  firebase_analytics: ^10.0.5
+  firebase_core: ^2.2.0
+  firebase_remote_config: ^3.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1

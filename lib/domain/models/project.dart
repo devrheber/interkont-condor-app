@@ -1,4 +1,3 @@
- 
 class Project {
   Project({
     required this.codigoproyecto,
@@ -15,6 +14,7 @@ class Project {
     this.contratista,
     required this.pendienteAprobacion,
     this.distaciaproyecto,
+    required this.estadoobra,
   });
 
   int codigoproyecto;
@@ -31,6 +31,7 @@ class Project {
   dynamic contratista;
   bool pendienteAprobacion;
   dynamic distaciaproyecto;
+  int estadoobra;
 
   factory Project.fromJson(Map<String, dynamic> json) => Project(
         codigoproyecto: json["codigoproyecto"],
@@ -47,6 +48,7 @@ class Project {
         contratista: json["contratista"],
         pendienteAprobacion: json["pendienteAprobacion"],
         distaciaproyecto: json["distaciaproyecto"],
+        estadoobra: json["estadoobra"] == null ? 9 : json["estadoobra"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -64,6 +66,7 @@ class Project {
         "contratista": contratista,
         "pendienteAprobacion": pendienteAprobacion,
         "distaciaproyecto": distaciaproyecto,
+        "estadoobra": estadoobra,
       };
 
   String get nombreCategoriaUpperCase => nombrecategoria.toUpperCase();
