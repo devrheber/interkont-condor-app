@@ -1,11 +1,11 @@
+import 'package:appalimentacion/helpers/helpers.dart';
+import 'package:appalimentacion/theme/color_theme.dart';
+import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
+import 'package:appalimentacion/utils/utils.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../theme/color_theme.dart';
-import '../../../../../utils/utils.dart';
-import '../../../report_progress_provider.dart';
 
 final date = DateTime.now();
 
@@ -26,11 +26,11 @@ class PerformanceIndicators extends StatefulWidget {
 class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
   late ReportProgressProvider reportProgressService;
 
-  TextEditingController incomeGenerationDateCtrl = TextEditingController();
-  TextEditingController rentalRepaymentDateCtrl = TextEditingController();
-  TextEditingController generatedReturnsCtrl = TextEditingController();
-  TextEditingController currentMonthReturnsCtrl = TextEditingController();
-  TextEditingController pastDueMonthReturnsCtrl = TextEditingController();
+  TextEditingController controller1 = TextEditingController();
+  TextEditingController controller2 = TextEditingController();
+  TextEditingController controller3 = TextEditingController();
+  TextEditingController controller4 = TextEditingController();
+  TextEditingController controller5 = TextEditingController();
 
   FocusNode incomeGenerationDateFocusNode = FocusNode();
   FocusNode rentalRepaymentDateFocusNode = FocusNode();
@@ -40,11 +40,11 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
 
   @override
   void dispose() {
-    incomeGenerationDateCtrl.dispose();
-    rentalRepaymentDateCtrl.dispose();
-    generatedReturnsCtrl.dispose();
-    currentMonthReturnsCtrl.dispose();
-    pastDueMonthReturnsCtrl.dispose();
+    controller1.dispose();
+    controller2.dispose();
+    controller3.dispose();
+    controller4.dispose();
+    controller5.dispose();
 
     incomeGenerationDateFocusNode.dispose();
     rentalRepaymentDateFocusNode.dispose();
@@ -60,50 +60,51 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
     super.initState();
     reportProgressService = context.read<ReportProgressProvider>();
     if (reportProgressService.incomeGenerationDate != null) {
-      incomeGenerationDateCtrl.text =
+      controller1.text =
           DateTimeFormat.ddMMYYYY(reportProgressService.incomeGenerationDate!);
     }
 
     if (reportProgressService.rentalRepaymentDate != null) {
-      rentalRepaymentDateCtrl.text =
+      controller2.text =
           DateTimeFormat.ddMMYYYY(reportProgressService.rentalRepaymentDate!);
     }
 
     if (reportProgressService.generatedReturns != null) {
-      generatedReturnsCtrl.text =
-          reportProgressService.generatedReturns == '0.0'
-              ? ''
-              : reportProgressService.generatedReturns!;
+      controller3.text = reportProgressService.generatedReturns == 0.0
+          ? ''
+          : CurrencyFormatterHelper.format(
+              reportProgressService.generatedReturns);
     }
 
-    if (reportProgressService.pastDueMonthReturns != null) {
-      pastDueMonthReturnsCtrl.text =
-          reportProgressService.pastDueMonthReturns == '0.0'
-              ? ''
-              : reportProgressService.pastDueMonthReturns!;
+    if (reportProgressService.valorReintegroRendimientos != null) {
+      controller4.text = reportProgressService.valorReintegroRendimientos == 0.0
+          ? ''
+          : CurrencyFormatterHelper.format(
+              reportProgressService.valorReintegroRendimientos!);
     }
 
-    if (reportProgressService.currentMonthReturns != null) {
-      currentMonthReturnsCtrl.text =
-          reportProgressService.currentMonthReturns == '0.0'
-              ? ''
-              : reportProgressService.currentMonthReturns!;
+    if (reportProgressService.valorSaldoFinalExtracto != null) {
+      controller5.text = reportProgressService.valorSaldoFinalExtracto == 0.0
+          ? ''
+          : CurrencyFormatterHelper.format(
+              reportProgressService.valorSaldoFinalExtracto!);
     }
   }
 
   _initListeners() {
-    generatedReturnsCtrl.addListener(() {
-      reportProgressService.saveGeneratedReturns(generatedReturnsCtrl.text);
+    controller3.addListener(() {
+      final value = ProjectHelpers.getDoubleValue(controller3.text);
+      reportProgressService.saveGeneratedReturns(value);
     });
 
-    currentMonthReturnsCtrl.addListener(() {
-      reportProgressService
-          .saveCurrentMonthReturns(currentMonthReturnsCtrl.text);
+    controller4.addListener(() {
+      final value = ProjectHelpers.getDoubleValue(controller4.text);
+      reportProgressService.saveValorReintegroRendimientos(value);
     });
 
-    pastDueMonthReturnsCtrl.addListener(() {
-      reportProgressService
-          .savePastDueMonthReturns(pastDueMonthReturnsCtrl.text);
+    controller5.addListener(() {
+      final value = ProjectHelpers.getDoubleValue(controller5.text);
+      reportProgressService.saveValorSaldoFinalExtracto(value);
     });
   }
 
@@ -171,15 +172,14 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   assetIcon: 'assets/img/paso3-icon1.png',
                   hintText: 'DD-MM-YYYY',
                   focusNode: incomeGenerationDateFocusNode,
-                  controller: incomeGenerationDateCtrl,
+                  controller: controller1,
                   onTap: () async {
                     final dateTime = await selectDate(
                       initialDate: reportProgressService.incomeGenerationDate,
                     );
                     if (dateTime == null) return;
 
-                    incomeGenerationDateCtrl.text =
-                        DateTimeFormat.ddMMYYYY(dateTime);
+                    controller1.text = DateTimeFormat.ddMMYYYY(dateTime);
                     reportProgressService.saveIncomeGenerationDate(dateTime);
                   },
                   enabled: false,
@@ -190,14 +190,13 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   assetIcon: 'assets/img/paso3-icon1.png',
                   hintText: 'DD-MM-YYYY',
                   focusNode: rentalRepaymentDateFocusNode,
-                  controller: rentalRepaymentDateCtrl,
+                  controller: controller2,
                   onTap: () async {
                     final dateTime = await selectDate(
                       initialDate: reportProgressService.rentalRepaymentDate,
                     );
                     if (dateTime == null) return;
-                    rentalRepaymentDateCtrl.text =
-                        DateTimeFormat.ddMMYYYY(dateTime);
+                    controller2.text = DateTimeFormat.ddMMYYYY(dateTime);
                     reportProgressService.saveRentalRepaymentDate(dateTime);
                   },
                   enabled: false,
@@ -206,7 +205,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                 IndicatorField('Valor Rendimientos Generados',
                     assetIcon: 'assets/img/paso3-icon2.png',
                     focusNode: generatedReturnsFocusNode,
-                    controller: generatedReturnsCtrl, onTap: () {
+                    controller: controller3, onTap: () {
                   generatedReturnsFocusNode.requestFocus();
                 }),
                 SizedBox(height: 10.sp),
@@ -214,7 +213,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   'Valor Reintegrado',
                   assetIcon: 'assets/img/paso3-icon3.png',
                   focusNode: currentMonthReturnsFocusNode,
-                  controller: currentMonthReturnsCtrl,
+                  controller: controller4,
                   onTap: () {
                     currentMonthReturnsFocusNode.requestFocus();
                   },
@@ -224,7 +223,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   'Saldo Final en Extracto',
                   assetIcon: 'assets/img/paso3-icon3.png',
                   focusNode: pastDueMonthReturnsFocusNode,
-                  controller: pastDueMonthReturnsCtrl,
+                  controller: controller5,
                   onTap: () {
                     pastDueMonthReturnsFocusNode.requestFocus();
                   },

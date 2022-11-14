@@ -1,12 +1,10 @@
 import 'dart:async';
 
+import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/domain/repository/cache_repository.dart';
+import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:appalimentacion/utils/datetime_format.dart';
 import 'package:flutter/material.dart';
-
-import '../../domain/models/models.dart';
-import '../../domain/repository/cache_repository.dart';
-import '../../domain/repository/files_persistent_cache_repository.dart';
-import 'package:sentry/sentry.dart';
 
 class ReportProgressProvider extends ChangeNotifier {
   ReportProgressProvider({
@@ -55,9 +53,9 @@ class ReportProgressProvider extends ChangeNotifier {
 
   DateTime? incomeGenerationDate;
   DateTime? rentalRepaymentDate;
-  String? generatedReturns = '';
-  String? currentMonthReturns = '';
-  String? pastDueMonthReturns = '';
+  double? generatedReturns;
+  double? valorReintegroRendimientos;
+  double? valorSaldoFinalExtracto;
 
   /// Actualiza el objeto si fué modificado por un provider en un nivel inferior
   _init() {
@@ -79,15 +77,6 @@ class ReportProgressProvider extends ChangeNotifier {
       this.detail = detailUpdated;
       notifyListeners();
     });
-
-    try {
-      throw Exception('Excepción de prueba para Sentry');
-    } catch (exception, stackTrace) {
-      Sentry.captureException(
-        exception,
-        stackTrace: stackTrace,
-      );
-    }
   }
 
   @override
@@ -164,8 +153,8 @@ class ReportProgressProvider extends ChangeNotifier {
     incomeGenerationDate = this.cache.getIncomeGenerationDate;
     rentalRepaymentDate = this.cache.getRentalRepaymentDate;
     generatedReturns = this.cache.generatedReturns;
-    currentMonthReturns = this.cache.valorReintegroRendimientos;
-    pastDueMonthReturns = this.cache.valorSaldoFinalExtracto;
+    valorReintegroRendimientos = this.cache.valorReintegroRendimientos;
+    valorSaldoFinalExtracto = this.cache.valorSaldoFinalExtracto;
 
     notifyListeners();
   }
@@ -184,20 +173,20 @@ class ReportProgressProvider extends ChangeNotifier {
     _projectsCacheRepository.saveCache(this.cache);
   }
 
-  void saveGeneratedReturns(String value) {
+  void saveGeneratedReturns(double value) {
     generatedReturns = value;
     this.cache = this.cache.copyWith(generatedReturns: value);
     _projectsCacheRepository.saveCache(this.cache);
   }
 
-  void saveCurrentMonthReturns(String value) {
-    currentMonthReturns = value;
+  void saveValorReintegroRendimientos(double value) {
+    valorReintegroRendimientos = value;
     this.cache = this.cache.copyWith(valorReintegroRendimientos: value);
     _projectsCacheRepository.saveCache(this.cache);
   }
 
-  void savePastDueMonthReturns(String value) {
-    pastDueMonthReturns = value;
+  void saveValorSaldoFinalExtracto(double value) {
+    valorSaldoFinalExtracto = value;
     this.cache = this.cache.copyWith(valorSaldoFinalExtracto: value);
     _projectsCacheRepository.saveCache(this.cache);
   }

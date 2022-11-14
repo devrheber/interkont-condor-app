@@ -48,9 +48,9 @@ class ProjectCache extends Equatable {
   final String? fileFotoPrincipal;
   final String? incomeGenerationDate;
   final String? rentalRepaymentDate;
-  final String? generatedReturns;
-  final String? valorReintegroRendimientos;
-  final String? valorSaldoFinalExtracto;
+  final double? generatedReturns;
+  final double? valorReintegroRendimientos;
+  final double? valorSaldoFinalExtracto;
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         projectCode: json['project_code'],
@@ -104,17 +104,12 @@ class ProjectCache extends Equatable {
         'fechaGeneracionRendimientos': incomeGenerationDate,
         'fechaReintegroRendimientos': rentalRepaymentDate,
         'valorRendimientosGenerados':
-            generatedReturns == null || generatedReturns == ''
-                ? 0.0
-                : generatedReturns,
-        'valorRendimientosMesActual': valorReintegroRendimientos == null ||
-                valorReintegroRendimientos == ''
+            generatedReturns == null ? 0.0 : generatedReturns,
+        'valorReintegroRendimientos': valorReintegroRendimientos == null
             ? 0.0
             : valorReintegroRendimientos,
         'valorSaldoFinalExtracto':
-            valorSaldoFinalExtracto == null || valorSaldoFinalExtracto == ''
-                ? 0.0
-                : valorSaldoFinalExtracto,
+            valorSaldoFinalExtracto == null ? 0.0 : valorSaldoFinalExtracto,
       };
 
   ProjectCache copyWith({
@@ -134,9 +129,9 @@ class ProjectCache extends Equatable {
     String? comment,
     String? incomeGenerationDate,
     String? rentalRepaymentDate,
-    String? generatedReturns,
-    String? valorReintegroRendimientos,
-    String? valorSaldoFinalExtracto,
+    double? generatedReturns,
+    double? valorReintegroRendimientos,
+    double? valorSaldoFinalExtracto,
   }) {
     return ProjectCache(
       projectCode: projectCode ?? this.projectCode,
