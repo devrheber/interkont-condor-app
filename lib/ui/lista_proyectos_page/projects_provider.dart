@@ -41,7 +41,7 @@ class ProjectsProvider extends ChangeNotifier {
   }
 
   Future<void> getRemoteProjects() async {
-    final projects = await projectRepository.getProjects();
+    final projects = await projectRepository.getAlimentacionProjects();
     
     _saveProjectsInLocalStorage(projects);
     notifyListeners();

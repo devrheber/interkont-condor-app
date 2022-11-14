@@ -1,7 +1,9 @@
 import '../models/models.dart';
 
 abstract class ProjectsRepository {
-  Future<List<Project>> getProjects();
+  Future<List<Project>> getAlimentacionProjects();
+
+  Future<List<Project>> getAomProjects();
 
   Future<DatosAlimentacion> getDatosAlimentacion(
       {required String codigoProyecto});

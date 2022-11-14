@@ -24,7 +24,7 @@ class AomProjectsBloc extends Bloc<AomProjectsEvent, AomProjectsState> {
 
     try {
       // TODO Allow cancel
-      final projects = await _projectsRepository.getProjects();
+      final projects = await _projectsRepository.getAomProjects();
       emit(
         state.copyWith(
             status: () => AomProjectsStatus.success, projects: () => projects),
