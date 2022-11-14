@@ -152,7 +152,7 @@ class ReportProgressProvider extends ChangeNotifier {
         (cache.porcentajeValorProyectadoSeleccionado ?? 0) -
             detail.limitePorcentajeAtraso;
 
-    if (((cache.porcentajeValorEjecutado ?? 0) * 100) < porcentajeEsperado) {
+    if (((cache.porcentajeValorEjecutado ?? 0)) < porcentajeEsperado) {
       return true;
     } else {
       return false;
