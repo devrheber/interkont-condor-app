@@ -171,10 +171,10 @@ class LastStepProvider extends ChangeNotifier {
       usuario: user.username,
       valorRendimientosGenerados:
           ProjectHelpers.getDoubleValue(_cache.generatedReturns),
-      valorRendimientosMesActual:
-          ProjectHelpers.getDoubleValue(_cache.currentMonthReturns),
-      valorRendimientosMesVencido:
-          ProjectHelpers.getDoubleValue(_cache.pastDueMonthReturns),
+      valorReintegroRendimientos:
+          ProjectHelpers.getDoubleValue(_cache.valorReintegroRendimientos),
+      valorSaldoFinalExtracto:
+          ProjectHelpers.getDoubleValue(_cache.valorSaldoFinalExtracto),
     );
 
     inspect(data!.toJson());

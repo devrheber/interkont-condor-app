@@ -163,8 +163,8 @@ class ReportProgressProvider extends ChangeNotifier {
     incomeGenerationDate = this.cache.incomeGenerationDate;
     rentalRepaymentDate = this.cache.rentalRepaymentDate;
     generatedReturns = this.cache.generatedReturns;
-    currentMonthReturns = this.cache.currentMonthReturns;
-    pastDueMonthReturns = this.cache.pastDueMonthReturns;
+    currentMonthReturns = this.cache.valorReintegroRendimientos;
+    pastDueMonthReturns = this.cache.valorSaldoFinalExtracto;
 
     notifyListeners();
   }
@@ -189,13 +189,13 @@ class ReportProgressProvider extends ChangeNotifier {
 
   void saveCurrentMonthReturns(String value) {
     currentMonthReturns = value;
-    this.cache = this.cache.copyWith(currentMonthReturns: value);
+    this.cache = this.cache.copyWith(valorReintegroRendimientos: value);
     _projectsCacheRepository.saveCache(this.cache);
   }
 
   void savePastDueMonthReturns(String value) {
     pastDueMonthReturns = value;
-    this.cache = this.cache.copyWith(pastDueMonthReturns: value);
+    this.cache = this.cache.copyWith(valorSaldoFinalExtracto: value);
     _projectsCacheRepository.saveCache(this.cache);
   }
 

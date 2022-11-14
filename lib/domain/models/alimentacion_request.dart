@@ -27,8 +27,8 @@ class AlimentacionRequest {
     required this.periodoId,
     required this.usuario,
     this.valorRendimientosGenerados,
-    this.valorRendimientosMesActual,
-    this.valorRendimientosMesVencido,
+    this.valorReintegroRendimientos,
+    this.valorSaldoFinalExtracto,
   });
 
   final List<ActividadRequest>? actividades;
@@ -46,8 +46,8 @@ class AlimentacionRequest {
   final int periodoId;
   final String usuario;
   final double? valorRendimientosGenerados;
-  final double? valorRendimientosMesActual;
-  final double? valorRendimientosMesVencido;
+  final double? valorReintegroRendimientos;
+  final double? valorSaldoFinalExtracto;
 
   factory AlimentacionRequest.fromJson(Map<String, dynamic> json) =>
       AlimentacionRequest(
@@ -80,8 +80,8 @@ class AlimentacionRequest {
         periodoId: json["periodoId"],
         usuario: json["usuario"],
         valorRendimientosGenerados: json["valorRendimientosGenerados"],
-        valorRendimientosMesActual: json["valorRendimientosMesActual"],
-        valorRendimientosMesVencido: json["valorRendimientosMesVencido"],
+        valorReintegroRendimientos: json["valorReintegroRendimientos"],
+        valorSaldoFinalExtracto: json["valorSaldoFinalExtracto"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -116,8 +116,8 @@ class AlimentacionRequest {
         "periodoId": periodoId,
         "usuario": usuario,
         "valorRendimientosGenerados": valorRendimientosGenerados,
-        "valorRendimientosMesActual": valorRendimientosMesActual,
-        "valorRendimientosMesVencido": valorRendimientosMesVencido,
+        "valorReintegroRendimientos": valorReintegroRendimientos,
+        "valorSaldoFinalExtracto": valorSaldoFinalExtracto,
       };
 }
 

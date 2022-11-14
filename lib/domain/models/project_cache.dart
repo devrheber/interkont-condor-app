@@ -30,8 +30,8 @@ class ProjectCache extends Equatable {
     this.incomeGenerationDate,
     this.rentalRepaymentDate,
     this.generatedReturns,
-    this.currentMonthReturns,
-    this.pastDueMonthReturns,
+    this.valorReintegroRendimientos,
+    this.valorSaldoFinalExtracto,
   });
   final int projectCode;
   final int stepNumber;
@@ -49,8 +49,8 @@ class ProjectCache extends Equatable {
   final DateTime? incomeGenerationDate;
   final DateTime? rentalRepaymentDate;
   final String? generatedReturns;
-  final String? currentMonthReturns;
-  final String? pastDueMonthReturns;
+  final String? valorReintegroRendimientos;
+  final String? valorSaldoFinalExtracto;
 
   factory ProjectCache.fromJson(Map<String, dynamic> json) => ProjectCache(
         projectCode: json['project_code'],
@@ -82,8 +82,8 @@ class ProjectCache extends Equatable {
             ? null
             : DateTime.parse(json['fechaReintegroRendimientos']),
         generatedReturns: json['valorRendimientosGenerados'].toString(),
-        currentMonthReturns: json['valorRendimientosMesActual'].toString(),
-        pastDueMonthReturns: json['valorRendimientosMesVencido'].toString(),
+        valorReintegroRendimientos: json['valorReintegroRendimientos'].toString(),
+        valorSaldoFinalExtracto: json['valorSaldoFinalExtracto'].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -116,13 +116,13 @@ class ProjectCache extends Equatable {
                 ? 0.0
                 : generatedReturns,
         'valorRendimientosMesActual':
-            currentMonthReturns == null || currentMonthReturns == ''
+            valorReintegroRendimientos == null || valorReintegroRendimientos == ''
                 ? 0.0
-                : currentMonthReturns,
-        'valorRendimientosMesVencido':
-            pastDueMonthReturns == null || pastDueMonthReturns == ''
+                : valorReintegroRendimientos,
+        'valorSaldoFinalExtracto':
+            valorSaldoFinalExtracto == null || valorSaldoFinalExtracto == ''
                 ? 0.0
-                : pastDueMonthReturns,
+                : valorSaldoFinalExtracto,
       };
 
   ProjectCache copyWith({
@@ -143,8 +143,8 @@ class ProjectCache extends Equatable {
     DateTime? incomeGenerationDate,
     DateTime? rentalRepaymentDate,
     String? generatedReturns,
-    String? currentMonthReturns,
-    String? pastDueMonthReturns,
+    String? valorReintegroRendimientos,
+    String? valorSaldoFinalExtracto,
   }) {
     return ProjectCache(
       projectCode: projectCode ?? this.projectCode,
@@ -167,8 +167,8 @@ class ProjectCache extends Equatable {
       incomeGenerationDate: incomeGenerationDate ?? this.incomeGenerationDate,
       rentalRepaymentDate: rentalRepaymentDate ?? this.rentalRepaymentDate,
       generatedReturns: generatedReturns ?? this.generatedReturns,
-      currentMonthReturns: currentMonthReturns ?? this.currentMonthReturns,
-      pastDueMonthReturns: pastDueMonthReturns ?? this.pastDueMonthReturns,
+      valorReintegroRendimientos: valorReintegroRendimientos ?? this.valorReintegroRendimientos,
+      valorSaldoFinalExtracto: valorSaldoFinalExtracto ?? this.valorSaldoFinalExtracto,
     );
   }
 
@@ -223,7 +223,7 @@ class ProjectCache extends Equatable {
         incomeGenerationDate,
         rentalRepaymentDate,
         generatedReturns,
-        currentMonthReturns,
-        pastDueMonthReturns,
+        valorReintegroRendimientos,
+        valorSaldoFinalExtracto,
       ];
 }
