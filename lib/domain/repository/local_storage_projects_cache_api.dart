@@ -14,7 +14,14 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
 
   final SharedPreferences _plugin;
 
-  int? currentProjectCode;
+  int? _currentProjectCode;
+
+  int? get currentProjectCode => _currentProjectCode;
+
+  set currentProjectCode(int? value) {
+    debugPrint('set projectCode: $value');
+    _currentProjectCode = value;
+  }
 
   final _projectsCacheStreamController =
       BehaviorSubject<Map<String, ProjectCache>>.seeded(const {});
@@ -114,8 +121,6 @@ class LocalStorageProjectsCacheApi extends ProjectsCacheApi {
     final map = {..._detailStreamController.value};
 
     map[projectCode.toString()] = details;
-    currentProjectCode = projectCode;
-
     _detailStreamController.add(map);
     return _setValue(kDetailsKey, projetsDetailToJson(map));
   }
