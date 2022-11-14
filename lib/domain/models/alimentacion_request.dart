@@ -38,8 +38,8 @@ class AlimentacionRequest {
   final List<DocumentoRequest> documentosObligatorios;
   final List<DocumentoRequest>? documentosOpcionales;
   final List<FactoresAtrasoRequest>? factoresAtraso;
-  final DateTime? fechaGeneracionRendimientos;
-  final DateTime? fechaReintegroRendimientos;
+  final String? fechaGeneracionRendimientos;
+  final String? fechaReintegroRendimientos;
   final FotoPrincipalRequest? fotoPrincipal;
   final List<FotoPrincipalRequest>? imagenesComplementarias;
   final List<IndicadoresAlcanceRequest>? indicadoresAlcance;
@@ -66,10 +66,8 @@ class AlimentacionRequest {
                 .map((x) => DocumentoRequest.fromJson(x))),
         factoresAtraso: List<FactoresAtrasoRequest>.from(json["factoresAtraso"]
             .map((x) => FactoresAtrasoRequest.fromJson(x))),
-        fechaGeneracionRendimientos:
-            DateTime.parse(json["fechaGeneracionRendimientos"]),
-        fechaReintegroRendimientos:
-            DateTime.parse(json["fechaReintegroRendimientos"]),
+        fechaGeneracionRendimientos: json["fechaGeneracionRendimientos"],
+        fechaReintegroRendimientos: json["fechaReintegroRendimientos"],
         fotoPrincipal: FotoPrincipalRequest.fromJson(json["fotoPrincipal"]),
         imagenesComplementarias: List<FotoPrincipalRequest>.from(
             json["imagenesComplementarias"]
@@ -101,10 +99,8 @@ class AlimentacionRequest {
         "factoresAtraso": factoresAtraso == null
             ? null
             : List<dynamic>.from(factoresAtraso!.map((x) => x.toJson())),
-        "fechaGeneracionRendimientos":
-            fechaGeneracionRendimientos?.toIso8601String(),
-        "fechaReintegroRendimientos":
-            fechaReintegroRendimientos?.toIso8601String(),
+        "fechaGeneracionRendimientos": fechaGeneracionRendimientos,
+        "fechaReintegroRendimientos": fechaReintegroRendimientos,
         "fotoPrincipal": fotoPrincipal?.toJson(),
         "imagenesComplementarias": imagenesComplementarias == null
             ? null

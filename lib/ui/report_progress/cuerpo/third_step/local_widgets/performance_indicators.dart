@@ -110,7 +110,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
   @override
   Widget build(BuildContext context) {
     // TODO User other picker for ios
-    Future<DateTime?> selectDate() async {
+    Future<DateTime?> selectDate({DateTime? initialDate}) async {
       return showDatePicker(
         context: context,
         locale: const Locale('es', 'CO'),
@@ -124,7 +124,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
             child: child!,
           );
         },
-        initialDate: DateTime.now(),
+        initialDate: initialDate ?? DateTime.now(),
         // TODO
         firstDate: DateTime(2000),
         // TODO
@@ -173,8 +173,11 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   focusNode: incomeGenerationDateFocusNode,
                   controller: incomeGenerationDateCtrl,
                   onTap: () async {
-                    final dateTime = await selectDate();
+                    final dateTime = await selectDate(
+                      initialDate: reportProgressService.incomeGenerationDate,
+                    );
                     if (dateTime == null) return;
+
                     incomeGenerationDateCtrl.text =
                         DateTimeFormat.ddMMYYYY(dateTime);
                     reportProgressService.saveIncomeGenerationDate(dateTime);
@@ -189,7 +192,9 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   focusNode: rentalRepaymentDateFocusNode,
                   controller: rentalRepaymentDateCtrl,
                   onTap: () async {
-                    final dateTime = await selectDate();
+                    final dateTime = await selectDate(
+                      initialDate: reportProgressService.rentalRepaymentDate,
+                    );
                     if (dateTime == null) return;
                     rentalRepaymentDateCtrl.text =
                         DateTimeFormat.ddMMYYYY(dateTime);

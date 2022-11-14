@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:appalimentacion/utils/datetime_format.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/models/models.dart';
@@ -160,8 +161,8 @@ class ReportProgressProvider extends ChangeNotifier {
   }
 
   void _initFourthStep() {
-    incomeGenerationDate = this.cache.incomeGenerationDate;
-    rentalRepaymentDate = this.cache.rentalRepaymentDate;
+    incomeGenerationDate = this.cache.getIncomeGenerationDate;
+    rentalRepaymentDate = this.cache.getRentalRepaymentDate;
     generatedReturns = this.cache.generatedReturns;
     currentMonthReturns = this.cache.valorReintegroRendimientos;
     pastDueMonthReturns = this.cache.valorSaldoFinalExtracto;
@@ -171,13 +172,15 @@ class ReportProgressProvider extends ChangeNotifier {
 
   void saveIncomeGenerationDate(DateTime value) {
     incomeGenerationDate = value;
-    this.cache = this.cache.copyWith(incomeGenerationDate: value);
+    final dateString = DateTimeFormat.yyyyMMDD(value);
+    this.cache = this.cache.copyWith(incomeGenerationDate: dateString);
     _projectsCacheRepository.saveCache(this.cache);
   }
 
   void saveRentalRepaymentDate(DateTime value) {
     rentalRepaymentDate = value;
-    this.cache = this.cache.copyWith(rentalRepaymentDate: value);
+    final dateString = DateTimeFormat.yyyyMMDD(value);
+    this.cache = this.cache.copyWith(rentalRepaymentDate: dateString);
     _projectsCacheRepository.saveCache(this.cache);
   }
 

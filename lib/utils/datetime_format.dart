@@ -21,6 +21,15 @@ class DateTimeFormat {
         .replaceAll('.', '');
   }
 
+  static String? yyyyMMDD(DateTime? date) {
+    if (date == null) return null;
+    return DateFormat('yyyy-MM-dd', 'es_CO')
+        .format(date)
+        .toTitleCase()
+        .toUpperCase()
+        .replaceAll('.', '');
+  }
+
   static String ddMMYYYY(DateTime date) {
     String fecha = date.toString().split(' ')[0];
     List<String> fechaSplit = fecha.split('-');

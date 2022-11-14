@@ -46,8 +46,8 @@ class ProjectCache extends Equatable {
   final List<DelayFactor>? delayFactors;
   final String? comment;
   final String? fileFotoPrincipal;
-  final DateTime? incomeGenerationDate;
-  final DateTime? rentalRepaymentDate;
+  final String? incomeGenerationDate;
+  final String? rentalRepaymentDate;
   final String? generatedReturns;
   final String? valorReintegroRendimientos;
   final String? valorSaldoFinalExtracto;
@@ -75,15 +75,11 @@ class ProjectCache extends Equatable {
             ? null
             : List<QualitativeProgress>.from(json["qualitatives_progress"]
                 .map((x) => QualitativeProgress.fromJson(x))),
-        incomeGenerationDate: json['fechaGeneracionRendimientos'] == null
-            ? null
-            : DateTime.parse(json['fechaGeneracionRendimientos']),
-        rentalRepaymentDate: json['fechaReintegroRendimientos'] == null
-            ? null
-            : DateTime.parse(json['fechaReintegroRendimientos']),
-        generatedReturns: json['valorRendimientosGenerados'].toString(),
-        valorReintegroRendimientos: json['valorReintegroRendimientos'].toString(),
-        valorSaldoFinalExtracto: json['valorSaldoFinalExtracto'].toString(),
+        incomeGenerationDate: json['fechaGeneracionRendimientos'],
+        rentalRepaymentDate: json['fechaReintegroRendimientos'],
+        generatedReturns: json['valorRendimientosGenerados'],
+        valorReintegroRendimientos: json['valorReintegroRendimientos'],
+        valorSaldoFinalExtracto: json['valorSaldoFinalExtracto'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -105,20 +101,16 @@ class ProjectCache extends Equatable {
             : List<dynamic>.from(delayFactors!.map((x) => x.toJson())),
         'comment': comment,
         'fileFotoPrincipal': fileFotoPrincipal,
-        'fechaGeneracionRendimientos': incomeGenerationDate == null
-            ? null
-            : incomeGenerationDate?.toIso8601String(),
-        'fechaReintegroRendimientos': rentalRepaymentDate == null
-            ? null
-            : rentalRepaymentDate?.toIso8601String(),
+        'fechaGeneracionRendimientos': incomeGenerationDate,
+        'fechaReintegroRendimientos': rentalRepaymentDate,
         'valorRendimientosGenerados':
             generatedReturns == null || generatedReturns == ''
                 ? 0.0
                 : generatedReturns,
-        'valorRendimientosMesActual':
-            valorReintegroRendimientos == null || valorReintegroRendimientos == ''
-                ? 0.0
-                : valorReintegroRendimientos,
+        'valorRendimientosMesActual': valorReintegroRendimientos == null ||
+                valorReintegroRendimientos == ''
+            ? 0.0
+            : valorReintegroRendimientos,
         'valorSaldoFinalExtracto':
             valorSaldoFinalExtracto == null || valorSaldoFinalExtracto == ''
                 ? 0.0
@@ -140,8 +132,8 @@ class ProjectCache extends Equatable {
     String? fileFotoPrincipal,
     List<dynamic>? filesFotosComplementarias,
     String? comment,
-    DateTime? incomeGenerationDate,
-    DateTime? rentalRepaymentDate,
+    String? incomeGenerationDate,
+    String? rentalRepaymentDate,
     String? generatedReturns,
     String? valorReintegroRendimientos,
     String? valorSaldoFinalExtracto,
@@ -167,8 +159,10 @@ class ProjectCache extends Equatable {
       incomeGenerationDate: incomeGenerationDate ?? this.incomeGenerationDate,
       rentalRepaymentDate: rentalRepaymentDate ?? this.rentalRepaymentDate,
       generatedReturns: generatedReturns ?? this.generatedReturns,
-      valorReintegroRendimientos: valorReintegroRendimientos ?? this.valorReintegroRendimientos,
-      valorSaldoFinalExtracto: valorSaldoFinalExtracto ?? this.valorSaldoFinalExtracto,
+      valorReintegroRendimientos:
+          valorReintegroRendimientos ?? this.valorReintegroRendimientos,
+      valorSaldoFinalExtracto:
+          valorSaldoFinalExtracto ?? this.valorSaldoFinalExtracto,
     );
   }
 
@@ -203,6 +197,16 @@ class ProjectCache extends Equatable {
 
   bool get synchronizationRequired {
     return lastSyncDate == null;
+  }
+
+  DateTime? get getIncomeGenerationDate {
+    if (incomeGenerationDate == null) return null;
+    return DateTime.parse(incomeGenerationDate!);
+  }
+
+  DateTime? get getRentalRepaymentDate {
+    if (rentalRepaymentDate == null) return null;
+    return DateTime.parse(rentalRepaymentDate!);
   }
 
   @override
