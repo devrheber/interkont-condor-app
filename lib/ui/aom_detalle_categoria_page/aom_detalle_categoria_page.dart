@@ -126,6 +126,8 @@ class AomDetalleCategoriaView extends StatelessWidget {
                   pendingColor: Color(0xFF745FF2),
                   style:
                       selectedStep == 1 ? textStyleStepSelected : textStyleStep,
+                  onTap: () =>
+                      context.read<AomCategoryDetailCubit>().setStep(1),
                 ),
                 StepIndicator(
                   text: 'Actualización\nCualitativo',
@@ -135,6 +137,8 @@ class AomDetalleCategoriaView extends StatelessWidget {
                   pendingColor: Color(0xFF745FF2),
                   style:
                       selectedStep == 2 ? textStyleStepSelected : textStyleStep,
+                  onTap: () =>
+                      context.read<AomCategoryDetailCubit>().setStep(2),
                 ),
                 StepIndicator(
                   text: 'Imágen o\n Video',
@@ -144,6 +148,8 @@ class AomDetalleCategoriaView extends StatelessWidget {
                   pendingColor: Color(0xFF745FF2),
                   style:
                       selectedStep == 3 ? textStyleStepSelected : textStyleStep,
+                  onTap: () =>
+                      context.read<AomCategoryDetailCubit>().setStep(3),
                 ),
               ],
             ),
