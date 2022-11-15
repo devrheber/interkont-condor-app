@@ -3,11 +3,14 @@ import 'package:appalimentacion/domain/models/project.dart';
 import 'package:appalimentacion/domain/models/datos_alimentacion.dart';
 import 'package:appalimentacion/domain/models/alimentacion_request.dart';
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
+import 'package:dio/dio.dart';
 
 class ProjectsImplLocal implements ProjectsRepository {
   @override
-  Future<DatosAlimentacion> getDatosAlimentacion(
-      {required String codigoProyecto}) async {
+  Future<DatosAlimentacion> getDatosAlimentacion({
+    required String codigoProyecto,
+    CancelToken? cancelToken,
+  }) async {
     return DatosAlimentacion(
         limitePorcentajeAtraso: 5,
         limitePorcentajeAtrasoAmarillo: 10,
@@ -76,13 +79,13 @@ class ProjectsImplLocal implements ProjectsRepository {
           porcentajeProyectado: 1,
           semaforoproyecto: 'rojo',
           codigocategoria: 1,
-          imagencategoria: 'https://www.ftc.gov/sites/all/themes/ftc/images-cybersecurity-pages/homepage-quiz-basics.png',
+          imagencategoria:
+              'https://www.ftc.gov/sites/all/themes/ftc/images-cybersecurity-pages/homepage-quiz-basics.png',
           colorcategoria: '#FFFFFF',
           nombrecategoria: 'Categoría de prueba',
           objeto: 'Descripción de Prueba.',
           pendienteAprobacion: false,
-          estadoobra: 9
-          )
+          estadoobra: 9)
     ];
   }
 
@@ -129,7 +132,7 @@ class ProjectsImplLocal implements ProjectsRepository {
     // TODO: implement sendData
     throw UnimplementedError();
   }
-  
+
   @override
   Future<List<Project>> getAomProjects() {
     // TODO: implement getAomProjects

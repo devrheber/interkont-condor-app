@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/models/models.dart';
@@ -18,6 +19,7 @@ class ProjectDetailProvider extends ChangeNotifier {
 
     cache = cache.copyWith(projectCode: project.codigoproyecto);
     _getPosicionPeriodoSeleccionado();
+    syncDetail();
   }
 
   GlobalKey titleCardKey = GlobalKey<State<StatefulWidget>>();
@@ -31,6 +33,8 @@ class ProjectDetailProvider extends ChangeNotifier {
 
   late ProjectCache _cache;
   Periodo? periodoSeleccionado;
+
+  CancelToken? cancelToken;
 
   ProjectCache get cache => _cache;
 
@@ -56,10 +60,13 @@ class ProjectDetailProvider extends ChangeNotifier {
 
   Future<bool> syncDetail() async {
     final projectCode = project.codigoproyecto;
+    cancelToken = CancelToken();
 
     try {
       final detail = await projectRepository.getDatosAlimentacion(
-          codigoProyecto: '$projectCode');
+        codigoProyecto: '$projectCode',
+        cancelToken: cancelToken,
+      );
 
       _updateSelectedPeriod();
 
@@ -67,6 +74,8 @@ class ProjectDetailProvider extends ChangeNotifier {
 
       this.cache = this.cache.copyWith(lastSyncDate: dateSync);
       this.detail = detail;
+
+      if (!(titleCardKey.currentState?.mounted ?? false)) return false;
 
       notifyListeners();
 

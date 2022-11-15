@@ -100,20 +100,26 @@ class ProyectScreen extends StatelessWidget {
       );
     }
 
-    return FondoHome(
-      body: ProjectContent(
-        project: detailProvider.project,
-        projectCache: detailProvider.cache,
+    return WillPopScope(
+      onWillPop: () async {
+        detailProvider.cancelToken?.cancel();
+        return true;
+      },
+      child: FondoHome(
+        body: ProjectContent(
+          project: detailProvider.project,
+          projectCache: detailProvider.cache,
+        ),
+        bottomNavigationBar: CustomBottomNavigationBar(
+            colorFondo: Color(0xff22B573),
+            primerBotonDesactivado: false,
+            segundoBotonDesactivado: project.pendienteAprobacion ||
+                (detailProvider.cache.synchronizationRequired),
+            txtPrimerBoton: null,
+            txtSegundoBoton: 'Reportar Avance',
+            accionPrimerBoton: null,
+            accionSegundoBoton: () => goToNextScreen()),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-          colorFondo: Color(0xff22B573),
-          primerBotonDesactivado: false,
-          segundoBotonDesactivado: project.pendienteAprobacion ||
-              (detailProvider.cache.synchronizationRequired),
-          txtPrimerBoton: null,
-          txtSegundoBoton: 'Reportar Avance',
-          accionPrimerBoton: null,
-          accionSegundoBoton: () => goToNextScreen()),
     );
   }
 }

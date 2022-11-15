@@ -273,25 +273,32 @@ class ProyectosContenido extends StatelessWidget {
     required Project project,
     required int index,
   }) async {
-    final provider = Provider.of<ProjectsProvider>(context, listen: false);
-    provider.setCurrentProjectCode(project.codigoproyecto);
-    loadingDialog(context);
+    try {
+      final provider = Provider.of<ProjectsProvider>(context, listen: false);
+      provider.setCurrentProjectCode(project.codigoproyecto);
+      loadingDialog(context);
 
-    final DatosAlimentacion? detail = await provider
-        .getProjectDetail(project.codigoproyecto)
-        .onError((error, stackTrace) => Future.value(null));
-    Navigator.pop(context);
+      final DatosAlimentacion? detail =
+          await provider.getProjectDetail(project.codigoproyecto);
 
-    if (detail == null) {
-      Toast.show("Lo sentimos, este proyecto no fue sincronizado anteriormente",
-          duration: 3, gravity: Toast.bottom);
-      return;
+      Navigator.pop(context);
+
+      if (detail == null) {
+        Toast.show(
+            "Lo sentimos, este proyecto no fue sincronizado anteriormente",
+            duration: 3,
+            gravity: Toast.bottom);
+        return;
+      }
+
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ProyectScreen.init(),
+        ),
+      );
+    } catch (e) {
+      // TODO
+      Toast.show("Algo salió mal", duration: 3, gravity: Toast.bottom);
     }
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => ProyectScreen.init(),
-      ),
-    );
   }
 }

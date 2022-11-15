@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../models/models.dart';
 
 abstract class ProjectsRepository {
@@ -5,8 +7,10 @@ abstract class ProjectsRepository {
 
   Future<List<Project>> getAomProjects();
 
-  Future<DatosAlimentacion> getDatosAlimentacion(
-      {required String codigoProyecto});
+  Future<DatosAlimentacion> getDatosAlimentacion({
+    required String codigoProyecto,
+    CancelToken? cancelToken,
+  });
 
   Future<List<TipoDoc>> getTipoDoc();
 

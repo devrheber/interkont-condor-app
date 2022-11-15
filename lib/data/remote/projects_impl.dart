@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
 import 'package:appalimentacion/helpers/remote_config_service.dart';
 import 'package:dio/dio.dart' as x;
+import 'package:dio/dio.dart';
 
 import '../../constants/constants.dart';
 import '../../domain/models/models.dart';
@@ -41,12 +42,13 @@ class ProjectsImpl implements ProjectsRepository {
   }
 
   @override
-  Future<List<Project>> getAlimentacionProjects() async {
+  Future<List<Project>> getAlimentacionProjects(
+      {x.CancelToken? cancelToken}) async {
     try {
       int alimentacionProjectState =
           remoteConfig.getInt('feature_estado_obra_alimentacion');
 
-      final list = await getVistaLista();
+      final list = await getVistaLista(cancelToken);
 
       return list
           .where(
@@ -59,11 +61,11 @@ class ProjectsImpl implements ProjectsRepository {
   }
 
   @override
-  Future<List<Project>> getAomProjects() async {
+  Future<List<Project>> getAomProjects({x.CancelToken? cancelToken}) async {
     try {
       int aomProjectState = remoteConfig.getInt('feature_estado_obra_aom');
 
-      final list = await getVistaLista();
+      final list = await getVistaLista(cancelToken);
 
       return list
           .where(
@@ -76,21 +78,26 @@ class ProjectsImpl implements ProjectsRepository {
   }
 
   // GetProjects
-  Future<List<Project>> getVistaLista() async {
+  Future<List<Project>> getVistaLista(x.CancelToken? cancelToken) async {
     final user = User.fromJson(json.decode(prefs.userData));
 
     Map<String, dynamic> body = {'usuario': user.username};
 
     x.Dio dio = x.Dio();
-    dio.options = x.BaseOptions(baseUrl: _url, connectTimeout: 3500, headers: {
-      'content-type': 'application/json',
-      'Authorization': user.token,
-    });
+    dio.options = x.BaseOptions(
+      baseUrl: _url,
+      connectTimeout: 3500,
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': user.token,
+      },
+    );
 
     try {
       final x.Response<dynamic> response = await dio.post(
         ApiRoutes.vistaListaConsulta,
         data: body,
+        cancelToken: cancelToken,
       );
 
       if (response.statusCode == 200) {
@@ -106,6 +113,7 @@ class ProjectsImpl implements ProjectsRepository {
   @override
   Future<DatosAlimentacion> getDatosAlimentacion({
     required String codigoProyecto,
+    CancelToken? cancelToken,
   }) async {
     String url = "$_url/datos-alimentacion";
 

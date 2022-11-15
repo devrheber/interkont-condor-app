@@ -41,19 +41,11 @@ class ProjectsProvider extends ChangeNotifier {
   }
 
   Future<void> getRemoteProjects() async {
+    debugPrint('obteniendo proyecto de Alimentación');
     final projects = await projectRepository.getAlimentacionProjects();
-    
-    _saveProjectsInLocalStorage(projects);
-    await updateProjectsDetails(projects);
-    notifyListeners();
-  }
 
-  Future<void> updateProjectsDetails(List<Project> projects) async {
-    for (final project in projects) {
-      final detail = await getRemoteProjectDetail(project.codigoproyecto);
-      await _projectsCacheRepository.saveProjectDetails(
-          project.codigoproyecto, detail);
-    }
+    _saveProjectsInLocalStorage(projects);
+    notifyListeners();
   }
 
   void clearCache(int projectCode) async {

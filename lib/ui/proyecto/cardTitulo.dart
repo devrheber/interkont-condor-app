@@ -358,12 +358,12 @@ class _SyncButtonState extends State<_SyncButton>
 
   Future<void> _sync() async {
     setState(() {});
-    final projectsService = context.read<ProjectsProvider>();
-    final detailService = context.read<ProjectDetailProvider>();
     if (animationController != null &&
         (animationController?.isAnimating ?? false)) return;
     animationController?.repeat();
 
+    final projectsService = context.read<ProjectsProvider>();
+    final detailService = context.read<ProjectDetailProvider>();
     try {
       await projectsService.getRemoteProjects();
       detailService.updateProject();
@@ -377,15 +377,15 @@ class _SyncButtonState extends State<_SyncButton>
         Toast.show("Proyecto sincronizado correctamente!",
             duration: 3, gravity: Toast.bottom);
       } else {
-        Toast.show(
-            "Lo sentimos, debe estar conectado a internet para sincronizar el proyecto",
-            duration: 3,
-            gravity: Toast.bottom);
+        Toast.show("Lo sentimos, No se pudo sincronizar el proyecto",
+            duration: 3, gravity: Toast.bottom);
       }
       setState(() {});
-    } catch (_) {
-      Toast.show("Lo sentimos, Algo salió mal",
-          duration: 5, gravity: Toast.bottom);
+    } catch (e) {
+      if (!mounted) return;
+      Toast.show("Algo salió mal", duration: 3, gravity: Toast.bottom);
+
+      animationController?.stop();
       setState(() {});
     }
   }
