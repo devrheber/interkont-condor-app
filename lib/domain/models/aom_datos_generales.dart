@@ -4,23 +4,25 @@
 
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 AomDatosGenerales aomDatosGeneralesFromJson(String str) =>
     AomDatosGenerales.fromJson(json.decode(str));
 
 String aomDatosGeneralesToJson(AomDatosGenerales data) =>
     json.encode(data.toJson());
 
-class AomDatosGenerales {
+class AomDatosGenerales extends Equatable {
   AomDatosGenerales({
     required this.id,
     this.fechaInicio,
-     this.operadorId,
-     this.etapaAom,
-     this.polizaAom,
+    this.operadorId,
+    this.etapaAom,
+    this.polizaAom,
     this.fechaPolizaAom,
-     this.obraId,
-     this.fechaFinalizacionRecursos,
-     this.fechaRecepcionActivos,
+    this.obraId,
+    this.fechaFinalizacionRecursos,
+    this.fechaRecepcionActivos,
     this.construccionContradoId,
     this.aomContradoId,
     this.periodoActualizacion,
@@ -28,20 +30,20 @@ class AomDatosGenerales {
     required this.relacionContratos,
   });
 
-  int id;
-  String? fechaInicio;
-  int? operadorId;
-  String? etapaAom;
-  bool? polizaAom;
-  dynamic fechaPolizaAom;
-  int? obraId;
-  String? fechaFinalizacionRecursos;
-  String? fechaRecepcionActivos;
-  dynamic construccionContradoId;
-  dynamic aomContradoId;
-  dynamic periodoActualizacion;
-  dynamic fechaActualizacion;
-  List<RelacionContrato>? relacionContratos;
+  final int id;
+  final String? fechaInicio;
+  final int? operadorId;
+  final String? etapaAom;
+  final bool? polizaAom;
+  final dynamic fechaPolizaAom;
+  final int? obraId;
+  final String? fechaFinalizacionRecursos;
+  final String? fechaRecepcionActivos;
+  final dynamic construccionContradoId;
+  final dynamic aomContradoId;
+  final dynamic periodoActualizacion;
+  final dynamic fechaActualizacion;
+  final List<RelacionContrato>? relacionContratos;
 
   factory AomDatosGenerales.fromJson(Map<String, dynamic> json) =>
       AomDatosGenerales(
@@ -82,6 +84,24 @@ class AomDatosGenerales {
             ? []
             : List<dynamic>.from(relacionContratos!.map((x) => x.toJson())),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        fechaInicio,
+        operadorId,
+        etapaAom,
+        polizaAom,
+        fechaPolizaAom,
+        obraId,
+        fechaFinalizacionRecursos,
+        fechaRecepcionActivos,
+        construccionContradoId,
+        aomContradoId,
+        periodoActualizacion,
+        fechaActualizacion,
+        relacionContratos,
+      ];
 }
 
 class RelacionContrato {

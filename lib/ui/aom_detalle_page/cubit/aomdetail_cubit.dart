@@ -31,9 +31,9 @@ class AomDetailCubit extends Cubit<AomDetailState> {
   }
 
   Future<void> _getCategoriasByObraId(int obraId) async {
-    // final list = await _aomProjectsRepository.categoriasByObraId(obraId);
+    final list = await _aomProjectsRepository.categoriasByObraId(obraId);
     //! Provisional
-    final list = await _aomProjectsRepository.categoriasByObraId(2979);
+    // final list = await _aomProjectsRepository.categoriasByObraId(2979);
     emit(state.copyWith(clasifications: () => list));
   }
 
@@ -49,11 +49,13 @@ class AomDetailCubit extends Cubit<AomDetailState> {
     final list = await _aomProjectsRepository.getContratistas();
 
     _aomProjectsApi.saveContratistas(list);
+    inspect(_aomProjectsApi.getContratistaById(state.generalData!.operadorId));
 
     emit(
       state.copyWith(
         contratista: () =>
-            _aomProjectsApi.getContratistaById(state.generalData!.operadorId),
+            _aomProjectsApi.getContratistaById(state.generalData!.operadorId)
+            
       ),
     );
   }

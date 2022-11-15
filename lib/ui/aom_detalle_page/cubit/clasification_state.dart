@@ -6,14 +6,14 @@ class AomDetailState extends Equatable {
   const AomDetailState({
     this.status = AomDetailStatus.initial,
     this.generalData,
-    this.contratista,
+    this.contratista = Contratista.empty,
     this.clasifications = const [],
     this.errorResponse,
   });
 
   final AomDetailStatus status;
   final AomDatosGenerales? generalData;
-  final Contratista? contratista;
+  final Contratista contratista;
   final List<CategoriaObra> clasifications;
   final Map<String, dynamic>? errorResponse;
 
@@ -27,7 +27,7 @@ class AomDetailState extends Equatable {
     return AomDetailState(
       status: status != null ? status() : this.status,
       generalData: generalData != null ? generalData() : this.generalData,
-      contratista: contratista != null ? contratista() : this.contratista,
+      contratista: contratista != null ? contratista()! : this.contratista,
       clasifications:
           clasifications != null ? clasifications() : this.clasifications,
       errorResponse:
@@ -36,5 +36,5 @@ class AomDetailState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, clasifications];
+  List<Object> get props => [status, clasifications, contratista];
 }

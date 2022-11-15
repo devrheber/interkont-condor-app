@@ -4,26 +4,35 @@
 
 import 'dart:convert';
 
-List<Contratista> contratistaFromJson(String str) => List<Contratista>.from(json.decode(str).map((x) => Contratista.fromJson(x)));
+import 'package:equatable/equatable.dart';
 
-String contratistaToJson(List<Contratista> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+List<Contratista> contratistaFromJson(String str) => List<Contratista>.from(
+    json.decode(str).map((x) => Contratista.fromJson(x)));
 
-class Contratista {
-    Contratista({
-        required this.id,
-        required this.contratista,
-    });
+String contratistaToJson(List<Contratista> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-    int id;
-    String contratista;
+class Contratista extends Equatable {
+  const Contratista({
+    required this.id,
+    required this.contratista,
+  });
 
-    factory Contratista.fromJson(Map<String, dynamic> json) => Contratista(
+  final int id;
+  final String contratista;
+
+  factory Contratista.fromJson(Map<String, dynamic> json) => Contratista(
         id: json["id"],
         contratista: json["contratista"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "contratista": contratista,
-    };
+      };
+
+  static const empty = Contratista(id: 0, contratista: '--');
+
+  @override
+  List<Object?> get props => [id, contratista];
 }

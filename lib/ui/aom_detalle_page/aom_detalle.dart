@@ -90,7 +90,7 @@ class AomDetalleView extends StatelessWidget {
                     children: <Widget>[
                       _TitleContent(
                         title: 'Operador AOM',
-                        content: state.contratista?.contratista ?? '--',
+                        content: state.contratista.contratista,
                       ),
                       Divider(),
                       _TitleContent(
@@ -308,7 +308,6 @@ class _TitleContent extends StatelessWidget {
     Key? key,
     required this.title,
     required this.content,
-    
   }) : super(key: key);
   final String title;
   final String content;
