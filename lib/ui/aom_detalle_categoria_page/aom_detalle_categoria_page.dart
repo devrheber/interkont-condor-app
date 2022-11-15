@@ -43,10 +43,7 @@ class _AomDetalleCategoriaPageState extends State<AomDetalleCategoriaPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    paso = arguments['paso'];
   }
 
   @override
@@ -54,6 +51,7 @@ class _AomDetalleCategoriaPageState extends State<AomDetalleCategoriaPage> {
     // get pushnamed arguments
     final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     String nombre = arguments['nombre'];
+    paso = arguments['paso'];
     // int paso = arguments['paso'];
     // String nombre = 'Nombre';
     // int paso = 1;
