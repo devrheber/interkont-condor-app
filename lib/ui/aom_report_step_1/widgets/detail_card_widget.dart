@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
-import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_detail_categories_cubit.dart';
+import 'package:appalimentacion/ui/aom_report_step_1/bloc/aom_category_detail_bloc.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,8 +66,7 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
     screenWidth = MediaQuery.of(context).size.width;
     double factor = ((screenWidth ?? 0) / 414.0);
 
-    final cubit =
-        BlocProvider.of<AomDetailCategoriesCubit>(context, listen: true);
+    final bloc = BlocProvider.of<AomCategoryDetailBloc>(context, listen: true);
     // print('screenwidth: $screenWidth');
     // print('FACTOR: $factor');
     return PurpleRoundedGradientContainer(
@@ -125,12 +124,13 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: DropDownEstado(
-                    list: cubit.state.estados,
-                    value: cubit.state.getEstadoSeleccionado(
+                    list: bloc.state.estados,
+                    value: bloc.state.getEstadoSeleccionado(
                         widget.item.id, widget.item.estadoSupervisorId),
                     onChanged: (EstadoDeActivo? newValue) {
                       print(newValue?.strNombreEstado);
-                      cubit.updateEstadoDeActivo(widget.item.id, newValue);
+                      bloc.add(
+                          UpdateEstadoDeActivoEvent(widget.item.id, newValue));
                     },
                   ),
                 ),

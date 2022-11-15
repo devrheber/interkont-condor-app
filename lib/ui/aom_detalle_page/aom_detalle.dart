@@ -6,6 +6,7 @@ import 'package:appalimentacion/ui/aom_detalle_page/cubit/aomdetail_cubit.dart';
 import 'package:appalimentacion/ui/widgets/home/fondoHome.dart';
 import 'package:appalimentacion/ui/widgets/shimmer_button_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -146,20 +147,12 @@ class _Clasifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('building clasifications');
+    if (kDebugMode) print('building clasifications');
+
     ToastContext().init(context);
 
-    //!FAKE DATA
-    //nombre, pendiente,paso
-    Map<String, Map<bool, int>> activosGenerales = {
-      'Compensación Reactiva': {true: 3},
-      'Equipos de Control y Comunicaciones': {false: 1},
-      'Líneas Aéreas': {false: 2},
-      'Sistemas Solares Fotovoltaicos SSFV de\nAlta Tensión': {false: 3},
-    };
-
     final state = context.select((AomDetailCubit cubit) => cubit.state);
-    print(state.status);
+    if (kDebugMode) print(state.status);
 
     if (state.status == AomDetailStatus.loading) {
       return ListView.separated(
@@ -225,9 +218,11 @@ class _Clasifications extends StatelessWidget {
                   context,
                   AppRoutes.aomDetalleCategoria,
                   arguments: {
+                    'projectCode': state.generalData!.obraId,
                     'nombre': text,
                     'pendiente': pending,
                     'paso': step,
+                    'clasificationId': e.clasificacionActivos.id,
                   },
                 );
               },

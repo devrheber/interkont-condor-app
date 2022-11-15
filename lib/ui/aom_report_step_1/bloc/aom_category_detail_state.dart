@@ -1,27 +1,27 @@
-part of 'aom_detail_categories_cubit.dart';
+part of 'aom_category_detail_bloc.dart';
 
-enum AomDetailCategoriesStatus { initial, loading, success, failure }
+enum AomCategoryDetailStatus { initial, loading, success, failure }
 
-class AomDetailCategoriesState extends Equatable {
-  const AomDetailCategoriesState({
+class AomCategoryDetailState extends Equatable {
+  const AomCategoryDetailState({
     this.gestionAom = const [],
-    this.status = AomDetailCategoriesStatus.initial,
+    this.status = AomCategoryDetailStatus.initial,
     this.estados = const [],
     this.estadosSeleccionados = const {},
   });
 
   final List<GestionAom> gestionAom;
-  final AomDetailCategoriesStatus status;
+  final AomCategoryDetailStatus status;
   final List<EstadoDeActivo> estados;
   final Map<int, EstadoDeActivo> estadosSeleccionados;
 
-  AomDetailCategoriesState copyWith({
+  AomCategoryDetailState copyWith({
     List<GestionAom> Function()? gestionAom,
-    AomDetailCategoriesStatus Function()? status,
+    AomCategoryDetailStatus Function()? status,
     List<EstadoDeActivo> Function()? estados,
     Map<int, EstadoDeActivo> Function()? estadosSeleccionados,
   }) {
-    return AomDetailCategoriesState(
+    return AomCategoryDetailState(
       gestionAom: gestionAom != null ? gestionAom() : this.gestionAom,
       status: status != null ? status() : this.status,
       estados: estados != null ? estados() : this.estados,
@@ -46,5 +46,3 @@ class AomDetailCategoriesState extends Equatable {
   @override
   List<Object> get props => [gestionAom, status, estados, estadosSeleccionados];
 }
-
-class AomDetailCategoriesInitial extends AomDetailCategoriesState {}

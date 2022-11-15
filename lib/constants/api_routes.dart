@@ -9,4 +9,6 @@ class ApiRoutes {
   static const String getClasifications = '/AllClasificacion';
   static const String getGestionAomByObraId = '/gestionAomObraId';
   static const String getListaEstados = '/ListadoEstados';
+  static const String getEstadosActivos = '/TiposEstadoActivos';
+
 }

@@ -202,7 +202,7 @@ class AomProjectsImpl implements AomProjectsRepository {
   Future<List<EstadoDeActivo>> getEstados({x.CancelToken? cancelToken}) async {
     try {
       final x.Response<dynamic> response = await _dio.get(
-        ApiRoutes.getListaEstados,
+        ApiRoutes.getEstadosActivos,
         options: x.Options(
           headers: {
             'Content-type': 'application/json',
