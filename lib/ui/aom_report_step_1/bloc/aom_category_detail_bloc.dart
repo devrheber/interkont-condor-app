@@ -56,11 +56,10 @@ class AomCategoryDetailBloc
     if (event.estado == null) return;
     Map<int, EstadoDeActivo> estados = {...state.estadosSeleccionados};
     estados[event.activoId] = event.estado!;
-    Future.delayed(const Duration(milliseconds: 200)).then((_) {
-      emit(
-        state.copyWith(estadosSeleccionados: () => estados),
-      );
-    });
+    await Future.delayed(const Duration(milliseconds: 200));
+    emit(
+      state.copyWith(estadosSeleccionados: () => estados),
+    );
   }
 
   Future<List<GestionAom>> _getGestionObra(

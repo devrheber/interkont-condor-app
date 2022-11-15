@@ -20,7 +20,6 @@ class AomReportStep1Page extends StatelessWidget {
     required int clasificationId,
   }) {
     return BlocProvider(
-      // lazy: false,
       create: (context) => AomCategoryDetailBloc(
         aomProjectsRepository: context.read(),
         aomProjectsApi: context.read(),
