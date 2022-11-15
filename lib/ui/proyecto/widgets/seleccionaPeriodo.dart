@@ -69,12 +69,12 @@ class DropDownPeriodo extends StatelessWidget {
                             children: <Widget>[
                               Text('del ', style: AppTheme.parrafo),
                               Text(
-                                  DateTimeFormat.yyyyMMMDD(
+                                  DateTimeFormat.ddMMMYYYY(
                                       value.getFechaIniDateTime),
                                   style: AppTheme.parrafoNegrita),
                               Text(' hasta el ', style: AppTheme.parrafo),
                               Text(
-                                  DateTimeFormat.yyyyMMMDD(
+                                  DateTimeFormat.ddMMMYYYY(
                                       value.getFechaFinDateTime),
                                   style: AppTheme.parrafoNegrita),
                             ],

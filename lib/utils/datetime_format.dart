@@ -21,6 +21,16 @@ class DateTimeFormat {
         .replaceAll('.', '');
   }
 
+  static String ddMMMYYYY(DateTime date) {
+    String value =
+        DateFormat('dd-MMM-yyyy', 'es_CO').format(date).replaceAll('.', '');
+
+    List<String> list = value.split('-');
+    list[1] = list[1][0].toUpperCase() + list[1].substring(1);
+
+    return list.join('-');
+  }
+
   static String? yyyyMMDD(DateTime? date) {
     if (date == null) return null;
     return DateFormat('yyyy-MM-dd', 'es_CO')
