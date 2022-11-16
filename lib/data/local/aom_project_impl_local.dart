@@ -4,6 +4,8 @@ import 'package:appalimentacion/domain/models/contratista.dart';
 import 'package:appalimentacion/domain/models/clasificacion.dart';
 import 'package:appalimentacion/domain/models/categoria_obra.dart';
 import 'package:appalimentacion/domain/models/aom_datos_generales.dart';
+import 'package:appalimentacion/domain/models/upload_file_response.dart';
+import 'package:appalimentacion/domain/models/upload_file_request.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
 import 'package:dio/src/cancel_token.dart';
 
@@ -53,5 +55,11 @@ class AomProjectImplLocal extends AomProjectsRepository {
     //   'Líneas Aéreas': {false: 2},
     //   'Sistemas Solares Fotovoltaicos SSFV de\nAlta Tensión': {false: 3},
     // };
+  }
+
+  @override
+  Future<UploadFileResponse> uploadFile({CancelToken? cancelToken, required UploadFileRequest uploadFileRequest}) {
+    // TODO: implement uploadFile
+    throw UnimplementedError();
   }
 }

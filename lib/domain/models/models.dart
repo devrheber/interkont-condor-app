@@ -13,5 +13,7 @@ export 'project.dart';
 export 'project_cache.dart';
 export 'qualitative_progress.dart';
 export 'tipo_doc_model.dart';
+export 'upload_file_request.dart';
+export 'upload_file_response.dart';
 export 'user.dart';
 export 'vista_lista_response.dart';

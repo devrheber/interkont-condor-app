@@ -17,6 +17,9 @@ abstract class AomProjectsRepository {
       {CancelToken? cancelToken});
 
   Future<List<EstadoDeActivo>> getEstados({CancelToken? cancelToken});
+
+  Future<UploadFileResponse> uploadFile(
+      {CancelToken? cancelToken, required UploadFileRequest uploadFileRequest});
 }
 
 // TODO Estas clases debererín funcionar para Projectos Aom y de Alimentación

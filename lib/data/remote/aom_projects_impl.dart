@@ -230,4 +230,12 @@ class AomProjectsImpl implements AomProjectsRepository {
       throw manageDioError(e);
     }
   }
+
+  @override
+  Future<UploadFileResponse> uploadFile(
+      {x.CancelToken? cancelToken,
+      required UploadFileRequest uploadFileRequest}) {
+    // TODO: implement uploadFile
+    throw UnimplementedError();
+  }
 }
