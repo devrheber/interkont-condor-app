@@ -88,7 +88,7 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
 
   @override
   Widget build(BuildContext context) {
-    NumberFormat f = new NumberFormat("#,##0.0", "en_US");
+    NumberFormat f = new NumberFormat("#,##0.00", "en_US");
 
     ToastContext().init(context);
 
@@ -160,7 +160,7 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
                       onChanged: calculate,
                       inputFormatters: <FilteringTextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                          RegExp(r'^(\d+)(\.?)(\,?)(\-?)'),
+                          RegExp(r'^(\d{1,9})((\.?)+((\d{1,2})?))'),
                         )
                       ],
                       textAlign: TextAlign.center,
@@ -194,7 +194,7 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
               celdas(
                   'Porcentaje de avance',
                   PercentajeFormat.percentaje(newPercentageOfCompletion,
-                      precision: 1),
+                      precision: 2),
                   true),
             ],
           )
@@ -244,7 +244,7 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
   }
 
   void calculate(String valueString) {
-    if (valueString.contains(',') || valueString.contains('.')) {
+    if (valueString.contains('-')) {
       Toast.show("Lo sentimos, solo puede ingresar números enteros",
           duration: 5, gravity: Toast.bottom);
 

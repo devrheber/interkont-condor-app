@@ -161,7 +161,8 @@ class Actividad extends Equatable {
 
   String get ejecutadoActual {
     final value = (cantidadEjecutadaInicial / cantidadProgramada) * 100;
-    return '${value.round()} %';
+
+    return '${value.toStringAsFixed(2)} %';
   }
 
   double get getCurrentProgressDouble {
@@ -170,14 +171,16 @@ class Actividad extends Equatable {
 
   String avanceAHoy(double valorAvance) {
     final value = (cantidadEjecutadaInicial / cantidadProgramada) * 100;
+    final percentaje = (value + valorAvance).toStringAsFixed(2);
 
-    return '${(value + valorAvance).round()} %';
+    return '$percentaje %';
   }
 
   String faltantePorEjecutar(double valorAvance) {
     final value = (cantidadEjecutadaInicial / cantidadProgramada) * 100;
+    final percentaje = (100 - (value + valorAvance)).toStringAsFixed(2);
 
-    return '${(100 - (value + valorAvance)).round()} %';
+    return '$percentaje %';
   }
 
   double getNewExecutedValue(double porcentajeAvance) {

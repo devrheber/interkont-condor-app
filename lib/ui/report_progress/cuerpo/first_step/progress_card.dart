@@ -19,6 +19,8 @@ class ProgressCard extends StatefulWidget {
   final Actividad activity;
   final Function(String) onChanged;
 
+  String get getValue => (double.tryParse(valueSaved) ?? 0).toStringAsFixed(2);
+
   @override
   State<ProgressCard> createState() => _ProgressCardState();
 }
@@ -157,7 +159,7 @@ class _ProgressCardState extends State<ProgressCard> {
                       ),
                       inputFormatters: <FilteringTextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                          RegExp(r'^(100|(\d{0})(\.?)(\,?)(\d{0,2}))'),
+                          RegExp(r'^((100)|(\d{1,2})((\.?)+((\d{1,2})?)))'),
                         ),
                       ],
                       controller: controller,
@@ -191,7 +193,7 @@ class _ProgressCardState extends State<ProgressCard> {
               ),
               _Celdas(
                 label: 'Avance del presente reporte',
-                value: '${widget.valueSaved} %',
+                value: '${widget.getValue} %',
                 isNumericVariable: false,
               ),
               _Celdas(
