@@ -3,9 +3,9 @@ import 'package:equatable/equatable.dart';
 
 part 'aom_category_detail_state.dart';
 
-class AomCategoryDetailCubit extends Cubit<AomCategoryDetailState> {
-  AomCategoryDetailCubit() : super(AomCategoryDetailState());
+class AomReportCubit extends Cubit<AomReportState> {
+  AomReportCubit() : super(AomReportState());
 
   void setStep(int step) =>
-      emit(AomCategoryDetailState(step: step));
+      emit(AomReportState(step: step));
 }

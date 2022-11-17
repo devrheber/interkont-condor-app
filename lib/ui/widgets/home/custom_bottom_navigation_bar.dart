@@ -109,26 +109,26 @@ Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
             // color: AppTheme.bottomPrincipal,
 
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 1.sp),
+                padding: EdgeInsets.symmetric(horizontal: 1.sp),
                 child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: AutoSizeText(
-                    '$texto',
-                    maxLines: 1,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: texto != "Siguiente Paso"
-                            ? FontWeight.w700
-                            : FontWeight.w600,
-                        fontSize:
-                            texto != "Siguiente Paso" ? 14.2.sp : 13.27.sp),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            )),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: AutoSizeText(
+                        '$texto',
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: texto != "Siguiente Paso"
+                                ? FontWeight.w700
+                                : FontWeight.w600,
+                            fontSize:
+                                texto != "Siguiente Paso" ? 14.2.sp : 13.27.sp),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                )),
           )),
     ),
   );

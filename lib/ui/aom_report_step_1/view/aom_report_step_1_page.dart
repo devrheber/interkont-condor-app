@@ -1,4 +1,5 @@
 import 'package:appalimentacion/theme/color_theme.dart';
+import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_category_detail_cubit.dart';
 import 'package:appalimentacion/ui/aom_report_step_1/bloc/aom_category_detail_bloc.dart';
 import 'package:appalimentacion/ui/widgets/shimmer_detalle_activo_widget.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
@@ -60,28 +61,45 @@ class AomReportStep1Page extends StatelessWidget {
           });
         }
 
-        return FadeIn(
-          duration: const Duration(milliseconds: 1500),
-          child: Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(top: 265.h, left: 28.sp, right: 28.sp),
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: <Widget>[
-                AutoSizeText(
-                  'Registre los cambios a reportar de cada activo de la lista',
-                  style: TextStyle(
-                    fontFamily: "montserrat",
-                    fontSize: 15.sp,
-                    color: Color(0xff444444),
-                    fontWeight: FontWeight.w500,
+        return Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                  child: FadeIn(
+                    duration: const Duration(milliseconds: 1500),
+                    child: Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.only(
+                          top: 265.h, left: 28.sp, right: 28.sp),
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        children: <Widget>[
+                          AutoSizeText(
+                            'Registre los cambios a reportar de cada activo de la lista',
+                            style: TextStyle(
+                              fontFamily: "montserrat",
+                              fontSize: 15.sp,
+                              color: Color(0xff444444),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(height: 20.sp),
+                          for (final item in state.gestionAom)
+                            DetailCardWidget(item),
+                          SizedBox(height: 75.sp),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(height: 20.sp),
-                for (final item in state.gestionAom) DetailCardWidget(item),
               ],
             ),
-          ),
+            AomReportCustomBottomWidget(
+              forwardMethod: () =>
+                  context.read<AomReportCubit>().setStep(2),
+            ),
+          ],
         );
       },
     );

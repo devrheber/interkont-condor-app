@@ -29,6 +29,8 @@ class ColorTheme {
   static const Color lightshade = Color(0xffF4F4F4);
   static const Color lighttint = Color(0xffD8D8D8);
 
+  static const Color aomBackgroundColor = Color(0xffF6F4FC);
+
   static const LinearGradient backgroundGradient = LinearGradient(
     stops: [0.0, 0.4234],
     begin: Alignment.topLeft,

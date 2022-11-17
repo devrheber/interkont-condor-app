@@ -1,5 +1,6 @@
 export 'add_green_button.dart';
 export 'add_green_button.dart';
+export 'aom_report_custom_bottom_widget.dart';
 export 'custom_dialogs.dart';
 export 'fade_in_widget.dart';
 export 'global_drawer.dart';

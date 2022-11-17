@@ -26,7 +26,7 @@ class AomDetalleCategoriaPage extends StatelessWidget {
     final clasificationId = arguments['clasificationId'];
     final projectCode = arguments['projectCode'];
     return BlocProvider(
-      create: (_) => AomCategoryDetailCubit()..setStep(paso),
+      create: (_) => AomReportCubit()..setStep(paso),
       child: AomDetalleCategoriaView(
         nombre: nombre,
         projectCode: projectCode,
@@ -52,7 +52,7 @@ class AomDetalleCategoriaView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedStep =
-        context.select((AomCategoryDetailCubit cubit) => cubit.state.step);
+        context.select((AomReportCubit cubit) => cubit.state.step);
 
     TextStyle textStyleStepSelected = TextStyle(
       fontFamily: "montserrat",
@@ -69,30 +69,6 @@ class AomDetalleCategoriaView extends StatelessWidget {
     );
 
     return FondoHome(
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(top: 15.sp),
-        child: CustomBottomNavigationBar(
-          colorFondo: AppTheme.bottomPrincipal,
-          primerBotonDesactivado: false,
-          segundoBotonDesactivado: false,
-          txtPrimerBoton: 'Atrás',
-          txtSegundoBoton:
-              selectedStep >= 3 ? 'Finalizar Actualización' : 'Siguiente Paso',
-          accionPrimerBoton: () {
-            Navigator.pop(context);
-          },
-          accionSegundoBoton: () {
-            if (selectedStep == 3) {
-              Navigator.pushNamed(
-                context,
-                AppRoutes.aomLastStep,
-              );
-              return;
-            }
-            context.read<AomCategoryDetailCubit>().setStep(selectedStep + 1);
-          },
-        ),
-      ),
       body: Stack(
         children: [
           customedAppBar(
@@ -127,7 +103,7 @@ class AomDetalleCategoriaView extends StatelessWidget {
                   style:
                       selectedStep == 1 ? textStyleStepSelected : textStyleStep,
                   onTap: () =>
-                      context.read<AomCategoryDetailCubit>().setStep(1),
+                      context.read<AomReportCubit>().setStep(1),
                 ),
                 StepIndicator(
                   text: 'Actualización\nCualitativo',
@@ -138,7 +114,7 @@ class AomDetalleCategoriaView extends StatelessWidget {
                   style:
                       selectedStep == 2 ? textStyleStepSelected : textStyleStep,
                   onTap: () =>
-                      context.read<AomCategoryDetailCubit>().setStep(2),
+                      context.read<AomReportCubit>().setStep(2),
                 ),
                 StepIndicator(
                   text: 'Imágen o\n Video',
@@ -149,7 +125,7 @@ class AomDetalleCategoriaView extends StatelessWidget {
                   style:
                       selectedStep == 3 ? textStyleStepSelected : textStyleStep,
                   onTap: () =>
-                      context.read<AomCategoryDetailCubit>().setStep(3),
+                      context.read<AomReportCubit>().setStep(3),
                 ),
               ],
             ),

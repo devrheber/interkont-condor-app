@@ -1,7 +1,7 @@
 part of 'aom_category_detail_cubit.dart';
 
-class AomCategoryDetailState extends Equatable {
-  const AomCategoryDetailState({
+class AomReportState extends Equatable {
+  const AomReportState({
     this.step = 1,
   });
 
