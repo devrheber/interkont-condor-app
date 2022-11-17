@@ -10,8 +10,6 @@ import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-
-
 enum SendDataState {
   success,
   backendError,
