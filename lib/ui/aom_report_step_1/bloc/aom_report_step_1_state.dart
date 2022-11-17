@@ -1,9 +1,9 @@
-part of 'aom_category_detail_bloc.dart';
+part of 'aom_report_step_1_bloc.dart';
 
 enum AomCategoryDetailStatus { initial, loading, success, failure }
 
-class AomCategoryDetailState extends Equatable {
-  const AomCategoryDetailState({
+class AomReportStep1State extends Equatable {
+  const AomReportStep1State({
     this.gestionAom = const [],
     this.status = AomCategoryDetailStatus.initial,
     this.estados = const [],
@@ -15,13 +15,13 @@ class AomCategoryDetailState extends Equatable {
   final List<EstadoDeActivo> estados;
   final Map<int, EstadoDeActivo> estadosSeleccionados;
 
-  AomCategoryDetailState copyWith({
+  AomReportStep1State copyWith({
     List<GestionAom> Function()? gestionAom,
     AomCategoryDetailStatus Function()? status,
     List<EstadoDeActivo> Function()? estados,
     Map<int, EstadoDeActivo> Function()? estadosSeleccionados,
   }) {
-    return AomCategoryDetailState(
+    return AomReportStep1State(
       gestionAom: gestionAom != null ? gestionAom() : this.gestionAom,
       status: status != null ? status() : this.status,
       estados: estados != null ? estados() : this.estados,

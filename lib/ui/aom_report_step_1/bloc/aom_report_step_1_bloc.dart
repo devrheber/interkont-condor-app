@@ -6,17 +6,17 @@ import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'aom_category_detail_event.dart';
-part 'aom_category_detail_state.dart';
+part 'aom_report_step_1_event.dart';
+part 'aom_report_step_1_state.dart';
 
-class AomCategoryDetailBloc
-    extends Bloc<AomCategoryDetailEvent, AomCategoryDetailState> {
-  AomCategoryDetailBloc({
+class AomReportStep1Bloc
+    extends Bloc<AomReportStep1Event, AomReportStep1State> {
+  AomReportStep1Bloc({
     required AomProjectsRepository aomProjectsRepository,
     required AomProjectsApi aomProjectsApi,
   })  : _aomProjectsRepository = aomProjectsRepository,
         _aomProjectsApi = aomProjectsApi,
-        super(AomCategoryDetailState()) {
+        super(AomReportStep1State()) {
     on<LoadDataEvent>(_onLoadData);
     on<UpdateEstadoDeActivoEvent>(_onUpdateEstadoDeActivoEvent);
   }
@@ -26,7 +26,7 @@ class AomCategoryDetailBloc
 
   Future<void> _onLoadData(
     LoadDataEvent event,
-    Emitter<AomCategoryDetailState> emit,
+    Emitter<AomReportStep1State> emit,
   ) async {
     emit(state.copyWith(status: () => AomCategoryDetailStatus.loading));
     try {
@@ -51,7 +51,7 @@ class AomCategoryDetailBloc
 
   Future<void> _onUpdateEstadoDeActivoEvent(
     UpdateEstadoDeActivoEvent event,
-    Emitter<AomCategoryDetailState> emit,
+    Emitter<AomReportStep1State> emit,
   ) async {
     if (event.estado == null) return;
     Map<int, EstadoDeActivo> estados = {...state.estadosSeleccionados};

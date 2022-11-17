@@ -1,20 +1,20 @@
-part of 'aom_category_detail_bloc.dart';
+part of 'aom_report_step_1_bloc.dart';
 
-abstract class AomCategoryDetailEvent extends Equatable {
-  const AomCategoryDetailEvent();
+abstract class AomReportStep1Event extends Equatable {
+  const AomReportStep1Event();
 
   @override
   List<Object> get props => [];
 }
 
-class LoadDataEvent extends AomCategoryDetailEvent {
+class LoadDataEvent extends AomReportStep1Event {
   const LoadDataEvent(this.projectCode, this.categoryId);
 
   final int projectCode;
   final int categoryId;
 }
 
-class UpdateEstadoDeActivoEvent extends AomCategoryDetailEvent {
+class UpdateEstadoDeActivoEvent extends AomReportStep1Event {
   const UpdateEstadoDeActivoEvent(
     this.activoId,
     this.estado,

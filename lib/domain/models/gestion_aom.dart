@@ -4,84 +4,88 @@
 
 import 'dart:convert';
 
-List<GestionAom> gestionAomFromJson(String str) => List<GestionAom>.from(json.decode(str).map((x) => GestionAom.fromJson(x)));
+List<GestionAom> gestionAomFromJson(String str) =>
+    List<GestionAom>.from(json.decode(str).map((x) => GestionAom.fromJson(x)));
 
-String gestionAomToJson(List<GestionAom> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String gestionAomToJson(List<GestionAom> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class GestionAom {
-    GestionAom({
-        required this.id,
-        required this.categoriaId,
-        required this.descripcionId,
-        required this.descripcionCategoria,
-        required this.valorDepreciacion,
-        required this.estadoSupervisorId,
-        required this.estadoNombreSupervisor,
-        required this.cantidad,
-        this.estadoInventarioId,
-        this.estadoNombreInventario,
-        required this.estadoAomId,
-        required this.estadoNombreAom,
-        required this.updatedAt,
-        required this.obraId,
-        required this.vidaUtil,
-        required this.nivelTension,
-        required this.descripcionDetalle,
-        required this.unidadId,
-        required this.strNombreUnidad,
-        this.rutaInforme,
-        this.rutaPoliza,
-        this.rutaImagen,
-        required this.latitud,
-        required this.longitud,
-        required this.ubicacion,
-        this.observacion,
-        required this.valorInicial,
-        required this.vidaUtilRemanente,
-        required this.anosRestantes,
-        this.kmlLineaUrl,
-        this.kmlPoligonoUrl,
-        required this.tipoMapaActivo,
-        required this.clasificacionRelacionObraActivos,
-        this.strNombreImagen,
-    });
+  GestionAom({
+    required this.id,
+    required this.categoriaId,
+    required this.descripcionId,
+    required this.descripcionCategoria,
+    required this.valorDepreciacion,
+    required this.estadoSupervisorId,
+    required this.estadoNombreSupervisor,
+    required this.cantidad,
+    this.estadoInventarioId,
+    this.estadoNombreInventario,
+    required this.estadoAomId,
+    required this.estadoNombreAom,
+    required this.updatedAt,
+    required this.obraId,
+    required this.vidaUtil,
+    required this.nivelTension,
+    required this.descripcionDetalle,
+    required this.unidadId,
+    required this.strNombreUnidad,
+    this.rutaInforme,
+    this.rutaPoliza,
+    this.rutaImagen,
+    required this.latitud,
+    required this.longitud,
+    required this.ubicacion,
+    this.observacion,
+    required this.valorInicial,
+    required this.vidaUtilRemanente,
+    required this.anosRestantes,
+    this.kmlLineaUrl,
+    this.kmlPoligonoUrl,
+    required this.tipoMapaActivo,
+    required this.clasificacionRelacionObraActivos,
+    this.strNombreImagen,
+    required this.operatividad,
+  });
 
-    int id;
-    int categoriaId;
-    int descripcionId;
-    String descripcionCategoria;
-    double valorDepreciacion;
-    int estadoSupervisorId;
-    String estadoNombreSupervisor;
-    int cantidad;
-    dynamic estadoInventarioId;
-    dynamic estadoNombreInventario;
-    int estadoAomId;
-    String estadoNombreAom;
-    String updatedAt;
-    int obraId;
-    int vidaUtil;
-    int nivelTension;
-    String descripcionDetalle;
-    int unidadId;
-    String strNombreUnidad;
-    dynamic rutaInforme;
-    dynamic rutaPoliza;
-    dynamic rutaImagen;
-    double latitud;
-    double longitud;
-    String ubicacion;
-    dynamic observacion;
-    double valorInicial;
-    DateTime vidaUtilRemanente;
-    int anosRestantes;
-    dynamic kmlLineaUrl;
-    dynamic kmlPoligonoUrl;
-    int tipoMapaActivo;
-    int clasificacionRelacionObraActivos;
-    dynamic strNombreImagen;
+  final int id;
+  final int categoriaId;
+  final int descripcionId;
+  final String descripcionCategoria;
+  final double valorDepreciacion;
+  final int estadoSupervisorId;
+  final String estadoNombreSupervisor;
+  final int cantidad;
+  final dynamic estadoInventarioId;
+  final dynamic estadoNombreInventario;
+  final int estadoAomId;
+  final String estadoNombreAom;
+  final String updatedAt;
+  final int obraId;
+  final int vidaUtil;
+  final int nivelTension;
+  final String descripcionDetalle;
+  final int unidadId;
+  final String strNombreUnidad;
+  final dynamic rutaInforme;
+  final dynamic rutaPoliza;
+  final dynamic rutaImagen;
+  final double latitud;
+  final double longitud;
+  final String ubicacion;
+  final dynamic observacion;
+  final double valorInicial;
+  final DateTime vidaUtilRemanente;
+  final int anosRestantes;
+  final dynamic kmlLineaUrl;
+  final dynamic kmlPoligonoUrl;
+  final int tipoMapaActivo;
+  final int clasificacionRelacionObraActivos;
+  final dynamic strNombreImagen;
+  final bool operatividad;
 
-    factory GestionAom.fromJson(Map<String, dynamic> json) => GestionAom(
+  factory GestionAom.fromJson(Map<String, dynamic> json) => GestionAom(
         id: json["id"],
         categoriaId: json["categoriaId"],
         descripcionId: json["descripcionId"],
@@ -114,11 +118,13 @@ class GestionAom {
         kmlLineaUrl: json["kmlLineaUrl"],
         kmlPoligonoUrl: json["kmlPoligonoUrl"],
         tipoMapaActivo: json["tipoMapaActivo"],
-        clasificacionRelacionObraActivos: json["clasificacionRelacionObraActivos"],
+        clasificacionRelacionObraActivos:
+            json["clasificacionRelacionObraActivos"],
         strNombreImagen: json["strNombreImagen"],
-    );
+        operatividad: json['operatividad'],
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "categoriaId": categoriaId,
         "descripcionId": descripcionId,
@@ -146,12 +152,14 @@ class GestionAom {
         "ubicacion": ubicacion,
         "observacion": observacion,
         "valorInicial": valorInicial,
-        "vidaUtilRemanente": "${vidaUtilRemanente.year.toString().padLeft(4, '0')}-${vidaUtilRemanente.month.toString().padLeft(2, '0')}-${vidaUtilRemanente.day.toString().padLeft(2, '0')}",
+        "vidaUtilRemanente":
+            "${vidaUtilRemanente.year.toString().padLeft(4, '0')}-${vidaUtilRemanente.month.toString().padLeft(2, '0')}-${vidaUtilRemanente.day.toString().padLeft(2, '0')}",
         "anosRestantes": anosRestantes,
         "kmlLineaUrl": kmlLineaUrl,
         "kmlPoligonoUrl": kmlPoligonoUrl,
         "tipoMapaActivo": tipoMapaActivo,
         "clasificacionRelacionObraActivos": clasificacionRelacionObraActivos,
         "strNombreImagen": strNombreImagen,
-    };
+        'operatividad': operatividad,
+      };
 }

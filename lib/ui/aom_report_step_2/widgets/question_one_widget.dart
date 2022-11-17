@@ -116,8 +116,6 @@ class _QuestionOneState extends State<QuestionOne>
                       maxLength: 250,
                       decoration: InputDecoration(
                         counterText: '',
-                        hintText:
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore',
                         hintStyle: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w400,

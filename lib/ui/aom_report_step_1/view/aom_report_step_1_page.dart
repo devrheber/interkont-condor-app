@@ -1,6 +1,6 @@
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_category_detail_cubit.dart';
-import 'package:appalimentacion/ui/aom_report_step_1/bloc/aom_category_detail_bloc.dart';
+import 'package:appalimentacion/ui/aom_report_step_1/bloc/aom_report_step_1_bloc.dart';
 import 'package:appalimentacion/ui/widgets/shimmer_detalle_activo_widget.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -21,7 +21,7 @@ class AomReportStep1Page extends StatelessWidget {
     required int clasificationId,
   }) {
     return BlocProvider(
-      create: (context) => AomCategoryDetailBloc(
+      create: (context) => AomReportStep1Bloc(
         aomProjectsRepository: context.read(),
         aomProjectsApi: context.read(),
       )..add(LoadDataEvent(projectCode, clasificationId)),
@@ -31,7 +31,7 @@ class AomReportStep1Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AomCategoryDetailBloc, AomCategoryDetailState>(
+    return BlocBuilder<AomReportStep1Bloc, AomReportStep1State>(
       buildWhen: ((previous, current) => previous.status != current.status),
       builder: (context, state) {
         if (state.status == AomCategoryDetailStatus.loading) {
@@ -96,8 +96,7 @@ class AomReportStep1Page extends StatelessWidget {
               ],
             ),
             AomReportCustomBottomWidget(
-              forwardMethod: () =>
-                  context.read<AomReportCubit>().setStep(2),
+              forwardMethod: () => context.read<AomReportCubit>().setStep(2),
             ),
           ],
         );
