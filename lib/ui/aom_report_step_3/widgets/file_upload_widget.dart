@@ -1,7 +1,7 @@
-
 import 'dart:io';
 
 import 'package:appalimentacion/theme/color_theme.dart';
+import 'package:appalimentacion/ui/aom_report_step_3/bloc/aom_report_step_3_bloc.dart';
 import 'package:appalimentacion/utils/utils.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -10,57 +10,57 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
-class FileUploadWidget extends StatefulWidget {
+class FileUploadWidget extends StatelessWidget {
   const FileUploadWidget({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<FileUploadWidget> createState() => _FileUploadWidgetState();
-}
-
-File? _image;
-File? _video;
-File? _file;
-
 //method to pick image from gallery or camera
-Future<File?> pickImage(ImageSource source) async {
-  final image = await ImagePicker().pickImage(source: source);
-  if (image == null) return null;
-  return File(image.path);
-}
-
-//method to pick video from gallery or camera
-Future<File?> pickVideo(ImageSource source) async {
-  final video = await ImagePicker().pickVideo(source: source);
-  if (video == null) return null;
-  return File(video.path);
-}
-
-Future<File?> pickFile() async {
-  final FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-  if (result == null) return null;
-
-  //if result is greater than 10mb show error message
-  if (result.files.single.size > 10000000) {
-    Toast.show("El archivo no puede ser mayor a 10MB",
-        duration: 3, gravity: Toast.bottom);
-
-    return null;
+  Future<File?> pickImage(ImageSource source) async {
+    final image = await ImagePicker().pickImage(source: source);
+    if (image == null) return null;
+    return File(image.path);
   }
 
-  // TODO Use try catch
+//method to pick video from gallery or camera
+  Future<File?> pickVideo(ImageSource source) async {
+    final video = await ImagePicker().pickVideo(source: source);
+    if (video == null) return null;
 
-  return File(result.files.single.path!);
-}
+    if (File(video.path).lengthSync() > 10000000) {
+      Toast.show("El archivo no puede ser mayor a 10MB",
+          duration: 3, gravity: Toast.bottom);
 
-class _FileUploadWidgetState extends State<FileUploadWidget> {
+      return null;
+    }
+    return File(video.path);
+  }
+
+  Future<File?> pickFile() async {
+    final FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result == null) return null;
+
+    //if result is greater than 10mb show error message
+    if (result.files.single.size > 10000000) {
+      Toast.show("El archivo no puede ser mayor a 10MB",
+          duration: 3, gravity: Toast.bottom);
+
+      return null;
+    }
+
+    // TODO Use try catch
+
+    return File(result.files.single.path!);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bloc = Provider.of<AomReportStep3Bloc>(context);
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.end,
       runAlignment: WrapAlignment.end,
@@ -69,59 +69,63 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
       children: <Widget>[
         _ImageContainer(
           instruction: 'Agregar Imagen\n(Obligatoria)',
-          file: _image,
+          file: bloc.state.files[1],
           onAddPressed: () {
             seleccionarGaleriaCamara(
               context,
               onCameraTap: () async {
-                _image = await pickImage(ImageSource.camera);
-                setState(() {});
+                final _image = await pickImage(ImageSource.camera);
+                if (_image == null) return;
+                bloc.add(PickFileEvent(
+                    fileKey: 'image', fileName: 'image', file: _image));
               },
               onGalleryTap: () async {
-                _image = await pickImage(ImageSource.gallery);
-                setState(() {});
+                final _image = await pickImage(ImageSource.gallery);
+                if (_image == null) return;
+                bloc.add(PickFileEvent(
+                    fileKey: 'image', fileName: 'image', file: _image));
               },
             );
           },
           onRemovePressed: () {
-            setState(() {
-              _image = null;
-            });
+            bloc.add(RemoveFileEvent(1));
           },
         ),
         _ImageContainer(
           instruction: 'Agregar Video\n(Opcional)\n(Max 10Mb)',
-          file: _video,
+          file: bloc.state.files[2],
           onAddPressed: () {
             seleccionarGaleriaCamara(
               context,
               onCameraTap: () async {
-                _video = await pickVideo(ImageSource.camera);
-                setState(() {});
+                final _video = await pickVideo(ImageSource.camera);
+                if (_video == null) return;
+                bloc.add(PickFileEvent(
+                    fileKey: 'video', fileName: 'video', file: _video));
               },
               onGalleryTap: () async {
-                _video = await pickVideo(ImageSource.gallery);
-                setState(() {});
+                final _video = await pickVideo(ImageSource.gallery);
+                if (_video == null) return;
+                bloc.add(PickFileEvent(
+                    fileKey: 'video', fileName: 'video', file: _video));
               },
             );
           },
           onRemovePressed: () {
-            setState(() {
-              _video = null;
-            });
+            bloc.add(RemoveFileEvent(2));
           },
         ),
         _ImageContainer(
           instruction: 'Agregar Documento\n(Opcional)\n(Max 10Mb)',
-          file: _file,
+          file: bloc.state.files[3],
           onAddPressed: () async {
-            _file = await pickFile();
-            setState(() {});
+            final _file = await pickFile();
+            if (_file == null) return;
+            bloc.add(
+                PickFileEvent(fileKey: 'file', fileName: 'file', file: _file));
           },
           onRemovePressed: () {
-            setState(() {
-              _file = null;
-            });
+            bloc.add(RemoveFileEvent(3));
           },
         ),
       ],

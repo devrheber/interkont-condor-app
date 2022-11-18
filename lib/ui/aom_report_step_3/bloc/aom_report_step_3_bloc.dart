@@ -14,8 +14,9 @@ class AomReportStep3Bloc
       : _aomProjectsRepository = aomProjectsRepository,
         super(AomReportStep3State()) {
     on<PickFileEvent>(_onPickFileEvent);
-    on<UploadFileEvent>(_onUploadFileEvent);
+    on<SendDataEvent>(_onSendData);
     on<RemoveFileEvent>(_onRemoveFileEvent);
+    on<ValidateData>(_onValidateData);
   }
 
   final AomProjectsRepository _aomProjectsRepository;
@@ -24,33 +25,22 @@ class AomReportStep3Bloc
     PickFileEvent event,
     Emitter<AomReportStep3State> emit,
   ) async {
-    Map<int, File?> files = {...state.files};
-    files[event.fileId] = event.file;
+    Map<String, File?> files = {...state.files};
+    files[event.fileKey] = event.file;
 
     emit(state.copyWith(files: () => files));
   }
 
-  Future<void> _onUploadFileEvent(
-    UploadFileEvent event,
+  Future<void> _onSendData(
+    SendDataEvent event,
     Emitter<AomReportStep3State> emit,
   ) async {
     emit(state.copyWith(status: () => AomReportStep3Status.loading));
 
-    UploadFileRequest uploadFileRequest = UploadFileRequest(
-      clasificaciondoc: 5,
-      file: state.files[event.fileId]!,
-      iddocumento: event.projectCode,
-      idtipodocumento: 5,
-      nombredocumento: event.fileName,
-      usuarioid: 4,
-    );
-
     try {
-      final fileInfo = await _aomProjectsRepository.uploadFile(
-          uploadFileRequest: uploadFileRequest);
+      final filesUploaded = await _uploadFiles(event.projectCode);
 
-      Map<int, UploadFileResponse> filesUploaded = {...state.filesUploaded};
-      filesUploaded[event.fileId] = fileInfo;
+      // TODO Send Data
 
       emit(state.copyWith(
           status: () => AomReportStep3Status.success,
@@ -66,9 +56,54 @@ class AomReportStep3Bloc
     RemoveFileEvent event,
     Emitter<AomReportStep3State> emit,
   ) async {
-    Map<int, File?> files = {...state.files};
+    Map<String, File?> files = {...state.files};
     files.remove(event.fileId);
 
     emit(state.copyWith(files: () => files));
+  }
+
+  Future<void> _onValidateData(
+    ValidateData event,
+    Emitter<AomReportStep3State> emit,
+  ) async {
+    const int __requiredFileKey__ = 1;
+    emit(state.copyWith(validateStatus: () => ValidationStatus.validating));
+    await Future.delayed(const Duration(milliseconds: 200));
+    if (state.files.containsKey(__requiredFileKey__)) {
+      emit(state.copyWith(validateStatus: () => ValidationStatus.success));
+      return;
+    }
+
+    emit(state.copyWith(validateStatus: () => ValidationStatus.failure));
+  }
+
+  Future<Map<String, UploadFileResponse>> _uploadFiles(int projectCode) async {
+    final files = _getFilesFromState(projectCode);
+    Map<String, UploadFileResponse> filesUploaded = {};
+
+    for (final file in files) {
+      final fileInfo =
+          await _aomProjectsRepository.uploadFile(uploadFileRequest: file);
+
+      filesUploaded[file.nombredocumento] = fileInfo;
+    }
+    return filesUploaded;
+  }
+
+  List<UploadFileRequest> _getFilesFromState(int projectCode) {
+    List<UploadFileRequest> files = [];
+    
+    for (final file in state.files.entries) {
+      files.add(UploadFileRequest(
+        clasificaciondoc: 5,
+        file: file.value!,
+        iddocumento: projectCode,
+        idtipodocumento: 5,
+        nombredocumento: file.key,
+        usuarioid: 4,
+      ));
+    }
+
+    return files;
   }
 }

@@ -46,6 +46,7 @@ class HttpAdapter {
       final formData = await _getData(map: data['map'], images: data['images']);
 
       return _dio.post(path, data: formData);
+      // throw UnimplementedError();
     } on DioError catch (e) {
       throw manageDioError(e);
     }
@@ -53,18 +54,23 @@ class HttpAdapter {
 
   Future<FormData> _getData({
     required Map<String, dynamic> map,
-    Map<String, String>? images,
+    Map<String, dynamic>? images,
   }) async {
     final FormData formData = FormData.fromMap(map);
 
     if (images != null) {
-      images.forEach((key, path) async {
-        formData.files.add(MapEntry<String, MultipartFile>(
-            key,
-            await MultipartFile.fromFile(path,
-                filename: path.split('/').last,
-                contentType: MediaType('image', path.split('.').last))));
-      });
+      for (final entry in images.entries) {
+        formData.files.add(
+          MapEntry<String, MultipartFile>(
+            'file',
+            await MultipartFile.fromFile(
+              entry.value,
+              filename: entry.value.split('/').last,
+              contentType: MediaType(entry.key, entry.value.split('.').last),
+            ),
+          ),
+        );
+      }
     }
 
     return formData;

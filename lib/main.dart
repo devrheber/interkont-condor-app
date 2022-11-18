@@ -8,6 +8,7 @@ import 'package:appalimentacion/data/remote/projects_impl.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_api.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
+import 'package:appalimentacion/domain/repository/http_adapter.dart';
 import 'package:appalimentacion/domain/repository/local_storage_projects_cache_api.dart';
 import 'package:appalimentacion/domain/repository/login_repository.dart';
 import 'package:appalimentacion/domain/repository/files_persistent_cache_api.dart';
@@ -83,6 +84,12 @@ void main() async {
   );
 
   await prefs.initPrefs();
+  
+  final httpAdapter = HttpAdapter(url: 'http://13.59.62.87:8090/files-ws');
+  httpAdapter.init();
+
+  final aomProjectsImpl = AomProjectsImpl(adapter: httpAdapter);
+
 
   await SentryFlutter.init(
     (options) {
@@ -95,6 +102,7 @@ void main() async {
       projectsCacheRepository: projectsCacheRepository,
       sharedPreferences: instance,
       filesPersistentCacheApi: filesPersistentCacheApi,
+      aomProjectsRepository: aomProjectsImpl,
     )),
   );
 }
@@ -107,6 +115,7 @@ class AppState extends StatelessWidget {
     required this.projectsCacheRepository,
     required this.filesPersistentCacheApi,
     required this.sharedPreferences,
+    required this.aomProjectsRepository,
   }) : super(key: key);
 
   final UserPreferences prefs;
@@ -114,6 +123,7 @@ class AppState extends StatelessWidget {
   final ProjectsCacheRepository projectsCacheRepository;
   final FilesPersistentCacheApi filesPersistentCacheApi;
   final SharedPreferences sharedPreferences;
+  final AomProjectsRepository aomProjectsRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +144,7 @@ class AppState extends StatelessWidget {
           create: (_) => projectsRepository,
         ),
         Provider<AomProjectsRepository>(
-          create: (_) => AomProjectsImpl(),
+          create: (_) => aomProjectsRepository,
         ),
         Provider<AomProjectsApi>(
           create: (_) => AomProjectsApiImpl(),

@@ -1,16 +1,20 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:appalimentacion/constants/constants.dart';
 import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/domain/models/aom_datos_generales.dart';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
+import 'package:appalimentacion/domain/repository/http_adapter.dart';
 import 'package:dio/dio.dart' as x;
 
 class AomProjectsImpl implements AomProjectsRepository {
-  AomProjectsImpl() {
+  AomProjectsImpl({required HttpAdapter adapter}) : _client = adapter {
     _init();
   }
+
+  final HttpAdapter _client;
 
   final UserPreferences prefs = UserPreferences();
   final String _url = urlApiAom;
@@ -234,8 +238,21 @@ class AomProjectsImpl implements AomProjectsRepository {
   @override
   Future<UploadFileResponse> uploadFile(
       {x.CancelToken? cancelToken,
-      required UploadFileRequest uploadFileRequest}) {
-    // TODO: implement uploadFile
-    throw UnimplementedError();
+      required UploadFileRequest uploadFileRequest}) async {
+    try {
+      final x.Response<dynamic> response =
+          await _client.postFormData(ApiRoutes.postUploadFile, data: {
+        'map': uploadFileRequest.toJson(),
+        'files': {
+          'image': uploadFileRequest.file.path,
+        }
+      });
+
+      inspect(response);
+      return uploadFileResponseFromJson(json.encode(response.data));
+    } on ProjectsError catch (e) {
+      inspect(e);
+      throw e;
+    }
   }
 }
