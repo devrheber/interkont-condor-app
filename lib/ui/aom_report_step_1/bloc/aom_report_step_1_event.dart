@@ -14,11 +14,8 @@ class LoadDataEvent extends AomReportStep1Event {
   final int categoryId;
 }
 
-class UpdateEstadoDeActivoEvent extends AomReportStep1Event {
-  const UpdateEstadoDeActivoEvent(
-    this.activoId,
-    this.estado,
-  );
-  final int activoId;
-  final EstadoDeActivo? estado;
+class UpdateActivoEvent extends AomReportStep1Event {
+  const UpdateActivoEvent(this.activo);
+
+  final ActivoUpdateRequest activo;
 }

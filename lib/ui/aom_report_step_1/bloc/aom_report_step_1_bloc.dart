@@ -18,7 +18,7 @@ class AomReportStep1Bloc
         _aomProjectsApi = aomProjectsApi,
         super(AomReportStep1State()) {
     on<LoadDataEvent>(_onLoadData);
-    on<UpdateEstadoDeActivoEvent>(_onUpdateEstadoDeActivoEvent);
+    on<UpdateActivoEvent>(_onUpdateActivoEvent);
   }
 
   final AomProjectsRepository _aomProjectsRepository;
@@ -49,17 +49,21 @@ class AomReportStep1Bloc
     }
   }
 
-  Future<void> _onUpdateEstadoDeActivoEvent(
-    UpdateEstadoDeActivoEvent event,
+  Future<void> _onUpdateActivoEvent(
+    UpdateActivoEvent event,
     Emitter<AomReportStep1State> emit,
   ) async {
-    if (event.estado == null) return;
-    Map<int, EstadoDeActivo> estados = {...state.estadosSeleccionados};
-    estados[event.activoId] = event.estado!;
-    await Future.delayed(const Duration(milliseconds: 200));
-    emit(
-      state.copyWith(estadosSeleccionados: () => estados),
-    );
+    final int index =
+        state.activos.indexWhere((activo) => activo.id == event.activo.id);
+
+    final activos = [...state.activos];
+    if (index < 0) {
+      activos.add(event.activo);
+      emit(state.copyWith(activos: () => activos));
+    } else {
+      activos[index] = event.activo;
+      emit(state.copyWith(activos: () => activos));
+    }
   }
 
   Future<List<GestionAom>> _getGestionObra(

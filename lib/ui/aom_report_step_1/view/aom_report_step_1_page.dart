@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_category_detail_cubit.dart';
@@ -64,6 +62,8 @@ class AomReportStep1Page extends StatelessWidget {
           });
         }
 
+        final bloc = context.read<AomReportStep1Bloc>();
+
         return Stack(
           children: [
             Column(
@@ -89,14 +89,13 @@ class AomReportStep1Page extends StatelessWidget {
                           ),
                           SizedBox(height: 20.sp),
                           for (final item in state.gestionAom)
-                            DetailCardWidget(item,
-                                estados: context
-                                    .read<AomReportStep1Bloc>()
-                                    .state
-                                    .estados,
-                                onChanged: (ActivoUpdateRequest activo) {
-                              inspect(activo);
-                            }),
+                            DetailCardWidget(
+                              item,
+                              estados: state.estados,
+                              onChanged: (ActivoUpdateRequest activo) {
+                                bloc.add(UpdateActivoEvent(activo));
+                              },
+                            ),
                           SizedBox(height: 75.sp),
                         ],
                       ),
