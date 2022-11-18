@@ -6,7 +6,12 @@ part 'aom_report_step_2_state.dart';
 
 class AomReportStep2Bloc
     extends Bloc<AomReportStep2Event, AomReportStep2State> {
-  AomReportStep2Bloc() : super(AomReportStep2State()) {
+  AomReportStep2Bloc(
+    final int vidaUtilEnMeses,
+  ) : super(AomReportStep2State(
+            vidaUtilRemanenteConsideradaOff: vidaUtilEnMeses,
+            vidaUtilEnMeses: vidaUtilEnMeses
+            )) {
     on<UpdateAnwserEvent>(_onUpdateAnwserEvent);
     on<UpdateQuestion1ReasonEvent>(_onUpdateQuestion1ReasonEvent);
     on<UpdateQuestion1MonthsEvent>(_onUpdateQuestion1MonthsEvent);

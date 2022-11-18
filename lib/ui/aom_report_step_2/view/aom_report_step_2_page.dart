@@ -10,12 +10,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/widgets.dart';
 
 class AomReportStep2Page extends StatelessWidget {
-  const AomReportStep2Page({Key? key}) : super(key: key);
+  const AomReportStep2Page({
+    Key? key,
+    required this.vidaUtilEnMeses,
+  }) : super(key: key);
+
+  final int vidaUtilEnMeses;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AomReportStep2Bloc(),
+      create: (_) => AomReportStep2Bloc(vidaUtilEnMeses),
       child: const AomReportStep2View(),
     );
   }
@@ -28,9 +33,9 @@ class AomReportStep2View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int monthsInitialValue = 241;
-
     final bloc = context.read<AomReportStep2Bloc>();
+
+    String getVidaUtilEnAnios(int months) => (months / 12).toStringAsFixed(2);
 
     return BlocBuilder<AomReportStep2Bloc, AomReportStep2State>(
         builder: (context, state) {
@@ -53,7 +58,8 @@ class AomReportStep2View extends StatelessWidget {
                 ),
                 Center(
                   child: Text(
-                    '$monthsInitialValue Meses (20,08 Años)',
+                    '${state.vidaUtilEnMeses.toString()} Meses (${getVidaUtilEnAnios(state.vidaUtilEnMeses)} Años)',
+                    // '$monthsInitialValue Meses (20,08 Años)',
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
@@ -64,7 +70,7 @@ class AomReportStep2View extends StatelessWidget {
                 SizedBox(height: 20.sp),
                 QuestionOne(
                   initialValue: state.answers[0] ? 1 : 0,
-                  monthsInitialValue: monthsInitialValue,
+                  monthsInitialValue: state.vidaUtilRemanenteConsideradaOff,
                   onChangedAnswer: (int value) {
                     bloc.add(UpdateAnwserEvent(0, answer: value == 1));
                   },
@@ -204,7 +210,16 @@ class AomReportStep2View extends StatelessWidget {
             ),
           ),
           AomReportCustomBottomWidget(
-            forwardMethod: () => context.read<AomReportCubit>().setStep(3),
+            forwardMethod: () {
+              context.read<AomReportCubit>().updateData(
+                    answers: bloc.state.answers,
+                    vidaUtilRemanenteNoConsideradaText:
+                        bloc.state.vidaUtilRemanenteNoConsideradaText,
+                    vidaUtilRemanenteConsideradaOff:
+                        bloc.state.vidaUtilRemanenteConsideradaOff,
+                  );
+              context.read<AomReportCubit>().setStep(3);
+            },
           ),
         ],
       );

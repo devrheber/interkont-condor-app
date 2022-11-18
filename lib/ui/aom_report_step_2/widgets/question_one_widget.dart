@@ -29,24 +29,14 @@ class _QuestionOneState extends State<QuestionOne>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
-  int _value = 1;
-
-  int get value => _value;
-
-  set value(int value) {
-    setState(() => _value = value);
-
-    widget.onChangedAnswer(_value);
-  }
-
-  late TextEditingController _textController;
+  TextEditingController _reasonController = TextEditingController();
+  TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
-    _textController =
-        TextEditingController(text: widget.monthsInitialValue.toString());
+    _textController.text = widget.monthsInitialValue.toString();
   }
 
   @override
@@ -74,11 +64,11 @@ class _QuestionOneState extends State<QuestionOne>
           initialValue: widget.initialValue,
           onChanged: (int? value) {
             if (value == null) return;
-            this.value = value;
+            widget.onChangedAnswer(value);
           },
         ),
         Visibility(
-          visible: value == 0,
+          visible: widget.initialValue == 0,
           child: Column(
             children: <Widget>[
               //ROUNDED CONTAINER WITH SHADOW
@@ -138,6 +128,7 @@ class _QuestionOneState extends State<QuestionOne>
                         //no border
                         border: InputBorder.none,
                       ),
+                      controller: _reasonController,
                       onChanged: (String? value) {
                         if (value == null) return;
                         widget.onChangedReason(value);

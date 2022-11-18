@@ -18,12 +18,14 @@ class AomDetalleCategoriaPage extends StatelessWidget {
     final paso = arguments['paso'];
     final clasificationId = arguments['clasificationId'];
     final projectCode = arguments['projectCode'];
+    final vidaUtilEnMeses = arguments['vidaUtilEnMeses'];
     return BlocProvider(
       create: (_) => AomReportCubit()..setStep(paso),
       child: AomDetalleCategoriaView(
         nombre: nombre,
         projectCode: projectCode,
         clasificationId: clasificationId,
+        vidaUtilEnMeses: vidaUtilEnMeses,
       ),
     );
   }
@@ -35,12 +37,14 @@ class AomDetalleCategoriaView extends StatelessWidget {
     required this.nombre,
     required this.projectCode,
     required this.clasificationId,
+    required this.vidaUtilEnMeses,
   }) : super(key: key);
 
   final String nombre;
 
   final int projectCode;
   final int clasificationId;
+  final int vidaUtilEnMeses;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,9 @@ class AomDetalleCategoriaView extends StatelessWidget {
                     projectCode: projectCode,
                     clasificationId: clasificationId,
                   ),
-                  const AomReportStep2Page(),
+                  AomReportStep2Page(
+                    vidaUtilEnMeses: vidaUtilEnMeses,
+                  ),
                   const AomReportStep3Page(),
                 ],
               ),

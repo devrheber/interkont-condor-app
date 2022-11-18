@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:appalimentacion/ui/aom_report_step_1/bloc/aom_report_step_1_bloc.dart';
+import 'package:appalimentacion/ui/aom_report_step_2/bloc/aom_report_step_2_bloc.dart';
 import 'package:appalimentacion/ui/aom_report_step_3/bloc/aom_report_step_3_bloc.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +84,8 @@ class AomReportStep3View extends StatelessWidget {
               ),
               AomReportCustomBottomWidget(
                 forwardMethod: () {
+                  return;
+
                   final bloc = context.read<AomReportStep3Bloc>();
 
                   // TODO Validate

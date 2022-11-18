@@ -11,26 +11,30 @@ class AomReportStep2State extends Equatable {
       false,
       false,
     ],
-    this.vidaUtilRemanenteConsideradaOff = 0,
+    required this.vidaUtilRemanenteConsideradaOff,
     this.vidaUtilRemanenteNoConsideradaText = "",
+    required this.vidaUtilEnMeses,
   });
 
   final List<bool> answers;
   final String vidaUtilRemanenteNoConsideradaText;
   final int vidaUtilRemanenteConsideradaOff;
+  final int vidaUtilEnMeses;
 
   AomReportStep2State copyWith({
     List<bool>? answers,
     String? vidaUtilRemanenteNoConsideradaText,
     int? vidaUtilRemanenteConsideradaOff,
+    int? vidaUtilEnMeses,
   }) {
     return AomReportStep2State(
-      answers: answers ?? this.answers,
-      vidaUtilRemanenteNoConsideradaText: vidaUtilRemanenteNoConsideradaText ??
-          this.vidaUtilRemanenteNoConsideradaText,
-      vidaUtilRemanenteConsideradaOff: vidaUtilRemanenteConsideradaOff ??
-          this.vidaUtilRemanenteConsideradaOff,
-    );
+        answers: answers ?? this.answers,
+        vidaUtilRemanenteNoConsideradaText:
+            vidaUtilRemanenteNoConsideradaText ??
+                this.vidaUtilRemanenteNoConsideradaText,
+        vidaUtilRemanenteConsideradaOff: vidaUtilRemanenteConsideradaOff ??
+            this.vidaUtilRemanenteConsideradaOff,
+        vidaUtilEnMeses: vidaUtilEnMeses ?? this.vidaUtilEnMeses);
   }
 
   @override
@@ -38,5 +42,6 @@ class AomReportStep2State extends Equatable {
         answers,
         vidaUtilRemanenteNoConsideradaText,
         vidaUtilRemanenteConsideradaOff,
+        vidaUtilEnMeses,
       ];
 }

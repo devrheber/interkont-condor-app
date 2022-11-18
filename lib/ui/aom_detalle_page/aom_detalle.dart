@@ -218,6 +218,7 @@ class _Clasifications extends StatelessWidget {
                   context,
                   AppRoutes.aomDetalleCategoria,
                   arguments: {
+                    'vidaUtilEnMeses': e.clasificacionActivos.vidaUtil,
                     'projectCode': state.generalData!.obraId,
                     'nombre': text,
                     'pendiente': pending,

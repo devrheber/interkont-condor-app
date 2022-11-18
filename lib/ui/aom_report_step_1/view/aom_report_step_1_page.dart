@@ -106,9 +106,8 @@ class AomReportStep1Page extends StatelessWidget {
             ),
             AomReportCustomBottomWidget(
               forwardMethod: () {
-                // context.read<AomReportCubit>().setDataFromStep1(
-                //   context.read<AomReportStep1Bloc>().state.estados
-                // );
+                context.read<AomReportCubit>().updateData(
+                    activos: context.read<AomReportStep1Bloc>().state.activos);
                 context.read<AomReportCubit>().setStep(2);
               },
             ),
