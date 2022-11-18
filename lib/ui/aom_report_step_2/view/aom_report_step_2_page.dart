@@ -1,4 +1,5 @@
 import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_category_detail_cubit.dart';
+import 'package:appalimentacion/ui/aom_report_step_2/bloc/aom_report_step_2_bloc.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/widgets.dart';
 
 class AomReportStep2Page extends StatelessWidget {
-  const AomReportStep2Page({
+  const AomReportStep2Page({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => AomReportStep2Bloc(),
+      child: const AomReportStep2View(),
+    );
+  }
+}
+
+class AomReportStep2View extends StatelessWidget {
+  const AomReportStep2View({
     Key? key,
   }) : super(key: key);
 
@@ -17,149 +30,184 @@ class AomReportStep2Page extends StatelessWidget {
   Widget build(BuildContext context) {
     int monthsInitialValue = 241;
 
-    return Stack(
-      children: [
-        Container(
-          width: double.infinity,
-          margin: EdgeInsets.only(top: 265.h, left: 28.sp, right: 28.sp),
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
-            children: [
-              Center(
-                child: Text(
-                  'Vida remantente actual del activo:',
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    color: ColorTheme.darkShade,
+    final bloc = context.read<AomReportStep2Bloc>();
+
+    return BlocBuilder<AomReportStep2Bloc, AomReportStep2State>(
+        builder: (context, state) {
+      return Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 265.h, left: 28.sp, right: 28.sp),
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: [
+                Center(
+                  child: Text(
+                    'Vida remantente actual del activo:',
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      color: ColorTheme.darkShade,
+                    ),
                   ),
                 ),
-              ),
-              Center(
-                child: Text(
-                  '$monthsInitialValue Meses (20,08 Años)',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    color: ColorTheme.darkShade,
+                Center(
+                  child: Text(
+                    '$monthsInitialValue Meses (20,08 Años)',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                      color: ColorTheme.darkShade,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20.sp),
-              QuestionOne(monthsInitialValue: monthsInitialValue),
-              Text(
-                'Evidencias Externas:',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                  color: ColorTheme.primary,
+                SizedBox(height: 20.sp),
+                QuestionOne(
+                  initialValue: state.answers[0] ? 1 : 0,
+                  monthsInitialValue: monthsInitialValue,
+                  onChangedAnswer: (int value) {
+                    bloc.add(UpdateAnwserEvent(0, answer: value == 1));
+                  },
+                  onChangedReason: (String value) {
+                    bloc.add(UpdateQuestion1ReasonEvent(value));
+                  },
+                  onChangedMonths: (String value) {
+                    bloc.add(UpdateQuestion1MonthsEvent(value));
+                  },
                 ),
-              ),
-              SizedBox(height: 20.sp),
-              Center(
-                child: Text(
-                  '2. ¿El activo a disminuido su valor de mercado significativamente más de lo esperado por el paso del tiempo o de su uso normal?',
-                  textAlign: TextAlign.center,
+                Text(
+                  'Evidencias Externas:',
                   style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
-                    color: ColorTheme.darkShade,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: ColorTheme.primary,
                   ),
                 ),
-              ),
-              YesNoPurple(
-                onChanged: (int? value) {},
-              ),
-              SizedBox(height: 20.sp),
-              Center(
-                child: Text(
-                  '3. ¿Durante el periodo se evidencian cambios adversos de tipo legal o económico que afecte el valor de mercado del activo o la forma en que este es utilizado por Minergia?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
-                    color: ColorTheme.darkShade,
+                SizedBox(height: 20.sp),
+                Center(
+                  child: Text(
+                    '2. ¿El activo a disminuido su valor de mercado significativamente más de lo esperado por el paso del tiempo o de su uso normal?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorTheme.darkShade,
+                    ),
                   ),
                 ),
-              ),
-              YesNoPurple(
-                onChanged: (int? value) {},
-              ),
-              Text(
-                'Deterioro de Valor:',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                  color: ColorTheme.primary,
+                YesNoPurple(
+                  initialValue: state.answers[1] ? 1 : 0,
+                  onChanged: (int? value) {
+                    bloc.add(UpdateAnwserEvent(1, answer: value == 1));
+                  },
                 ),
-              ),
-              SizedBox(height: 20.sp),
-              Center(
-                child: Text(
-                  '4. ¿El activo tiene evidencias de daño físico que den como resultado una disminución de su capacidad productiva o de su valor de mercado?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
-                    color: ColorTheme.darkShade,
+                SizedBox(height: 20.sp),
+                Center(
+                  child: Text(
+                    '3. ¿Durante el periodo se evidencian cambios adversos de tipo legal o económico que afecte el valor de mercado del activo o la forma en que este es utilizado por Minergia?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorTheme.darkShade,
+                    ),
                   ),
                 ),
-              ),
-              YesNoPurple(
-                onChanged: (int? value) {},
-              ),
-              SizedBox(height: 20.sp),
-              Center(
-                child: Text(
-                  '5. ¿Han tenido lugar, o se espera que tengan lugar en un futuro inmediato, cambio en la forma en que se usa el activo lo cual conlleve a una disminución del potencial de servicio del activo?\n(Ej. Se deje de utilizar)',
-                  textAlign: TextAlign.center,
+                YesNoPurple(
+                  initialValue: state.answers[2] ? 1 : 0,
+                  onChanged: (int? value) {
+                    bloc.add(UpdateAnwserEvent(2, answer: value == 1));
+                  },
+                ),
+                Text(
+                  'Deterioro de Valor:',
                   style: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
-                    color: ColorTheme.darkShade,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: ColorTheme.primary,
                   ),
                 ),
-              ),
-              YesNoPurple(
-                onChanged: (int? value) {},
-              ),
-              SizedBox(height: 20.sp),
-              Center(
-                child: Text(
-                  '6. ¿Se decide detener la construcción del activo antes de su finalización o de su puesta en condiciones de funcionamiento?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
-                    color: ColorTheme.darkShade,
+                SizedBox(height: 20.sp),
+                Center(
+                  child: Text(
+                    '4. ¿El activo tiene evidencias de daño físico que den como resultado una disminución de su capacidad productiva o de su valor de mercado?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorTheme.darkShade,
+                    ),
                   ),
                 ),
-              ),
-              YesNoPurple(
-                onChanged: (int? value) {},
-              ),
-              SizedBox(height: 20.sp),
-              Center(
-                child: Text(
-                  '7. ¿Se dispone de evidencia procedente de informes internos que indican que la capacidad del activo para suministrar bienes o servicios, ha disminuido o va a ser inferior a la esperada?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w500,
-                    color: ColorTheme.darkShade,
+                YesNoPurple(
+                  initialValue: state.answers[3] ? 1 : 0,
+                  onChanged: (int? value) {
+                    bloc.add(UpdateAnwserEvent(3, answer: value == 1));
+                  },
+                ),
+                SizedBox(height: 20.sp),
+                Center(
+                  child: Text(
+                    '5. ¿Han tenido lugar, o se espera que tengan lugar en un futuro inmediato, cambio en la forma en que se usa el activo lo cual conlleve a una disminución del potencial de servicio del activo?\n(Ej. Se deje de utilizar)',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorTheme.darkShade,
+                    ),
                   ),
                 ),
-              ),
-              YesNoPurple(
-                onChanged: (int? value) {},
-              ),
-              SizedBox(height: 100.sp),
-            ],
+                YesNoPurple(
+                  initialValue: state.answers[4] ? 1 : 0,
+                  onChanged: (int? value) {
+                    bloc.add(UpdateAnwserEvent(4, answer: value == 1));
+                  },
+                ),
+                SizedBox(height: 20.sp),
+                Center(
+                  child: Text(
+                    '6. ¿Se decide detener la construcción del activo antes de su finalización o de su puesta en condiciones de funcionamiento?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorTheme.darkShade,
+                    ),
+                  ),
+                ),
+                YesNoPurple(
+                  initialValue: state.answers[5] ? 1 : 0,
+                  onChanged: (int? value) {
+                    bloc.add(UpdateAnwserEvent(5, answer: value == 1));
+                  },
+                ),
+                SizedBox(height: 20.sp),
+                Center(
+                  child: Text(
+                    '7. ¿Se dispone de evidencia procedente de informes internos que indican que la capacidad del activo para suministrar bienes o servicios, ha disminuido o va a ser inferior a la esperada?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: ColorTheme.darkShade,
+                    ),
+                  ),
+                ),
+                YesNoPurple(
+                  initialValue: state.answers[6] ? 1 : 0,
+                  onChanged: (int? value) {
+                    bloc.add(UpdateAnwserEvent(6, answer: value == 1));
+                  },
+                ),
+                SizedBox(height: 100.sp),
+              ],
+            ),
           ),
-        ),
-        AomReportCustomBottomWidget(
-          forwardMethod: () => context.read<AomReportCubit>().setStep(3),
-        ),
-      ],
-    );
+          AomReportCustomBottomWidget(
+            forwardMethod: () => context.read<AomReportCubit>().setStep(3),
+          ),
+        ],
+      );
+    });
   }
 }

@@ -9,9 +9,17 @@ class QuestionOne extends StatefulWidget {
   const QuestionOne({
     Key? key,
     required this.monthsInitialValue,
+    required this.initialValue,
+    required this.onChangedAnswer,
+    required this.onChangedReason,
+    required this.onChangedMonths,
   }) : super(key: key);
 
   final int monthsInitialValue;
+  final int initialValue;
+  final Function(int value) onChangedAnswer;
+  final Function(String) onChangedReason;
+  final Function(String) onChangedMonths;
 
   @override
   State<QuestionOne> createState() => _QuestionOneState();
@@ -21,7 +29,15 @@ class _QuestionOneState extends State<QuestionOne>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
-  int value = 1;
+  int _value = 1;
+
+  int get value => _value;
+
+  set value(int value) {
+    setState(() => _value = value);
+
+    widget.onChangedAnswer(_value);
+  }
 
   late TextEditingController _textController;
 
@@ -55,12 +71,10 @@ class _QuestionOneState extends State<QuestionOne>
           ),
         ),
         YesNoPurple(
+          initialValue: widget.initialValue,
           onChanged: (int? value) {
-            print(value);
             if (value == null) return;
-            setState(
-              () => this.value = value,
-            );
+            this.value = value;
           },
         ),
         Visibility(
@@ -124,6 +138,10 @@ class _QuestionOneState extends State<QuestionOne>
                         //no border
                         border: InputBorder.none,
                       ),
+                      onChanged: (String? value) {
+                        if (value == null) return;
+                        widget.onChangedReason(value);
+                      },
                     ),
                   ],
                 ),
@@ -196,6 +214,10 @@ class _QuestionOneState extends State<QuestionOne>
                             //no border
                             border: InputBorder.none,
                           ),
+                          onChanged: (String? value) {
+                            if (value == null) return;
+                            widget.onChangedMonths(value);
+                          },
                         ),
                       ),
                     ),
