@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_category_detail_cubit.dart';
 import 'package:appalimentacion/ui/aom_report_step_1/bloc/aom_report_step_1_bloc.dart';
@@ -86,7 +89,14 @@ class AomReportStep1Page extends StatelessWidget {
                           ),
                           SizedBox(height: 20.sp),
                           for (final item in state.gestionAom)
-                            DetailCardWidget(item),
+                            DetailCardWidget(item,
+                                estados: context
+                                    .read<AomReportStep1Bloc>()
+                                    .state
+                                    .estados,
+                                onChanged: (ActivoUpdateRequest activo) {
+                              inspect(activo);
+                            }),
                           SizedBox(height: 75.sp),
                         ],
                       ),
@@ -96,7 +106,12 @@ class AomReportStep1Page extends StatelessWidget {
               ],
             ),
             AomReportCustomBottomWidget(
-              forwardMethod: () => context.read<AomReportCubit>().setStep(2),
+              forwardMethod: () {
+                // context.read<AomReportCubit>().setDataFromStep1(
+                //   context.read<AomReportStep1Bloc>().state.estados
+                // );
+                context.read<AomReportCubit>().setStep(2);
+              },
             ),
           ],
         );

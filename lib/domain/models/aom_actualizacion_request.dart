@@ -30,7 +30,7 @@ class AomActualizacionRequest extends Equatable {
     required this.vidaUtilRemanenteNoConsideradaText,
   });
 
-  final List<ActivosUpdateRequest> activosUpdate;
+  final List<ActivoUpdateRequest> activosUpdate;
   final int clasificacionId;
   final List<ImagenesVideosOrRequest> imagenesVideosOr;
   final int obraId;
@@ -47,8 +47,8 @@ class AomActualizacionRequest extends Equatable {
 
   factory AomActualizacionRequest.fromJson(Map<String, dynamic> json) =>
       AomActualizacionRequest(
-        activosUpdate: List<ActivosUpdateRequest>.from(
-            json['activosUpdate'].map((x) => ActivosUpdateRequest.fromJson(x))),
+        activosUpdate: List<ActivoUpdateRequest>.from(
+            json['activosUpdate'].map((x) => ActivoUpdateRequest.fromJson(x))),
         clasificacionId: json['clasificacionId'],
         imagenesVideosOr: List<ImagenesVideosOrRequest>.from(
             json['imagenesVideosOr']
@@ -107,8 +107,8 @@ class AomActualizacionRequest extends Equatable {
       ];
 }
 
-class ActivosUpdateRequest extends Equatable {
-  ActivosUpdateRequest({
+class ActivoUpdateRequest extends Equatable {
+  ActivoUpdateRequest({
     required this.cantidad,
     required this.cantidadPropuesta,
     required this.estadoAomId,
@@ -124,8 +124,8 @@ class ActivosUpdateRequest extends Equatable {
   final String observacion;
   final bool operatividad;
 
-  factory ActivosUpdateRequest.fromJson(Map<String, dynamic> json) =>
-      ActivosUpdateRequest(
+  factory ActivoUpdateRequest.fromJson(Map<String, dynamic> json) =>
+      ActivoUpdateRequest(
         cantidad: json['cantidad'],
         cantidadPropuesta: json['cantidadPropuesta'],
         estadoAomId: json['estadoAomId'],
@@ -152,6 +152,24 @@ class ActivosUpdateRequest extends Equatable {
         observacion,
         operatividad,
       ];
+
+  ActivoUpdateRequest copyWith({
+    int? cantidad,
+    int? cantidadPropuesta,
+    int? estadoAomId,
+    int? id,
+    String? observacion,
+    bool? operatividad,
+  }) {
+    return ActivoUpdateRequest(
+      cantidad: cantidad ?? this.cantidad,
+      cantidadPropuesta: cantidadPropuesta ?? this.cantidadPropuesta,
+      estadoAomId: estadoAomId ?? this.estadoAomId,
+      id: id ?? this.id,
+      observacion: observacion ?? this.observacion,
+      operatividad: operatividad ?? this.operatividad,
+    );
+  }
 }
 
 class ImagenesVideosOrRequest extends Equatable {

@@ -1,18 +1,24 @@
 import 'dart:async';
 
 import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
-import 'package:appalimentacion/ui/aom_report_step_1/bloc/aom_report_step_1_bloc.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toast/toast.dart';
 
 class DetailCardWidget extends StatefulWidget {
-  const DetailCardWidget(this.item, {Key? key}) : super(key: key);
+  const DetailCardWidget(
+    this.item, {
+    Key? key,
+    required this.estados,
+    required this.onChanged,
+  }) : super(key: key);
 
   final GestionAom item;
+  final List<EstadoDeActivo> estados;
+  final Function(ActivoUpdateRequest) onChanged;
 
   @override
   State<DetailCardWidget> createState() => _DetailCardWidgetState();
@@ -21,6 +27,24 @@ class DetailCardWidget extends StatefulWidget {
 class _DetailCardWidgetState extends State<DetailCardWidget> {
   Timer? timer;
   int _count = 0;
+
+  late ActivoUpdateRequest _activo;
+
+  ActivoUpdateRequest get activo => _activo;
+
+  set activo(ActivoUpdateRequest value) {
+    _activo = value;
+    widget.onChanged(_activo);
+  }
+
+  EstadoDeActivo? _estado;
+
+  EstadoDeActivo? get estado => _estado;
+
+  set estado(EstadoDeActivo? value) {
+    Future.delayed(const Duration(milliseconds: 200))
+        .then((_) => setState(() => _estado = value));
+  }
 
   int get count => _count;
 
@@ -35,19 +59,31 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
 
   double? screenWidth;
 
-  set operatividad(int value) => setState(() => _operatividad = value);
+  set operatividad(int value) => setState(() {
+        _operatividad = value;
+        activo = activo.copyWith(operatividad: _operatividad == 1);
+      });
 
   @override
   void initState() {
     super.initState();
     _count = widget.item.cantidad;
     _operatividad = widget.item.operatividad ? 1 : 0;
+    estado = _getEstadoSeleccionado(widget.item.estadoAomId);
+
+    activo = ActivoUpdateRequest(
+      id: widget.item.id,
+      cantidad: widget.item.cantidad,
+      cantidadPropuesta: _count,
+      estadoAomId: widget.item.estadoAomId,
+      observacion: widget.item.observacion,
+      operatividad: widget.item.operatividad,
+    );
   }
 
   void increment() {
-    setState(() {
-      count++;
-    });
+    setState(() => count++);
+    activo = activo.copyWith(cantidadPropuesta: count);
   }
 
   void decrement() {
@@ -55,10 +91,20 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
       Toast.show('No puede ingresar valor negativos', duration: 5);
       return;
     }
-    setState(() {
-      count--;
-    });
+    setState(() => count--);
+    activo = activo.copyWith(cantidadPropuesta: count);
   }
+
+  EstadoDeActivo? _getEstadoSeleccionado(int estadoId) {
+    final index = widget.estados.indexWhere((estado) => estado.id == estadoId);
+
+    if (index < 0) return null;
+
+    return widget.estados[index];
+  }
+
+  final dynamic debouncer =
+      Debouncer<dynamic>(duration: const Duration(milliseconds: 200));
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +113,6 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
     screenWidth = MediaQuery.of(context).size.width;
     double factor = ((screenWidth ?? 0) / 414.0);
 
-    final bloc = BlocProvider.of<AomReportStep1Bloc>(context, listen: true);
     // print('screenwidth: $screenWidth');
     // print('FACTOR: $factor');
     return PurpleRoundedGradientContainer(
@@ -125,13 +170,12 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: DropDownEstado(
-                    list: bloc.state.estados,
-                    value: bloc.state.getEstadoSeleccionado(
-                        widget.item.id, widget.item.estadoAomId),
+                    list: widget.estados,
+                    value: estado,
                     onChanged: (EstadoDeActivo? newValue) {
-                      print(newValue?.strNombreEstado);
-                      bloc.add(
-                          UpdateEstadoDeActivoEvent(widget.item.id, newValue));
+                      if (newValue == null) return;
+                      estado = newValue;
+                      activo = activo.copyWith(estadoAomId: newValue.id);
                     },
                   ),
                 ),
@@ -284,7 +328,23 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
               ],
             ),
             SizedBox(height: 26.sp),
-            _DisposicionActualField(widget.item.observacion ?? ''),
+            _DisposicionActualField(
+              widget.item.observacion ?? '',
+              onChanged: (String? observacion) {
+                debouncer.value = observacion;
+                debouncer.onValue = (dynamic value) async {
+                  activo = activo.copyWith(observacion: observacion);
+                };
+
+                final Timer timer =
+                    Timer.periodic(const Duration(milliseconds: 200), (_) {
+                  debouncer.value = observacion;
+                });
+
+                Future<void>.delayed(const Duration(milliseconds: 201))
+                    .then((_) => timer.cancel());
+              },
+            ),
           ],
         ),
       ),
@@ -349,9 +409,11 @@ class _DisposicionActualField extends StatefulWidget {
   const _DisposicionActualField(
     this.value, {
     Key? key,
+    required this.onChanged,
   }) : super(key: key);
 
   final String value;
+  final Function(String?) onChanged;
 
   @override
   State<_DisposicionActualField> createState() =>
@@ -426,6 +488,7 @@ class _DisposicionActualFieldState extends State<_DisposicionActualField> {
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF556A8D),
                 ),
+            onChanged: widget.onChanged,
           )
         ]),
       ),
