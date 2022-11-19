@@ -1,3 +1,5 @@
+import 'package:appalimentacion/helpers/helpers.dart';
+import 'package:appalimentacion/routes/app_routes.dart';
 import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_category_detail_cubit.dart';
 
 import 'package:appalimentacion/ui/aom_report_step_3/bloc/aom_report_step_3_bloc.dart';
@@ -17,8 +19,7 @@ class AomReportStep3Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          AomReportStep3Bloc(aomProjectsRepository: context.read()),
+      create: (context) => AomReportStep3Bloc(),
       child: const AomReportStep3View(),
     );
   }
@@ -43,18 +44,37 @@ class AomReportStep3View extends StatelessWidget {
       },
       child: BlocBuilder<AomReportStep3Bloc, AomReportStep3State>(
         builder: (context, state) {
-          void forwardMethod() {
+          Future<void> forwardMethod() async {
             const String __requiredFileKey__ = 'image';
             if (!state.files.containsKey(__requiredFileKey__)) {
               Toast.show('Debe agregar una imagen');
               return;
             }
 
-            // TODO Show Confirmation before send data
+            final confirm = await DialogHelper.showConfirmDialog(
+              context,
+              child: ConfirmDialog(
+                  description:
+                      '¿Está seguro de registrar la actualización AOM?',
+                  continueButtonText: 'Aceptar',
+                  cancelButtonText: 'Cancelar'),
+            );
 
+            if (confirm != true) return;
+
+            // return;
             final data = context.read<AomReportCubit>().state.getDataToSend();
 
-            context.read<AomReportStep3Bloc>().add(SendDataEvent(data));
+            Navigator.pushNamed(
+              context,
+              AppRoutes.aomLastStep,
+              arguments: {
+                'data': data,
+                'files': state.files,
+              },
+            );
+
+            // context.read<AomReportStep3Bloc>().add(SendDataEvent(data));
           }
 
           return Stack(

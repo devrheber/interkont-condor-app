@@ -8,7 +8,6 @@ import 'package:appalimentacion/data/remote/projects_impl.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_api.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
 import 'package:appalimentacion/domain/repository/cache_repository.dart';
-import 'package:appalimentacion/domain/repository/http_adapter.dart';
 import 'package:appalimentacion/domain/repository/local_storage_projects_cache_api.dart';
 import 'package:appalimentacion/domain/repository/login_repository.dart';
 import 'package:appalimentacion/domain/repository/files_persistent_cache_api.dart';
@@ -84,12 +83,8 @@ void main() async {
   );
 
   await prefs.initPrefs();
-  
-  final httpAdapter = HttpAdapter(url: 'http://13.59.62.87:8090/files-ws');
-  httpAdapter.init();
 
-  final aomProjectsImpl = AomProjectsImpl(adapter: httpAdapter);
-
+  final aomProjectsImpl = AomProjectsImpl();
 
   await SentryFlutter.init(
     (options) {

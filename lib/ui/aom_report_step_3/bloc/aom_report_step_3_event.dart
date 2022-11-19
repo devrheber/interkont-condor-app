@@ -19,12 +19,6 @@ class PickFileEvent extends AomReportStep3Event {
   final File file;
 }
 
-class SendDataEvent extends AomReportStep3Event {
-  const SendDataEvent(this.data);
-
-  final AomActualizacionRequest data;
-}
-
 class RemoveFileEvent extends AomReportStep3Event {
   const RemoveFileEvent(this.key);
   final String key;

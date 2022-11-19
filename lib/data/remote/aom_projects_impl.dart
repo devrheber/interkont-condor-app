@@ -1,20 +1,17 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:appalimentacion/constants/constants.dart';
 import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/domain/models/aom_datos_generales.dart';
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
-import 'package:appalimentacion/domain/repository/http_adapter.dart';
+
+import 'package:http_parser/http_parser.dart';
 import 'package:dio/dio.dart' as x;
 
 class AomProjectsImpl implements AomProjectsRepository {
-  AomProjectsImpl({required HttpAdapter adapter}) : _client = adapter {
+  AomProjectsImpl() {
     _init();
   }
-
-  final HttpAdapter _client;
 
   final UserPreferences prefs = UserPreferences();
   final String _url = urlApiAom;
@@ -25,8 +22,11 @@ class AomProjectsImpl implements AomProjectsRepository {
   void _init() {
     _dio = x.Dio();
     _dio.options = x.BaseOptions(
-      connectTimeout: 3500,
+      connectTimeout: 15000,
       baseUrl: _url,
+      headers: {
+        'Content-type': 'application/json',
+      },
     );
 
     // TODO Use interceptors
@@ -239,39 +239,47 @@ class AomProjectsImpl implements AomProjectsRepository {
   Future<UploadFileResponse> uploadFile(
       {x.CancelToken? cancelToken,
       required UploadFileRequest uploadFileRequest}) async {
-    _client.options(baseUrl: 'http://13.59.62.87:8090/files-ws', headers: {
-      'Content-type': 'application/json',
-    });
+    _dio.options.baseUrl = 'http://13.59.62.87:8090/files-ws';
+
     try {
+      final x.FormData formData =
+          x.FormData.fromMap(uploadFileRequest.toJson());
+
+      final path = uploadFileRequest.file.path;
+
+      formData.files.add(
+        MapEntry<String, x.MultipartFile>(
+          'file',
+          await x.MultipartFile.fromFile(
+            path,
+            filename: path.split('/').last,
+            contentType:
+                MediaType(uploadFileRequest.type, path.split('.').last),
+          ),
+        ),
+      );
+
       final x.Response<dynamic> response =
-          await _client.postFormData(ApiRoutes.postUploadFile, data: {
-        'map': uploadFileRequest.toJson(),
-        'files': {
-          'image': uploadFileRequest.file.path,
-        }
-      });
+          await _dio.post(ApiRoutes.postUploadFile, data: formData);
 
       return uploadFileResponseFromJson(json.encode(response.data));
-    } on ProjectsError catch (e) {
-      throw e;
+    } on x.DioError catch (e) {
+      throw manageDioError(e);
     }
   }
 
   @override
   Future<Map<String, dynamic>> sendData(
       {required AomActualizacionRequest data}) async {
-    _client.options(baseUrl: urlApiAom, headers: {
-      'Content-type': 'application/json',
-      'Authorization': user.token,
-    });
+    _dio.options.baseUrl = urlApiAom;
 
     try {
-      final x.Response<dynamic> response = await _client
+      final x.Response<dynamic> response = await _dio
           .post(ApiRoutes.postActualizacionOrRequest, data: data.toJson());
 
       return response.data;
-    } on ProjectsError catch (e) {
-      rethrow;
+    } on x.DioError catch (e) {
+      throw manageDioError(e);
     }
   }
 }

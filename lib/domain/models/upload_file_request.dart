@@ -18,6 +18,7 @@ class UploadFileRequest extends Equatable {
     required this.idtipodocumento,
     required this.nombredocumento,
     required this.usuarioid,
+    required this.type,
   });
 
   final int clasificaciondoc;
@@ -26,6 +27,7 @@ class UploadFileRequest extends Equatable {
   final int idtipodocumento;
   final String nombredocumento;
   final int usuarioid;
+  final String type;
 
   Map<String, dynamic> toJson() => {
         "clasificaciondoc": clasificaciondoc,
