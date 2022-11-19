@@ -39,7 +39,8 @@ class UploadFileRequest extends Equatable {
 
   String get getFileName => file.path.split('/').last;
 
-  String get getFileExtension => getFileName.split('.').last;
+  String get getFileExtension =>
+      '$nombredocumento/${getFileName.split('.').last}';
 
   @override
   List<Object?> get props => [

@@ -5,8 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-import '../../../data/local/aom_repository_impl_local.dart';
-
 class LastStepAOMPage extends StatelessWidget {
   const LastStepAOMPage({Key? key}) : super(key: key);
 
@@ -15,12 +13,12 @@ class LastStepAOMPage extends StatelessWidget {
     final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
 
     return BlocProvider(
-      create: (context) =>
-          AomLastStepCubit(aomProjectsRepository: AomRepositoryImplLocal())
-            ..sendData(
-              arguments['data'],
-              arguments['files'],
-            ),
+      create: (context) => AomLastStepCubit(
+        aomProjectsRepository: context.read(),
+      )..sendData(
+          arguments['data'],
+          arguments['files'],
+        ),
       child: const LastStepAOMView(),
     );
   }
@@ -40,23 +38,25 @@ class LastStepAOMView extends StatelessWidget {
       color: Colors.white,
     );
 
-    return WillPopScope(
-      onWillPop: () async => true,
-      child: BlocListener<AomLastStepCubit, AomLastStepState>(
-        listener: (context, state) {
-          if (state is AomLastStepFailure) {
-            Navigator.pop(
-              context,
-              {
-                'message': state.errorMessage,
-              },
-            );
-          }
-        },
-        child: BlocBuilder<AomLastStepCubit, AomLastStepState>(
-            builder: (context, state) {
-          if (state is AomLastStepLoading) {
-            return StreamBuilder<Map<String, dynamic>>(
+    return BlocListener<AomLastStepCubit, AomLastStepState>(
+      listener: (context, state) {
+        if (state is AomLastStepFailure) {
+          Navigator.pop(
+            context,
+            {
+              'message': state.errorMessage,
+            },
+          );
+        }
+      },
+      child: BlocBuilder<AomLastStepCubit, AomLastStepState>(
+          builder: (context, state) {
+        if (state is AomLastStepLoading) {
+          return WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: StreamBuilder<Map<String, dynamic>>(
                 stream: context.read<AomLastStepCubit>().uploadPercentage,
                 initialData: {
                   'description': 'Enviando reporte',
@@ -117,15 +117,18 @@ class LastStepAOMView extends StatelessWidget {
                       ),
                     ),
                   );
-                });
-          }
-          if (state is AomLastStepSuccess) {
-            return const CongratsDialog();
-          }
+                }),
+          );
+        }
+        if (state is AomLastStepSuccess) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: const CongratsDialog(),
+          );
+        }
 
-          return SizedBox.shrink();
-        }),
-      ),
+        return SizedBox.shrink();
+      }),
     );
   }
 }

@@ -24,7 +24,7 @@ abstract class AomProjectsRepository {
       required onSendProgress(int count, int total),
       required onReceiveProgress(int count, int total)});
 
-  Future<Map<String, dynamic>> sendData(
+  Future<AomActualizacionRequestResponse> sendData(
       {CancelToken? cancelToken,
       required AomActualizacionRequest data,
       required onSendProgress(int count, int total),
@@ -44,6 +44,9 @@ class AomProjectsSlowConnectionException
 
 class AomProjectsForbiddenException extends AomProjectsRepositoryException {}
 
-class AomProjectsOtherEception extends AomProjectsRepositoryException {}
+class AomProjectsOtherEception extends AomProjectsRepositoryException {
+  AomProjectsOtherEception([this.response]);
+  final dynamic response;
+}
 
 class AomProjectsCancelException extends AomProjectsRepositoryException {}

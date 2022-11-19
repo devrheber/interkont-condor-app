@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 import '../../globales/colores.dart';
 import '../../globales/logo.dart';
@@ -48,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     final loginProvider = Provider.of<LoginProvider>(context);
     return Scaffold(
       body: Container(
@@ -106,27 +110,34 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             child: ElevatedButton(
                               onPressed: () async {
-                                final user = await context
-                                    .read<LoginProvider>()
-                                    .login(
-                                        username: usuario.text, 
-                                        password: contrasena.text);
+                                try {
+                                  final user = await context
+                                      .read<LoginProvider>()
+                                      .login(
+                                          username: usuario.text,
+                                          password: contrasena.text);
 
-                                if (user != null) {
-                                  context
-                                      .read<AuthenticationProvider>()
-                                      .updateUser(user);
-                                  await Navigator.of(context).pushReplacementNamed(AppRoutes.listaProyectos);
-                                }
-                                // validarLogin();
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => Preload(
-                                //         txt_usuario: txt_usuario,
-                                //         txt_contrasena: txt_contrasena),
-                                //   ),
-                                // );
+                                  if (user != null) {
+                                    context
+                                        .read<AuthenticationProvider>()
+                                        .updateUser(user);
+                                    await Navigator.of(context)
+                                        .pushReplacementNamed(
+                                            AppRoutes.listaProyectos);
+                                  }
+                                  // validarLogin();
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => Preload(
+                                  //         txt_usuario: txt_usuario,
+                                  //         txt_contrasena: txt_contrasena),
+                                  //   ),
+                                  // );
+                                } on SocketException catch (_) {
+                                  Toast.show(
+                                      'Ocurrió un error intentado conectarse al servidor');
+                                } catch (_) {}
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,

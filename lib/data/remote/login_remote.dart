@@ -37,7 +37,11 @@ class LoginRemote implements LoginRepository {
       } else {
         throw 'Algo salió mal';
       }
-    } catch (_) {
+    } on SocketException catch (e)  {
+      throw e;
+    }
+    
+    catch (_) {
       rethrow;
     }
   }

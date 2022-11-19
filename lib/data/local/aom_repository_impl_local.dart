@@ -1,14 +1,9 @@
 import 'dart:async';
 
-import 'package:appalimentacion/domain/models/upload_file_response.dart';
-import 'package:appalimentacion/domain/models/upload_file_request.dart';
-import 'package:appalimentacion/domain/models/gestion_aom.dart';
-import 'package:appalimentacion/domain/models/estado_de_activo.dart';
-import 'package:appalimentacion/domain/models/contratista.dart';
-import 'package:appalimentacion/domain/models/clasificacion.dart';
-import 'package:appalimentacion/domain/models/categoria_obra.dart';
+import 'package:appalimentacion/domain/models/models.dart';
+
 import 'package:appalimentacion/domain/models/aom_datos_generales.dart';
-import 'package:appalimentacion/domain/models/aom_actualizacion_request.dart';
+
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
 import 'package:dio/src/cancel_token.dart';
 
@@ -53,13 +48,31 @@ class AomRepositoryImplLocal extends AomProjectsRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> sendData(
+  Future<AomActualizacionRequestResponse> sendData(
       {CancelToken? cancelToken,
       required AomActualizacionRequest data,
       required Function(int count, int total) onSendProgress,
-      required Function(int count, int total) onReceiveProgress}) {
-    // TODO: implement sendData
-    throw UnimplementedError();
+      required Function(int count, int total) onReceiveProgress}) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return AomActualizacionRequestResponse(
+        id: 20,
+        createdAt: DateTime.parse("2022-11-19T13:45:15"),
+        createdBy: "interkont@2",
+        estadoRevisionTecnica: 1,
+        repuesta1: false,
+        repuesta2: false,
+        repuesta3: false,
+        repuesta4: false,
+        repuesta5: false,
+        repuesta6: false,
+        repuesta7: false,
+        strObservacionNoVidaUtil: "observacion de prueba",
+        vidaUtilConsiderada: 420,
+        obraId: 2979,
+        clasificacionId: 117,
+        documentosRelacionados: [],
+        activosRelacionesClasificacion: [],
+        observacionesRevisionTecnica: null);
   }
 
   @override
@@ -77,7 +90,7 @@ class AomRepositoryImplLocal extends AomProjectsRepository {
       if (initialValue == 10) timer.cancel();
     });
 
-    await Future.delayed(Duration(seconds: 12));
+    await Future.delayed(Duration(seconds: 5));
 
     return UploadFileResponse(id: 1, message: 'file uploaded', status: true);
 

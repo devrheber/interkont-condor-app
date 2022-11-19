@@ -20,28 +20,38 @@ class AomLastStepCubit extends Cubit<AomLastStepState> {
       AomActualizacionRequest dataReporte, Map<String, File?> files) async {
     emit(AomLastStepLoading());
 
+    final newFiles = _getFilesFromState(dataReporte.obraId, files);
+    final filesUploaded = await _uploadFiles(newFiles);
+
+    if (filesUploaded.isEmpty) return;
+
     try {
-      final newFiles = _getFilesFromState(dataReporte.obraId, files);
+      final data = dataReporte.copyWith(
+        imagenesVideosOr: filesUploaded.values.toList(),
+      );
 
-      final filesUploaded = await _uploadFiles(newFiles);
-
-      final data =
-          dataReporte.copyWith(imagenesVideosOr: filesUploaded.values.toList());
-
-      final result = await _aomProjectsRepository.sendData(
+      await _aomProjectsRepository.sendData(
         data: data,
         onSendProgress: (count, total) =>
             _onSendProgress(count, total, description: 'Enviando reporte'),
         onReceiveProgress: _onReceiveProgress,
       );
 
-      if (result['message'] != null) {
-        emit(AomLastStepSuccess(result['message']));
-      }
+      emit(AomLastStepSuccess('Operación exitosa'));
     } on AomProjectsRepositoryException catch (e) {
       try {
         if (e is AomProjectsBackendErrorException) {
           emit(AomLastStepFailure(e.response?.data['message']));
+        }
+
+        if (e is AomProjectsOtherEception) {
+          emit(
+            AomLastStepFailure(e.response?['message']),
+          );
+        }
+
+        if (e is AomProjectsCancelException) {
+          emit(AomLastStepFailure('Operación cancelada'));
         }
       } catch (_) {
         emit(AomLastStepFailure('Algo salió mal'));
@@ -53,27 +63,32 @@ class AomLastStepCubit extends Cubit<AomLastStepState> {
       List<UploadFileRequest> files) async {
     Map<String, ImagenesVideosOrRequest> filesUploaded = {};
 
-    for (int i = 0; i < files.length; i++) {
-      final fileInfo = await _aomProjectsRepository.uploadFile(
-        uploadFileRequest: files[i],
-        onReceiveProgress: _onReceiveProgress,
-        onSendProgress: (int count, int total) {
-          _onSendProgress(count, total,
-              description: 'Cargando archivos: ${(i + 1)} de ${files.length} ');
-        },
-      );
+    try {
+      for (int i = 0; i < files.length; i++) {
+        final fileInfo = await _aomProjectsRepository.uploadFile(
+          uploadFileRequest: files[i],
+          onReceiveProgress: _onReceiveProgress,
+          onSendProgress: (int count, int total) {
+            _onSendProgress(count, total,
+                description:
+                    'Cargando archivos: ${(i + 1)} de ${files.length} ');
+          },
+        );
 
-      final typeAllowed = ['image', 'video'];
+        final typeAllowed = ['image', 'video'];
 
-      final uploadFileRequest = ImagenesVideosOrRequest(
-          id: fileInfo.id,
-          name: files[i].getFileName,
-          fileExt: files[i].getFileExtension,
-          iddocumento: files[i].iddocumento,
-          tipoMovimiento:
-              typeAllowed.contains(files[i].nombredocumento) ? 1 : 2);
+        final uploadFileRequest = ImagenesVideosOrRequest(
+            id: fileInfo.id,
+            name: files[i].getFileName,
+            fileExt: files[i].getFileExtension,
+            iddocumento: files[i].iddocumento,
+            tipoMovimiento:
+                typeAllowed.contains(files[i].nombredocumento) ? 1 : 2);
 
-      filesUploaded[files[i].nombredocumento] = uploadFileRequest;
+        filesUploaded[files[i].nombredocumento] = uploadFileRequest;
+      }
+    } catch (_) {
+      emit(AomLastStepFailure('Ocurrió un error enviando los archivos'));
     }
     return filesUploaded;
   }

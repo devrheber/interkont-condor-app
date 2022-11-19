@@ -242,7 +242,14 @@ class AomProjectsImpl implements AomProjectsRepository {
     required onSendProgress(int count, int total),
     required onReceiveProgress(int count, int total),
   }) async {
-    _dio.options.baseUrl = 'http://13.59.62.87:8090/files-ws';
+    final _client = x.Dio();
+    _client.options = x.BaseOptions(
+      connectTimeout: 15000,
+      baseUrl: urlFiles,
+      headers: {
+        'Content-type': 'application/json',
+      },
+    );
 
     try {
       final x.FormData formData =
@@ -262,7 +269,7 @@ class AomProjectsImpl implements AomProjectsRepository {
         ),
       );
 
-      final x.Response<dynamic> response = await _dio.post(
+      final x.Response<dynamic> response = await _client.post(
         ApiRoutes.postUploadFile,
         data: formData,
         onSendProgress: onSendProgress,
@@ -276,23 +283,41 @@ class AomProjectsImpl implements AomProjectsRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> sendData(
+  Future<AomActualizacionRequestResponse> sendData(
       {x.CancelToken? cancelToken,
       required AomActualizacionRequest data,
       required onSendProgress(int count, int total),
       required onReceiveProgress(int count, int total)}) async {
     try {
+      _dio = x.Dio();
+      _dio.options = x.BaseOptions(
+        connectTimeout: 15000,
+        baseUrl: _url,
+        headers: {
+          'Content-type': 'application/json',
+        },
+      );
+
       final x.Response<dynamic> response = await _dio.post(
         ApiRoutes.postActualizacionOrRequest,
         options: x.Options(headers: {
           'Authorization': user.token,
         }),
         data: data.toJson(),
+        cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
 
-      return response.data;
+      if (response.statusCode == 200 && response.data?['id'] != null) {
+        return aomActualizacionRequestResponseFromJson(
+            json.encode(response.data));
+      }
+
+      if (response.statusCode == 200 && response.data?['status'] == false) {
+        throw AomProjectsOtherEception(response.data);
+      }
+      throw AomProjectsOtherEception();
     } on x.DioError catch (e) {
       throw manageDioError(e);
     }

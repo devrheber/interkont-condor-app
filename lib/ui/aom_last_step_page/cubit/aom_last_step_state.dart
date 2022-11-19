@@ -11,7 +11,9 @@ class AomLastStepInitial extends AomLastStepState {
   const AomLastStepInitial();
 }
 
-class AomLastStepLoading extends AomLastStepState {}
+class AomLastStepLoading extends AomLastStepState {
+  const AomLastStepLoading();
+}
 
 class AomLastStepFailure extends AomLastStepState {
   const AomLastStepFailure(this.errorMessage);
