@@ -1,4 +1,4 @@
-import 'package:appalimentacion/ui/aom_last_step_page/aom_last_step_page.dart';
+import 'package:appalimentacion/ui/aom_last_step_page/view/aom_last_step_page.dart';
 import 'package:appalimentacion/ui/login/login.dart';
 
 import '../ui/aom_detalle_categoria_page/aom_detalle_categoria_page.dart';
@@ -16,6 +16,6 @@ class AppPages {
     AppRoutes.listaProyectosAOM: (context) => const ListaProyectosAomPage(),
     AppRoutes.aomDetalle: (context) => const AomDetallePage(),
     AppRoutes.aomDetalleCategoria: (context) => const AomDetalleCategoriaPage(),
-    AppRoutes.aomLastStep: (context) => LastStepAOM(),
+    AppRoutes.aomLastStep: (context) => LastStepAOMPage(),
   };
 }

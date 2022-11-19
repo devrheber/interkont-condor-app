@@ -4,6 +4,7 @@ import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'aom_last_step_state.dart';
 
@@ -13,19 +14,26 @@ class AomLastStepCubit extends Cubit<AomLastStepState> {
         super(AomLastStepInitial());
 
   final AomProjectsRepository _aomProjectsRepository;
+  final uploadPercentage = PublishSubject<Map<String, dynamic>>();
 
   Future<void> sendData(
       AomActualizacionRequest dataReporte, Map<String, File?> files) async {
-    emit(AomLastStepLoading(0));
+    emit(AomLastStepLoading());
 
     try {
       final newFiles = _getFilesFromState(dataReporte.obraId, files);
+
       final filesUploaded = await _uploadFiles(newFiles);
 
       final data =
           dataReporte.copyWith(imagenesVideosOr: filesUploaded.values.toList());
 
-      final result = await _aomProjectsRepository.sendData(data: data);
+      final result = await _aomProjectsRepository.sendData(
+        data: data,
+        onSendProgress: (count, total) =>
+            _onSendProgress(count, total, description: 'Enviando reporte'),
+        onReceiveProgress: _onReceiveProgress,
+      );
 
       if (result['message'] != null) {
         emit(AomLastStepSuccess(result['message']));
@@ -45,20 +53,27 @@ class AomLastStepCubit extends Cubit<AomLastStepState> {
       List<UploadFileRequest> files) async {
     Map<String, ImagenesVideosOrRequest> filesUploaded = {};
 
-    for (final file in files) {
-      final fileInfo =
-          await _aomProjectsRepository.uploadFile(uploadFileRequest: file);
+    for (int i = 0; i < files.length; i++) {
+      final fileInfo = await _aomProjectsRepository.uploadFile(
+        uploadFileRequest: files[i],
+        onReceiveProgress: _onReceiveProgress,
+        onSendProgress: (int count, int total) {
+          _onSendProgress(count, total,
+              description: 'Cargando archivos: ${(i + 1)} de ${files.length} ');
+        },
+      );
 
       final typeAllowed = ['image', 'video'];
 
       final uploadFileRequest = ImagenesVideosOrRequest(
           id: fileInfo.id,
-          name: file.getFileName,
-          fileExt: file.getFileExtension,
-          iddocumento: file.iddocumento,
-          tipoMovimiento: typeAllowed.contains(file.nombredocumento) ? 1 : 2);
+          name: files[i].getFileName,
+          fileExt: files[i].getFileExtension,
+          iddocumento: files[i].iddocumento,
+          tipoMovimiento:
+              typeAllowed.contains(files[i].nombredocumento) ? 1 : 2);
 
-      filesUploaded[file.nombredocumento] = uploadFileRequest;
+      filesUploaded[files[i].nombredocumento] = uploadFileRequest;
     }
     return filesUploaded;
   }
@@ -80,5 +95,17 @@ class AomLastStepCubit extends Cubit<AomLastStepState> {
     }
 
     return newFiles;
+  }
+
+  void _onSendProgress(int count, int total, {required String description}) {
+    uploadPercentage.add({
+      'description': description,
+      'percentaje': count / total,
+    });
+    print(count / total);
+  }
+
+  void _onReceiveProgress(int count, int total) {
+    // TODO
   }
 }

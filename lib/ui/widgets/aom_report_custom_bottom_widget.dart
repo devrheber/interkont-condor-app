@@ -12,11 +12,13 @@ class AomReportCustomBottomWidget extends StatelessWidget {
     this.backMethod,
     required this.forwardMethod,
     this.forwardTitle = 'Siguiente',
+    this.backTitle = 'Atrás'
   }) : super(key: key);
 
   final VoidCallback? backMethod;
   final VoidCallback forwardMethod;
   final String forwardTitle;
+  final String backTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class AomReportCustomBottomWidget extends StatelessWidget {
             colorFondo: AppTheme.bottomPrincipal,
             primerBotonDesactivado: false,
             segundoBotonDesactivado: false,
-            txtPrimerBoton: 'Atrás',
+            txtPrimerBoton: backTitle,
             txtSegundoBoton: forwardTitle,
             accionPrimerBoton: backMethod ?? () => Navigator.pop(context),
             accionSegundoBoton: forwardMethod),

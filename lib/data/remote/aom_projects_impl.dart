@@ -236,9 +236,12 @@ class AomProjectsImpl implements AomProjectsRepository {
   }
 
   @override
-  Future<UploadFileResponse> uploadFile(
-      {x.CancelToken? cancelToken,
-      required UploadFileRequest uploadFileRequest}) async {
+  Future<UploadFileResponse> uploadFile({
+    x.CancelToken? cancelToken,
+    required UploadFileRequest uploadFileRequest,
+    required onSendProgress(int count, int total),
+    required onReceiveProgress(int count, int total),
+  }) async {
     _dio.options.baseUrl = 'http://13.59.62.87:8090/files-ws';
 
     try {
@@ -259,8 +262,12 @@ class AomProjectsImpl implements AomProjectsRepository {
         ),
       );
 
-      final x.Response<dynamic> response =
-          await _dio.post(ApiRoutes.postUploadFile, data: formData);
+      final x.Response<dynamic> response = await _dio.post(
+        ApiRoutes.postUploadFile,
+        data: formData,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
 
       return uploadFileResponseFromJson(json.encode(response.data));
     } on x.DioError catch (e) {
@@ -270,12 +277,20 @@ class AomProjectsImpl implements AomProjectsRepository {
 
   @override
   Future<Map<String, dynamic>> sendData(
-      {required AomActualizacionRequest data}) async {
-    _dio.options.baseUrl = urlApiAom;
-
+      {x.CancelToken? cancelToken,
+      required AomActualizacionRequest data,
+      required onSendProgress(int count, int total),
+      required onReceiveProgress(int count, int total)}) async {
     try {
-      final x.Response<dynamic> response = await _dio
-          .post(ApiRoutes.postActualizacionOrRequest, data: data.toJson());
+      final x.Response<dynamic> response = await _dio.post(
+        ApiRoutes.postActualizacionOrRequest,
+        options: x.Options(headers: {
+          'Authorization': user.token,
+        }),
+        data: data.toJson(),
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
 
       return response.data;
     } on x.DioError catch (e) {

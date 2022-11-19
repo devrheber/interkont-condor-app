@@ -223,7 +223,8 @@ class _Clasifications extends StatelessWidget {
                     'nombre': text,
                     'pendiente': pending,
                     'paso': step,
-                    'clasificationId': e.clasificacionActivos.id,
+                    'clasificationId': e.id,
+                    'categoryId': e.clasificacionActivos.id,
                   },
                 );
               },

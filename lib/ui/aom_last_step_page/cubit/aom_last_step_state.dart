@@ -11,10 +11,7 @@ class AomLastStepInitial extends AomLastStepState {
   const AomLastStepInitial();
 }
 
-class AomLastStepLoading extends AomLastStepState {
-  const AomLastStepLoading(this.uploadPercentage);
-  final double uploadPercentage;
-}
+class AomLastStepLoading extends AomLastStepState {}
 
 class AomLastStepFailure extends AomLastStepState {
   const AomLastStepFailure(this.errorMessage);

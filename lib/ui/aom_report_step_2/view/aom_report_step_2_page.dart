@@ -220,6 +220,10 @@ class AomReportStep2View extends StatelessWidget {
                   );
               context.read<AomReportCubit>().setStep(3);
             },
+            backMethod: () {
+              context.read<AomReportCubit>().setStep(1);
+            },
+            backTitle: 'Retroceder',
           ),
         ],
       );

@@ -61,7 +61,7 @@ class AomReportHeaderWidget extends StatelessWidget {
               completedColor: Color(0xFF1A8DBE),
               pendingColor: Color(0xFF745FF2),
               style: selectedStep == 1 ? textStyleStepSelected : textStyleStep,
-              onTap: () => context.read<AomReportCubit>().setStep(1),
+              // onTap: () => context.read<AomReportCubit>().setStep(1),
             ),
             StepIndicator(
               text: 'Actualización\nCualitativo',
@@ -70,7 +70,7 @@ class AomReportHeaderWidget extends StatelessWidget {
               completedColor: Color(0xFF1A8DBE),
               pendingColor: Color(0xFF745FF2),
               style: selectedStep == 2 ? textStyleStepSelected : textStyleStep,
-              onTap: () => context.read<AomReportCubit>().setStep(2),
+              // onTap: () => context.read<AomReportCubit>().setStep(2),
             ),
             StepIndicator(
               text: 'Imágen o\n Video',
@@ -79,7 +79,7 @@ class AomReportHeaderWidget extends StatelessWidget {
               completedColor: Color(0xFF1A8DBE),
               pendingColor: Color(0xFF745FF2),
               style: selectedStep == 3 ? textStyleStepSelected : textStyleStep,
-              onTap: () => context.read<AomReportCubit>().setStep(3),
+              // onTap: () => context.read<AomReportCubit>().setStep(3),
             ),
           ],
         ),

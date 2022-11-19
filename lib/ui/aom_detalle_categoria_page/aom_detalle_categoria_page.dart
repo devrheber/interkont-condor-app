@@ -17,6 +17,7 @@ class AomDetalleCategoriaPage extends StatelessWidget {
     String nombre = arguments['nombre'];
     final paso = arguments['paso'];
     final clasificationId = arguments['clasificationId'];
+    final categoryId = arguments['categoryId'];
     final projectCode = arguments['projectCode'];
     final vidaUtilEnMeses = arguments['vidaUtilEnMeses'];
     return BlocProvider(
@@ -30,6 +31,7 @@ class AomDetalleCategoriaPage extends StatelessWidget {
         projectCode: projectCode,
         clasificationId: clasificationId,
         vidaUtilEnMeses: vidaUtilEnMeses,
+        categoryId: categoryId,
       ),
     );
   }
@@ -40,6 +42,7 @@ class AomDetalleCategoriaView extends StatelessWidget {
     Key? key,
     required this.nombre,
     required this.projectCode,
+    required this.categoryId,
     required this.clasificationId,
     required this.vidaUtilEnMeses,
   }) : super(key: key);
@@ -48,6 +51,7 @@ class AomDetalleCategoriaView extends StatelessWidget {
 
   final int projectCode;
   final int clasificationId;
+  final int categoryId;
   final int vidaUtilEnMeses;
 
   @override
@@ -68,7 +72,7 @@ class AomDetalleCategoriaView extends StatelessWidget {
                 children: [
                   AomReportStep1Page.init(
                     projectCode: projectCode,
-                    clasificationId: clasificationId,
+                    categoryId: categoryId,
                   ),
                   AomReportStep2Page(
                     vidaUtilEnMeses: vidaUtilEnMeses,

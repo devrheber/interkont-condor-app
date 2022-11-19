@@ -65,7 +65,7 @@ class AomReportStep3View extends StatelessWidget {
             // return;
             final data = context.read<AomReportCubit>().state.getDataToSend();
 
-            Navigator.pushNamed(
+            final dynamic result = await Navigator.pushNamed(
               context,
               AppRoutes.aomLastStep,
               arguments: {
@@ -73,6 +73,10 @@ class AomReportStep3View extends StatelessWidget {
                 'files': state.files,
               },
             );
+
+            if (result?['message'] != null) {
+              Toast.show(result?['message'], duration: 5);
+            }
 
             // context.read<AomReportStep3Bloc>().add(SendDataEvent(data));
           }
@@ -111,6 +115,10 @@ class AomReportStep3View extends StatelessWidget {
               AomReportCustomBottomWidget(
                 forwardMethod: () => forwardMethod(),
                 forwardTitle: 'Finalizar Actualización',
+                backMethod: () {
+                  context.read<AomReportCubit>().setStep(2);
+                },
+                backTitle: 'Retroceder',
               ),
             ],
           );

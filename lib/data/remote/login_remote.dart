@@ -9,7 +9,7 @@ import '../../helpers/respuestaHttp.dart';
 class LoginRemote implements LoginRepository {
   @override
   Future<User> login(String username, String password) async {
-    String url = "$urlGlobalApiCondor/login";
+    String url = "$urlBaseWeb/login";
 
     final Map<String, dynamic> body = {
       'usuario': username,

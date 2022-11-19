@@ -19,13 +19,13 @@ class AomReportStep1Page extends StatelessWidget {
   static Widget init({
     Key? key,
     required int projectCode,
-    required int clasificationId,
+    required int categoryId,
   }) {
     return BlocProvider(
       create: (context) => AomReportStep1Bloc(
         aomProjectsRepository: context.read(),
         aomProjectsApi: context.read(),
-      )..add(LoadDataEvent(projectCode, clasificationId)),
+      )..add(LoadDataEvent(projectCode, categoryId)),
       child: AomReportStep1Page._(key: key),
     );
   }

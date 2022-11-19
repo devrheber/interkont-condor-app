@@ -1,16 +1,18 @@
-import 'package:appalimentacion/domain/models/aom_actualizacion_request.dart';
+import 'dart:async';
+
+import 'package:appalimentacion/domain/models/upload_file_response.dart';
+import 'package:appalimentacion/domain/models/upload_file_request.dart';
 import 'package:appalimentacion/domain/models/gestion_aom.dart';
 import 'package:appalimentacion/domain/models/estado_de_activo.dart';
 import 'package:appalimentacion/domain/models/contratista.dart';
 import 'package:appalimentacion/domain/models/clasificacion.dart';
 import 'package:appalimentacion/domain/models/categoria_obra.dart';
 import 'package:appalimentacion/domain/models/aom_datos_generales.dart';
-import 'package:appalimentacion/domain/models/upload_file_response.dart';
-import 'package:appalimentacion/domain/models/upload_file_request.dart';
+import 'package:appalimentacion/domain/models/aom_actualizacion_request.dart';
 import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
 import 'package:dio/src/cancel_token.dart';
 
-class AomProjectImplLocal extends AomProjectsRepository {
+class AomRepositoryImplLocal extends AomProjectsRepository {
   @override
   Future<List<CategoriaObra>> categoriasByObraId(int obraId,
       {CancelToken? cancelToken}) {
@@ -48,28 +50,39 @@ class AomProjectImplLocal extends AomProjectsRepository {
       {CancelToken? cancelToken}) {
     // TODO: implement getGestionAom
     throw UnimplementedError();
+  }
 
-    //!FAKE DATA
-    // Map<String, Map<bool, int>> activosGenerales = {
-    //   'Compensación Reactiva': {true: 3},
-    //   'Equipos de Control y Comunicaciones': {false: 1},
-    //   'Líneas Aéreas': {false: 2},
-    //   'Sistemas Solares Fotovoltaicos SSFV de\nAlta Tensión': {false: 3},
-    // };
+  @override
+  Future<Map<String, dynamic>> sendData(
+      {CancelToken? cancelToken,
+      required AomActualizacionRequest data,
+      required Function(int count, int total) onSendProgress,
+      required Function(int count, int total) onReceiveProgress}) {
+    // TODO: implement sendData
+    throw UnimplementedError();
   }
 
   @override
   Future<UploadFileResponse> uploadFile(
       {CancelToken? cancelToken,
-      required UploadFileRequest uploadFileRequest}) {
-    // TODO: implement uploadFile
-    throw UnimplementedError();
-  }
+      required UploadFileRequest uploadFileRequest,
+      required Function(int count, int total) onSendProgress,
+      required Function(int count, int total) onReceiveProgress}) async {
+    int initialValue = 0;
+    Timer timer;
 
-  @override
-  Future<Map<String, dynamic>> sendData(
-      {required AomActualizacionRequest data}) {
-    // TODO: implement sendData
-    throw UnimplementedError();
+    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      onSendProgress((initialValue++), 10);
+
+      if (initialValue == 10) timer.cancel();
+    });
+
+    await Future.delayed(Duration(seconds: 12));
+
+    return UploadFileResponse(id: 1, message: 'file uploaded', status: true);
+
+    throw AomProjectsBackendErrorException({
+      'data': {'message': 'Error inesperado'}
+    });
   }
 }
