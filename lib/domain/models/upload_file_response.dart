@@ -17,9 +17,10 @@ class UploadFileResponse {
     required this.id,
   });
 
-  bool status;
-  String message;
-  int id;
+  final bool status;
+  final String message;
+  final int id;
+  
 
   factory UploadFileResponse.fromJson(Map<String, dynamic> json) =>
       UploadFileResponse(

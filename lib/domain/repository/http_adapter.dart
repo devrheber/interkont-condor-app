@@ -43,7 +43,7 @@ class HttpAdapter {
     required Map<String, dynamic> data,
   }) async {
     try {
-      final formData = await _getData(map: data['map'], images: data['images']);
+      final formData = await _getData(map: data['map'], images: data['files']);
 
       return _dio.post(path, data: formData);
       // throw UnimplementedError();
@@ -76,8 +76,8 @@ class HttpAdapter {
     return formData;
   }
 
-  void options({String? baseUrl}) {
-    _dio.options = BaseOptions(baseUrl: baseUrl ?? this.url);
+  void options({String? baseUrl, Map<String, dynamic>? headers}) {
+    _dio.options = BaseOptions(baseUrl: baseUrl ?? this.url, headers: headers);
   }
 
   ProjectsError manageDioError(DioError e) {

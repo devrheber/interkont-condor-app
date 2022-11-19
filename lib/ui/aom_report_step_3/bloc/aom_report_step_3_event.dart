@@ -20,18 +20,14 @@ class PickFileEvent extends AomReportStep3Event {
 }
 
 class SendDataEvent extends AomReportStep3Event {
-  const SendDataEvent(
-    this.fileKey,
-    this.projectCode,
-  );
+  const SendDataEvent(this.data);
 
-  final int fileKey;
-  final int projectCode;
+  final AomActualizacionRequest data;
 }
 
 class RemoveFileEvent extends AomReportStep3Event {
-  const RemoveFileEvent(this.fileId);
-  final int fileId;
+  const RemoveFileEvent(this.key);
+  final String key;
 }
 
 class ValidateData extends AomReportStep3Event {

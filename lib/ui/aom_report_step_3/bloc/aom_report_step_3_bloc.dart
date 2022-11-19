@@ -16,7 +16,6 @@ class AomReportStep3Bloc
     on<PickFileEvent>(_onPickFileEvent);
     on<SendDataEvent>(_onSendData);
     on<RemoveFileEvent>(_onRemoveFileEvent);
-    on<ValidateData>(_onValidateData);
   }
 
   final AomProjectsRepository _aomProjectsRepository;
@@ -38,17 +37,27 @@ class AomReportStep3Bloc
     emit(state.copyWith(status: () => AomReportStep3Status.loading));
 
     try {
-      final filesUploaded = await _uploadFiles(event.projectCode);
+      final filesUploaded = await _uploadFiles(event.data.obraId);
+      final data =
+          event.data.copyWith(imagenesVideosOr: filesUploaded.values.toList());
 
-      // TODO Send Data
+      final result = await _aomProjectsRepository.sendData(data: data);
 
-      emit(state.copyWith(
-          status: () => AomReportStep3Status.success,
-          filesUploaded: () => filesUploaded));
+      if (result['message'] != null) {
+        emit(state.copyWith(
+            status: () => AomReportStep3Status.success,
+            responseMessage: () => result['message']));
+      }
     } on ProjectsError catch (e) {
-      emit(state.copyWith(
-          status: () => AomReportStep3Status.failure,
-          errorMessage: e.response?.data['message']));
+      try {
+        emit(state.copyWith(
+            status: () => AomReportStep3Status.failure,
+            responseMessage: () => e.response?.data['message']));
+      } catch (_) {
+        emit(state.copyWith(
+            status: () => AomReportStep3Status.failure,
+            responseMessage: () => 'Algo salió mal'));
+      }
     }
   }
 
@@ -57,42 +66,38 @@ class AomReportStep3Bloc
     Emitter<AomReportStep3State> emit,
   ) async {
     Map<String, File?> files = {...state.files};
-    files.remove(event.fileId);
+    files.remove(event.key);
 
     emit(state.copyWith(files: () => files));
   }
 
-  Future<void> _onValidateData(
-    ValidateData event,
-    Emitter<AomReportStep3State> emit,
-  ) async {
-    const int __requiredFileKey__ = 1;
-    emit(state.copyWith(validateStatus: () => ValidationStatus.validating));
-    await Future.delayed(const Duration(milliseconds: 200));
-    if (state.files.containsKey(__requiredFileKey__)) {
-      emit(state.copyWith(validateStatus: () => ValidationStatus.success));
-      return;
-    }
-
-    emit(state.copyWith(validateStatus: () => ValidationStatus.failure));
-  }
-
-  Future<Map<String, UploadFileResponse>> _uploadFiles(int projectCode) async {
+  Future<Map<String, ImagenesVideosOrRequest>> _uploadFiles(
+      int projectCode) async {
     final files = _getFilesFromState(projectCode);
-    Map<String, UploadFileResponse> filesUploaded = {};
+
+    Map<String, ImagenesVideosOrRequest> filesUploaded = {};
 
     for (final file in files) {
       final fileInfo =
           await _aomProjectsRepository.uploadFile(uploadFileRequest: file);
 
-      filesUploaded[file.nombredocumento] = fileInfo;
+      final typeAllowed = ['image', 'video'];
+
+      final uploadFileRequest = ImagenesVideosOrRequest(
+          id: fileInfo.id,
+          name: file.getFileName,
+          fileExt: file.getFileExtension,
+          iddocumento: projectCode,
+          tipoMovimiento: typeAllowed.contains(file.nombredocumento) ? 1 : 2);
+
+      filesUploaded[file.nombredocumento] = uploadFileRequest;
     }
     return filesUploaded;
   }
 
   List<UploadFileRequest> _getFilesFromState(int projectCode) {
     List<UploadFileRequest> files = [];
-    
+
     for (final file in state.files.entries) {
       files.add(UploadFileRequest(
         clasificaciondoc: 5,

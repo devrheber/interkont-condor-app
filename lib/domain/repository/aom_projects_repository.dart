@@ -20,6 +20,9 @@ abstract class AomProjectsRepository {
 
   Future<UploadFileResponse> uploadFile(
       {CancelToken? cancelToken, required UploadFileRequest uploadFileRequest});
+
+  Future<Map<String, dynamic>> sendData(
+      {required AomActualizacionRequest data});
 }
 
 // TODO Estas clases debererín funcionar para Projectos Aom y de Alimentación

@@ -20,7 +20,11 @@ class AomDetalleCategoriaPage extends StatelessWidget {
     final projectCode = arguments['projectCode'];
     final vidaUtilEnMeses = arguments['vidaUtilEnMeses'];
     return BlocProvider(
-      create: (_) => AomReportCubit()..setStep(paso),
+      create: (_) => AomReportCubit(
+        projectCode: projectCode,
+        clasificationId: clasificationId,
+        vidaUtilActualEnMeses: vidaUtilEnMeses,
+      )..setStep(paso),
       child: AomDetalleCategoriaView(
         nombre: nombre,
         projectCode: projectCode,

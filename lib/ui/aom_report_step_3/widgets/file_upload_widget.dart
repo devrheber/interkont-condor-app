@@ -69,7 +69,7 @@ class FileUploadWidget extends StatelessWidget {
       children: <Widget>[
         _ImageContainer(
           instruction: 'Agregar Imagen\n(Obligatoria)',
-          file: bloc.state.files[1],
+          file: bloc.state.files['image'],
           onAddPressed: () {
             seleccionarGaleriaCamara(
               context,
@@ -88,12 +88,12 @@ class FileUploadWidget extends StatelessWidget {
             );
           },
           onRemovePressed: () {
-            bloc.add(RemoveFileEvent(1));
+            bloc.add(RemoveFileEvent('image'));
           },
         ),
         _ImageContainer(
           instruction: 'Agregar Video\n(Opcional)\n(Max 10Mb)',
-          file: bloc.state.files[2],
+          file: bloc.state.files['video'],
           onAddPressed: () {
             seleccionarGaleriaCamara(
               context,
@@ -112,12 +112,12 @@ class FileUploadWidget extends StatelessWidget {
             );
           },
           onRemovePressed: () {
-            bloc.add(RemoveFileEvent(2));
+            bloc.add(RemoveFileEvent('video'));
           },
         ),
         _ImageContainer(
           instruction: 'Agregar Documento\n(Opcional)\n(Max 10Mb)',
-          file: bloc.state.files[3],
+          file: bloc.state.files['file'],
           onAddPressed: () async {
             final _file = await pickFile();
             if (_file == null) return;
@@ -125,7 +125,7 @@ class FileUploadWidget extends StatelessWidget {
                 PickFileEvent(fileKey: 'file', fileName: 'file', file: _file));
           },
           onRemovePressed: () {
-            bloc.add(RemoveFileEvent(3));
+            bloc.add(RemoveFileEvent('file'));
           },
         ),
       ],

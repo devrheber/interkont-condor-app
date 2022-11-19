@@ -11,5 +11,7 @@ class ApiRoutes {
   static const String getListaEstados = '/ListadoEstados';
   static const String getEstadosActivos = '/TiposEstadoActivos';
   static const String postUploadFile = '/uploadfile';
+  static const String postActualizacionOrRequest = '/ActualizacionOrRequest';
+
 
 }

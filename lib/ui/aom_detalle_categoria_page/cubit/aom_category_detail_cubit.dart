@@ -7,7 +7,15 @@ import 'package:equatable/equatable.dart';
 part 'aom_category_detail_state.dart';
 
 class AomReportCubit extends Cubit<AomReportState> {
-  AomReportCubit() : super(AomReportState());
+  AomReportCubit({
+    required int projectCode,
+    required int clasificationId,
+    required int vidaUtilActualEnMeses,
+  }) : super(AomReportState(
+          projectCode: projectCode,
+          clasificationId: clasificationId,
+          vidaUtilActualEnMeses: vidaUtilActualEnMeses,
+        ));
 
   void setStep(int step) => emit(state.copyWith(step: step));
 
@@ -16,15 +24,16 @@ class AomReportCubit extends Cubit<AomReportState> {
     List<bool>? answers,
     String? vidaUtilRemanenteNoConsideradaText,
     int? vidaUtilRemanenteConsideradaOff,
-    int? vidaUtilEnAnios,
+    int? vidaUtilEnMeses,
+    Map<String, ImagenesVideosOrRequest>? filesUploaded,
   }) {
     emit(state.copyWith(
       activos: activos,
       answers: answers,
       vidaUtilRemanenteNoConsideradaText: vidaUtilRemanenteNoConsideradaText,
       vidaUtilRemanenteConsideradaOff: vidaUtilRemanenteConsideradaOff,
-      vidaUtilNuevaEnMeses: vidaUtilEnAnios,
+      vidaUtilNuevaEnMeses: vidaUtilEnMeses,
+      filesUploaded: filesUploaded,
     ));
-    inspect(state);
   }
 }

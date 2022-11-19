@@ -1,3 +1,4 @@
+import 'package:appalimentacion/domain/models/aom_actualizacion_request.dart';
 import 'package:appalimentacion/domain/models/gestion_aom.dart';
 import 'package:appalimentacion/domain/models/estado_de_activo.dart';
 import 'package:appalimentacion/domain/models/contratista.dart';
@@ -58,8 +59,17 @@ class AomProjectImplLocal extends AomProjectsRepository {
   }
 
   @override
-  Future<UploadFileResponse> uploadFile({CancelToken? cancelToken, required UploadFileRequest uploadFileRequest}) {
+  Future<UploadFileResponse> uploadFile(
+      {CancelToken? cancelToken,
+      required UploadFileRequest uploadFileRequest}) {
     // TODO: implement uploadFile
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Map<String, dynamic>> sendData(
+      {required AomActualizacionRequest data}) {
+    // TODO: implement sendData
     throw UnimplementedError();
   }
 }

@@ -1,7 +1,5 @@
-import 'dart:developer';
+import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_category_detail_cubit.dart';
 
-import 'package:appalimentacion/ui/aom_report_step_1/bloc/aom_report_step_1_bloc.dart';
-import 'package:appalimentacion/ui/aom_report_step_2/bloc/aom_report_step_2_bloc.dart';
 import 'package:appalimentacion/ui/aom_report_step_3/bloc/aom_report_step_3_bloc.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -36,21 +34,29 @@ class AomReportStep3View extends StatelessWidget {
     return BlocListener<AomReportStep3Bloc, AomReportStep3State>(
       listener: (context, state) {
         if (state.status == AomReportStep3Status.failure) {
-          final snackBar = SnackBar(content: Text('Error'));
-
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Toast.show(state.responseMessage);
         }
 
-        if (state.validateStatus == ValidationStatus.failure) {
-          Toast.show('invalid data');
-        }
-
-        if (state.validateStatus == ValidationStatus.success) {
-          Toast.show('send data');
+        if (state.status == AomReportStep3Status.success) {
+          Toast.show(state.responseMessage);
         }
       },
       child: BlocBuilder<AomReportStep3Bloc, AomReportStep3State>(
         builder: (context, state) {
+          void forwardMethod() {
+            const String __requiredFileKey__ = 'image';
+            if (!state.files.containsKey(__requiredFileKey__)) {
+              Toast.show('Debe agregar una imagen');
+              return;
+            }
+
+            // TODO Show Confirmation before send data
+
+            final data = context.read<AomReportCubit>().state.getDataToSend();
+
+            context.read<AomReportStep3Bloc>().add(SendDataEvent(data));
+          }
+
           return Stack(
             children: [
               Column(
@@ -83,20 +89,7 @@ class AomReportStep3View extends StatelessWidget {
                 ],
               ),
               AomReportCustomBottomWidget(
-                forwardMethod: () {
-                  return;
-
-                  final bloc = context.read<AomReportStep3Bloc>();
-
-                  // TODO Validate
-                  bloc.add(ValidateData());
-                  // TODO Show Confirmation before send data
-
-                  // Navigator.pushNamed(context, AppRoutes.aomLastStep);
-                  // context
-                  //     .read<AomReportStep3Bloc>()
-                  //     .add(UploadFileEvent(1, 'imagen de prueba', 2979));
-                },
+                forwardMethod: () => forwardMethod(),
                 forwardTitle: 'Finalizar Actualización',
               ),
             ],

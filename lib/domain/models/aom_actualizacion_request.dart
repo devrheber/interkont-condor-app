@@ -105,6 +105,26 @@ class AomActualizacionRequest extends Equatable {
         vidaUtilRemanenteConsideradaOff,
         vidaUtilRemanenteNoConsideradaText,
       ];
+
+  AomActualizacionRequest copyWith(
+      {List<ImagenesVideosOrRequest>? imagenesVideosOr}) {
+    return AomActualizacionRequest(
+      activosUpdate: activosUpdate,
+      clasificacionId: clasificacionId,
+      imagenesVideosOr: imagenesVideosOr ?? this.imagenesVideosOr,
+      obraId: obraId,
+      respuesta1: respuesta1,
+      respuesta2: respuesta2,
+      respuesta3: respuesta3,
+      respuesta4: respuesta4,
+      respuesta5: respuesta5,
+      respuesta6: respuesta6,
+      respuesta7: respuesta7,
+      userId: userId,
+      vidaUtilRemanenteConsideradaOff: vidaUtilRemanenteConsideradaOff,
+      vidaUtilRemanenteNoConsideradaText: vidaUtilRemanenteNoConsideradaText,
+    );
+  }
 }
 
 class ActivoUpdateRequest extends Equatable {

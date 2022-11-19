@@ -239,6 +239,9 @@ class AomProjectsImpl implements AomProjectsRepository {
   Future<UploadFileResponse> uploadFile(
       {x.CancelToken? cancelToken,
       required UploadFileRequest uploadFileRequest}) async {
+    _client.options(baseUrl: 'http://13.59.62.87:8090/files-ws', headers: {
+      'Content-type': 'application/json',
+    });
     try {
       final x.Response<dynamic> response =
           await _client.postFormData(ApiRoutes.postUploadFile, data: {
@@ -248,11 +251,27 @@ class AomProjectsImpl implements AomProjectsRepository {
         }
       });
 
-      inspect(response);
       return uploadFileResponseFromJson(json.encode(response.data));
     } on ProjectsError catch (e) {
-      inspect(e);
       throw e;
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> sendData(
+      {required AomActualizacionRequest data}) async {
+    _client.options(baseUrl: urlApiAom, headers: {
+      'Content-type': 'application/json',
+      'Authorization': user.token,
+    });
+
+    try {
+      final x.Response<dynamic> response = await _client
+          .post(ApiRoutes.postActualizacionOrRequest, data: data.toJson());
+
+      return response.data;
+    } on ProjectsError catch (e) {
+      rethrow;
     }
   }
 }
