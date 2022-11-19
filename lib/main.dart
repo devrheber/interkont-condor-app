@@ -164,7 +164,6 @@ class AppState extends StatelessWidget {
           designSize: Size(414, 896),
           builder: (_, __) {
             return MaterialApp(
-              debugShowCheckedModeBanner: false,
               home: const App(),
               localizationsDelegates: LocalizationDelegates.delegates,
               supportedLocales: SupportedLocales.locale,

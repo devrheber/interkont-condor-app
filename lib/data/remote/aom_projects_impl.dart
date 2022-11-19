@@ -17,7 +17,6 @@ class AomProjectsImpl implements AomProjectsRepository {
   final String _url = urlApiAom;
 
   late x.Dio _dio;
-  late User user;
 
   void _init() {
     _dio = x.Dio();
@@ -30,8 +29,6 @@ class AomProjectsImpl implements AomProjectsRepository {
     );
 
     // TODO Use interceptors
-
-    user = User.fromJson(json.decode(prefs.userData));
   }
 
   Exception manageDioError(x.DioError e) {
@@ -61,6 +58,7 @@ class AomProjectsImpl implements AomProjectsRepository {
   Future<List<Clasificacion>> getClasifications({
     x.CancelToken? cancelToken,
   }) async {
+    final user = User.fromJson(json.decode(prefs.userData));
     try {
       final x.Response<dynamic> response = await _dio.get(
         ApiRoutes.getClasifications,
@@ -86,6 +84,7 @@ class AomProjectsImpl implements AomProjectsRepository {
   Future<AomDatosGenerales> getDatosGenerales(int projectCode,
       {x.CancelToken? cancelToken}) async {
     try {
+      final user = User.fromJson(json.decode(prefs.userData));
       final x.Response<dynamic> response = await _dio.get(
         '${ApiRoutes.getAomDatosGenerales}/$projectCode',
         options: x.Options(
@@ -113,6 +112,7 @@ class AomProjectsImpl implements AomProjectsRepository {
   @override
   Future<List<Contratista>> getContratistas(
       {x.CancelToken? cancelToken}) async {
+    final user = User.fromJson(json.decode(prefs.userData));
     try {
       final x.Response<dynamic> response = await _dio.get(
         ApiRoutes.getContratistas,
@@ -139,6 +139,7 @@ class AomProjectsImpl implements AomProjectsRepository {
   @override
   Future<List<CategoriaObra>> categoriasByObraId(int obraId,
       {x.CancelToken? cancelToken}) async {
+    final user = User.fromJson(json.decode(prefs.userData));
     try {
       final x.Response<dynamic> response = await _dio.get(
         '${ApiRoutes.getCategoriasObra}/$obraId',
@@ -172,6 +173,7 @@ class AomProjectsImpl implements AomProjectsRepository {
   @override
   Future<List<GestionAom>> getGestionAom(int obraId,
       {x.CancelToken? cancelToken}) async {
+    final user = User.fromJson(json.decode(prefs.userData));
     try {
       final x.Response<dynamic> response = await _dio.get(
         '${ApiRoutes.getGestionAomByObraId}/$obraId',
@@ -204,6 +206,7 @@ class AomProjectsImpl implements AomProjectsRepository {
 
   @override
   Future<List<EstadoDeActivo>> getEstados({x.CancelToken? cancelToken}) async {
+    final user = User.fromJson(json.decode(prefs.userData));
     try {
       final x.Response<dynamic> response = await _dio.get(
         ApiRoutes.getEstadosActivos,
@@ -288,6 +291,7 @@ class AomProjectsImpl implements AomProjectsRepository {
       required AomActualizacionRequest data,
       required onSendProgress(int count, int total),
       required onReceiveProgress(int count, int total)}) async {
+    final user = User.fromJson(json.decode(prefs.userData));
     try {
       _dio = x.Dio();
       _dio.options = x.BaseOptions(
