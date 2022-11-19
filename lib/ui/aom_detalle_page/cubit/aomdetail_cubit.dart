@@ -32,8 +32,11 @@ class AomDetailCubit extends Cubit<AomDetailState> {
 
   Future<void> _getCategoriasByObraId(int obraId) async {
     final list = await _aomProjectsRepository.categoriasByObraId(obraId);
-    //! Provisional
-    // final list = await _aomProjectsRepository.categoriasByObraId(2979);
+    list.sort(
+      (a, b) => a.clasificacionActivos.descripcion
+          .compareTo(b.clasificacionActivos.descripcion),
+    );
+
     emit(state.copyWith(clasifications: () => list));
   }
 
@@ -53,10 +56,8 @@ class AomDetailCubit extends Cubit<AomDetailState> {
 
     emit(
       state.copyWith(
-        contratista: () =>
-            _aomProjectsApi.getContratistaById(state.generalData!.operadorId)
-            
-      ),
+          contratista: () => _aomProjectsApi
+              .getContratistaById(state.generalData!.operadorId)),
     );
   }
 
@@ -76,6 +77,12 @@ class AomDetailCubit extends Cubit<AomDetailState> {
               ? error.response
               : null,
         ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+            status: () => AomDetailStatus.failure,
+            errorResponse: () => {'message': 'Algo salió mal'}),
       );
     }
   }

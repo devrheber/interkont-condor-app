@@ -201,7 +201,6 @@ class _Clasifications extends StatelessWidget {
       );
     }
 
-    // TODO Use FadeIn
     return Column(
       children: [
         ...state.clasifications.map(
