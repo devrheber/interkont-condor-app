@@ -64,7 +64,9 @@ class ReportProgressScreen extends StatelessWidget {
       projectsProvider
           .clearCache(reportProgressProvider.project.codigoproyecto);
 
-      Navigator.pop(context);
+      Navigator.pop(context, {
+        'cancel': true,
+      });
     }
 
     void firstButtonMethod() {
@@ -116,7 +118,7 @@ class ReportProgressScreen extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => LastStep.init()),
         );
-      } 
+      }
     }
 
     return FondoHome(

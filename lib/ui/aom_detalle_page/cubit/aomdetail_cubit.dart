@@ -69,21 +69,22 @@ class AomDetailCubit extends Cubit<AomDetailState> {
       await _getCategoriasByObraId(projectCode);
       emit(state.copyWith(status: () => AomDetailStatus.success));
     } on AomProjectsRepositoryException catch (error) {
-      inspect(error);
-      emit(
-        state.copyWith(
-          status: () => AomDetailStatus.failure,
-          errorResponse: () => (error is AomProjectsBackendErrorException)
-              ? error.response
-              : null,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
+      try {
+        emit(
+          state.copyWith(
             status: () => AomDetailStatus.failure,
-            errorResponse: () => {'message': 'Algo salió mal'}),
-      );
+            errorResponse: () => (error is AomProjectsBackendErrorException)
+                ? error.response
+                : null,
+          ),
+        );
+      } catch (e) {
+        emit(
+          state.copyWith(
+              status: () => AomDetailStatus.failure,
+              errorResponse: () => {'message': 'Algo salió mal'}),
+        );
+      }
     }
   }
 }

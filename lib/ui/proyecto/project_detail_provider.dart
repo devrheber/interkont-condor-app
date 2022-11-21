@@ -124,4 +124,9 @@ class ProjectDetailProvider extends ChangeNotifier {
     this.cache = this.cache.copyWith(stepNumber: 4);
     projectsCacheRepository.saveCache(this.cache);
   }
+
+  void clearPeriodoSeleccionado() {
+    periodoSeleccionado = null;
+    notifyListeners();
+  }
 }

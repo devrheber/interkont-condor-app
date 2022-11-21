@@ -74,7 +74,7 @@ class GestionAom {
   final double latitud;
   final double longitud;
   final String ubicacion;
-  final dynamic observacion;
+  final String? observacion;
   final double valorInicial;
   final DateTime vidaUtilRemanente;
   final int anosRestantes;

@@ -76,7 +76,7 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
       cantidad: widget.item.cantidad,
       cantidadPropuesta: _count,
       estadoAomId: widget.item.estadoAomId,
-      observacion: widget.item.observacion,
+      observacion: widget.item.observacion ?? '',
       operatividad: widget.item.operatividad,
     );
   }

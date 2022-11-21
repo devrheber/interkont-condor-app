@@ -164,7 +164,6 @@ class ProjectCache extends Equatable {
   ProjectCache newCache() => ProjectCache(
         projectCode: projectCode,
         lastSyncDate: this.lastSyncDate,
-        periodoIdSeleccionado: periodoIdSeleccionado,
       );
 
   static ProjectCache empty(int projectCode) => ProjectCache(

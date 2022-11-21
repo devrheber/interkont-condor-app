@@ -518,8 +518,8 @@ class Assets {
   static const String assetsNewLoginAccountCircle = "assets/new/login/account_circle.png";
 
   /// Assets for assetsNewLoginFooter
-  /// assets/new/login/footer.png
-  static const String assetsNewLoginFooter = "assets/new/login/footer.png";
+  /// assets/new/login/logo-ppal-mme-2022.jpg
+  static const String assetsNewLoginFooter = "assets/new/login/logo-ppal-mme-2022.jpg";
 
   /// Assets for assetsNewLoginLoading
   /// assets/new/login/loading.gif

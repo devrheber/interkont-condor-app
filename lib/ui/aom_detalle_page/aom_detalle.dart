@@ -96,7 +96,7 @@ class AomDetalleView extends StatelessWidget {
                       Divider(),
                       _TitleContent(
                         title:
-                            'Fecha de Finalización de\Administración de Recursos',
+                            'Fecha de Finalización de\ Administración de Recursos',
                         content: state.generalData?.fechaFinalizacionRecursos ??
                             '--',
                       ),
@@ -206,8 +206,9 @@ class _Clasifications extends StatelessWidget {
         ...state.clasifications.map(
           (e) {
             String text = e.clasificacionActivos.descripcion;
-            // TODO pending, step
-            bool pending = false;
+            const int enRevision = 1;
+            bool pending = e.estadoClasificacion == enRevision;
+            // TODO Step
             int step = 1;
             return ActivoGeneral(
               pending: pending,
@@ -257,9 +258,7 @@ class ActivoGeneral extends StatelessWidget {
         ignoring: pending,
         child: ElevatedButton(
           onPressed: onTap,
-          child:
-              //rich text
-              RichText(
+          child: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
               text: text,
@@ -276,6 +275,7 @@ class ActivoGeneral extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
+                      TextSpan(text: ' '),
                       TextSpan(
                         text: 'Pendiente por Revisión',
                         style: TextStyle(

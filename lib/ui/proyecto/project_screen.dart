@@ -89,7 +89,7 @@ class ProyectScreen extends StatelessWidget {
         }
       }
 
-      Navigator.push(
+      final result = await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) {
@@ -98,6 +98,12 @@ class ProyectScreen extends StatelessWidget {
           },
         ),
       );
+
+      if (result == null) return;
+
+      if (result?['cancel'] == true) {
+        detailProvider.clearPeriodoSeleccionado();
+      }
     }
 
     return WillPopScope(
