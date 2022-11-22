@@ -1,4 +1,4 @@
-import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/noInternet.dart';
+import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +16,7 @@ class ListaProyectosAomPage extends StatelessWidget {
       builder: (context, state) {
         debugPrint('rebuild');
         if (state is NetworkFailure || state is NetworkInitial) {
-          return const NoInternet();
+          return const AomNoInternetWidget();
         }
 
         return const FondoHome(
