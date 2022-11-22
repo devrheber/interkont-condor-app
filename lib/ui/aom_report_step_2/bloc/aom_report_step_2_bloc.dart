@@ -9,8 +9,9 @@ class AomReportStep2Bloc
   AomReportStep2Bloc(
     final int vidaUtilEnMeses,
   ) : super(AomReportStep2State(
-            vidaUtilRemanenteConsideradaOff: vidaUtilEnMeses,
-            vidaUtilEnMeses: vidaUtilEnMeses)) {
+          vidaUtilRemanenteConsideradaOff: vidaUtilEnMeses.toString(),
+          vidaUtilEnMeses: vidaUtilEnMeses,
+        )) {
     on<UpdateAnwserEvent>(_onUpdateAnwserEvent);
     on<UpdateQuestion1ReasonEvent>(_onUpdateQuestion1ReasonEvent);
     on<UpdateQuestion1MonthsEvent>(_onUpdateQuestion1MonthsEvent);
@@ -37,12 +38,8 @@ class AomReportStep2Bloc
     UpdateQuestion1MonthsEvent event,
     Emitter<AomReportStep2State> emit,
   ) async {
-    final int? value = int.tryParse(event.months);
-    if (value == null) return;
-
     emit(state.copyWith(
-      vidaUtilRemanenteConsideradaOff: value,
-      vidaUtilEnMeses: value,
+      vidaUtilRemanenteConsideradaOff: event.months,
     ));
   }
 }

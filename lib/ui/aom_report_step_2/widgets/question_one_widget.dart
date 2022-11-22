@@ -15,7 +15,7 @@ class QuestionOne extends StatefulWidget {
     required this.onChangedMonths,
   }) : super(key: key);
 
-  final int monthsInitialValue;
+  final String monthsInitialValue;
   final int initialValue;
   final Function(int value) onChangedAnswer;
   final Function(String) onChangedReason;
@@ -36,7 +36,7 @@ class _QuestionOneState extends State<QuestionOne>
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
-    _textController.text = widget.monthsInitialValue.toString();
+    _textController.text = widget.monthsInitialValue;
   }
 
   @override

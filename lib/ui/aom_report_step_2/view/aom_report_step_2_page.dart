@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toast/toast.dart';
 
 import '../widgets/widgets.dart';
 
@@ -211,12 +212,19 @@ class AomReportStep2View extends StatelessWidget {
           ),
           AomReportCustomBottomWidget(
             forwardMethod: () {
+              if (!bloc.state.isStateValid()) {
+                Toast.show(
+                  'Debe completar todos los campos de la pregunta 1.',
+                  duration: 5,
+                );
+                return;
+              }
+
               context.read<AomReportCubit>().updateData(
                     answers: bloc.state.answers,
                     vidaUtilRemanenteNoConsideradaText:
                         bloc.state.vidaUtilRemanenteNoConsideradaText,
-                    vidaUtilRemanenteConsideradaOff:
-                        bloc.state.vidaUtilRemanenteConsideradaOff,
+                    vidaUtilRemanenteConsideradaOff: bloc.state.getNewVidaUtil,
                   );
               context.read<AomReportCubit>().setStep(3);
             },

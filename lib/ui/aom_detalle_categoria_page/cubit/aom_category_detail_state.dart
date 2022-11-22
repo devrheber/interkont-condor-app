@@ -73,7 +73,9 @@ class AomReportState extends Equatable {
       vidaUtilRemanenteConsideradaOff: !answers![0]
           ? vidaUtilRemanenteConsideradaOff!
           : vidaUtilActualEnMeses,
-      vidaUtilRemanenteNoConsideradaText: vidaUtilRemanenteNoConsideradaText!,
+      // : null,
+      vidaUtilRemanenteNoConsideradaText:
+          !answers![0] ? vidaUtilRemanenteNoConsideradaText! : '',
       obraId: projectCode,
       clasificacionId: clasificationId,
       imagenesVideosOr: filesUploaded.values.toList(),

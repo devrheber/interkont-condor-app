@@ -62,7 +62,6 @@ class AomReportStep3View extends StatelessWidget {
 
             if (confirm != true) return;
 
-            // return;
             final data = context.read<AomReportCubit>().state.getDataToSend();
 
             final dynamic result = await Navigator.pushNamed(
@@ -77,8 +76,6 @@ class AomReportStep3View extends StatelessWidget {
             if (result?['message'] != null) {
               Toast.show(result?['message'], duration: 5);
             }
-
-            // context.read<AomReportStep3Bloc>().add(SendDataEvent(data));
           }
 
           return Stack(
