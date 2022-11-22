@@ -42,7 +42,7 @@ class AomActualizacionRequest extends Equatable {
   final bool respuesta6;
   final bool respuesta7;
   final int userId;
-  final int vidaUtilRemanenteConsideradaOff;
+  final int? vidaUtilRemanenteConsideradaOff;
   final String vidaUtilRemanenteNoConsideradaText;
 
   factory AomActualizacionRequest.fromJson(Map<String, dynamic> json) =>

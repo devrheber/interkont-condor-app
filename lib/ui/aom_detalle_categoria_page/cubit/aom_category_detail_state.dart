@@ -72,8 +72,8 @@ class AomReportState extends Equatable {
       userId: 4,
       vidaUtilRemanenteConsideradaOff: !answers![0]
           ? vidaUtilRemanenteConsideradaOff!
-          : vidaUtilActualEnMeses,
-      // : null,
+          // : vidaUtilActualEnMeses,
+      : null,
       vidaUtilRemanenteNoConsideradaText:
           !answers![0] ? vidaUtilRemanenteNoConsideradaText! : '',
       obraId: projectCode,
