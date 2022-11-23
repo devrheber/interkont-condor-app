@@ -24,7 +24,7 @@ abstract class AomProjectsRepository {
       required onSendProgress(int count, int total),
       required onReceiveProgress(int count, int total)});
 
-  Future<AomActualizacionRequestResponse> sendData(
+  Future<void> sendData(
       {CancelToken? cancelToken,
       required AomActualizacionRequest data,
       required onSendProgress(int count, int total),

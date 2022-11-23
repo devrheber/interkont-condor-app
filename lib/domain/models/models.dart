@@ -1,6 +1,5 @@
 export 'alimentacion_request.dart';
 export 'aom_actualizacion_request.dart';
-export 'aom_actualizacion_request_response.dart';
 export 'categoria_obra.dart';
 export 'clasificacion.dart';
 export 'complementary_image.dart';
