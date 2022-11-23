@@ -1,5 +1,10 @@
-String urlGlobalApiCondor =
-    'https://avanzamepruebas.minenergia.gov.co/avanzame-ws';
-String urlApiAom = 'https://avanzamepruebas.minenergia.gov.co/avanzaweb-ws-AOM';
-String urlFiles = 'https://avanzamepruebas.minenergia.gov.co/files-ws';
-String urlBaseWeb = 'https://avanzamepruebas.minenergia.gov.co/avanzaweb-ws';
+
+String _baseUrlPruebas = 'https://avanzamepruebas.minenergia.gov.co';
+// String _baseUrlProduccion = 'https://backendavanzame.minenergia.gov.co';
+
+String _baseUrl = _baseUrlPruebas;
+
+String urlGlobalApiCondor = '$_baseUrl/avanzame-ws';
+String urlApiAom = '$_baseUrl/avanzaweb-ws-AOM';
+String urlFiles = '$_baseUrl/files-ws';
+String urlBaseWeb = '$_baseUrl/avanzaweb-ws';

@@ -286,7 +286,7 @@ class AomProjectsImpl implements AomProjectsRepository {
   }
 
   @override
-  Future<AomActualizacionRequestResponse> sendData(
+  Future<void> sendData(
       {x.CancelToken? cancelToken,
       required AomActualizacionRequest data,
       required onSendProgress(int count, int total),
@@ -314,8 +314,7 @@ class AomProjectsImpl implements AomProjectsRepository {
       );
 
       if (response.statusCode == 200 && response.data?['id'] != null) {
-        return aomActualizacionRequestResponseFromJson(
-            json.encode(response.data));
+        return;
       }
 
       if (response.statusCode == 200 && response.data?['status'] == false) {
