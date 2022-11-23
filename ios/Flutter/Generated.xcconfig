@@ -1,12 +1,12 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/home/jean/fvm/versions/3.0.1
-FLUTTER_APPLICATION_PATH=/home/jean/rodmensoft/interkont_condor_app
+FLUTTER_ROOT=/Users/user200526/Downloads/flutter
+FLUTTER_APPLICATION_PATH=/Users/user200526/Documents/APPS/interkontcondorapp
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_TARGET=lib/main.dart
 FLUTTER_BUILD_DIR=build
-FLUTTER_BUILD_NAME=2.0.3
-FLUTTER_BUILD_NUMBER=23
-EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386 arm64
+FLUTTER_BUILD_NAME=6.0.2
+FLUTTER_BUILD_NUMBER=22
+EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=false
 TREE_SHAKE_ICONS=false
