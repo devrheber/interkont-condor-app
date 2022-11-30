@@ -29,7 +29,7 @@ class ReportProgressScreen extends StatelessWidget {
           filesPersistentCacheRepository: context.read(),
           periodoSeleccionado: periodoSeleccionado,
         ),
-        child: ReportProgressScreen._(),
+        child: const ReportProgressScreen._(),
       );
 
   @override
@@ -48,11 +48,11 @@ class ReportProgressScreen extends StatelessWidget {
     Future<void> cancelReportProgress() async {
       final confirm = await DialogHelper.showConfirmDialog(
         context,
-        child: ConfirmDialog(
+        child: const ConfirmDialog(
             description:
                 'Esta acción borrará el avance y los archivos adjuntos.',
             continueButtonText: 'Cancelar Avance',
-            cancelButtonText: 'Atrás'),
+            cancelButtonText: 'Regresar'),
       );
 
       if (confirm == null || !confirm) return;

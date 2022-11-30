@@ -37,7 +37,7 @@ class AomDetalleCategoriaPage extends StatelessWidget {
   }
 }
 
-class AomDetalleCategoriaView extends StatelessWidget {
+class AomDetalleCategoriaView extends StatefulWidget {
   const AomDetalleCategoriaView({
     Key? key,
     required this.nombre,
@@ -55,35 +55,60 @@ class AomDetalleCategoriaView extends StatelessWidget {
   final int vidaUtilEnMeses;
 
   @override
+  State<AomDetalleCategoriaView> createState() =>
+      _AomDetalleCategoriaViewState();
+}
+
+class _AomDetalleCategoriaViewState extends State<AomDetalleCategoriaView> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    updateKeyboarState();
+  }
+
+  void updateKeyboarState() {
+    final value = MediaQuery.of(context).viewInsets.bottom != 0;
+
+    if (context.read<AomReportCubit>().state.isKeyboardOpen == (value)) {
+      return;
+    }
+
+    context.read<AomReportCubit>().updateKeyboardState(value);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final selectedStep =
         context.select((AomReportCubit cubit) => cubit.state.step);
 
-    return Stack(
-      children: [
-        FondoHome(
-          body: Stack(
-            children: [
-              AomReportHeaderWidget(
-                title: nombre,
-              ),
-              IndexedStack(
-                index: (selectedStep - 1).clamp(0, 2),
-                children: [
-                  AomReportStep1Page.init(
-                    projectCode: projectCode,
-                    categoryId: categoryId,
-                  ),
-                  AomReportStep2Page(
-                    vidaUtilEnMeses: vidaUtilEnMeses,
-                  ),
-                  const AomReportStep3Page(),
-                ],
-              ),
-            ],
-          ),
-        )
-      ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: Stack(
+        children: [
+          FondoHome(
+            body: Stack(
+              children: [
+                AomReportHeaderWidget(
+                  title: widget.nombre,
+                ),
+                IndexedStack(
+                  index: (selectedStep - 1).clamp(0, 2),
+                  children: [
+                    AomReportStep1Page.init(
+                      projectCode: widget.projectCode,
+                      categoryId: widget.categoryId,
+                    ),
+                    AomReportStep2Page(
+                      vidaUtilEnMeses: widget.vidaUtilEnMeses,
+                    ),
+                    const AomReportStep3Page(),
+                  ],
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

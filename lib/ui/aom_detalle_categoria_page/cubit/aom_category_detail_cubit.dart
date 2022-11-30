@@ -36,4 +36,8 @@ class AomReportCubit extends Cubit<AomReportState> {
       filesUploaded: filesUploaded,
     ));
   }
+
+  void updateKeyboardState(bool value) {
+    emit(state.copyWith(isKeyboardOpen: value));
+  }
 }

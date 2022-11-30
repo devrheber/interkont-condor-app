@@ -13,7 +13,7 @@ String aomDatosGeneralesToJson(AomDatosGenerales data) =>
     json.encode(data.toJson());
 
 class AomDatosGenerales extends Equatable {
-  AomDatosGenerales({
+  const AomDatosGenerales({
     required this.id,
     this.fechaInicio,
     this.operadorId,

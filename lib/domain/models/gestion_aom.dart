@@ -22,7 +22,6 @@ class GestionAom {
     required this.cantidad,
     required this.estadoAomId,
     required this.estadoNombreAom,
-    required this.updatedAt,
     required this.obraId,
     required this.vidaUtil,
     required this.nivelTension,
@@ -47,7 +46,7 @@ class GestionAom {
   final int cantidad;
   final int estadoAomId;
   final String estadoNombreAom;
-  final String updatedAt;
+  
   final int obraId;
   final int vidaUtil;
   final int nivelTension;
@@ -72,7 +71,6 @@ class GestionAom {
         cantidad: json["cantidad"].round(),
         estadoAomId: json["estadoAomId"],
         estadoNombreAom: json["estadoNombreAom"],
-        updatedAt: json["updated_at"],
         obraId: json["obraId"],
         vidaUtil: json["vidaUtil"],
         nivelTension: json["nivelTension"],
@@ -99,7 +97,6 @@ class GestionAom {
         "cantidad": cantidad,
         "estadoAomId": estadoAomId,
         "estadoNombreAom": estadoNombreAom,
-        "updated_at": updatedAt,
         "obraId": obraId,
         "vidaUtil": vidaUtil,
         "nivelTension": nivelTension,

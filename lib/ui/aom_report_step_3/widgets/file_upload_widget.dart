@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:appalimentacion/helpers/remote_config_service.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/ui/aom_report_step_3/bloc/aom_report_step_3_bloc.dart';
 import 'package:appalimentacion/utils/utils.dart';
@@ -27,13 +28,17 @@ class FileUploadWidget extends StatelessWidget {
   }
 
 //method to pick video from gallery or camera
-  Future<File?> pickVideo(ImageSource source) async {
+  Future<File?> pickVideo(ImageSource source,
+      {required int remoteMaxMbSize}) async {
     final video = await ImagePicker().pickVideo(source: source);
     if (video == null) return null;
 
-    if (File(video.path).lengthSync() > 10000000) {
-      Toast.show("El archivo no puede ser mayor a 10MB",
-          duration: 3, gravity: Toast.bottom);
+    int maxMbSize = (remoteMaxMbSize);
+    int maxBytesSize = maxMbSize * 1000000;
+
+    if (File(video.path).lengthSync() > (maxBytesSize)) {
+      Toast.show("El archivo no puede ser mayor a ${maxMbSize}MB",
+          duration: 4, gravity: Toast.bottom);
 
       return null;
     }
@@ -61,6 +66,12 @@ class FileUploadWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<AomReportStep3Bloc>(context);
+    final RemoteConfigService remoteConfig = RemoteConfigService();
+    const int defaultValue = 30;
+    final maxSizeVideo =
+        remoteConfig.getInt('reporte_aom_step3_max_size_video') == 0
+            ? defaultValue
+            : remoteConfig.getInt('reporte_aom_step3_max_size_video');
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.end,
       runAlignment: WrapAlignment.end,
@@ -88,23 +99,25 @@ class FileUploadWidget extends StatelessWidget {
             );
           },
           onRemovePressed: () {
-            bloc.add(RemoveFileEvent('image'));
+            bloc.add(const RemoveFileEvent('image'));
           },
         ),
         _ImageContainer(
-          instruction: 'Agregar Video\n(Opcional)\n(Max 10Mb)',
+          instruction: 'Agregar Video\n(Opcional)\n(Max ${maxSizeVideo}Mb)',
           file: bloc.state.files['video'],
           onAddPressed: () {
             seleccionarGaleriaCamara(
               context,
               onCameraTap: () async {
-                final _video = await pickVideo(ImageSource.camera);
+                final _video = await pickVideo(ImageSource.camera,
+                    remoteMaxMbSize: maxSizeVideo);
                 if (_video == null) return;
                 bloc.add(PickFileEvent(
                     fileKey: 'video', fileName: 'video', file: _video));
               },
               onGalleryTap: () async {
-                final _video = await pickVideo(ImageSource.gallery);
+                final _video = await pickVideo(ImageSource.gallery,
+                    remoteMaxMbSize: maxSizeVideo);
                 if (_video == null) return;
                 bloc.add(PickFileEvent(
                     fileKey: 'video', fileName: 'video', file: _video));
@@ -112,7 +125,7 @@ class FileUploadWidget extends StatelessWidget {
             );
           },
           onRemovePressed: () {
-            bloc.add(RemoveFileEvent('video'));
+            bloc.add(const RemoveFileEvent('video'));
           },
         ),
         _ImageContainer(
@@ -125,7 +138,7 @@ class FileUploadWidget extends StatelessWidget {
                 PickFileEvent(fileKey: 'file', fileName: 'file', file: _file));
           },
           onRemovePressed: () {
-            bloc.add(RemoveFileEvent('file'));
+            bloc.add(const RemoveFileEvent('file'));
           },
         ),
       ],
@@ -209,7 +222,7 @@ class _ImageContainer extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          Spacer(),
+          const Spacer(),
           Icon(
             fileExtension == 'pdf'
                 ? FontAwesomeIcons.filePdf
@@ -217,15 +230,15 @@ class _ImageContainer extends StatelessWidget {
             color: ColorTheme.darkShade,
           ),
           AutoSizeText(
-            '$fileName',
+            fileName,
             style: TextStyle(
               fontFamily: 'montserrat',
               fontSize: 14.sp,
-              color: Color(0xFF556A8D),
+              color: const Color(0xFF556A8D),
               fontWeight: FontWeight.w400,
             ),
           ),
-          Spacer(),
+          const Spacer(),
         ],
       ),
     );
@@ -233,13 +246,12 @@ class _ImageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(fileExtension);
     return DottedBorder(
       borderType: BorderType.RRect,
       padding: EdgeInsets.zero,
       radius: Radius.circular(15.0.sp),
       strokeWidth: 2,
-      color: Color(0xff9a9a9a),
+      color: const Color(0xff9a9a9a),
       child: Container(
         width: 130.sp,
         height: 130.sp,
@@ -255,13 +267,13 @@ class _ImageContainer extends StatelessWidget {
                   width: double.infinity,
                   child: Column(
                     children: [
-                      Spacer(flex: 3),
+                      const Spacer(flex: 3),
                       Icon(
                         Icons.add_circle,
                         size: 40.0.sp,
-                        color: Color(0xffdeebf6),
+                        color: const Color(0xffdeebf6),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
                         instruction,
                         textAlign: TextAlign.center,
@@ -270,7 +282,7 @@ class _ImageContainer extends StatelessWidget {
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w500),
                       ),
-                      Spacer(flex: 3),
+                      const Spacer(flex: 3),
                     ],
                   ),
                 ),
@@ -299,7 +311,7 @@ class _ImageContainer extends StatelessWidget {
                     right: 0,
                     child: Container(
                       clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(
                           Radius.circular(500),
                         ),

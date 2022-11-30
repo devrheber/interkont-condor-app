@@ -18,17 +18,19 @@ abstract class AomProjectsRepository {
 
   Future<List<EstadoDeActivo>> getEstados({CancelToken? cancelToken});
 
-  Future<UploadFileResponse> uploadFile(
-      {CancelToken? cancelToken,
-      required UploadFileRequest uploadFileRequest,
-      required onSendProgress(int count, int total),
-      required onReceiveProgress(int count, int total)});
+  Future<UploadFileResponse> uploadFile({
+    CancelToken? cancelToken,
+    required UploadFileRequest uploadFileRequest,
+    required Function(int, int) onSendProgress,
+    required Function(int, int) onReceiveProgress,
+  });
 
-  Future<void> sendData(
-      {CancelToken? cancelToken,
-      required AomActualizacionRequest data,
-      required onSendProgress(int count, int total),
-      required onReceiveProgress(int count, int total)});
+  Future<void> sendData({
+    CancelToken? cancelToken,
+    required AomActualizacionRequest data,
+    required Function(int, int) onSendProgress,
+    required Function(int, int) onReceiveProgress,
+  });
 }
 
 // TODO Estas clases debererín funcionar para Projectos Aom y de Alimentación

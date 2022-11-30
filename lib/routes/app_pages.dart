@@ -16,6 +16,6 @@ class AppPages {
     AppRoutes.listaProyectosAOM: (context) => const ListaProyectosAomPage(),
     AppRoutes.aomDetalle: (context) => const AomDetallePage(),
     AppRoutes.aomDetalleCategoria: (context) => const AomDetalleCategoriaPage(),
-    AppRoutes.aomLastStep: (context) => LastStepAOMPage(),
+    AppRoutes.aomLastStep: (context) => const LastStepAOMPage(),
   };
 }

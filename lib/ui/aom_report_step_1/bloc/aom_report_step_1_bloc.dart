@@ -16,7 +16,7 @@ class AomReportStep1Bloc
     required AomProjectsApi aomProjectsApi,
   })  : _aomProjectsRepository = aomProjectsRepository,
         _aomProjectsApi = aomProjectsApi,
-        super(AomReportStep1State()) {
+        super(const AomReportStep1State()) {
     on<LoadDataEvent>(_onLoadData);
     on<UpdateActivoEvent>(_onUpdateActivoEvent);
   }

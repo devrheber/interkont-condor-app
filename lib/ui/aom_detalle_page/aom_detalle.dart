@@ -1,3 +1,4 @@
+import 'package:appalimentacion/domain/models/categoria_obra.dart';
 import 'package:appalimentacion/domain/models/project.dart';
 import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:appalimentacion/routes/app_routes.dart';
@@ -82,7 +83,7 @@ class AomDetalleView extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               children: [
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
@@ -93,25 +94,25 @@ class AomDetalleView extends StatelessWidget {
                         title: 'Operador AOM',
                         content: state.contratista.contratista,
                       ),
-                      Divider(),
+                      const Divider(),
                       _TitleContent(
                         title:
-                            'Fecha de Finalización de\ Administración de Recursos',
+                            'Fecha de Finalización de Administración de Recursos',
                         content: state.generalData?.fechaFinalizacionRecursos ??
                             '--',
                       ),
-                      Divider(),
+                      const Divider(),
                       _TitleContent(
                         title: 'Fecha de Inicio AOM',
                         content: state.generalData?.fechaInicio ?? '--',
                       ),
-                      Divider(),
+                      const Divider(),
                       _TitleContent(
                         title: 'Fecha de Recepción\nde los Activos',
                         content:
                             state.generalData?.fechaRecepcionActivos ?? '--',
                       ),
-                      Divider(),
+                      const Divider(),
                       _TitleContent(
                         title: 'Cantidad de Activos',
                         content: '${state.clasifications.length}',
@@ -147,8 +148,6 @@ class _Clasifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (kDebugMode) print('building clasifications');
-
     ToastContext().init(context);
 
     final state = context.select((AomDetailCubit cubit) => cubit.state);
@@ -175,7 +174,7 @@ class _Clasifications extends StatelessWidget {
         ),
         child: Column(children: [
           // TODO Put an image
-          Text('Ocurrió un error al obtener las categorías.'),
+          const Text('Ocurrió un error al obtener las categorías.'),
           SizedBox(height: 10.r),
           Text(state.errorResponse?['message']),
           SizedBox(height: 10.r),
@@ -193,7 +192,7 @@ class _Clasifications extends StatelessWidget {
                     .read<AomDetailCubit>()
                     .loadData(state.generalData!.obraId!);
               },
-              child: Text(
+              child: const Text(
                 'Reintentar',
                 style: TextStyle(color: Colors.red),
               ))
@@ -203,9 +202,21 @@ class _Clasifications extends StatelessWidget {
 
     return Column(
       children: [
+        Visibility(
+          visible: state.isValidateClasificacionActivos,
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 10.sp),
+            child: Text(
+              'No se pudo obtener algunos objetos de tipo "clasificacionActivos"',
+              style: (TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w400)),
+            ),
+          ),
+        ),
         ...state.clasifications.map(
           (e) {
-            String text = e.clasificacionActivos.descripcion;
+            String text = e.clasificacionActivos == ClasificacionActivos.empty
+                ? '--'
+                : e.clasificacionActivos.descripcion;
             const int enRevision = 1;
             bool pending = e.estadoClasificacion == enRevision;
             // TODO Step
@@ -213,6 +224,7 @@ class _Clasifications extends StatelessWidget {
             return ActivoGeneral(
               pending: pending,
               text: text,
+              disable: e.clasificacionActivos == ClasificacionActivos.empty,
               onTap: () {
                 Navigator.pushNamed(
                   context,
@@ -239,11 +251,13 @@ class _Clasifications extends StatelessWidget {
 class ActivoGeneral extends StatelessWidget {
   const ActivoGeneral({
     Key? key,
+    this.disable = false,
     required this.pending,
     required this.text,
     required this.onTap,
   }) : super(key: key);
 
+  final bool disable;
   final bool pending;
   final String text;
   final VoidCallback onTap;
@@ -255,7 +269,7 @@ class ActivoGeneral extends StatelessWidget {
       width: double.infinity,
       height: 50.h,
       child: IgnorePointer(
-        ignoring: pending,
+        ignoring: disable || pending,
         child: ElevatedButton(
           onPressed: onTap,
           child: RichText(
@@ -265,9 +279,7 @@ class ActivoGeneral extends StatelessWidget {
               style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
               children: pending
                   ? [
-                      TextSpan(
-                        text: '\n',
-                      ),
+                      const TextSpan(text: '\n'),
                       WidgetSpan(
                         child: Icon(
                           Icons.error_outline,
@@ -275,8 +287,8 @@ class ActivoGeneral extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                      TextSpan(text: ' '),
-                      TextSpan(
+                      const TextSpan(text: ' '),
+                      const TextSpan(
                         text: 'Pendiente por Revisión',
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
@@ -287,7 +299,9 @@ class ActivoGeneral extends StatelessWidget {
             ),
           ),
           style: ElevatedButton.styleFrom(
-            primary: !pending ? ColorTheme.primaryTint : ColorTheme.mediumshade,
+            primary: (!disable && !pending)
+                ? ColorTheme.primaryTint
+                : ColorTheme.mediumshade,
             onPrimary: ColorTheme.tertiaryShade,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -329,7 +343,7 @@ class _TitleContent extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13.93.sp,
                 fontWeight: FontWeight.w400,
-                color: Color(0xFF808080),
+                color: const Color(0xFF808080),
               ),
             ),
           ),
@@ -406,21 +420,21 @@ class _TitleSubtitle extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 204.h,
-      padding: EdgeInsets.only(top: 1.0, bottom: 10.0),
+      padding: const EdgeInsets.only(top: 1.0, bottom: 10.0),
       margin: EdgeInsets.only(top: 40.h, right: 28.sp, left: 28.sp),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(20.sp)),
         boxShadow: [
           BoxShadow(
-            color: Color(0xffC1C8D9).withOpacity(.3),
+            color: const Color(0xffC1C8D9).withOpacity(.3),
             blurRadius: 26.sp,
             offset: Offset(3.sp, 4.sp),
           ),
         ],
       ),
       child: Container(
-        padding: EdgeInsets.only(top: 20.0),
+        padding: const EdgeInsets.only(top: 20.0),
         child: ListView(
           children: <Widget>[
             Container(
@@ -432,7 +446,7 @@ class _TitleSubtitle extends StatelessWidget {
                   fontFamily: 'montserrat',
                   fontWeight: FontWeight.w600,
                   fontSize: 16.sp,
-                  color: Color(0xff556A8D),
+                  color: const Color(0xff556A8D),
                 ),
               ),
             ),
@@ -452,7 +466,7 @@ class _TitleSubtitle extends StatelessWidget {
                     fontFamily: "montserrat",
                     fontWeight: FontWeight.w400,
                     fontSize: 12.sp,
-                    color: Color(0xff505050),
+                    color: const Color(0xff505050),
                   ),
                 ),
               ),

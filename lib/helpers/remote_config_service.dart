@@ -22,6 +22,7 @@ class RemoteConfigService {
           'https://dcdb599c3313428eaea9318ae8407d2a@o1172295.ingest.sentry.io/4504091069972480',
       'feature_estado_obra_aom': 1,
       'feature_estado_obra_alimentacion': 9,
+      'reporte_aom_step3_max_mb_size_video': 30,
     });
 
     await remoteConfig.fetch();

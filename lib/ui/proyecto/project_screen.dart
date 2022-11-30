@@ -70,7 +70,7 @@ class ProyectScreen extends StatelessWidget {
       if (detailProvider.cache.porPublicar) {
         final confirm = await DialogHelper.showConfirmDialog(
           context,
-          child: ConfirmDialog(
+          child: const ConfirmDialog(
               description: 'Este proyecto está pendiente de publicar.',
               continueButtonText: 'Publicar ahora',
               cancelButtonText: 'Editar avance'),
@@ -117,7 +117,7 @@ class ProyectScreen extends StatelessWidget {
           projectCache: detailProvider.cache,
         ),
         bottomNavigationBar: CustomBottomNavigationBar(
-            colorFondo: Color(0xff22B573),
+            colorFondo: const Color(0xff22B573),
             primerBotonDesactivado: false,
             segundoBotonDesactivado: project.pendienteAprobacion ||
                 (detailProvider.cache.synchronizationRequired),

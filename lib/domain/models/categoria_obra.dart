@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 List<CategoriaObra> categoriaObraFromJson(String str) =>
     List<CategoriaObra>.from(
         json.decode(str).map((x) => CategoriaObra.fromJson(x)));
@@ -42,8 +44,9 @@ class CategoriaObra {
 
   factory CategoriaObra.fromJson(Map<String, dynamic> json) => CategoriaObra(
         id: json['id'],
-        clasificacionActivos:
-            ClasificacionActivos.fromJson(json['clasificacionActivos']),
+        clasificacionActivos: json['clasificacionActivos'] == null
+            ? ClasificacionActivos.empty
+            : ClasificacionActivos.fromJson(json['clasificacionActivos']),
         obraId: json['obraId'],
         idNeon: json['idNeon'],
         longitud: json['longitud'],
@@ -74,8 +77,8 @@ class CategoriaObra {
       };
 }
 
-class ClasificacionActivos {
-  ClasificacionActivos({
+class ClasificacionActivos extends Equatable {
+  const ClasificacionActivos({
     required this.id,
     required this.categoria,
     required this.descripcion,
@@ -83,11 +86,11 @@ class ClasificacionActivos {
     required this.vidaUtil,
   });
 
-  int id;
-  int categoria;
-  String descripcion;
-  int nivelTension;
-  int vidaUtil;
+  final int id;
+  final int categoria;
+  final String descripcion;
+  final int nivelTension;
+  final int vidaUtil;
 
   factory ClasificacionActivos.fromJson(Map<String, dynamic> json) =>
       ClasificacionActivos(
@@ -105,4 +108,21 @@ class ClasificacionActivos {
         'nivelTension': nivelTension,
         'vidaUtil': vidaUtil,
       };
+
+  static const empty = ClasificacionActivos(
+    id: -1,
+    categoria: -1,
+    descripcion: '--',
+    nivelTension: 0,
+    vidaUtil: 0,
+  );
+
+  @override
+  List<Object?> get props => [
+        id,
+        categoria,
+        descripcion,
+        nivelTension,
+        vidaUtil,
+      ];
 }

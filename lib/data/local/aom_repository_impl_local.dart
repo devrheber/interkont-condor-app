@@ -10,9 +10,20 @@ import 'package:dio/src/cancel_token.dart';
 class AomRepositoryImplLocal extends AomProjectsRepository {
   @override
   Future<List<CategoriaObra>> categoriasByObraId(int obraId,
-      {CancelToken? cancelToken}) {
-    // TODO: implement categoriasByObraId
-    throw UnimplementedError();
+      {CancelToken? cancelToken}) async {
+    return [
+      CategoriaObra(
+          id: 1,
+          clasificacionActivos: const ClasificacionActivos(
+              id: 1,
+              categoria: 1,
+              descripcion: 'Prueba',
+              nivelTension: 1,
+              vidaUtil: 420),
+          obraId: 1,
+          estadoClasificacion: 3,
+          relacionReporteHistorial: []),
+    ];
   }
 
   @override
@@ -22,29 +33,67 @@ class AomRepositoryImplLocal extends AomProjectsRepository {
   }
 
   @override
-  Future<List<Contratista>> getContratistas({CancelToken? cancelToken}) {
-    // TODO: implement getContratistas
-    throw UnimplementedError();
+  Future<List<Contratista>> getContratistas({CancelToken? cancelToken}) async {
+    return [
+      const Contratista(id: 12088, contratista: "Contratista de Prueba"),
+    ];
   }
 
   @override
   Future<AomDatosGenerales> getDatosGenerales(int projectCode,
-      {CancelToken? cancelToken}) {
-    // TODO: implement getDatosGenerales
-    throw UnimplementedError();
+      {CancelToken? cancelToken}) async {
+    return AomDatosGenerales(
+        obraId: 1,
+        operadorId: 12088,
+        id: 0,
+        relacionContratos: [
+          RelacionContrato(
+            id: 0,
+            obraOriginal: 1,
+            contrato: Contrato(
+                id: 1,
+                numeroContrato: '1',
+                tipoContrato: 100,
+                valorDisponible: 100),
+            numvalorrelacion: 10,
+          ),
+        ]);
   }
 
   @override
-  Future<List<EstadoDeActivo>> getEstados({CancelToken? cancelToken}) {
-    // TODO: implement getEstados
-    throw UnimplementedError();
+  Future<List<EstadoDeActivo>> getEstados({CancelToken? cancelToken}) async {
+    return [
+      EstadoDeActivo(id: 1, strNombreEstado: 'Prueba', tipoEstado: 1),
+    ];
   }
 
   @override
   Future<List<GestionAom>> getGestionAom(int obraId,
-      {CancelToken? cancelToken}) {
-    // TODO: implement getGestionAom
-    throw UnimplementedError();
+      {CancelToken? cancelToken}) async {
+    return [
+      GestionAom(
+          id: 1,
+          categoriaId: 2,
+          descripcionId: 1,
+          descripcionCategoria: "",
+          valorDepreciacion: 1000,
+          estadoSupervisorId: 1,
+          estadoNombreSupervisor: "Prueba",
+          cantidad: 1,
+          estadoAomId: 1,
+          estadoNombreAom: "",
+          obraId: obraId,
+          vidaUtil: 420,
+          nivelTension: 1,
+          descripcionDetalle: "",
+          unidadId: 1,
+          strNombreUnidad: "",
+          valorInicial: 10000,
+          anosRestantes: 420,
+          tipoMapaActivo: 1,
+          clasificacionRelacionObraActivos: 1,
+          operatividad: false),
+    ];
   }
 
   @override

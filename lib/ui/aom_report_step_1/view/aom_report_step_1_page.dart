@@ -54,7 +54,7 @@ class AomReportStep1Page extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16.13.sp),
                           color: ColorTheme.primary.withOpacity(0.05)),
-                      child: ShimmerDetallerActivoWidget());
+                      child: const ShimmerDetallerActivoWidget());
                 },
                 separatorBuilder: (_, int index) => SizedBox(height: 10.sp),
               ),
@@ -83,7 +83,7 @@ class AomReportStep1Page extends StatelessWidget {
                             style: TextStyle(
                               fontFamily: "montserrat",
                               fontSize: 15.sp,
-                              color: Color(0xff444444),
+                              color: const Color(0xff444444),
                               fontWeight: FontWeight.w500,
                             ),
                           ),

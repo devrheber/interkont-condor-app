@@ -27,8 +27,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(
           bottom: 16.77.sp,
-          left: accionPrimerBoton != null ? 46.19.w : 28.sp,
-          right: accionPrimerBoton != null ? 46.19.w : 28.sp),
+          left: accionPrimerBoton != null ? 46.19.sp : 28.sp,
+          right: accionPrimerBoton != null ? 46.19.sp : 28.sp),
       child: Row(
         children: <Widget>[
           if (accionPrimerBoton != null)
@@ -76,7 +76,7 @@ Widget btnCancelar(context, colorFondo, texto, accion, desactivado) {
                   child: Text(
                     '$texto',
                     style: TextStyle(
-                        color: Color(0xff808080),
+                        color: const Color(0xff808080),
                         fontWeight: FontWeight.w400,
                         fontSize: 13.27.sp),
                     textAlign: TextAlign.center,
@@ -90,9 +90,9 @@ Widget btnCancelar(context, colorFondo, texto, accion, desactivado) {
 }
 
 Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
-  Color colorBoton = Color(0xff22B573);
+  Color colorBoton = const Color(0xff22B573);
   if (desactivado == true) {
-    colorBoton = Color(0xff808080);
+    colorBoton = const Color(0xff808080);
   }
 
   return ClipRRect(
@@ -105,7 +105,7 @@ Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
           },
           child: Container(
             width: texto != "Siguiente Paso" ? 154.95.w : 361.58.w,
-            height: 42.3.h,
+            height: 42.3.sp,
             // color: AppTheme.bottomPrincipal,
 
             child: Container(

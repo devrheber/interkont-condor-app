@@ -11,6 +11,7 @@ class AomReportState extends Equatable {
     this.vidaUtilRemanenteConsideradaOff,
     required this.vidaUtilActualEnMeses,
     this.filesUploaded = const {},
+    this.isKeyboardOpen = false,
   });
 
   final int step;
@@ -22,6 +23,8 @@ class AomReportState extends Equatable {
   final int? vidaUtilRemanenteConsideradaOff;
   final int vidaUtilActualEnMeses;
 
+  final bool isKeyboardOpen;
+
   final Map<String, ImagenesVideosOrRequest> filesUploaded;
 
   AomReportState copyWith({
@@ -32,6 +35,7 @@ class AomReportState extends Equatable {
     int? vidaUtilRemanenteConsideradaOff,
     int? vidaUtilNuevaEnMeses,
     Map<String, ImagenesVideosOrRequest>? filesUploaded,
+    bool? isKeyboardOpen,
   }) {
     return AomReportState(
       vidaUtilActualEnMeses: vidaUtilActualEnMeses,
@@ -45,6 +49,7 @@ class AomReportState extends Equatable {
       vidaUtilRemanenteConsideradaOff: vidaUtilRemanenteConsideradaOff ??
           this.vidaUtilRemanenteConsideradaOff,
       filesUploaded: filesUploaded ?? this.filesUploaded,
+      isKeyboardOpen: isKeyboardOpen ?? this.isKeyboardOpen,
     );
   }
 
@@ -57,6 +62,7 @@ class AomReportState extends Equatable {
         vidaUtilRemanenteConsideradaOff,
         vidaUtilActualEnMeses,
         filesUploaded,
+        isKeyboardOpen,
       ];
 
   AomActualizacionRequest getDataToSend() {
@@ -73,7 +79,7 @@ class AomReportState extends Equatable {
       vidaUtilRemanenteConsideradaOff: !answers![0]
           ? vidaUtilRemanenteConsideradaOff!
           // : vidaUtilActualEnMeses,
-      : null,
+          : null,
       vidaUtilRemanenteNoConsideradaText:
           !answers![0] ? vidaUtilRemanenteNoConsideradaText! : '',
       obraId: projectCode,

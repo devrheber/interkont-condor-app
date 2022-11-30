@@ -49,7 +49,6 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
   int get count => _count;
 
   set count(int value) {
-    debugPrint('value to save: ${((value - widget.item.cantidad).abs())}');
     setState(() => _count = value);
   }
 
@@ -113,8 +112,6 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
     screenWidth = MediaQuery.of(context).size.width;
     double factor = ((screenWidth ?? 0) / 414.0);
 
-    // print('screenwidth: $screenWidth');
-    // print('FACTOR: $factor');
     return PurpleRoundedGradientContainer(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: (361 * factor).sp),
@@ -160,7 +157,6 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                     ),
                   ),
                 ),
-                // Spacer(),
                 Container(
                   constraints: BoxConstraints(
                       maxWidth: (176 * factor).sp, maxHeight: (28 * factor).sp),
@@ -293,7 +289,7 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                       Text(
                         '$count',
                         style: TextStyle(
-                          color: Color(0xFF384C68),
+                          color: const Color(0xFF384C68),
                           fontWeight: FontWeight.w700,
                           fontSize: 16.sp,
                         ),
@@ -304,7 +300,7 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                             child: IconButton(
                               icon: Icon(
                                 Icons.add,
-                                color: Color(0xFF384C68),
+                                color: const Color(0xFF384C68),
                                 size: 20.sp,
                               ),
                               onPressed: () => increment(),
@@ -394,7 +390,7 @@ class DropDownEstado extends StatelessWidget {
             child: Text(
               item.strNombreEstado,
               style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: Color(0xFF384C68),
+                  color: const Color(0xFF384C68),
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w500),
             ),
@@ -445,7 +441,7 @@ class _DisposicionActualFieldState extends State<_DisposicionActualField> {
           minHeight: 103.sp, maxHeight: 318.sp, maxWidth: 318.sp),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.sp),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             // stops: [-0.2898, 1.2332],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -471,7 +467,7 @@ class _DisposicionActualFieldState extends State<_DisposicionActualField> {
             style: Theme.of(context).textTheme.headline6?.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 14.sp,
-                  color: Color(0xFF836FF8),
+                  color: const Color(0xFF836FF8),
                 ),
           ),
           TextField(
@@ -486,7 +482,7 @@ class _DisposicionActualFieldState extends State<_DisposicionActualField> {
             style: Theme.of(context).textTheme.headline6?.copyWith(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
-                  color: Color(0xFF556A8D),
+                  color: const Color(0xFF556A8D),
                 ),
             onChanged: widget.onChanged,
           )

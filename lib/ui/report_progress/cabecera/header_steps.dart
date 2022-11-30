@@ -2,7 +2,7 @@ import 'package:appalimentacion/ui/widgets/step_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-final titleColor = Color(0xff444444);
+const titleColor = Color(0xff444444);
 
 class HeaderSteps extends StatelessWidget {
   const HeaderSteps({Key? key, required this.pasoSeleccionado})
@@ -14,12 +14,12 @@ class HeaderSteps extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 90.h,
-      margin: EdgeInsets.only(top: 164.h, right: 28.sp, left: 28.sp),
+      height: 90.sp,
+      margin: EdgeInsets.only(top: 164.sp, right: 28.sp, left: 28.sp),
       padding: EdgeInsets.symmetric(horizontal: 5.sp),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
                 color: titleColor.withOpacity(.1),
@@ -54,4 +54,3 @@ class HeaderSteps extends StatelessWidget {
     );
   }
 }
-

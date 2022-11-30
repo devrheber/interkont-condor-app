@@ -22,13 +22,13 @@ class FondoHome extends StatefulWidget {
 }
 
 class _FondoHomeState extends State<FondoHome> {
-  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: _drawerKey,
-        drawer: GlobalDrawer(),
-        backgroundColor: Color(0xffF6F4FC),
+        drawer: const GlobalDrawer(),
+        backgroundColor: const Color(0xffF6F4FC),
         body: Stack(
           children: <Widget>[
             Container(
@@ -47,7 +47,7 @@ class _FondoHomeState extends State<FondoHome> {
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding:
-                      EdgeInsets.only(right: 14.sp, left: 14.sp, top: 50.h),
+                      EdgeInsets.only(right: 14.sp, left: 14.sp, top: 50.sp),
                   child: IconButton(
                     onPressed: () {
                       _drawerKey.currentState?.openDrawer();
@@ -62,8 +62,6 @@ class _FondoHomeState extends State<FondoHome> {
               )
           ],
         ),
-        bottomNavigationBar: widget.bottomNavigationBar != null
-            ? widget.bottomNavigationBar
-            : null);
+        bottomNavigationBar: widget.bottomNavigationBar);
   }
 }

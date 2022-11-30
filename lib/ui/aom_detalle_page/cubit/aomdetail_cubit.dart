@@ -16,7 +16,7 @@ class AomDetailCubit extends Cubit<AomDetailState> {
     required AomProjectsApi aomProjectsApi,
   })  : _aomProjectsRepository = aomProjectsRepository,
         _aomProjectsApi = aomProjectsApi,
-        super(AomDetailState());
+        super(const AomDetailState());
 
   final AomProjectsRepository _aomProjectsRepository;
   final AomProjectsApi _aomProjectsApi;
@@ -52,7 +52,7 @@ class AomDetailCubit extends Cubit<AomDetailState> {
     final list = await _aomProjectsRepository.getContratistas();
 
     _aomProjectsApi.saveContratistas(list);
-    inspect(_aomProjectsApi.getContratistaById(state.generalData!.operadorId));
+    _aomProjectsApi.getContratistaById(state.generalData!.operadorId);
 
     emit(
       state.copyWith(

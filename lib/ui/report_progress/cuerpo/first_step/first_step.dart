@@ -1,9 +1,9 @@
+import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../widgets/title_subtitle.dart';
 import 'buscador.dart';
 import 'first_step_provider.dart';
 import 'progress_card.dart';
@@ -27,16 +27,17 @@ class FirstStepBody extends StatelessWidget {
       width: double.infinity,
       margin: EdgeInsets.only(top: 230.h),
       child: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: <Widget>[
           Container(
             margin: EdgeInsets.symmetric(horizontal: 31.sp),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                TextTitle(text: 'Ingrese el avance'),
+                const TextTitle(text: 'Ingrese el avance'),
                 SizedBox(height: 2.sp),
-                TextSubtitle(text: 'Ingrese cantidad de avance por actividad'),
+                const TextSubtitle(
+                    text: 'Ingrese cantidad de avance por actividad'),
               ],
             ),
           ),
@@ -57,7 +58,7 @@ class FirstStepBody extends StatelessWidget {
               enableInfiniteScroll: false,
               scrollPhysics: const BouncingScrollPhysics(),
               enlargeCenterPage: true,
-              height: 435.0.h,
+              height: 435.0.sp,
             ),
             items: <Widget>[
               for (final activity in firstStepProvider.filteredActivites)

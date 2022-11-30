@@ -20,6 +20,13 @@ class DelayFactorProvider extends ChangeNotifier {
 
   int get projectCode => cache.projectCode;
 
+  bool get validateUniqueFactor {
+    return delayFactorsRegistered.any((factor) =>
+        factor.tipoFactorAtrasoId ==
+            delayFactorTypeSelected!.tipoFactorAtrasoId &&
+        factor.factorAtrasoId == delayFactorSelected!.factorAtrasoId);
+  }
+
   TiposFactorAtraso? delayFactorTypeSelected;
   FactoresAtraso? delayFactorSelected;
 
@@ -46,13 +53,6 @@ class DelayFactorProvider extends ChangeNotifier {
   }
 
   Future<void> add(String description) async {
-    if (delayFactorsRegistered.any((factor) =>
-        factor.tipoFactorAtrasoId ==
-            delayFactorTypeSelected!.tipoFactorAtrasoId &&
-        factor.factorAtrasoId == delayFactorSelected!.factorAtrasoId)) {
-      return;
-    }
-
     delayFactorsRegistered.add(DelayFactor(
       tipoFactorAtrasoId: delayFactorTypeSelected!.tipoFactorAtrasoId,
       tipoFactor: delayFactorTypeSelected!.tipoFactorAtraso,
@@ -64,18 +64,16 @@ class DelayFactorProvider extends ChangeNotifier {
     delayFactorSelected = null;
     notifyListeners();
 
-    this.cache = cache.copyWith(delayFactors: delayFactorsRegistered);
-    await _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
+    cache = cache.copyWith(delayFactors: delayFactorsRegistered);
+    await _projectsCacheRepository.saveProjectCache(projectCode, cache);
   }
 
   void remove(int index) {
     delayFactorsRegistered.removeAt(index);
     notifyListeners();
-    this.cache = cache.copyWith(delayFactors: delayFactorsRegistered);
-    _projectsCacheRepository.saveProjectCache(projectCode, this.cache);
+    cache = cache.copyWith(delayFactors: delayFactorsRegistered);
+    _projectsCacheRepository.saveProjectCache(projectCode, cache);
   }
 
   bool get secondButtonValidation => delayFactorsRegistered.isEmpty;
-
-  
 }

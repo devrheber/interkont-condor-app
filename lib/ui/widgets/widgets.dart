@@ -5,6 +5,7 @@ export 'aom_report_custom_bottom_widget.dart';
 export 'custom_dialogs.dart';
 export 'fade_in_widget.dart';
 export 'global_drawer.dart';
+export 'header_profile_widget.dart';
 export 'loading_text.dart';
 export 'purple_rounded_gradient_container_widget.dart';
 export 'shimmer_button_widget.dart';

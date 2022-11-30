@@ -2,6 +2,7 @@ import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
 import 'package:appalimentacion/utils/datetime_format.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -33,11 +34,10 @@ class DropDownPeriodo extends StatelessWidget {
         left: 28.sp,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+        borderRadius: const BorderRadius.all(Radius.circular(30)),
         border: Border.all(width: 0.5, color: AppTheme.cuarto),
       ),
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -52,10 +52,10 @@ class DropDownPeriodo extends StatelessWidget {
             child: DropdownButtonHideUnderline(
               child: DropdownButton<Periodo>(
                 hint: Padding(
-                  padding: EdgeInsets.only(left: 10.0),
+                  padding: const EdgeInsets.only(left: 10.0),
                   child: Row(
-                    children: <Widget>[
-                      Text('Seleccione el periodo a reportar'),
+                    children: const <Widget>[
+                      AutoSizeText('Seleccione el periodo a reportar'),
                     ],
                   ),
                 ),
@@ -65,19 +65,23 @@ class DropDownPeriodo extends StatelessWidget {
                     : null,
                 items: periodos
                     .map((value) => DropdownMenuItem<Periodo>(
-                          child: Row(
-                            children: <Widget>[
-                              Text('del ', style: AppTheme.parrafo),
-                              Text(
-                                  DateTimeFormat.ddMMMYYYY(
-                                      value.getFechaIniDateTime),
-                                  style: AppTheme.parrafoNegrita),
-                              Text(' hasta el ', style: AppTheme.parrafo),
-                              Text(
-                                  DateTimeFormat.ddMMMYYYY(
-                                      value.getFechaFinDateTime),
-                                  style: AppTheme.parrafoNegrita),
-                            ],
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Row(
+                              children: <Widget>[
+                                const Text('del ', style: AppTheme.parrafo),
+                                Text(
+                                    DateTimeFormat.ddMMMYYYY(
+                                        value.getFechaIniDateTime),
+                                    style: AppTheme.parrafoNegrita),
+                                const Text(' hasta el ',
+                                    style: AppTheme.parrafo),
+                                Text(
+                                    DateTimeFormat.ddMMMYYYY(
+                                        value.getFechaFinDateTime),
+                                    style: AppTheme.parrafoNegrita),
+                              ],
+                            ),
                           ),
                           value: value,
                         ))
@@ -85,6 +89,7 @@ class DropDownPeriodo extends StatelessWidget {
                 onChanged: (Periodo? periodo) {
                   detailProvider.cambiarPeriodoReportado(periodo);
                 },
+                isExpanded: true,
               ),
             ),
           )

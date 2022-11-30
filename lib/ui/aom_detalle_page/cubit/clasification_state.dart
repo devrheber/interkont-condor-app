@@ -37,4 +37,7 @@ class AomDetailState extends Equatable {
 
   @override
   List<Object> get props => [status, clasifications, contratista];
+
+  bool get isValidateClasificacionActivos => clasifications.any((clasification) =>
+      clasification.clasificacionActivos == ClasificacionActivos.empty);
 }
