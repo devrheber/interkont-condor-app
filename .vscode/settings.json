@@ -9,6 +9,15 @@
       // Remove from file watching
       "files.watcherExclude": {
         "**/.fvm": true
-      }
+      },
+      "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true
+      },
+      "hide-files.files": []
     
 }
