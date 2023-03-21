@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -9,7 +8,7 @@ import '../../report_progress_provider.dart';
 import 'card_carousel_avances.dart';
 import 'local_widgets/performance_indicators.dart';
 
-final titleColor = Color(0xff444444);
+const titleColor = Color(0xff444444);
 
 class ThirdStep extends StatelessWidget {
   const ThirdStep({Key? key}) : super(key: key);
@@ -24,73 +23,71 @@ class ThirdStep extends StatelessWidget {
       children: <Widget>[
         Container(
           width: double.infinity,
-          margin: EdgeInsets.only(
-            top: 230.h,
+          margin: const EdgeInsets.only(
+            top: 230,
           ),
           child: ListView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: <Widget>[
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(left: 20.0.sp, right: 20.0.sp),
-                      padding: EdgeInsets.only(
-                          right: 5.0.sp, left: 5.0.sp, bottom: 10.0.sp),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          TextTitle(text: 'Indicador de alcance'),
-                          SizedBox(height: 2.sp),
-                          TextSubtitle(
-                              text:
-                                  'Ingrese indicadores de alcance en el periodo'),
-                        ],
-                      ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    padding: const EdgeInsets.only(
+                        right: 5.0, left: 5.0, bottom: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const <Widget>[
+                        TextTitle(text: 'Indicador de alcance'),
+                        SizedBox(height: 2),
+                        TextSubtitle(
+                            text:
+                                'Ingrese indicadores de alcance en el periodo'),
+                      ],
                     ),
-                    // SizedBox(height: 18.sp),
+                  ),
+                  // SizedBox(height: 18),
 
-                    reportProgressService.detail.indicadoresAlcance.isNotEmpty
-                        ?
-                        // TODO Show apropiated message when list is empty
+                  reportProgressService.detail.indicadoresAlcance.isNotEmpty
+                      ?
+                      // TODO Show apropiated message when list is empty
 
-                        Padding(
-                            padding: EdgeInsets.symmetric(vertical: 18),
-                            child: CarouselSlider(
-                              options: CarouselOptions(
-                                enableInfiniteScroll: false,
-                                enlargeCenterPage: true,
-                                height: 350.h,
-                              ),
-                              items: <Widget>[
-                                for (final item in reportProgressService
-                                    .detail.indicadoresAlcance)
-                                  RangeIndicatorCard(
-                                      valueSaved:
-                                          reportProgressService.rangeIndicators[
-                                                  item.indicadorAlcanceId
-                                                      .toString()] ??
-                                              '0',
-                                      item: item,
-                                      inputValue:
-                                          '', // Value to indicator from cache
-                                      onChanged: reportProgressService
-                                          .onChangedRangeIndicatorCard)
-                              ],
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          child: CarouselSlider(
+                            options: CarouselOptions(
+                              enableInfiniteScroll: false,
+                              enlargeCenterPage: true,
+                              height: 350,
                             ),
-                          )
-                        : Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.sp, right: 25.sp, bottom: 22.sp),
-                            child: TextSubtitle(
-                                text:
-                                    '- Este proyecto no presenta indicadores.'),
+                            items: <Widget>[
+                              for (final item in reportProgressService
+                                  .detail.indicadoresAlcance)
+                                RangeIndicatorCard(
+                                    valueSaved:
+                                        reportProgressService.rangeIndicators[
+                                                item.indicadorAlcanceId
+                                                    .toString()] ??
+                                            '0',
+                                    item: item,
+                                    inputValue:
+                                        '', // Value to indicator from cache
+                                    onChanged: reportProgressService
+                                        .onChangedRangeIndicatorCard)
+                            ],
                           ),
+                        )
+                      : const Padding(
+                          padding: EdgeInsets.only(
+                              left: 25, right: 25, bottom: 22),
+                          child: TextSubtitle(
+                              text:
+                                  '- Este proyecto no presenta indicadores.'),
+                        ),
 
-                    const PerformanceIndicators(),
-                  ],
-                ),
+                  const PerformanceIndicators(),
+                ],
               ),
             ],
           ),

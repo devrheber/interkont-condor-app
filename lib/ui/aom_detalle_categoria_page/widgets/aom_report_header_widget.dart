@@ -3,7 +3,6 @@ import 'package:appalimentacion/ui/aom_detalle_categoria_page/cubit/aom_category
 import 'package:appalimentacion/ui/widgets/step_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AomReportHeaderWidget extends StatelessWidget {
   const AomReportHeaderWidget({
@@ -17,16 +16,16 @@ class AomReportHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedStep =
         context.select((AomReportCubit cubit) => cubit.state.step);
-    TextStyle textStyleStepSelected = TextStyle(
+    TextStyle textStyleStepSelected = const TextStyle(
       fontFamily: "montserrat",
-      fontSize: 10.sp,
+      fontSize: 10,
       color: Color(0xff556A8D),
       fontWeight: FontWeight.w700,
     );
 
-    TextStyle textStyleStep = TextStyle(
+    TextStyle textStyleStep = const TextStyle(
       fontFamily: "montserrat",
-      fontSize: 10.sp,
+      fontSize: 10,
       color: Color(0xff556A8D),
       fontWeight: FontWeight.w400,
     );
@@ -37,15 +36,15 @@ class AomReportHeaderWidget extends StatelessWidget {
       ),
       Container(
         width: double.infinity,
-        height: 90.h,
-        margin: EdgeInsets.only(top: 164.h, right: 28.sp, left: 28.sp),
-        padding: EdgeInsets.symmetric(horizontal: 5.sp),
+        height: 90,
+        margin: const EdgeInsets.only(top: 164, right: 28, left: 28),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
-              color: Color(0xff444444).withOpacity(.1),
+              color: const Color(0xff444444).withOpacity(.1),
               blurRadius: 20,
               spreadRadius: 10,
             ),
@@ -58,8 +57,8 @@ class AomReportHeaderWidget extends StatelessWidget {
               text: 'Detalle de\nlos Activos',
               number: '1',
               isCompleted: selectedStep >= 1,
-              completedColor: Color(0xFF1A8DBE),
-              pendingColor: Color(0xFF745FF2),
+              completedColor: const Color(0xFF1A8DBE),
+              pendingColor: const Color(0xFF745FF2),
               style: selectedStep == 1 ? textStyleStepSelected : textStyleStep,
               // onTap: () => context.read<AomReportCubit>().setStep(1),
             ),
@@ -67,8 +66,8 @@ class AomReportHeaderWidget extends StatelessWidget {
               text: 'Actualización\nCualitativo',
               number: '2',
               isCompleted: selectedStep >= 2,
-              completedColor: Color(0xFF1A8DBE),
-              pendingColor: Color(0xFF745FF2),
+              completedColor: const Color(0xFF1A8DBE),
+              pendingColor: const Color(0xFF745FF2),
               style: selectedStep == 2 ? textStyleStepSelected : textStyleStep,
               // onTap: () => context.read<AomReportCubit>().setStep(2),
             ),
@@ -76,8 +75,8 @@ class AomReportHeaderWidget extends StatelessWidget {
               text: 'Imágen o\n Video',
               number: '3',
               isCompleted: selectedStep >= 3,
-              completedColor: Color(0xFF1A8DBE),
-              pendingColor: Color(0xFF745FF2),
+              completedColor: const Color(0xFF1A8DBE),
+              pendingColor: const Color(0xFF745FF2),
               style: selectedStep == 3 ? textStyleStepSelected : textStyleStep,
               // onTap: () => context.read<AomReportCubit>().setStep(3),
             ),

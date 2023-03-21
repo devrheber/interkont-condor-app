@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ConfirmDialog extends StatelessWidget {
   const ConfirmDialog({
@@ -22,16 +21,16 @@ class ConfirmDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = TextStyle(
+    const style = const TextStyle(
       fontFamily: "montserrat",
       fontWeight: FontWeight.w400,
-      fontSize: 12.sp,
+      fontSize: 12,
       color: Color(0xff505050),
     );
 
     Widget defaultTitle = Text(
       title,
-      style: style.copyWith(fontSize: 15.sp, fontWeight: FontWeight.w600),
+      style: style.copyWith(fontSize: 15, fontWeight: FontWeight.w600),
     );
 
     Widget defaultContent = Text(
@@ -41,7 +40,7 @@ class ConfirmDialog extends StatelessWidget {
 
     Widget defaultCancelButton = TextButton(
       child: Text(cancelButtonText,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: "montserrat",
             fontWeight: FontWeight.w400,
           )),
@@ -50,7 +49,7 @@ class ConfirmDialog extends StatelessWidget {
 
     Widget defaultContinueButton = TextButton(
       child: Text(continueButtonText,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: "montserrat",
             fontWeight: FontWeight.w400,
           )),
@@ -79,6 +78,6 @@ class ConfirmDialog extends StatelessWidget {
     }
 
     // TODO
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   }
 }

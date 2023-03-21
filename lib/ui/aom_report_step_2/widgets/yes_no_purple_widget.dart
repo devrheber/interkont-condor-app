@@ -1,6 +1,5 @@
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class YesNoPurple extends StatefulWidget {
   const YesNoPurple({
@@ -49,16 +48,16 @@ class _YesNoPurpleState extends State<YesNoPurple> {
         ),
         InkWell(
           onTap: () => valueSelected = 1,
-          child: Text(
+          child: const Text(
             'SI',
             style: TextStyle(
               color: ColorTheme.darkShade,
-              fontSize: 17.sp,
+              fontSize: 17,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Radio(
           activeColor: ColorTheme.primaryTint,
           fillColor: MaterialStateProperty.all(ColorTheme.primaryTint),
@@ -70,11 +69,11 @@ class _YesNoPurpleState extends State<YesNoPurple> {
         ),
         InkWell(
           onTap: () => valueSelected = 0,
-          child: Text(
+          child: const Text(
             'NO',
             style: TextStyle(
               color: ColorTheme.darkShade,
-              fontSize: 17.sp,
+              fontSize: 17,
               fontWeight: FontWeight.w600,
             ),
           ),

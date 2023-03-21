@@ -5,7 +5,6 @@ import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toast/toast.dart';
 
 class DetailCardWidget extends StatefulWidget {
@@ -114,7 +113,7 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
 
     return PurpleRoundedGradientContainer(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: (361 * factor).sp),
+        constraints: BoxConstraints(maxWidth: (361 * factor)),
         child: ListView(
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
@@ -123,47 +122,47 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Descripción:',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14.sp,
+                    fontSize: 14,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 5.sp),
+                const SizedBox(height: 5),
                 Text(
                   widget.item.descripcionDetalle,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 14.sp,
+                    fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 18.sp),
+            const SizedBox(height: 18),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: (147 * factor).sp),
-                  child: Text(
+                  constraints: BoxConstraints(minWidth: (147 * factor)),
+                  child: const Text(
                     'Estado:',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14.sp,
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 Container(
                   constraints: BoxConstraints(
-                      maxWidth: (176 * factor).sp, maxHeight: (28 * factor).sp),
-                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                      maxWidth: (176 * factor), maxHeight: (28 * factor)),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.r),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: DropDownEstado(
                     list: widget.estados,
@@ -177,17 +176,17 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                 ),
               ],
             ),
-            SizedBox(height: 18.sp),
+            const SizedBox(height: 18),
             Row(
               children: <Widget>[
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                      minWidth: (137 * factor).sp, maxHeight: (28 * factor).sp),
-                  child: Text(
+                      minWidth: (137 * factor), maxHeight: (28 * factor)),
+                  child: const Text(
                     'Operatividad:',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14.sp,
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -205,15 +204,15 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                           operatividad = value ?? 00;
                         },
                       ),
-                      Text(
+                      const Text(
                         'SI',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14.sp,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(width: (20 * factor).sp),
+                      SizedBox(width: (20 * factor)),
                       // TODO CustomRadio
                       Radio(
                         activeColor: Colors.white,
@@ -224,11 +223,11 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                           operatividad = value ?? 1;
                         },
                       ),
-                      Text(
+                      const Text(
                         'NO',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14.sp,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -237,16 +236,16 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                 ),
               ],
             ),
-            SizedBox(height: 18.sp),
+            const SizedBox(height: 18),
             Row(
               children: <Widget>[
                 ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: (147 * factor).sp),
-                  child: Text(
+                  constraints: BoxConstraints(minWidth: (147 * factor)),
+                  child: const Text(
                     'Cantidad Actual:',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14.sp,
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -255,10 +254,10 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                 //-+ counter
                 Container(
                   constraints: BoxConstraints(
-                      maxWidth: (120 * factor).sp, maxHeight: (32 * factor).sp),
+                      maxWidth: (120 * factor), maxHeight: (32 * factor)),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(16.1277.r),
+                    borderRadius: BorderRadius.circular(16.1277),
                   ),
                   child: Row(
                     children: [
@@ -266,10 +265,10 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                         child: Container(
                           child: GestureDetector(
                             child: IconButton(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.remove,
                                 color: Color(0xFF384C68),
-                                size: 20.sp,
+                                size: 20,
                               ),
                               onPressed: () => decrement(),
                             ),
@@ -288,20 +287,20 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                       ),
                       Text(
                         '$count',
-                        style: TextStyle(
-                          color: const Color(0xFF384C68),
+                        style: const TextStyle(
+                          color: Color(0xFF384C68),
                           fontWeight: FontWeight.w700,
-                          fontSize: 16.sp,
+                          fontSize: 16,
                         ),
                       ),
                       Expanded(
                         child: Container(
                           child: GestureDetector(
                             child: IconButton(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.add,
-                                color: const Color(0xFF384C68),
-                                size: 20.sp,
+                                color: Color(0xFF384C68),
+                                size: 20,
                               ),
                               onPressed: () => increment(),
                             ),
@@ -323,7 +322,7 @@ class _DetailCardWidgetState extends State<DetailCardWidget> {
                 ),
               ],
             ),
-            SizedBox(height: 26.sp),
+            const SizedBox(height: 26),
             _DisposicionActualField(
               widget.item.observacion ?? '',
               onChanged: (String? observacion) {
@@ -372,9 +371,9 @@ class DropDownEstado extends StatelessWidget {
         ),
         iconSize: 24,
         elevation: 16,
-        style: TextStyle(
+        style: const TextStyle(
           color: ColorTheme.dark,
-          fontSize: 14.sp,
+          fontSize: 14,
           fontWeight: FontWeight.w400,
         ),
         underline: Container(
@@ -391,7 +390,7 @@ class DropDownEstado extends StatelessWidget {
               item.strNombreEstado,
               style: Theme.of(context).textTheme.headline6?.copyWith(
                   color: const Color(0xFF384C68),
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500),
             ),
           );
@@ -437,10 +436,10 @@ class _DisposicionActualFieldState extends State<_DisposicionActualField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
-          minHeight: 103.sp, maxHeight: 318.sp, maxWidth: 318.sp),
+      constraints: const BoxConstraints(
+          minHeight: 103, maxHeight: 318, maxWidth: 318),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.sp),
+          borderRadius: BorderRadius.circular(12),
           gradient: const LinearGradient(
             // stops: [-0.2898, 1.2332],
             begin: Alignment.topLeft,
@@ -451,22 +450,22 @@ class _DisposicionActualFieldState extends State<_DisposicionActualField> {
               Color(0xffF0E9FF),
             ],
           ),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-                offset: Offset(4.sp, 10.sp),
+                offset: Offset(4, 10),
                 blurRadius: 14,
                 spreadRadius: 0,
                 color: Color.fromRGBO(102, 102, 102, 0.26))
           ]),
       child: Padding(
-        padding: EdgeInsets.only(
-            left: 8.sp, right: 9.sp, top: 6.37.sp, bottom: 11.5.sp),
+        padding: const EdgeInsets.only(
+            left: 8, right: 9, top: 6.37, bottom: 11.5),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Text(
             'Actualice la disposición actual del activo (Opcional):',
             style: Theme.of(context).textTheme.headline6?.copyWith(
                   fontWeight: FontWeight.w600,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   color: const Color(0xFF836FF8),
                 ),
           ),
@@ -480,7 +479,7 @@ class _DisposicionActualFieldState extends State<_DisposicionActualField> {
               hintText: hintText,
             ),
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF556A8D),
                 ),

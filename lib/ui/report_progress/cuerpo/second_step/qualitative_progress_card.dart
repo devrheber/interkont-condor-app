@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../domain/models/models.dart';
 
@@ -15,23 +14,23 @@ class QualitativeProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textStyle = TextStyle(
+    var textStyle = const TextStyle(
       fontFamily: 'montserrat',
-      fontSize: 10.sp,
+      fontSize: 10,
       fontWeight: FontWeight.w400,
-      color: Color(0xff556a8d),
+      color: const Color(0xff556a8d),
     );
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(top: 10.0),
-      padding: EdgeInsets.only(
-        left: 18.26.sp,
-        right: 14.76.sp,
-        top: 18.48.sp,
+      margin: const EdgeInsets.only(top: 10.0),
+      padding: const EdgeInsets.only(
+        left: 18.26,
+        right: 14.76,
+        top: 18.48,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15.sp),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,10 +41,10 @@ class QualitativeProgressCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   '${item.title}',
-                  style: TextStyle(
-                    color: Color(0xff334660),
+                  style: const TextStyle(
+                    color: const Color(0xff334660),
                     fontWeight: FontWeight.w600,
-                    fontSize: 14.61.sp,
+                    fontSize: 14.61,
                     fontFamily: 'montserrat',
                   ),
                 ),
@@ -53,36 +52,34 @@ class QualitativeProgressCard extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: deleteMethod,
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          'Eliminar',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                            color: Color(0xffC1272D),
-                            fontWeight: FontWeight.w300,
-                            fontSize: 10.32.sp,
-                            fontFamily: 'montserrat',
-                          ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      const Text(
+                        'Eliminar',
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          color: Color(0xffC1272D),
+                          fontWeight: FontWeight.w300,
+                          fontSize: 10.32,
+                          fontFamily: 'montserrat',
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: 5.0),
-                          width: 23.53.sp,
-                          child: Image.asset(
-                            'assets/img/Desglose/Demas/btn-delete.png',
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 5.0),
+                        width: 23.53,
+                        child: Image.asset(
+                          'assets/img/Desglose/Demas/btn-delete.png',
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
             ],
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 15.35.sp),
+            margin: const EdgeInsets.symmetric(vertical: 15.35),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

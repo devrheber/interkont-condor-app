@@ -21,10 +21,10 @@ class ModalMensaje{
                   borderRadius: BorderRadius.circular(20.0)),
               child: Container(
                 height: 225.0,
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                   child: ListView(
                     children: <Widget>[
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(top: 20.0),
                         child: Icon(
                           FontAwesomeIcons.triangleExclamation, 
@@ -33,22 +33,22 @@ class ModalMensaje{
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                        padding: const EdgeInsets.only(top: 20.0),
                         child: Text('$texto', 
                           style: AppTheme.parrafo,
                           textAlign: TextAlign.center,
                         )
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0),
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0),
                         child: Row(
                           children: <Widget>[
                             Expanded(
                               child: RaisedButton(
                                 textColor: Colors.black,
                                 color: Colors.black,
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
+                                padding: const EdgeInsets.all(10.0),
+                                child: const Text(
                                   'Aceptar', 
                                   style: AppTheme.parrafo
                                 ),
@@ -89,10 +89,10 @@ class ModalMensaje{
                   borderRadius: BorderRadius.circular(20.0)),
               child: Container(
                 height: 225.0,
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                   child: ListView(
                     children: <Widget>[
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(top: 20.0),
                         child: Icon(
                           FontAwesomeIcons.triangleExclamation, 
@@ -101,21 +101,21 @@ class ModalMensaje{
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 20.0),
+                        padding: const EdgeInsets.only(top: 20.0),
                         child: Text('$texto', 
                           style: AppTheme.h2,
                           textAlign: TextAlign.center,
                         )
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0),
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0),
                         child: Row(
                           children: <Widget>[
                             Expanded(
                               child: RaisedButton(
                                 color: colorOpcion,
-                                padding: EdgeInsets.all(10.0),
-                                child: Text('Salir', style: TextStyle(
+                                padding: const EdgeInsets.all(10.0),
+                                child: const Text('Salir', style: const TextStyle(
                                     fontSize: 17,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700,

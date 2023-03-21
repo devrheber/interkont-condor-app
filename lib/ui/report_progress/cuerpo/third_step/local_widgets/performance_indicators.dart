@@ -4,14 +4,13 @@ import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart
 import 'package:appalimentacion/utils/utils.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 final date = DateTime.now();
 
-final style = TextStyle(
+final style = const TextStyle(
   color: Color(0xff556A8D),
-  fontSize: 15.sp,
+  fontSize: 15,
   fontFamily: "montserrat",
   fontWeight: FontWeight.w500,
 );
@@ -138,8 +137,8 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
     }
 
     return Container(
-      margin: EdgeInsets.only(bottom: 38.sp, left: 20.sp, right: 20.sp),
-      padding: EdgeInsets.symmetric(horizontal: 7.sp),
+      margin: const EdgeInsets.only(bottom: 38, left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 7),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -147,24 +146,24 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
             'Ingresa los indicadores de rendimientos del proyecto (SI APLICA)',
             style: style.copyWith(fontWeight: FontWeight.w400),
           ),
-          SizedBox(height: 15.sp),
+          const SizedBox(height: 15),
           Text.rich(
             TextSpan(
                 text: 'Mes y Vigencia a Reportar: ',
-                style: style.copyWith(fontSize: 14.sp),
+                style: style.copyWith(fontSize: 14),
                 children: <InlineSpan>[
                   TextSpan(
                     text: DateTimeFormat.mmmmYYYY(reportProgressService
                             .periodoSeleccionado.getFechaIniDateTime)
                         .toUpperCase(),
                     style: style.copyWith(
-                        fontWeight: FontWeight.w400, fontSize: 14.sp),
+                        fontWeight: FontWeight.w400, fontSize: 14),
                   )
                 ]),
           ),
-          SizedBox(height: 15.sp),
+          const SizedBox(height: 15),
           Padding(
-            padding: EdgeInsets.all(8.0.sp),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
                 IndicatorField(
@@ -184,7 +183,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   },
                   enabled: false,
                 ),
-                SizedBox(height: 10.sp),
+                const SizedBox(height: 10),
                 IndicatorField(
                   'Fecha de Reintegro de Rendimientos',
                   assetIcon: 'assets/img/paso3-icon1.png',
@@ -201,14 +200,14 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                   },
                   enabled: false,
                 ),
-                SizedBox(height: 10.sp),
+                const SizedBox(height: 10),
                 IndicatorField('Valor Rendimientos Generados',
                     assetIcon: 'assets/img/paso3-icon2.png',
                     focusNode: generatedReturnsFocusNode,
                     controller: controller3, onTap: () {
                   generatedReturnsFocusNode.requestFocus();
                 }),
-                SizedBox(height: 10.sp),
+                const SizedBox(height: 10),
                 IndicatorField(
                   'Valor Reintegrado',
                   assetIcon: 'assets/img/paso3-icon3.png',
@@ -218,7 +217,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                     currentMonthReturnsFocusNode.requestFocus();
                   },
                 ),
-                SizedBox(height: 10.sp),
+                const SizedBox(height: 10),
                 IndicatorField(
                   'Saldo Final en Extracto',
                   assetIcon: 'assets/img/paso3-icon3.png',
@@ -228,7 +227,7 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
                     pastDueMonthReturnsFocusNode.requestFocus();
                   },
                 ),
-                SizedBox(height: 10.sp),
+                const SizedBox(height: 10),
               ],
             ),
           ),
@@ -267,43 +266,43 @@ class IndicatorField extends StatelessWidget {
       onTap: onTap,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.sp),
+          borderRadius: BorderRadius.circular(10),
           color: Colors.white,
         ),
         child: Column(
           children: [
-            SizedBox(height: 10.sp),
+            const SizedBox(height: 10),
             Row(
               children: [
-                SizedBox(width: 10.sp),
+                const SizedBox(width: 10),
                 if (assetIcon != null)
-                  Image.asset(assetIcon!, width: 25.sp, height: 25.sp)
+                  Image.asset(assetIcon!, width: 25, height: 25)
                 else
                   Icon(
                     icon,
-                    size: 23.sp,
-                    color: Color(0xff556A8D),
+                    size: 23,
+                    color: const Color(0xff556A8D),
                   ),
-                SizedBox(width: 10.sp),
+                const SizedBox(width: 10),
                 Flexible(
                   fit: FlexFit.tight,
                   child: Text(
                     title,
-                    style: style.copyWith(fontSize: 13.sp),
+                    style: style.copyWith(fontSize: 13),
                     maxLines: 2,
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(width: 43.sp),
+                const SizedBox(width: 43),
               ],
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.sp),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextField(
                 enabled: enabled,
                 textAlign: TextAlign.center,
                 style: style.copyWith(
-                    fontSize: 13.sp, fontWeight: FontWeight.w400),
+                    fontSize: 13, fontWeight: FontWeight.w400),
                 inputFormatters: [
                   if (enabled)
                     CurrencyTextInputFormatter(
@@ -319,7 +318,7 @@ class IndicatorField extends StatelessWidget {
                   border: InputBorder.none,
                   hintText: hintText,
                   hintStyle: style.copyWith(
-                      fontSize: 14.sp, fontWeight: FontWeight.w400),
+                      fontSize: 14, fontWeight: FontWeight.w400),
                   counterText: '',
                 ),
                 focusNode: focusNode,

@@ -8,7 +8,6 @@ import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toast/toast.dart';
 
 const titleColor = Color(0xff444444);
@@ -53,7 +52,7 @@ class ProyectosContenidoAOM extends StatelessWidget {
           const HeaderProfileWidget(),
           Container(
             width: double.infinity,
-            margin: EdgeInsets.only(top: 280.sp, left: 20.0, right: 20.0),
+            margin: const EdgeInsets.only(top: 280, left: 20.0, right: 20.0),
             child: ListView(
               physics: const BouncingScrollPhysics(),
               children: <Widget>[
@@ -70,21 +69,21 @@ class ProyectosContenidoAOM extends StatelessWidget {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Text(
+                              const Text(
                                 'Proyectos AOM ',
                                 style: TextStyle(
                                   fontFamily: "mulish",
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 20.sp,
-                                  color: const Color(0xFF000000),
+                                  fontSize: 20,
+                                  color: Color(0xFF000000),
                                 ),
                               ),
                               Text(
                                 '(${state.projects.length} proyectos)',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: "mulish",
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 20.sp,
+                                  fontSize: 20,
                                   color: ColorTheme.primary,
                                 ),
                               ),
@@ -99,18 +98,18 @@ class ProyectosContenidoAOM extends StatelessWidget {
                               )
                             ],
                           ),
-                          SizedBox(height: 6.sp),
-                          AutoSizeText(
+                          const SizedBox(height: 6),
+                          const AutoSizeText(
                             'Selecciona un proyecto para gestionar el inventario',
                             maxLines: 1,
                             style: TextStyle(
                               fontFamily: "montserrat",
                               fontWeight: FontWeight.w200,
-                              fontSize: 15.sp,
-                              color: const Color(0xFF566B8C),
+                              fontSize: 15,
+                              color: Color(0xFF566B8C),
                             ),
                           ),
-                          SizedBox(height: 20.sp),
+                          const SizedBox(height: 20),
                           for (final project in state.projects)
                             ProjectCard(
                               project: project,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AomNoInternetWidget extends StatelessWidget {
   const AomNoInternetWidget({Key? key}) : super(key: key);
@@ -12,34 +11,34 @@ class AomNoInternetWidget extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-      backgroundColor: Color(0xff002F5E),
+      backgroundColor: const Color(0xff002F5E),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/img/Desglose/Demas/bg-nosenal.jpg"),
+                image: const AssetImage("assets/img/Desglose/Demas/bg-nosenal.jpg"),
                 fit: BoxFit.cover),
           ),
           padding:
-              EdgeInsets.only(top: 80.0, bottom: 20.0, left: 70.0, right: 70.0),
+              const EdgeInsets.only(top: 80.0, bottom: 20.0, left: 70.0, right: 70.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(
-                image: AssetImage('assets/img/Desglose/Demas/icn-nosenal.png'),
+              const Image(
+                image: const AssetImage('assets/img/Desglose/Demas/icn-nosenal.png'),
                 width: 80.0,
                 height: 130,
               ),
-              Text(
+              const Text(
                 'Verifica tu conexion a Internet e intenta ingresar nuevamente',
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'montserrat',
                   fontWeight: FontWeight.w600,
-                  fontSize: 21.sp,
+                  fontSize: 21,
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
               GestureDetector(
@@ -47,8 +46,8 @@ class AomNoInternetWidget extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  width: 231.sp,
-                  height: 53.sp,
+                  width: 231,
+                  height: 53,
                   child: Container(
                     decoration: const BoxDecoration(
                       color: Color(0xff49CC85),
@@ -56,13 +55,13 @@ class AomNoInternetWidget extends StatelessWidget {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
+                      children: const <Widget>[
                         Text(
                           'Regresar',
                           style: TextStyle(
                             fontFamily: 'montserrat',
                             fontWeight: FontWeight.w600,
-                            fontSize: 15.sp,
+                            fontSize: 15,
                             color: Colors.white,
                           ),
                           textAlign: TextAlign.center,

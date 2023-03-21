@@ -1,7 +1,6 @@
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'buscador.dart';
@@ -25,25 +24,25 @@ class FirstStepBody extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(top: 230.h),
+      margin: const EdgeInsets.only(top: 230),
       child: ListView(
         physics: const BouncingScrollPhysics(),
         children: <Widget>[
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 31.sp),
+            margin: const EdgeInsets.symmetric(horizontal: 31),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const TextTitle(text: 'Ingrese el avance'),
-                SizedBox(height: 2.sp),
-                const TextSubtitle(
+              children: const <Widget>[
+                TextTitle(text: 'Ingrese el avance'),
+                SizedBox(height: 2),
+                TextSubtitle(
                     text: 'Ingrese cantidad de avance por actividad'),
               ],
             ),
           ),
-          SizedBox(height: 18.sp),
+          const SizedBox(height: 18),
           Padding(
-            padding: EdgeInsets.only(left: 30.0.sp, right: 34.sp),
+            padding: const EdgeInsets.only(left: 30.0, right: 34),
             child: buscador(
               onChanged: (value) {
                 firstStepProvider.txtBuscarAvance = value;
@@ -52,13 +51,13 @@ class FirstStepBody extends StatelessWidget {
                   firstStepProvider.filter(firstStepProvider.txtBuscarAvance),
             ),
           ),
-          SizedBox(height: 26.23.sp),
+          const SizedBox(height: 26.23),
           CarouselSlider(
             options: CarouselOptions(
               enableInfiniteScroll: false,
               scrollPhysics: const BouncingScrollPhysics(),
               enlargeCenterPage: true,
-              height: 435.0.sp,
+              height: 435.0,
             ),
             items: <Widget>[
               for (final activity in firstStepProvider.filteredActivites)

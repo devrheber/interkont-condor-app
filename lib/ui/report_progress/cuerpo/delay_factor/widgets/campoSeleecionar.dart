@@ -71,21 +71,21 @@ class SelectTypeDelayFactor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 10.0, right: 10.0),
-      margin: EdgeInsets.only(bottom: 5.0),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+      margin: const EdgeInsets.only(bottom: 5.0),
+      decoration: const BoxDecoration(
         color: Color.fromRGBO(1, 1, 1, 0.1),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(const Radius.circular(10)),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<TiposFactorAtraso>(
           iconEnabledColor: Colors.white,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
           borderRadius: BorderRadius.circular(10),
           dropdownColor: ColorTheme.primaryTint,
           isExpanded: true,
           hint: Padding(
-              padding: EdgeInsets.only(left: 10.0),
+              padding: const EdgeInsets.only(left: 10.0),
               child: Row(
                 children: <Widget>[
                   Text('$hintText', style: AppTheme.parrafoBlanco),
@@ -125,21 +125,21 @@ class SelectDelayFactor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 10.0, right: 10.0),
-      margin: EdgeInsets.only(bottom: 5.0),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+      margin: const EdgeInsets.only(bottom: 5.0),
+      decoration: const BoxDecoration(
         color: Color.fromRGBO(1, 1, 1, 0.1),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(const Radius.circular(10)),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<FactoresAtraso>(
             iconEnabledColor: Colors.white,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
             borderRadius: BorderRadius.circular(10),
             dropdownColor: ColorTheme.primaryTint,
             isExpanded: true,
             hint: Padding(
-                padding: EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(left: 10.0),
                 child: Row(
                   children: <Widget>[
                     Text('$hintText', style: AppTheme.parrafoBlanco),

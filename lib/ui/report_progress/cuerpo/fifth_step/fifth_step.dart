@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../utils/utils.dart';
@@ -19,12 +18,12 @@ class FifthStep extends StatelessWidget {
       children: <Widget>[
         Container(
           width: double.infinity,
-          margin: EdgeInsets.only(top: 164.h, left: 20.sp, right: 20.sp),
+          margin: const EdgeInsets.only(top: 164, left: 20, right: 20),
           child: Column(
             children: <Widget>[
               FifthStepCard(
                 title: 'Antes',
-                colorTitle: Color(0xff5994EF),
+                colorTitle: const Color(0xff5994EF),
                 children: <FifthStepCardDetail>[
                   FifthStepCardDetail(
                     title: 'Asi va',
@@ -47,12 +46,12 @@ class FifthStep extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 12.sp,
+              const SizedBox(
+                height: 12,
               ),
               FifthStepCard(
                 title: 'Ahora',
-                colorTitle: Color(0xff7964F3),
+                colorTitle: const Color(0xff7964F3),
                 children: <FifthStepCardDetail>[
                   FifthStepCardDetail(
                     title: 'Asi va en',

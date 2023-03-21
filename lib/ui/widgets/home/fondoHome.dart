@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../theme/color_theme.dart';
@@ -33,11 +32,11 @@ class _FondoHomeState extends State<FondoHome> {
           children: <Widget>[
             Container(
               width: double.infinity,
-              height: 214.sp,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15.sp),
-                    bottomRight: Radius.circular(15.sp)),
+              height: 214,
+              decoration: const BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15)),
                 gradient: ColorTheme.backgroundGradient,
               ),
             ),
@@ -47,15 +46,15 @@ class _FondoHomeState extends State<FondoHome> {
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding:
-                      EdgeInsets.only(right: 14.sp, left: 14.sp, top: 50.sp),
+                      const EdgeInsets.only(right: 14, left: 14, top: 50),
                   child: IconButton(
                     onPressed: () {
                       _drawerKey.currentState?.openDrawer();
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       FontAwesomeIcons.bars,
                       color: Colors.white,
-                      size: 25.sp,
+                      size: 25,
                     ),
                   ),
                 ),

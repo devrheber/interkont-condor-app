@@ -23,7 +23,6 @@ import 'package:appalimentacion/ui/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -161,19 +160,14 @@ class AppState extends StatelessWidget {
       ],
       child: BlocProvider(
         create: (context) => NetworkBloc()..add(NetworkObserve()),
-        child: ScreenUtilInit(
-          designSize: const Size(414, 896),
-          builder: (_, __) {
-            return MaterialApp(
-              home: const App(),
-              localizationsDelegates: LocalizationDelegates.delegates,
-              supportedLocales: SupportedLocales.locale,
-              theme: ThemeData(
-                fontFamily: 'WorkSans',
-                textTheme: AppTheme.textTheme,
-              ),
-            );
-          },
+        child: MaterialApp(
+          home: const App(),
+          localizationsDelegates: LocalizationDelegates.delegates,
+          supportedLocales: SupportedLocales.locale,
+          theme: ThemeData(
+            fontFamily: 'WorkSans',
+            textTheme: AppTheme.textTheme,
+          ),
         ),
       ),
     );

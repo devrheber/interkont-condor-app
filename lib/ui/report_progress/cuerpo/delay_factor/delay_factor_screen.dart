@@ -5,7 +5,6 @@ import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -110,7 +109,7 @@ class _BodyState extends State<_Body> {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 28.sp),
+            margin: const EdgeInsets.symmetric(horizontal: 28),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -118,15 +117,15 @@ class _BodyState extends State<_Body> {
                   'assets/img/Desglose/ReporteAvance/icn-stop.png',
                   width: 45,
                 ),
-                Padding(
-                    padding: EdgeInsets.only(top: 10.0.sp, bottom: 10.0.sp),
-                    child: const Text(
+                const Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: Text(
                       'Stop! Este proyecto \npresenta factores de atraso.',
                       style: AppTheme.h1Blanco,
                     )),
-                Padding(
-                    padding: EdgeInsets.only(bottom: 10.0.sp),
-                    child: const Text(
+                const Padding(
+                    padding: EdgeInsets.only(bottom: 10.0),
+                    child: Text(
                       'Ingresa los factores de atraso',
                       style: AppTheme.parrafoBlancoNegrita,
                     )),
@@ -148,7 +147,7 @@ class _BodyState extends State<_Body> {
                     delayFactorService.selectDelayFactor(value);
                   },
                 ),
-                SizedBox(height: 10.h),
+                const SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.only(
                       left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
@@ -177,7 +176,7 @@ class _BodyState extends State<_Body> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.h),
+                const SizedBox(height: 10),
                 AddGreenButton(onTap: () {
                   if (delayFactorService.delayFactorTypeSelected == null) {
                     Toast.show('Seleccione el tipo de factor',
@@ -205,10 +204,10 @@ class _BodyState extends State<_Body> {
                   delayFactorService.add(descriptionController.text.trim());
                   descriptionController.clear();
                 }),
-                SizedBox(height: 20.h),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10.0.sp),
-                  child: const Text(
+                const SizedBox(height: 20),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: Text(
                     'Factores Registrados',
                     style: AppTheme.parrafoBlancoNegrita,
                   ),

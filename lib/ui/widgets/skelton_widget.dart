@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Skelton extends StatelessWidget {
   const Skelton({
@@ -18,10 +17,10 @@ class Skelton extends StatelessWidget {
     return Container(
       height: height,
       width: width,
-      padding: EdgeInsets.all(8.sp),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: color ?? Colors.black.withOpacity(0.04),
-        borderRadius: BorderRadius.all(Radius.circular(16.r)),
+        borderRadius: const BorderRadius.all(const Radius.circular(16)),
       ),
     );
   }

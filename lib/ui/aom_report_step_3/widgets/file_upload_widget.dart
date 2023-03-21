@@ -8,7 +8,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -75,8 +74,8 @@ class FileUploadWidget extends StatelessWidget {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.end,
       runAlignment: WrapAlignment.end,
-      runSpacing: 50.sp,
-      spacing: 50.sp,
+      runSpacing: 50,
+      spacing: 50,
       children: <Widget>[
         _ImageContainer(
           instruction: 'Agregar Imagen\n(Obligatoria)',
@@ -181,8 +180,8 @@ class _ImageContainer extends StatelessWidget {
           return Image.file(
             File(snapshot.data.toString()),
             fit: BoxFit.cover,
-            width: 130.sp,
-            height: 130.sp,
+            width: 130,
+            height: 130,
           );
         } else {
           return const Center(
@@ -210,7 +209,7 @@ class _ImageContainer extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(3.sp),
+            borderRadius: BorderRadius.circular(3),
           ),
           child: const Icon(
             FontAwesomeIcons.film,
@@ -231,10 +230,10 @@ class _ImageContainer extends StatelessWidget {
           ),
           AutoSizeText(
             fileName,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'montserrat',
-              fontSize: 14.sp,
-              color: const Color(0xFF556A8D),
+              fontSize: 14,
+              color: Color(0xFF556A8D),
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -249,15 +248,15 @@ class _ImageContainer extends StatelessWidget {
     return DottedBorder(
       borderType: BorderType.RRect,
       padding: EdgeInsets.zero,
-      radius: Radius.circular(15.0.sp),
+      radius: const Radius.circular(15.0),
       strokeWidth: 2,
       color: const Color(0xff9a9a9a),
       child: Container(
-        width: 130.sp,
-        height: 130.sp,
+        width: 130,
+        height: 130,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0.sp),
+          borderRadius: BorderRadius.circular(15.0),
         ),
         child: file == null
             ? GestureDetector(
@@ -268,18 +267,18 @@ class _ImageContainer extends StatelessWidget {
                   child: Column(
                     children: [
                       const Spacer(flex: 3),
-                      Icon(
+                      const Icon(
                         Icons.add_circle,
-                        size: 40.0.sp,
-                        color: const Color(0xffdeebf6),
+                        size: 40.0,
+                        color: Color(0xffdeebf6),
                       ),
                       const Spacer(),
                       Text(
                         instruction,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: ColorTheme.primaryShade,
-                            fontSize: 13.sp,
+                            fontSize: 13,
                             fontWeight: FontWeight.w500),
                       ),
                       const Spacer(flex: 3),
@@ -294,8 +293,8 @@ class _ImageContainer extends StatelessWidget {
                     child: Image.file(
                       file!,
                       fit: BoxFit.cover,
-                      width: 130.sp,
-                      height: 130.sp,
+                      width: 130,
+                      height: 130,
                     ),
                   ),
                   Visibility(
@@ -316,17 +315,17 @@ class _ImageContainer extends StatelessWidget {
                           Radius.circular(500),
                         ),
                       ),
-                      margin: EdgeInsets.all(8.86.sp),
+                      margin: const EdgeInsets.all(8.86),
                       child: Material(
                         color: Colors.red,
                         child: InkWell(
                           onTap: onRemovePressed,
-                          child: Padding(
-                            padding: EdgeInsets.all(5.86.sp),
+                          child: const Padding(
+                            padding: EdgeInsets.all(5.86),
                             child: Icon(
                               FontAwesomeIcons.xmark,
                               color: Colors.white,
-                              size: 18.sp,
+                              size: 18,
                             ),
                           ),
                         ),

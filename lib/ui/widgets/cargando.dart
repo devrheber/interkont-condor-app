@@ -10,7 +10,7 @@ Future<dynamic> loadingDialog(context) {
             height: 100.0,
             width: 100.0,
             child: Column(
-              children: [
+              children: const [
                 Spacer(),
                 Text('Cargando...'),
                 Spacer(),
@@ -36,7 +36,7 @@ class LoadingDialog {
             context: context,
             useRootNavigator: false,
             barrierDismissible: false,
-            builder: (_) => LoadingDialogWidget())
+            builder: (_) => const LoadingDialogWidget())
         .then((_) => FocusScope.of(context).requestFocus());
   }
 
@@ -60,13 +60,13 @@ class LoadingDialogWidget extends StatelessWidget {
         width: 100.0,
         child: Column(
           children: [
-            Spacer(),
-            Text('Cargando...'),
-            Spacer(),
-            CircularProgressIndicator(
+            const Spacer(),
+            const Text('Cargando...'),
+            const Spacer(),
+            const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Color(0XFF735EF0)),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ),

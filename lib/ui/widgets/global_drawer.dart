@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
@@ -27,35 +26,35 @@ class GlobalDrawer extends StatelessWidget {
               children: <Widget>[
                 Container(
                   margin:
-                      EdgeInsets.symmetric(horizontal: 15.sp, vertical: 20.sp),
-                  height: 65.sp,
-                  width: 65.sp,
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  height: 65,
+                  width: 65,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    border: Border.all(color: Colors.white, width: 5.sp),
+                    border: Border.all(color: Colors.white, width: 5),
                   ),
                   child: Image.asset('assets/new/home/profile.png',
                       fit: BoxFit.fill),
                 ),
                 Column(
                   children: <Widget>[
-                    Text(
+                    const Text(
                       'Bienvenido',
                       style: TextStyle(
                         fontFamily: "montserrat",
                         fontWeight: FontWeight.bold,
-                        fontSize: 20.sp,
-                        color: const Color(0xFF000000),
+                        fontSize: 20,
+                        color: Color(0xFF000000),
                       ),
                     ),
                     Text(
                       context.read<AuthenticationProvider>().user?.username ??
                           'usuario desconocido',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: "montserrat",
                         fontWeight: FontWeight.w200,
-                        fontSize: 15.sp,
-                        color: const Color(0xFF566B8C),
+                        fontSize: 15,
+                        color: Color(0xFF566B8C),
                       ),
                     ),
                   ],
@@ -142,11 +141,11 @@ class _SideMenuOptions extends StatelessWidget {
       ),
       title: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontFamily: "montserrat",
           fontWeight: FontWeight.w400,
-          fontSize: 17.sp,
-          color: const Color(0xFF566B8C),
+          fontSize: 17,
+          color: Color(0xFF566B8C),
         ),
       ),
       onTap: onTap,

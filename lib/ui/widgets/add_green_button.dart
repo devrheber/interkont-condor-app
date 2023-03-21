@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddGreenButton extends StatelessWidget {
   const AddGreenButton({Key? key, required this.onTap,}) : super(key: key);
@@ -9,36 +8,34 @@ class AddGreenButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(15.sp),
+      borderRadius: BorderRadius.circular(15),
       child: Material(
-        color: Color(0xff22B573),
+        color: const Color(0xff22B573),
         child: InkWell(
             onTap: onTap,
             child: Container(
-              child: Container(
-                  height: 47.sp,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'Añadir',
-                            style: TextStyle(
-                              fontFamily: 'montserrat',
-                              fontSize: 14.2.sp,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          )
-                        ],
-                      ))
-                    ],
-                  )),
-            )),
+                height: 47,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const <Widget>[
+                        Text(
+                          'Añadir',
+                          style: TextStyle(
+                            fontFamily: 'montserrat',
+                            fontSize: 14.2,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        )
+                      ],
+                    ))
+                  ],
+                ))),
       ),
     );
   }

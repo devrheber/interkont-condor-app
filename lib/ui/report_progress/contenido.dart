@@ -8,12 +8,12 @@ import 'cuerpo/fourth_step/fourth_step.dart';
 import 'cuerpo/second_step/second_step.dart';
 import 'cuerpo/third_step/third_step.dart';
 
-final titleColor = Color(0xff444444);
+const titleColor = Color(0xff444444);
 
 class ContenidoReportarAvance extends StatelessWidget {
   final int numeroPaso;
 
-  ContenidoReportarAvance({
+  const ContenidoReportarAvance({
     Key? key,
     required this.numeroPaso,
   }) : super(key: key);

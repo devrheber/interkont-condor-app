@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({
@@ -26,9 +25,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          bottom: 16.77.sp,
-          left: accionPrimerBoton != null ? 46.19.sp : 28.sp,
-          right: accionPrimerBoton != null ? 46.19.sp : 28.sp),
+          bottom: 16.77,
+          left: accionPrimerBoton != null ? 46.19 : 28,
+          right: accionPrimerBoton != null ? 46.19 : 28),
       child: Row(
         children: <Widget>[
           if (accionPrimerBoton != null)
@@ -37,8 +36,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   accionPrimerBoton, primerBotonDesactivado),
             ),
           if (accionPrimerBoton != null)
-            SizedBox(
-              width: 11.8.w,
+            const SizedBox(
+              width: 11.8,
             ),
           Expanded(
             child: btnSiguiente(context, colorFondo, txtSegundoBoton,
@@ -52,7 +51,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
 Widget btnCancelar(context, colorFondo, texto, accion, desactivado) {
   return ClipRRect(
-    borderRadius: BorderRadius.circular(30.sp),
+    borderRadius: BorderRadius.circular(30),
     child: Material(
       color: Colors.white,
       child: InkWell(
@@ -60,12 +59,12 @@ Widget btnCancelar(context, colorFondo, texto, accion, desactivado) {
             accion();
           },
           child: Container(
-            width: 154.95.h,
-            height: 42.3.h,
+            width: 154.95,
+            height: 42.3,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30.sp),
+              borderRadius: BorderRadius.circular(30),
               border: Border.all(
-                color: Color(0xffc1272d),
+                color: const Color(0xffc1272d),
                 width: 1,
               ),
             ),
@@ -75,10 +74,10 @@ Widget btnCancelar(context, colorFondo, texto, accion, desactivado) {
                 Expanded(
                   child: Text(
                     '$texto',
-                    style: TextStyle(
-                        color: const Color(0xff808080),
+                    style: const TextStyle(
+                        color: Color(0xff808080),
                         fontWeight: FontWeight.w400,
-                        fontSize: 13.27.sp),
+                        fontSize: 13.27),
                     textAlign: TextAlign.center,
                   ),
                 )
@@ -96,7 +95,7 @@ Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
   }
 
   return ClipRRect(
-    borderRadius: BorderRadius.circular(30.sp),
+    borderRadius: BorderRadius.circular(30),
     child: Material(
       color: colorBoton,
       child: InkWell(
@@ -104,12 +103,12 @@ Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
             accion();
           },
           child: Container(
-            width: texto != "Siguiente Paso" ? 154.95.w : 361.58.w,
-            height: 42.3.sp,
+            width: texto != "Siguiente Paso" ? 154.95 : 361.58,
+            height: 42.3,
             // color: AppTheme.bottomPrincipal,
 
             child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 1.sp),
+                padding: const EdgeInsets.symmetric(horizontal: 1),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -122,8 +121,7 @@ Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
                             fontWeight: texto != "Siguiente Paso"
                                 ? FontWeight.w700
                                 : FontWeight.w600,
-                            fontSize:
-                                texto != "Siguiente Paso" ? 14.2.sp : 13.27.sp),
+                            fontSize: texto != "Siguiente Paso" ? 14.2 : 13.27),
                         textAlign: TextAlign.center,
                       ),
                     ),

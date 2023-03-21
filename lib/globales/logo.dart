@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../utils/assets/assets.dart';
 
@@ -39,7 +38,7 @@ class FooterImg extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
       tag: "footer",
-      child: Image.asset(assetImageRoute, width: width.sp, height: height.sp),
+      child: Image.asset(assetImageRoute, width: width, height: height),
     );
   }
 }

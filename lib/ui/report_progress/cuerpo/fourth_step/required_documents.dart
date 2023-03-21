@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:toast/toast.dart';
@@ -67,8 +66,8 @@ class RequiredDocuments extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 18.sp),
-                padding: EdgeInsets.all(10.sp),
+                margin: const EdgeInsets.symmetric(horizontal: 18),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -80,10 +79,10 @@ class RequiredDocuments extends StatelessWidget {
                 child: AutoSizeText(
                   item.typeName ?? '',
                   maxLines: 10,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'montserrat',
-                    fontSize: 14.sp,
-                    color: Color(0xFF556A8D),
+                    fontSize: 14,
+                    color: const Color(0xFF556A8D),
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -93,7 +92,7 @@ class RequiredDocuments extends StatelessWidget {
         );
       },
       separatorBuilder: (_, int index) {
-        return SizedBox(height: 20.sp);
+        return const SizedBox(height: 20);
       },
     );
   }

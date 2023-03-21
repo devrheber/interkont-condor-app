@@ -10,7 +10,7 @@ class AomProjectsBloc extends Bloc<AomProjectsEvent, AomProjectsState> {
   AomProjectsBloc({
     required ProjectsRepository projectsRepository,
   })  : _projectsRepository = projectsRepository,
-        super(AomProjectsState()) {
+        super(const AomProjectsState()) {
     on<AomProjectsGetProjects>(_onGetProjects);
   }
 

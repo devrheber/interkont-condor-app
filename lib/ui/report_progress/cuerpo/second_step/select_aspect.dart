@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../domain/models/models.dart';
 
-final titleColor = Color(0xff384C68);
+const titleColor = Color(0xff384C68);
 
 class SelectAspect extends StatelessWidget {
-  SelectAspect({
+  const SelectAspect({
     Key? key,
     required this.aspectSelected,
     required this.aspectsToEvaluate,
@@ -21,30 +20,30 @@ class SelectAspect extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 43.sp,
-      margin: EdgeInsets.only(top: 10.0),
-      decoration: BoxDecoration(
+      height: 43,
+      margin: const EdgeInsets.only(top: 10.0),
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Row(
         children: <Widget>[
-          SizedBox(width: 16.57.sp),
+          const SizedBox(width: 16.57),
           Container(
             child: _IconImage(text: aspectSelected.descripcionAspectoEvaluar),
           ),
-          SizedBox(width: 9.47.sp),
+          const SizedBox(width: 9.47),
           Expanded(
             child: DropdownButtonHideUnderline(
               child: DropdownButton(
-                iconSize: 16.74.sp,
+                iconSize: 16.74,
                 hint: Text(
                   '${aspectSelected.descripcionAspectoEvaluar}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: "montserrat",
-                    fontSize: 13.22.sp,
+                    fontSize: 13.22,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xff384C68),
+                    color: const Color(0xff384C68),
                   ),
                 ),
                 items: aspectsToEvaluate
@@ -52,12 +51,12 @@ class SelectAspect extends StatelessWidget {
                           child: Row(
                             children: <Widget>[
                               _IconImage(text: value.descripcionAspectoEvaluar),
-                              SizedBox(width: 9.47.sp),
+                              const SizedBox(width: 9.47),
                               Text(
                                 value.descripcionAspectoEvaluar,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: "montserrat",
-                                  fontSize: 13.22.sp,
+                                  fontSize: 13.22,
                                   fontWeight: FontWeight.w500,
                                   color: Color(0xff384C68),
                                 ),
@@ -98,8 +97,8 @@ class _IconImage extends StatelessWidget {
     if (text == 'Social') icon = 'icn-al-5.png';
     return Image(
       image: AssetImage('assets/img/Desglose/ReporteAvance/$icon'),
-      width: 24.sp,
-      height: 24.sp,
+      width: 24,
+      height: 24,
     );
   }
 }

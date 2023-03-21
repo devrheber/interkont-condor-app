@@ -7,8 +7,6 @@ import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:toast/toast.dart';
 import '../widgets/widgets.dart';
@@ -53,7 +51,7 @@ class AomReportStep3View extends StatelessWidget {
 
             final confirm = await DialogHelper.showConfirmDialog(
               context,
-              child: ConfirmDialog(
+              child: const ConfirmDialog(
                   description:
                       '¿Está seguro de registrar la actualización AOM?',
                   continueButtonText: 'Aceptar',
@@ -85,24 +83,23 @@ class AomReportStep3View extends StatelessWidget {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      margin: EdgeInsets.only(
-                          top: 265.h, left: 28.sp, right: 28.sp),
+                      margin: const EdgeInsets.only(top: 265, left: 28, right: 28),
                       child: ListView(
                         physics: const BouncingScrollPhysics(),
                         children: [
-                          Text(
+                          const Text(
                             'Subir una Imagen o Video',
-                            style: TextStyle(
-                              fontSize: 16.sp,
+                            style: const TextStyle(
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: ColorTheme.primary,
                             ),
                           ),
-                          SizedBox(height: 30.sp),
-                          Center(
+                          const SizedBox(height: 30),
+                          const Center(
                             child: FileUploadWidget(),
                           ),
-                          SizedBox(height: 100.sp),
+                          const SizedBox(height: 100),
                         ],
                       ),
                     ),

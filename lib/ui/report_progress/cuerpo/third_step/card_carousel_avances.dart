@@ -3,7 +3,6 @@ import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../domain/models/models.dart';
@@ -96,55 +95,55 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-              color: Color(0xff666666).withOpacity(0.26),
-              blurRadius: 14.sp,
-              spreadRadius: 0.4.sp,
-              offset: Offset(4.sp, 10.sp)),
+              color: const Color(0xff666666).withOpacity(0.26),
+              blurRadius: 14,
+              spreadRadius: 0.4,
+              offset: const Offset(4, 10)),
         ],
-        borderRadius: BorderRadius.circular(16.13.sp),
+        borderRadius: BorderRadius.circular(16.13),
         gradient: ColorTheme.cardGradient,
       ),
-      padding: EdgeInsets.only(
-        left: 38.46.sp,
-        right: 37.42.sp,
-        top: 30.64.sp,
-        bottom: 38.95.sp,
+      padding: const EdgeInsets.only(
+        left: 38.46,
+        right: 37.42,
+        top: 30.64,
+        bottom: 38.95,
       ),
       child: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: <Widget>[
           Text(widget.item.descripcionIndicadorAlcance,
-              style: TextStyle(
-                fontSize: 12.18.sp,
+              style: const TextStyle(
+                fontSize: 12.18,
                 color: Colors.white,
                 fontFamily: 'montserrat',
                 fontWeight: FontWeight.w600,
               ),
               textAlign: TextAlign.center),
-          SizedBox(height: 16.84.sp),
-          Text(
+          const SizedBox(height: 16.84),
+          const Text(
             'Ingresa la ejecucion',
             style: TextStyle(
-              fontSize: 12.18.sp,
+              fontSize: 12.18,
               color: Colors.white,
               fontFamily: 'montserrat',
               fontWeight: FontWeight.w400,
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 9.68.sp),
+          const SizedBox(height: 9.68),
           Container(
-            height: 41.13.sp,
-            width: 177.4.sp,
+            height: 41.13,
+            width: 177.4,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.06),
-              borderRadius: BorderRadius.circular(12.0957.sp),
+              borderRadius: BorderRadius.circular(12.0957),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.09),
-                  blurRadius: 12.1.sp,
+                  blurRadius: 12.1,
                   spreadRadius: 0,
-                  offset: Offset(2.42.sp, 3.12.sp),
+                  offset: const Offset(2.42, 3.12),
                 ),
               ],
             ),
@@ -154,7 +153,7 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
                 Expanded(
                   child: TextField(
                       textInputAction: TextInputAction.send,
-                      keyboardType: TextInputType.numberWithOptions(
+                      keyboardType: const TextInputType.numberWithOptions(
                           decimal: true, signed: true),
                       controller: controller,
                       onChanged: calculate,
@@ -164,13 +163,13 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
                         )
                       ],
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontFamily: 'montserrat',
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
                       ),
-                      decoration: InputDecoration.collapsed(
+                      decoration: const InputDecoration.collapsed(
                         hintText: "0",
                         hintStyle: TextStyle(
                             fontSize: 20.0,
@@ -182,7 +181,7 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
               ],
             ),
           ),
-          SizedBox(height: 50.88.sp),
+          const SizedBox(height: 50.88),
           Column(
             children: <Widget>[
               celdas('Unidad de medida', widget.item.unidadMedida, false),
@@ -209,8 +208,8 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
       fontWeight = FontWeight.w600;
     }
     return Container(
-      padding: EdgeInsets.only(bottom: 5.0, top: 5.0, left: 5.0, right: 5.0),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.only(bottom: 5.0, top: 5.0, left: 5.0, right: 5.0),
+      decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(width: 0.3, color: Colors.white),
         ),

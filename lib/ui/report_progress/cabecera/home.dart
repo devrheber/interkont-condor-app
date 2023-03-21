@@ -6,7 +6,6 @@ import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'header_steps.dart';
@@ -40,8 +39,8 @@ class CardHeadReporteAvance extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            height: 50.54.sp,
-            margin: EdgeInsets.symmetric(vertical: 104.sp, horizontal: 28.sp),
+            height: 50.54,
+            margin: const EdgeInsets.symmetric(vertical: 104, horizontal: 28),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -122,51 +121,51 @@ class Percentage extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.1),
-          borderRadius: BorderRadius.all(Radius.circular(10.sp)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
                 color: titleColor.withOpacity(.1),
                 blurRadius: 20,
                 spreadRadius: 10),
           ]),
-      width: 173.4.sp,
-      height: 50.54.sp,
+      width: 173.4,
+      height: 50.54,
       child: Row(
         children: [
-          SizedBox(width: 16.72.sp),
+          const SizedBox(width: 16.72),
           Image.asset(
             'assets/img/Desglose/Demas/icn-money.png',
-            width: 31.62.sp,
-            height: 31.62.sp,
+            width: 31.62,
+            height: 31.62,
           ),
-          SizedBox(width: 5.97.sp),
+          const SizedBox(width: 5.97),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const Expanded(child: SizedBox.shrink()),
               Text(
                 percentage,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: "montserrat",
                   fontWeight: FontWeight.w700,
-                  fontSize: 15.61.sp,
+                  fontSize: 15.61,
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 2.0.sp),
+              const SizedBox(height: 2.0),
               Text(
                 'Valor $value',
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: "montserrat",
                   fontWeight: FontWeight.w300,
-                  fontSize: 11.36.sp,
+                  fontSize: 11.36,
                   color: Colors.white,
                 ),
               ),
               const Expanded(child: SizedBox.shrink()),
             ],
           ),
-          SizedBox(width: 16.72.sp),
+          const SizedBox(width: 16.72),
         ],
       ),
     );

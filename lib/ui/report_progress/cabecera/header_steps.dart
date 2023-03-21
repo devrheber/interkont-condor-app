@@ -1,6 +1,5 @@
 import 'package:appalimentacion/ui/widgets/step_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const titleColor = Color(0xff444444);
 
@@ -14,9 +13,9 @@ class HeaderSteps extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 90.sp,
-      margin: EdgeInsets.only(top: 164.sp, right: 28.sp, left: 28.sp),
-      padding: EdgeInsets.symmetric(horizontal: 5.sp),
+      height: 90,
+      margin: const EdgeInsets.only(top: 164, right: 28, left: 28),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(10)),

@@ -12,15 +12,15 @@ void seleccionarGaleriaCamara(context,
           child: Wrap(
             children: <Widget>[
               ListTile(
-                  leading: Icon(Icons.photo),
-                  title: Text('Galeria'),
+                  leading: const Icon(Icons.photo),
+                  title: const Text('Galeria'),
                   onTap: () => {
                         Navigator.of(context).pop(),
                         onGalleryTap(),
                       }),
               ListTile(
-                leading: Icon(FontAwesomeIcons.camera),
-                title: Text('Camara'),
+                leading: const Icon(FontAwesomeIcons.camera),
+                title: const Text('Camara'),
                 onTap: () => {
                   Navigator.of(context).pop(),
                   onCameraTap(),

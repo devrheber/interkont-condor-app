@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
@@ -51,7 +50,7 @@ class LastStepState extends State<LastStep> {
           SendDataState.noInternet) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => NoInternet()),
+          MaterialPageRoute(builder: (context) => const NoInternet()),
         );
         lastStepProvider.saveDataPendingToPublish();
       } else if (value['state'] == SendDataState.backendError) {
@@ -66,16 +65,16 @@ class LastStepState extends State<LastStep> {
 
   @override
   Widget build(BuildContext context) {
-    final style = TextStyle(
+    const style = TextStyle(
       fontFamily: 'montserrat',
       fontWeight: FontWeight.bold,
-      fontSize: 30.sp,
+      fontSize: 30,
       color: Colors.white,
     );
 
     return Scaffold(
       body: Container(
-        color: Color(0xff2196F3),
+        color: const Color(0xff2196F3),
         child: Stack(
           children: <Widget>[
             StreamBuilder<double>(
@@ -88,8 +87,8 @@ class LastStepState extends State<LastStep> {
                     children: [
                       Center(
                         child: CircularPercentIndicator(
-                          radius: 120.sp,
-                          lineWidth: 6.sp,
+                          radius: 120,
+                          lineWidth: 6,
                           percent: percentage.clamp(0, 1),
                           center: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -105,19 +104,19 @@ class LastStepState extends State<LastStep> {
                               ),
                             ],
                           ),
-                          progressColor: Color(0xff90CBF9),
+                          progressColor: const Color(0xff90CBF9),
                           animateFromLastPercent: true,
                         ),
                       ),
-                      SizedBox(height: 23.sp),
+                      const SizedBox(height: 23),
                       Text(
                         percentage == 1
                             ? 'Obteniendo respuesta'
                             : 'Estamos cargando tu proyecto',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'montserrat',
                           fontWeight: FontWeight.w800,
-                          fontSize: 15.sp,
+                          fontSize: 15,
                           color: Colors.white,
                         ),
                       ),
@@ -151,7 +150,7 @@ class LastStepState extends State<LastStep> {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Color.fromRGBO(rgb, rgb, rgb, 0.1),
-        border: Border(
+        border: const Border(
           top: BorderSide(width: 40.0, color: Colors.transparent),
           left: BorderSide(width: 40.0, color: Colors.transparent),
           right: BorderSide(width: 40.0, color: Colors.transparent),

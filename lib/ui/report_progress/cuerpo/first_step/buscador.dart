@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../theme/color_theme.dart';
 
-final titleColor = Color(0xff444444);
+const titleColor = Color(0xff444444);
 
 Widget buscador({dynamic onChanged, dynamic onPressed}) {
   return Row(
@@ -12,32 +11,32 @@ Widget buscador({dynamic onChanged, dynamic onPressed}) {
         flex: 2,
         child: Container(
           width: double.infinity,
-          height: 35.77.sp,
+          height: 35.77,
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           child: Row(
             children: <Widget>[
-              SizedBox(width: 11.23.w),
+              const SizedBox(width: 11.23),
               Image.asset("assets/new/home/search.png",
-                  height: 12.08.h, width: 12.03.h),
-              SizedBox(width: 8.23.w),
+                  height: 12.08, width: 12.03),
+              const SizedBox(width: 8.23),
               Expanded(
                 child: Container(
-                  width: 237.57.sp,
+                  width: 237.57,
                   child: TextField(
                     textInputAction: TextInputAction.send,
-                    style: TextStyle(
-                      fontSize: 13.sp,
+                    style: const TextStyle(
+                      fontSize: 13,
                       fontFamily: "montserrat",
                       fontWeight: FontWeight.w500,
                       color: Color(0xff566B8C),
                     ),
-                    decoration: InputDecoration.collapsed(
+                    decoration: const InputDecoration.collapsed(
                       hintText: "Buscar por palabra clave...",
-                      hintStyle: TextStyle(
-                        fontSize: 13.sp,
+                      hintStyle: const TextStyle(
+                        fontSize: 13,
                         fontFamily: "montserrat",
                         fontWeight: FontWeight.w500,
                         color: Color(0xff556a8d),
@@ -51,30 +50,30 @@ Widget buscador({dynamic onChanged, dynamic onPressed}) {
           ),
         ),
       ), 
-      SizedBox(width: 7.73.w),
+      const SizedBox(width: 7.73),
       Expanded(
         child: Container(
-          height: 35.77.sp,
+          height: 35.77,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.sp),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: RaisedButton(
             elevation: 0,
             onPressed: onPressed,
-            padding: EdgeInsets.all(0.0),
+            padding: const EdgeInsets.all(0.0),
             child: Ink(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: ColorTheme.buttonGradient,
               ),
               child: Container(
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Buscar",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 13.sp,
+                    fontSize: 13,
                   ),
                 ),
               ),

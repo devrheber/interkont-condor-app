@@ -10,7 +10,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toast/toast.dart';
 
 class AomDetallePage extends StatelessWidget {
@@ -55,7 +54,7 @@ class AomDetalleView extends StatelessWidget {
             children: <Widget>[
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.only(top: 60.h),
+                margin: const EdgeInsets.only(top: 60),
                 child: Stack(
                   children: <Widget>[
                     _TitleSubtitle(
@@ -78,7 +77,7 @@ class AomDetalleView extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            margin: EdgeInsets.only(top: 306.h, left: 28.sp, right: 28.sp),
+            margin: const EdgeInsets.only(top: 306, left: 28, right: 28),
             child: ListView(
               physics: const BouncingScrollPhysics(),
               children: [
@@ -87,7 +86,7 @@ class AomDetalleView extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 10.sp),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Column(
                     children: <Widget>[
                       _TitleContent(
@@ -120,20 +119,20 @@ class AomDetalleView extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 20.sp),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Selecciona una categoría de activos para reportar la actualización',
                   textAlign: TextAlign.justify,
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     // color: Colors.black,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(height: 20.sp),
+                const SizedBox(height: 20),
                 //rounded elevated button
                 const _Clasifications(),
-                SizedBox(height: 20.sp),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -160,24 +159,24 @@ class _Clasifications extends StatelessWidget {
         itemBuilder: (_, int index) {
           return ShimmerButton(delay: Duration(milliseconds: index * 30));
         },
-        separatorBuilder: (_, __) => SizedBox(height: 10.h),
+        separatorBuilder: (_, __) => const SizedBox(height: 10),
       );
     }
 
     if (state.status == AomDetailStatus.failure &&
         state.clasifications.isEmpty) {
       return DefaultTextStyle(
-        style: TextStyle(
-          fontSize: 13.sp,
+        style: const TextStyle(
+          fontSize: 13,
           color: Colors.black,
           fontWeight: FontWeight.w500,
         ),
         child: Column(children: [
           // TODO Put an image
           const Text('Ocurrió un error al obtener las categorías.'),
-          SizedBox(height: 10.r),
+          const SizedBox(height: 10),
           Text(state.errorResponse?['message']),
-          SizedBox(height: 10.r),
+          const SizedBox(height: 10),
           TextButton(
               onPressed: () {
                 if (state.generalData?.obraId == null) {
@@ -204,11 +203,11 @@ class _Clasifications extends StatelessWidget {
       children: [
         Visibility(
           visible: state.isValidateClasificacionActivos,
-          child: Padding(
-            padding: EdgeInsets.only(bottom: 10.sp),
+          child: const Padding(
+            padding: EdgeInsets.only(bottom: 10),
             child: Text(
               'No se pudo obtener algunos objetos de tipo "clasificacionActivos"',
-              style: (TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w400)),
+              style: (TextStyle(fontSize: 13, fontWeight: FontWeight.w400)),
             ),
           ),
         ),
@@ -265,9 +264,9 @@ class ActivoGeneral extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10.sp),
+      margin: const EdgeInsets.only(bottom: 10),
       width: double.infinity,
-      height: 50.h,
+      height: 50,
       child: IgnorePointer(
         ignoring: disable || pending,
         child: ElevatedButton(
@@ -276,14 +275,14 @@ class ActivoGeneral extends StatelessWidget {
             textAlign: TextAlign.center,
             text: TextSpan(
               text: text,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
               children: pending
                   ? [
                       const TextSpan(text: '\n'),
-                      WidgetSpan(
+                      const WidgetSpan(
                         child: Icon(
                           Icons.error_outline,
-                          size: 14.sp,
+                          size: 14,
                           color: Colors.white,
                         ),
                       ),
@@ -325,25 +324,25 @@ class _TitleContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10.sp),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: <Widget>[
           Expanded(
             child: Text(title,
-                style: TextStyle(
-                  fontSize: 14.sp,
+                style: const TextStyle(
+                  fontSize: 14,
                   fontWeight: FontWeight.w400,
                 )),
           ),
-          SizedBox(width: 5.sp),
+          const SizedBox(width: 5),
           Expanded(
             child: Text(
               content,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 13.93.sp,
+              style: const TextStyle(
+                fontSize: 13.93,
                 fontWeight: FontWeight.w400,
-                color: const Color(0xFF808080),
+                color: Color(0xFF808080),
               ),
             ),
           ),
@@ -372,8 +371,8 @@ class _ImageURL extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: 77.sp,
-                width: 77.sp,
+                height: 77,
+                width: 77,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -383,16 +382,16 @@ class _ImageURL extends StatelessWidget {
                 child: ClipOval(
                   child: CachedNetworkImage(
                     imageUrl: imageURL,
-                    height: 77.sp,
-                    width: 77.sp,
+                    height: 77,
+                    width: 77,
                     fit: BoxFit.fitWidth,
                     placeholder: (_, __) => Image.asset(
                       'assets/img/Desglose/Demas/question.png',
                     ),
                     errorWidget: (context, url, error) => Image.asset(
                       'assets/img/Desglose/Demas/question.png',
-                      height: 77.sp,
-                      width: 77.sp,
+                      height: 77,
+                      width: 77,
                     ),
                   ),
                 ),
@@ -419,17 +418,17 @@ class _TitleSubtitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 204.h,
+      height: 204,
       padding: const EdgeInsets.only(top: 1.0, bottom: 10.0),
-      margin: EdgeInsets.only(top: 40.h, right: 28.sp, left: 28.sp),
+      margin: const EdgeInsets.only(top: 40, right: 28, left: 28),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(20.sp)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         boxShadow: [
           BoxShadow(
             color: const Color(0xffC1C8D9).withOpacity(.3),
-            blurRadius: 26.sp,
-            offset: Offset(3.sp, 4.sp),
+            blurRadius: 26,
+            offset: const Offset(3, 4),
           ),
         ],
       ),
@@ -438,35 +437,35 @@ class _TitleSubtitle extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 42.sp, right: 42.sp),
+              padding: const EdgeInsets.only(left: 42, right: 42),
               child: Text(
                 nombre,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'montserrat',
                   fontWeight: FontWeight.w600,
-                  fontSize: 16.sp,
-                  color: const Color(0xff556A8D),
+                  fontSize: 16,
+                  color: Color(0xff556A8D),
                 ),
               ),
             ),
-            SizedBox(
-              height: 7.h,
+            const SizedBox(
+              height: 7,
             ),
-            SizedBox(
-              height: 7.h,
+            const SizedBox(
+              height: 7,
             ),
             Container(
-              padding: EdgeInsets.only(left: 19.sp, right: 19.sp),
+              padding: const EdgeInsets.only(left: 19, right: 19),
               child: Center(
                 child: Text(
                   objeto,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: "montserrat",
                     fontWeight: FontWeight.w400,
-                    fontSize: 12.sp,
-                    color: const Color(0xff505050),
+                    fontSize: 12,
+                    color: Color(0xff505050),
                   ),
                 ),
               ),

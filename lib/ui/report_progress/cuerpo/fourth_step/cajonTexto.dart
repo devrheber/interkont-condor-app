@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'fouth_step_provider.dart';
 
-final titleColor = Color(0xff444444);
+const titleColor = Color(0xff444444);
 
 class CajonTextoComentarios extends StatefulWidget {
   const CajonTextoComentarios({
@@ -43,10 +42,10 @@ class _CajonTextoComentariosState extends State<CajonTextoComentarios> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 106.2.h,
-      margin: EdgeInsets.only(top: 35.sp),
-      padding: EdgeInsets.only(left: 15.0.sp, right: 15.sp, top: 13.27.sp),
-      decoration: BoxDecoration(
+      height: 106.2,
+      margin: const EdgeInsets.only(top: 35),
+      padding: const EdgeInsets.only(left: 15.0, right: 15, top: 13.27),
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
@@ -56,15 +55,15 @@ class _CajonTextoComentariosState extends State<CajonTextoComentarios> {
             children: <Widget>[
               Container(
                 child: Image.asset('assets/new/home/comments.png',
-                    width: 18.85.w, height: 18.85.w),
+                    width: 18.85, height: 18.85),
               ),
-              SizedBox(width: 11.8.sp),
+              const SizedBox(width: 11.8),
               Expanded(
                 child: Text(
-                  '${widget.textoTitulo}',
-                  style: TextStyle(
+                  widget.textoTitulo,
+                  style: const TextStyle(
                     color: Color(0xff556A8D),
-                    fontSize: 15.27.sp,
+                    fontSize: 15.27,
                     fontFamily: "montserrat",
                     fontWeight: FontWeight.w500,
                   ),
@@ -74,25 +73,25 @@ class _CajonTextoComentariosState extends State<CajonTextoComentarios> {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.only(top: 10.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: TextField(
                 textInputAction: TextInputAction.send,
                 controller: controllerCuartoPasoTxtComentarios,
                 onChanged: widget.onChanged,
                 maxLines: 4,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'montserrat',
                   fontWeight: FontWeight.w500,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                   color: Color(0xff556A8D),
                 ),
                 decoration: InputDecoration.collapsed(
-                  hintText: "${widget.textoHint}",
+                  hintText: widget.textoHint,
                   hintStyle: TextStyle(
                     fontFamily: 'montserrat',
                     fontWeight: FontWeight.w400,
-                    fontSize: 14.sp,
-                    color: Color(0xff556A8D).withOpacity(0.8),
+                    fontSize: 14,
+                    color: const Color(0xff556A8D).withOpacity(0.8),
                   ),
                 ),
               ),

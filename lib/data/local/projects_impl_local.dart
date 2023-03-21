@@ -14,7 +14,7 @@ class ProjectsImplLocal implements ProjectsRepository {
     return DatosAlimentacion(
         limitePorcentajeAtraso: 5,
         limitePorcentajeAtrasoAmarillo: 10,
-        periodos: [
+        periodos: const [
           Periodo(
               periodoId: 21,
               fechaIniPeriodo: '22-07-2022',
@@ -26,7 +26,7 @@ class ProjectsImplLocal implements ProjectsRepository {
               fechaFinPeriodo: '10-08-2022',
               porcentajeProyectado: 70),
         ],
-        actividades: [
+        actividades: const [
           Actividad(
               actividadId: 31,
               descripcionActividad: 'Actividad Local de Prueba',
@@ -52,15 +52,15 @@ class ProjectsImplLocal implements ProjectsRepository {
               cantidadEjecutadaInicial: 10,
               porcentajeAvanceInicial: 10),
         ],
-        apectosEvaluar: [
+        apectosEvaluar: const [
           AspectoEvaluar(
               aspectoEvaluarId: 51, descripcionAspectoEvaluar: 'Financiero'),
         ],
-        tiposFactorAtraso: [
+        tiposFactorAtraso: const [
           TiposFactorAtraso(
               tipoFactorAtrasoId: 61, tipoFactorAtraso: 'Corrupción')
         ],
-        factoresAtraso: [
+        factoresAtraso: const [
           FactoresAtraso(
               factorAtrasoId: 71,
               factorAtraso: 'Factor Atraso de Prueba',

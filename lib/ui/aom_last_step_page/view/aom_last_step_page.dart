@@ -2,7 +2,6 @@ import 'package:appalimentacion/ui/aom_last_step_page/cubit/aom_last_step_cubit.
 import 'package:appalimentacion/ui/aom_last_step_page/widgets/congrats_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class LastStepAOMPage extends StatelessWidget {
@@ -31,10 +30,10 @@ class LastStepAOMView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = TextStyle(
+    const style = TextStyle(
       fontFamily: 'montserrat',
       fontWeight: FontWeight.bold,
-      fontSize: 30.sp,
+      fontSize: 30,
       color: Colors.white,
     );
 
@@ -58,7 +57,7 @@ class LastStepAOMView extends StatelessWidget {
             },
             child: StreamBuilder<Map<String, dynamic>>(
                 stream: context.read<AomLastStepCubit>().uploadPercentage,
-                initialData: {
+                initialData: const {
                   'description': 'Enviando reporte',
                   'percentaje': 0.0,
                 },
@@ -69,7 +68,7 @@ class LastStepAOMView extends StatelessWidget {
                   final percentaje = snapshot.data?['percentaje'] ?? 0.0;
                   return Scaffold(
                     body: Container(
-                      color: Color(0xff2196F3),
+                      color: const Color(0xff2196F3),
                       child: Stack(
                         children: <Widget>[
                           Column(
@@ -77,8 +76,8 @@ class LastStepAOMView extends StatelessWidget {
                             children: [
                               Center(
                                 child: CircularPercentIndicator(
-                                  radius: 120.sp,
-                                  lineWidth: 6.sp,
+                                  radius: 120,
+                                  lineWidth: 6,
                                   percent: percentaje.clamp(0, 1),
                                   center: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -87,27 +86,27 @@ class LastStepAOMView extends StatelessWidget {
                                         "${(percentaje.clamp(0, 1) * 100).round()}",
                                         style: style,
                                       ),
-                                      Text(
+                                      const Text(
                                         "%",
                                         style: style,
                                         textAlign: TextAlign.start,
                                       ),
                                     ],
                                   ),
-                                  progressColor: Color(0xff90CBF9),
+                                  progressColor: const Color(0xff90CBF9),
                                   animateFromLastPercent: true,
                                 ),
                               ),
-                              SizedBox(height: 23.sp),
+                              const SizedBox(height: 23),
                               Text(
                                 percentaje >= 1
                                     ? 'Obteniendo respuesta'
                                     : '$description \n Estamos registrando la actualización AOM',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: 'montserrat',
                                   fontWeight: FontWeight.w800,
-                                  fontSize: 15.sp,
+                                  fontSize: 15,
                                   color: Colors.white,
                                 ),
                               ),
@@ -127,7 +126,7 @@ class LastStepAOMView extends StatelessWidget {
           );
         }
 
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
       }),
     );
   }
@@ -150,10 +149,10 @@ class AroContainer extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Color.fromRGBO(rgb, rgb, rgb, 0.1),
-        border: Border(
+        border: const Border(
           top: BorderSide(width: 40.0, color: Colors.transparent),
           left: BorderSide(width: 40.0, color: Colors.transparent),
-          right: BorderSide(width: 40.0, color: Colors.transparent),
+          right: const BorderSide(width: 40.0, color: Colors.transparent),
           bottom: BorderSide(width: 40.0, color: Colors.transparent),
         ),
       ),

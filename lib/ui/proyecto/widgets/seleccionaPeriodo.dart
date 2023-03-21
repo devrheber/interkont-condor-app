@@ -4,7 +4,6 @@ import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
 import 'package:appalimentacion/utils/datetime_format.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../domain/models/models.dart';
@@ -27,11 +26,11 @@ class DropDownPeriodo extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: 58.0.sp,
-      margin: EdgeInsets.only(
+      height: 58.0,
+      margin: const EdgeInsets.only(
         bottom: 10.0,
-        right: 28.sp,
-        left: 28.sp,
+        right: 28,
+        left: 28,
       ),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(30)),
@@ -44,8 +43,8 @@ class DropDownPeriodo extends StatelessWidget {
               flex: 1,
               child: Image.asset(
                 'assets/img/Desglose/Home/icn-reloj.png',
-                height: 17.82.sp,
-                width: 17.82.sp,
+                height: 17.82,
+                width: 17.82,
               )),
           Expanded(
             flex: 6,

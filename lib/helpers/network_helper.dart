@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 class NetworkHelper {
   const NetworkHelper._();
 
-  static final NetworkHelper _instance = NetworkHelper._();
+  static const NetworkHelper _instance = NetworkHelper._();
 
   factory NetworkHelper() => _instance;
 
@@ -18,9 +18,9 @@ class NetworkHelper {
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
       if (result == ConnectivityResult.none) {
-        NetworkBloc().add(NetworkNotify());
+        NetworkBloc().add(const NetworkNotify());
       } else {
-        NetworkBloc().add(NetworkNotify(isConnected: true));
+        NetworkBloc().add(const NetworkNotify(isConnected: true));
       }
     });
   }

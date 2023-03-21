@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
@@ -95,55 +94,55 @@ class _ProgressCardState extends State<ProgressCard> {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-              color: Color(0xff666666).withOpacity(0.26),
-              blurRadius: 14.sp,
-              spreadRadius: 0.4.sp,
-              offset: Offset(4.sp, 10.sp)),
+              color: const Color(0xff666666).withOpacity(0.26),
+              blurRadius: 14,
+              spreadRadius: 0.4,
+              offset: const Offset(4, 10)),
         ],
-        borderRadius: BorderRadius.circular(16.13.sp),
+        borderRadius: BorderRadius.circular(16.13),
         gradient: ColorTheme.cardGradient,
       ),
-      padding: EdgeInsets.only(
-        left: 38.46.sp,
-        right: 37.42.sp,
-        top: 30.64.sp,
-        bottom: 38.95.sp,
+      padding: const EdgeInsets.only(
+        left: 38.46,
+        right: 37.42,
+        top: 30.64,
+        bottom: 38.95,
       ),
-      margin: EdgeInsets.only(bottom: 38.sp),
+      margin: const EdgeInsets.only(bottom: 38),
       child: Column(
         children: <Widget>[
           Text(widget.activity.descripcionActividad,
-              style: TextStyle(
-                fontSize: 12.1796.sp,
+              style: const TextStyle(
+                fontSize: 12.1796,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'montserrat',
               ),
               textAlign: TextAlign.center),
-          SizedBox(height: 16.93.sp),
-          Text(
+          const SizedBox(height: 16.93),
+          const Text(
             'Ingresa el % de avance para el presente reporte',
             style: TextStyle(
-              fontSize: 12.18.sp,
+              fontSize: 12.18,
               color: Colors.white,
               fontFamily: "montserrat",
               fontWeight: FontWeight.w400,
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 9.68.sp),
+          const SizedBox(height: 9.68),
           Container(
-            height: 41.13.sp,
-            width: 177.4.sp,
+            height: 41.13,
+            width: 177.4,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.06),
-              borderRadius: BorderRadius.circular(12.0957.sp),
+              borderRadius: BorderRadius.circular(12.0957),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.09),
-                  blurRadius: 12.1.sp,
+                  blurRadius: 12.1,
                   spreadRadius: 0,
-                  offset: Offset(2.42.sp, 3.12.sp),
+                  offset: const Offset(2.42, 3.12),
                 ),
               ],
             ),
@@ -153,7 +152,7 @@ class _ProgressCardState extends State<ProgressCard> {
                 Expanded(
                   child: TextField(
                       textInputAction: TextInputAction.send,
-                      keyboardType: TextInputType.numberWithOptions(
+                      keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
                         signed: false,
                       ),
@@ -165,13 +164,13 @@ class _ProgressCardState extends State<ProgressCard> {
                       controller: controller,
                       onChanged: calcutate,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontFamily: 'montserrat',
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
                       ),
-                      decoration: InputDecoration.collapsed(
+                      decoration: const InputDecoration.collapsed(
                         hintText: "0.0",
                         hintStyle: TextStyle(
                             fontSize: 20.0,
@@ -183,7 +182,7 @@ class _ProgressCardState extends State<ProgressCard> {
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Column(
             children: <Widget>[
               _Celdas(
@@ -210,7 +209,7 @@ class _ProgressCardState extends State<ProgressCard> {
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
         ],
       ),
     );
@@ -256,11 +255,11 @@ class _Celdas extends StatelessWidget {
       }
     }
     return Container(
-      padding: EdgeInsets.only(bottom: 3.9.sp, top: 5.3.sp),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.only(bottom: 3.9, top: 5.3),
+      decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(width: 0.2.sp, color: Colors.white),
-          top: BorderSide(width: 0.2.sp, color: Colors.white),
+          bottom: BorderSide(width: 0.2, color: Colors.white),
+          top: BorderSide(width: 0.2, color: Colors.white),
         ),
       ),
       child: Row(
@@ -272,7 +271,7 @@ class _Celdas extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'montserrat',
                 fontWeight: fontWeight,
-                fontSize: 12.18.sp,
+                fontSize: 12.18,
                 color: Colors.white,
               ),
             ),
@@ -284,7 +283,7 @@ class _Celdas extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'montserrat',
                 fontWeight: fontWeight,
-                fontSize: 12.18.sp,
+                fontSize: 12.18,
                 color: Colors.white,
               ),
             ),

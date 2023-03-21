@@ -18,7 +18,7 @@ String datosAlimentacionToJson(DatosAlimentacion data) =>
     json.encode(data.toJson());
 
 class DatosAlimentacion extends Equatable {
-  DatosAlimentacion({
+  const DatosAlimentacion({
     required this.limitePorcentajeAtraso,
     required this.limitePorcentajeAtrasoAmarillo,
     required this.periodos,
@@ -92,7 +92,7 @@ class DatosAlimentacion extends Equatable {
 }
 
 class Actividad extends Equatable {
-  Actividad({
+  const Actividad({
     required this.actividadId,
     required this.descripcionActividad,
     required this.unidadMedida,
@@ -212,7 +212,7 @@ class Actividad extends Equatable {
 }
 
 class AspectoEvaluar extends Equatable {
-  AspectoEvaluar({
+  const AspectoEvaluar({
     required this.aspectoEvaluarId,
     required this.descripcionAspectoEvaluar,
   });
@@ -238,7 +238,7 @@ class AspectoEvaluar extends Equatable {
 }
 
 class FactoresAtraso extends Equatable {
-  FactoresAtraso({
+  const FactoresAtraso({
     required this.factorAtrasoId,
     required this.factorAtraso,
     required this.tipoFactorAtrasoId,
@@ -269,7 +269,7 @@ class FactoresAtraso extends Equatable {
 }
 
 class Periodo extends Equatable {
-  Periodo({
+  const Periodo({
     required this.periodoId,
     required this.fechaIniPeriodo,
     required this.fechaFinPeriodo,
@@ -309,7 +309,7 @@ class Periodo extends Equatable {
 }
 
 class TiposFactorAtraso extends Equatable {
-  TiposFactorAtraso({
+  const TiposFactorAtraso({
     required this.tipoFactorAtrasoId,
     required this.tipoFactorAtraso,
   });

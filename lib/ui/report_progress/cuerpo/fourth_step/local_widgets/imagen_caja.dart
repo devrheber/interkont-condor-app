@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path/path.dart';
 
@@ -30,15 +29,15 @@ class ImagenCaja extends StatelessWidget {
     return DottedBorder(
       borderType: BorderType.RRect,
       padding: EdgeInsets.zero,
-      radius: Radius.circular(15.0.sp),
+      radius: const Radius.circular(15.0),
       strokeWidth: 2,
-      color: Color(0xff9a9a9a),
+      color: const Color(0xff9a9a9a),
       child: Container(
-        width: 102.11.sp,
-        height: 102.63.sp,
+        width: 102.11,
+        height: 102.63,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0.sp),
+          borderRadius: BorderRadius.circular(15.0),
         ),
         child: file == null
             ? _NoImage(onTap: onTap, isMaxLimit: isMaxLimit)
@@ -48,8 +47,8 @@ class ImagenCaja extends StatelessWidget {
                       ? _DocumentFile(file: file!)
                       : Image.file(
                           file!,
-                          width: 102.11.sp,
-                          height: 102.63.sp,
+                          width: 102.11,
+                          height: 102.63,
                           fit: BoxFit.cover,
                         ),
                   Positioned(
@@ -57,21 +56,21 @@ class ImagenCaja extends StatelessWidget {
                     right: 0,
                     child: Container(
                       clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(
-                          Radius.circular(500),
+                          const Radius.circular(500),
                         ),
                       ),
-                      margin: EdgeInsets.all(8.86.sp),
+                      margin: const EdgeInsets.all(8.86),
                       child: Material(
                         color: Colors.red,
                         child: IconButton(
-                          // iconSize: 5.sp,
+                          // iconSize: 5,
                           onPressed: onRemoveImageTap,
-                          icon: Icon(
+                          icon: const Icon(
                             FontAwesomeIcons.times,
                             color: Colors.white,
-                            size: 24.sp,
+                            size: 24,
                           ),
                         ),
                       ),
@@ -97,27 +96,27 @@ class _DocumentFile extends StatelessWidget {
     return Container(
       color: Colors.white,
       alignment: Alignment.center,
-      padding: EdgeInsets.all(5.sp),
+      padding: const EdgeInsets.all(5),
       child: Column(
         children: [
-          Spacer(),
+          const Spacer(),
           AutoSizeText(
             basename(file.path),
             maxLines: 1,
-            style: TextStyle(
+            style: const TextStyle(
                 color: ColorTheme.primaryShade,
-                fontSize: 13.sp,
+                fontSize: 13,
                 fontWeight: FontWeight.w500),
           ),
           Text(
             //size in MB
             (file.lengthSync() / 1000000).toStringAsFixed(2) + ' MB',
-            style: TextStyle(
+            style: const TextStyle(
                 color: ColorTheme.primaryShade,
-                fontSize: 13.sp,
+                fontSize: 13,
                 fontWeight: FontWeight.w500),
           ),
-          Spacer(flex: 3),
+          const Spacer(flex: 3),
         ],
       ),
     );
@@ -143,36 +142,36 @@ class _NoImage extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            Spacer(),
-            Spacer(),
+            const Spacer(),
+            const Spacer(),
             Opacity(
               opacity: isMaxLimit ? 1 : 0,
-              child: Text(
+              child: const Text(
                 'Max. 20MB',
                 style: TextStyle(
                     color: ColorTheme.primaryShade,
-                    fontSize: 13.sp,
+                    fontSize: 13,
                     fontWeight: FontWeight.bold),
               ),
             ),
-            Spacer(),
-            Icon(
+            const Spacer(),
+            const Icon(
               Icons.add_circle,
-              size: 40.0.sp,
-              color: Color(0xffdeebf6),
+              size: 40.0,
+              color: const Color(0xffdeebf6),
             ),
-            Spacer(),
-            Text(
+            const Spacer(),
+            const Text(
               'Agregar',
               style: TextStyle(
                   color: ColorTheme.primaryShade,
-                  fontSize: 13.sp,
+                  fontSize: 13,
                   fontWeight: FontWeight.w500),
             ),
-            Spacer(),
-            Spacer(),
-            Spacer(),
-            Spacer(),
+            const Spacer(),
+            const Spacer(),
+            const Spacer(),
+            const Spacer(),
           ],
         ),
       ),

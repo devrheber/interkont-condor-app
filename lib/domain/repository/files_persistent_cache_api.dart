@@ -113,7 +113,7 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
   @override
   void removeMainPhoto() {
     _filesCache[projectCode!] =
-        _filesCache[projectCode!]?.removeMainPhoto() ?? FilesCache();
+        _filesCache[projectCode!]?.removeMainPhoto() ?? const FilesCache();
 
     _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
@@ -131,7 +131,7 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
 
   @override
   void saveComplementaryImage(ComplementaryImage image) {
-    FilesCache fileCache = _filesCache[projectCode] ?? FilesCache();
+    FilesCache fileCache = _filesCache[projectCode] ?? const FilesCache();
 
     fileCache = fileCache.copyWith(
         complementaryImages: [...fileCache.complementaryImages ?? [], image]);
@@ -145,14 +145,14 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
   @override
   void removeComplementaryImage(ComplementaryImage image) {
     _filesCache[projectCode!] =
-        _filesCache[projectCode!]?.removeComplementaryImages() ?? FilesCache();
+        _filesCache[projectCode!]?.removeComplementaryImages() ?? const FilesCache();
 
     _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void saveRequiredDocument(Document doc) {
-    FilesCache fileCache = _filesCache[projectCode] ?? FilesCache();
+    FilesCache fileCache = _filesCache[projectCode] ?? const FilesCache();
 
     fileCache = fileCache.copyWith(
         requiredDocuments: [...fileCache.requiredDocuments ?? [], doc]);
@@ -166,14 +166,14 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
   @override
   void removeRequiredDocument(Document doc) {
     _filesCache[projectCode!] =
-        _filesCache[projectCode!]?.removeRequiredDocuments() ?? FilesCache();
+        _filesCache[projectCode!]?.removeRequiredDocuments() ?? const FilesCache();
 
     _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }
 
   @override
   void saveAdditionalDocument(Document doc) {
-    FilesCache fileCache = _filesCache[projectCode] ?? FilesCache();
+    FilesCache fileCache = _filesCache[projectCode] ?? const FilesCache();
 
     fileCache = fileCache.copyWith(
         additionalDocuments: [...fileCache.additionalDocuments ?? [], doc]);
@@ -187,7 +187,7 @@ class FilesPersistentCacheApi extends FilesPersistentCacheRepository {
   @override
   void removeAdditionalDocument(Document doc) {
     _filesCache[projectCode!] =
-        _filesCache[projectCode!]?.removeAdditionalDocuments() ?? FilesCache();
+        _filesCache[projectCode!]?.removeAdditionalDocuments() ?? const FilesCache();
 
     _setValue(kFilesCacheKey, filesCacheToJson(_filesCache));
   }

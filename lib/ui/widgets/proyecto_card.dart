@@ -2,7 +2,6 @@ import 'package:appalimentacion/utils/utils.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../domain/models/models.dart';
 
@@ -24,7 +23,7 @@ class ProjectCard extends StatelessWidget {
     return Card(
       elevation: 2,
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
         clipBehavior: Clip.antiAlias,
         child: Material(
           color: Colors.white,
@@ -32,19 +31,19 @@ class ProjectCard extends StatelessWidget {
             onTap: onTap,
             child: Container(
               width: double.infinity,
-              margin: EdgeInsets.only(bottom: 1.sp, top: 1.sp),
-              padding: EdgeInsets.only(
-                  top: 24.sp, bottom: 24.sp, left: 28.sp, right: 4.sp),
+              margin: const EdgeInsets.only(bottom: 1, top: 1),
+              padding: const EdgeInsets.only(
+                  top: 24, bottom: 24, left: 28, right: 4),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Spacer(),
+                      const Spacer(),
                       ConstrainedBox(
                         constraints:
-                            BoxConstraints(maxWidth: 50, maxHeight: 50),
+                            const BoxConstraints(maxWidth: 50, maxHeight: 50),
                         child: ClipOval(
                             child: CachedNetworkImage(
                           imageUrl: project.imagencategoria,
@@ -52,14 +51,14 @@ class ProjectCard extends StatelessWidget {
                             'assets/img/Desglose/Demas/question.png',
                           ),
                           errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                              const Icon(Icons.error),
                         )),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Expanded(
                         flex: 50,
                         child: Container(
-                          padding: EdgeInsets.only(left: 10.0),
+                          padding: const EdgeInsets.only(left: 10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -72,7 +71,7 @@ class ProjectCard extends StatelessWidget {
                                       style: TextStyle(
                                         fontFamily: 'montserrat',
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 10.sp,
+                                        fontSize: 10,
                                         letterSpacing: 0.4,
                                         color: Color(
                                           project.titleColor,
@@ -82,16 +81,16 @@ class ProjectCard extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 3.5,
                               ),
                               Text(
                                 project.nombreproyecto,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: "montserrat",
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 13.sp,
-                                  color: Color(0xFF000000),
+                                  fontSize: 13,
+                                  color: const Color(0xFF000000),
                                 ),
                               ),
                               Row(
@@ -100,7 +99,7 @@ class ProjectCard extends StatelessWidget {
                                     flex: 5,
                                     child: Column(
                                       children: <Widget>[
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5.0,
                                         ),
                                         Row(
@@ -118,10 +117,10 @@ class ProjectCard extends StatelessWidget {
                                               child: AutoSizeText(
                                                 project.projectValueRounded,
                                                 maxLines: 1,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontFamily: "montserrat",
                                                   fontWeight: FontWeight.w400,
-                                                  fontSize: 15.sp,
+                                                  fontSize: 15,
                                                   letterSpacing: 0.4,
                                                   height: 0.9,
                                                   color: Color(0xFF808080),
@@ -144,11 +143,11 @@ class ProjectCard extends StatelessWidget {
                                                     PercentajeFormat.percentaje(
                                                         project
                                                             .percentageByValue),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontFamily: "montserrat",
                                                       fontWeight:
                                                           FontWeight.w400,
-                                                      fontSize: 15.sp,
+                                                      fontSize: 15,
                                                       letterSpacing: 0.4,
                                                       height: 0.9,
                                                       color: Color(0xFF808080),
@@ -162,12 +161,12 @@ class ProjectCard extends StatelessWidget {
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          5.sp),
+                                                          5),
                                                   clipBehavior: Clip.antiAlias,
                                                   child: Image.asset(
                                                     'assets/img/Desglose/Home/${project.trafficLightColorValue}.png',
-                                                    height: 19.sp,
-                                                    width: 50.95.sp,
+                                                    height: 19,
+                                                    width: 50.95,
                                                   ),
                                                 ),
                                               ),

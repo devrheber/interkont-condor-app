@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../globales/colores.dart';
 
-final titleColor = Color(0xff444444);
+const titleColor = Color(0xff444444);
 
 class CustomedTextField extends StatelessWidget {
   const CustomedTextField({
@@ -23,42 +22,42 @@ class CustomedTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 93.sp,
-      margin: EdgeInsets.only(top: 8.sp),
+      height: 93,
+      margin: const EdgeInsets.only(top: 8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15.sp),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
         children: <Widget>[
           Row(
             children: <Widget>[
-              SizedBox(width: 16.57.sp),
+              const SizedBox(width: 16.57),
               // Container(
               //   child: logros
               //       ? Image.asset(
               //           'assets/img/Desglose/ReporteAvance/icn-logros.png',
-              //           width: 24.0.sp,
+              //           width: 24.0,
               //         )
               //       : Image.asset(
               //           'assets/img/Desglose/ReporteAvance/icn-dificultades.png',
-              //           width: 24.0.sp,
+              //           width: 24.0,
               //         ),
               // ),
               Container(
                 child: Image.asset(
                   'assets/new/home/logro.png',
-                  width: 24.0.sp,
-                  height: 24.0.sp,
+                  width: 24.0,
+                  height: 24.0,
                 ),
               ),
-              SizedBox(width: 9.47.sp),
+              const SizedBox(width: 9.47),
               Expanded(
                   child: Text(
-                '$title',
-                style: TextStyle(
+                title,
+                style: const TextStyle(
                   fontFamily: 'montserrat',
-                  fontSize: 13.23.sp,
+                  fontSize: 13.23,
                   color: AppTheme.darkText,
                   fontWeight: FontWeight.w300,
                 ),
@@ -66,25 +65,25 @@ class CustomedTextField extends StatelessWidget {
             ],
           ),
           Container(
-            padding: EdgeInsets.only(top: 14.0.sp, left: 17.sp, right: 17.sp),
+            padding: const EdgeInsets.only(top: 14.0, left: 17, right: 17),
             child: TextField(
               textInputAction: TextInputAction.send,
               controller: controller,
               onChanged: onChanged,
               maxLines: 2,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'montserrat',
                 fontWeight: FontWeight.w500,
-                fontSize: 13.sp,
+                fontSize: 13,
                 color: Color(0xff556A8D),
               ),
               decoration: InputDecoration.collapsed(
-                hintText: "$hintText",
+                hintText: hintText,
                 hintStyle: TextStyle(
                   fontFamily: 'montserrat',
                   fontWeight: FontWeight.w400,
-                  fontSize: 13.sp,
-                  color: Color(0xff556A8D).withOpacity(0.8),
+                  fontSize: 13,
+                  color: const Color(0xff556A8D).withOpacity(0.8),
                 ),
               ),
             ),

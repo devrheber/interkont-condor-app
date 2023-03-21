@@ -14,22 +14,22 @@ class NoInternet extends StatelessWidget {
       },
       child: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/img/Desglose/Demas/bg-nosenal.jpg"),
                 fit: BoxFit.cover),
           ),
           padding:
-              EdgeInsets.only(top: 80.0, bottom: 20.0, left: 70.0, right: 70.0),
+              const EdgeInsets.only(top: 80.0, bottom: 20.0, left: 70.0, right: 70.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(
-                image: AssetImage('assets/img/Desglose/Demas/icn-nosenal.png'),
+              const Image(
+                image: const AssetImage('assets/img/Desglose/Demas/icn-nosenal.png'),
                 width: 80.0,
                 height: 130,
               ),
-              Text(
+              const Text(
                 'Parece que no tienes señal',
                 style: TextStyle(
                   fontFamily: 'montserrat',
@@ -39,15 +39,15 @@ class NoInternet extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20.0,
               ),
-              Text(
+              const Text(
                 'Guarda tu avance, apenas tu móvil se conecte a Internet tu proyecto automáticamente será actualizado',
                 style: AppTheme.parrafoBlanco,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50.0,
               ),
               GestureDetector(
@@ -78,11 +78,11 @@ class NoInternet extends StatelessWidget {
                         bottom: BorderSide(width: 1.0, color: AppTheme.onceavo),
                       ),
                     ),
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
+                      children: const <Widget>[
                         Text(
                           'Guardar',
                           style: TextStyle(
@@ -109,7 +109,7 @@ class NoInternet extends StatelessWidget {
 Future<dynamic> noInternetConnection(BuildContext context) {
   return showDialog(
     context: context,
-    builder: (context) => Dialog(
+    builder: (context) => const Dialog(
       child: NoInternet(),
       insetPadding: EdgeInsets.zero,
       elevation: 0,

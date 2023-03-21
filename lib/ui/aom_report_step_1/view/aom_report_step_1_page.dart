@@ -7,7 +7,6 @@ import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widgets/widgets.dart';
 
@@ -38,25 +37,25 @@ class AomReportStep1Page extends StatelessWidget {
         if (state.status == AomCategoryDetailStatus.loading) {
           return Builder(builder: (context) {
             return Container(
-              margin: EdgeInsets.only(top: 265.h, left: 28.sp, right: 28.sp),
+              margin: const EdgeInsets.only(top: 265, left: 28, right: 28),
               child: ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: 3,
                 itemBuilder: (_, int index) {
                   return Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.sp),
-                      padding: EdgeInsets.only(
-                        left: 15.sp,
-                        right: 15.sp,
-                        top: 20.45.sp,
-                        bottom: 20.45.sp,
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.only(
+                        left: 15,
+                        right: 15,
+                        top: 20.45,
+                        bottom: 20.45,
                       ),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.13.sp),
+                          borderRadius: BorderRadius.circular(16.13),
                           color: ColorTheme.primary.withOpacity(0.05)),
                       child: const ShimmerDetallerActivoWidget());
                 },
-                separatorBuilder: (_, int index) => SizedBox(height: 10.sp),
+                separatorBuilder: (_, int index) => const SizedBox(height: 10),
               ),
             );
           });
@@ -73,21 +72,21 @@ class AomReportStep1Page extends StatelessWidget {
                     duration: const Duration(milliseconds: 1500),
                     child: Container(
                       width: double.infinity,
-                      margin: EdgeInsets.only(
-                          top: 265.h, left: 28.sp, right: 28.sp),
+                      margin: const EdgeInsets.only(
+                          top: 265, left: 28, right: 28),
                       child: ListView(
                         physics: const BouncingScrollPhysics(),
                         children: <Widget>[
-                          AutoSizeText(
+                          const AutoSizeText(
                             'Registre los cambios a reportar de cada activo de la lista',
                             style: TextStyle(
                               fontFamily: "montserrat",
-                              fontSize: 15.sp,
-                              color: const Color(0xff444444),
+                              fontSize: 15,
+                              color: Color(0xff444444),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          SizedBox(height: 20.sp),
+                          const SizedBox(height: 20),
                           for (final item in state.gestionAom)
                             DetailCardWidget(
                               item,
@@ -96,7 +95,7 @@ class AomReportStep1Page extends StatelessWidget {
                                 bloc.add(UpdateActivoEvent(activo));
                               },
                             ),
-                          SizedBox(height: 75.sp),
+                          const SizedBox(height: 75),
                         ],
                       ),
                     ),

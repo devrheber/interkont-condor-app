@@ -20,7 +20,7 @@ class ListaProyectosAomPage extends StatelessWidget {
         }
 
         return const FondoHome(
-          body: const ProyectsoContenidoAOMState(),
+          body: ProyectsoContenidoAOMState(),
           showMenuButton: true,
         );
       },

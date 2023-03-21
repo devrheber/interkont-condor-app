@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../widgets/widgets.dart';
@@ -10,7 +9,7 @@ import 'fotos_complementarias.dart';
 import 'fouth_step_provider.dart';
 import 'required_documents.dart';
 
-final titleColor = Color(0xff444444);
+final titleColor = const Color(0xff444444);
 
 class FourthStep extends StatelessWidget {
   const FourthStep._();
@@ -35,59 +34,59 @@ class FourthStep extends StatelessWidget {
       children: <Widget>[
         Container(
           width: double.infinity,
-          margin: EdgeInsets.only(
-            top: 230.h,
+          margin: const EdgeInsets.only(
+            top: 230,
           ),
           child: ListView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: <Widget>[
               Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 31.sp),
+                      margin: const EdgeInsets.symmetric(horizontal: 31),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           const TextTitle(text: 'Descripción & Documentos'),
-                          SizedBox(height: 2.sp),
+                          const SizedBox(height: 2),
                           CajonTextoComentarios(
                               textoTitulo: 'Comentarios',
                               textoHint:
                                   'Acá puede agregar una descripción del avance..',
                               onChanged: (String value) =>
                                   fourthStepService.onChangedComment(value)),
-                          SizedBox(height: 22.8.sp),
+                          const SizedBox(height: 22.8),
                           const TextSubtitle2(
                             text: 'Agregar una foto principal del avance',
                             isRequired: true,
                           ),
-                          SizedBox(height: 23.15.sp),
+                          const SizedBox(height: 23.15),
                           const FotoPrincipal(),
-                          SizedBox(height: 22.8.sp),
+                          const SizedBox(height: 22.8),
                           const TextSubtitle2(
                             text:
                                 'Agregar fotos complementarias (Max 5)\nTambién puedes tomar una foto a tus documentos',
                           ),
-                          SizedBox(height: 23.15.sp),
+                          const SizedBox(height: 23.15),
                           const FotosComplementarias(),
-                          SizedBox(height: 22.8.sp),
+                          const SizedBox(height: 22.8),
                           const TextSubtitle2(
                             text: 'Agregar Documentos Obligatorios',
                           ),
-                          SizedBox(height: 22.8.sp),
+                          const SizedBox(height: 22.8),
                           if (fourthStepService.gettingTypesDocument)
-                            LoadingText('Obteniendo tipos de documento...')
+                            const LoadingText('Obteniendo tipos de documento...')
                           else
                             const RequiredDocuments(),
-                          SizedBox(height: 22.8.sp),
+                          const SizedBox(height: 22.8),
                           const TextSubtitle2(
                             text: 'Agregar Documentos adicionales',
                           ),
-                          SizedBox(height: 22.8.sp),
+                          const SizedBox(height: 22.8),
                           const DocumentosAdicionales(),
-                          SizedBox(height: 23.15.sp),
+                          const SizedBox(height: 23.15),
                         ],
                       ),
                     ),

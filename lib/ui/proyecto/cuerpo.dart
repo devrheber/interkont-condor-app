@@ -3,7 +3,6 @@ import 'package:appalimentacion/domain/models/project.dart';
 import 'package:appalimentacion/ui/proyecto/project_detail_provider.dart';
 import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -28,41 +27,41 @@ class BodyCard extends StatelessWidget {
               ? Container(
                   width: double.infinity,
                   margin:
-                      EdgeInsets.only(top: 335.h, left: 28.sp, right: 28.sp),
-                  decoration: BoxDecoration(
+                      const EdgeInsets.only(top: 335, left: 28, right: 28),
+                  decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
                   padding:
-                      EdgeInsets.symmetric(horizontal: 20.sp, vertical: 13.sp),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
                         height: 20.0,
-                        margin: EdgeInsets.only(bottom: 5.0, right: 10.0),
+                        margin: const EdgeInsets.only(bottom: 5.0, right: 10.0),
                         child: Image.asset(
                           'assets/img/Desglose/Demas/icn-alert.png',
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                           child: Text(
                               // 'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
                               'Debes sincronizar el proyecto para poder reportar tu avance',
                               style: TextStyle(
                                 fontFamily: "montserrat",
                                 fontWeight: FontWeight.w500,
-                                fontSize: 12.sp,
+                                fontSize: 12,
                                 color: Color(0xffC1272D),
                               ),
                               textAlign: TextAlign.left))
                     ],
                   ))
-              : Text(''),
+              : const Text(''),
           Container(
             width: double.infinity,
             margin: EdgeInsets.only(
-              top: (projectCache.synchronizationRequired) ? 400.h : 400.h,
+              top: (projectCache.synchronizationRequired) ? 400 : 400,
             ),
             child: Column(
               children: <Widget>[
@@ -74,23 +73,23 @@ class BodyCard extends StatelessWidget {
                         porcentajeAsiVa: project.asiVaPorcentajeDouble,
                         project: project,
                       ),
-                      SizedBox(
-                        height: 10.h,
+                      const SizedBox(
+                        height: 10,
                       ),
                       Container(
-                        padding: EdgeInsets.only(
-                            right: 28.sp, left: 28.sp, bottom: 5.0),
-                        child: Text(
+                        padding: const EdgeInsets.only(
+                            right: 28, left: 28, bottom: 5.0),
+                        child: const Text(
                           'Seleccione el periodo a reportar',
                           style: TextStyle(
-                            fontSize: 15.sp,
+                            fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Color(0xff030303),
                             fontFamily: "montserrat",
                           ),
                         ),
                       ),
-                      SizedBox(height: 10.h),
+                      const SizedBox(height: 10),
                       const DropDownPeriodo()
                     ],
                   ),
@@ -98,30 +97,30 @@ class BodyCard extends StatelessWidget {
                 if (project.pendienteAprobacion)
                   Container(
                     width: double.infinity,
-                    height: 50.0.h,
-                    decoration: BoxDecoration(
+                    height: 50.0,
+                    decoration: const BoxDecoration(
                       color: AppTheme.rojoBackground,
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    margin: EdgeInsets.symmetric(horizontal: 24.sp),
-                    padding: EdgeInsets.only(
-                      top: 5.0.sp,
-                      bottom: 10.0.sp,
-                      left: 20.0.sp,
-                      right: 20.0.sp,
+                    margin: const EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.only(
+                      top: 5.0,
+                      bottom: 10.0,
+                      left: 20.0,
+                      right: 20.0,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
                           height: 20.0,
-                          margin: EdgeInsets.only(bottom: 5.0, right: 10.0),
+                          margin: const EdgeInsets.only(bottom: 5.0, right: 10.0),
                           child: Image.asset(
                             'assets/img/Desglose/Demas/icn-alert.png',
                             // width: 100.0,
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                             child: Text(
                                 'No puedes avanzar hasta que el Supervisor apruebe tu último informe de avance',
                                 // 'Debes sincronizar el proyecto para poder reportar tu avance',
@@ -131,7 +130,7 @@ class BodyCard extends StatelessWidget {
                     ),
                   )
                 else
-                  Text(''),
+                  const Text(''),
               ],
             ),
           ),
@@ -156,13 +155,13 @@ class _Summary extends StatelessWidget {
     final NumberFormat f2 = NumberFormat("#,##0.00", "en_US");
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(bottom: 10.0, left: 28.sp, right: 28.sp),
-      decoration: BoxDecoration(
+      margin: const EdgeInsets.only(bottom: 10.0, left: 28, right: 28),
+      decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(20.sp)),
+        borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       padding:
-          EdgeInsets.only(top: 10.0, bottom: 20.0, left: 30.0, right: 30.0),
+          const EdgeInsets.only(top: 10.0, bottom: 20.0, left: 30.0, right: 30.0),
       child: Column(
         children: <Widget>[
           _Celdas(
@@ -221,22 +220,22 @@ class _Celdas extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: semaforo
-          ? EdgeInsets.only(top: 10.0)
-          : EdgeInsets.only(bottom: 10.0, top: 10.0),
+          ? const EdgeInsets.only(top: 10.0)
+          : const EdgeInsets.only(bottom: 10.0, top: 10.0),
       decoration: BoxDecoration(
         border: Border(
             bottom: !semaforo
-                ? BorderSide(width: 0.3, color: Colors.black)
-                : BorderSide(width: 0.0, color: Colors.white)),
+                ? const BorderSide(width: 0.3, color: Colors.black)
+                : const BorderSide(width: 0.0, color: Colors.white)),
       ),
       child: Row(
         children: <Widget>[
           Expanded(
             child: Text(
               '$leftText',
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: "montserrat",
-                fontSize: 14.sp,
+                fontSize: 14,
                 color: Color(0xff333333),
                 fontWeight: FontWeight.w400,
               ),
@@ -256,8 +255,8 @@ class _Celdas extends StatelessWidget {
                   )
                 : Text(
                     rightText == 'null' ? '---' : '$rightText',
-                    style: TextStyle(
-                      fontSize: 13.93.sp,
+                    style: const TextStyle(
+                      fontSize: 13.93,
                       fontFamily: "montserrat",
                       color: Color(0xff808080),
                       fontWeight: FontWeight.w400,

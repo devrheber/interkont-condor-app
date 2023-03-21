@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ShinyAnimation extends StatefulWidget {
   const ShinyAnimation({
@@ -56,7 +55,7 @@ class _ShinyAnimationState extends State<ShinyAnimation>
       builder: (context, _) {
         return Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(16.r)),
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,

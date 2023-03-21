@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StepIndicator extends StatelessWidget {
   const StepIndicator({
@@ -34,12 +33,12 @@ class StepIndicator extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 1400),
+          duration: const Duration(milliseconds: 1400),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
                   width: 1.0,
-                  color: isCompleted ? Color(0xff7964F3) : Colors.transparent),
+                  color: isCompleted ? const Color(0xff7964F3) : Colors.transparent),
             ),
           ),
           child: Column(
@@ -47,20 +46,20 @@ class StepIndicator extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                  width: 28.w,
-                  height: 28.w,
+                  width: 28,
+                  height: 28,
                   alignment: Alignment.center,
-                  margin: EdgeInsets.only(bottom: 4.0.sp),
+                  margin: const EdgeInsets.only(bottom: 4.0),
                   decoration: BoxDecoration(
                     color: circleBgColor,
-                    borderRadius: BorderRadius.all(Radius.circular(100.0.w)),
+                    borderRadius: const BorderRadius.all(Radius.circular(100.0)),
                   ),
                   child: Text(
                     number,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: "montserrat",
-                      fontSize: 14.61.sp,
+                      fontSize: 14.61,
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
                     ),
@@ -70,9 +69,9 @@ class StepIndicator extends StatelessWidget {
                   '$text',
                   textAlign: TextAlign.center,
                   style: style ??
-                      TextStyle(
+                      const TextStyle(
                         fontFamily: "montserrat",
-                        fontSize: 12.sp,
+                        fontSize: 12,
                         color: Color(0xff556A8D),
                         fontWeight: FontWeight.w500,
                       ),

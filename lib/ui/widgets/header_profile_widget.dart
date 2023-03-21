@@ -1,7 +1,6 @@
 import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HeaderProfileWidget extends StatelessWidget {
   const HeaderProfileWidget({Key? key}) : super(key: key);
@@ -10,47 +9,47 @@ class HeaderProfileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(top: 107.sp),
+      margin: const EdgeInsets.only(top: 107),
       child: Stack(
         children: <Widget>[
           Container(
-            width: 358.sp,
-            height: 126.sp,
-            margin: EdgeInsets.only(top: 50.0.sp, right: 28.sp, left: 28.sp),
+            width: 358,
+            height: 126,
+            margin: const EdgeInsets.only(top: 50.0, right: 28, left: 28),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20.sp)),
+              borderRadius: const BorderRadius.all(const Radius.circular(20)),
               boxShadow: [
                 BoxShadow(
                   color: const Color(0xffC1C8D9).withOpacity(.3),
-                  blurRadius: 26.sp,
-                  offset: Offset(3.sp, 4.sp),
+                  blurRadius: 26,
+                  offset: const Offset(3, 4),
                 ),
               ],
             ),
             child: Container(
-              padding: EdgeInsets.only(top: 55.0.sp),
+              padding: const EdgeInsets.only(top: 55.0),
               child: Column(
                 children: <Widget>[
-                  Text(
+                  const Text(
                     'Bienvenido',
                     style: TextStyle(
                       fontFamily: "montserrat",
                       fontWeight: FontWeight.bold,
-                      fontSize: 20.sp,
-                      color: const Color(0xFF000000),
+                      fontSize: 20,
+                      color: Color(0xFF000000),
                     ),
                   ),
-                  SizedBox(
-                    height: 5.0.sp,
+                  const SizedBox(
+                    height: 5.0,
                   ),
                   Text(
                     context.read<AuthenticationProvider>().user?.username ?? '',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: "montserrat",
                       fontWeight: FontWeight.w200,
-                      fontSize: 15.sp,
-                      color: const Color(0xFF566B8C),
+                      fontSize: 15,
+                      color: Color(0xFF566B8C),
                     ),
                   )
                 ],
@@ -62,16 +61,16 @@ class HeaderProfileWidget extends StatelessWidget {
             width: double.infinity,
             child: Center(
               child: Container(
-                margin: EdgeInsets.only(top: 15.sp),
+                margin: const EdgeInsets.only(top: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      height: 77.sp,
-                      width: 77.sp,
+                      height: 77,
+                      width: 77,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
-                        border: Border.all(color: Colors.white, width: 5.sp),
+                        border: Border.all(color: Colors.white, width: 5),
                       ),
                       child: Image.asset('assets/new/home/profile.png',
                           fit: BoxFit.fill),

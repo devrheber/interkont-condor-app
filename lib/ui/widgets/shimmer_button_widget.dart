@@ -1,6 +1,5 @@
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ShimmerButton extends StatelessWidget {
   const ShimmerButton({
@@ -16,7 +15,7 @@ class ShimmerButton extends StatelessWidget {
       color: Colors.black.withOpacity(0.04),
       delay: delay,
       child: Skelton(
-        height: 50.h,
+        height: 50,
         color: Colors.black.withOpacity(0.00),
       ),
     );

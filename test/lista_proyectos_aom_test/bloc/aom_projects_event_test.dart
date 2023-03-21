@@ -1,4 +1,3 @@
-import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/ui/lista_proyectos_aom_page/bloc/aom_projects_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 

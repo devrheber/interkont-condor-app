@@ -11,14 +11,14 @@ part 'aom_last_step_state.dart';
 class AomLastStepCubit extends Cubit<AomLastStepState> {
   AomLastStepCubit({required AomProjectsRepository aomProjectsRepository})
       : _aomProjectsRepository = aomProjectsRepository,
-        super(AomLastStepInitial());
+        super(const AomLastStepInitial());
 
   final AomProjectsRepository _aomProjectsRepository;
   final uploadPercentage = PublishSubject<Map<String, dynamic>>();
 
   Future<void> sendData(
       AomActualizacionRequest dataReporte, Map<String, File?> files) async {
-    emit(AomLastStepLoading());
+    emit(const AomLastStepLoading());
 
     final newFiles = _getFilesFromState(dataReporte.obraId, files);
     final filesUploaded = await _uploadFiles(newFiles);
@@ -37,7 +37,7 @@ class AomLastStepCubit extends Cubit<AomLastStepState> {
         onReceiveProgress: _onReceiveProgress,
       );
 
-      emit(AomLastStepSuccess('Operación exitosa'));
+      emit(const AomLastStepSuccess('Operación exitosa'));
     } on AomProjectsRepositoryException catch (e) {
       try {
         if (e is AomProjectsBackendErrorException) {
@@ -51,10 +51,10 @@ class AomLastStepCubit extends Cubit<AomLastStepState> {
         }
 
         if (e is AomProjectsCancelException) {
-          emit(AomLastStepFailure('Operación cancelada'));
+          emit(const AomLastStepFailure('Operación cancelada'));
         }
       } catch (_) {
-        emit(AomLastStepFailure('Algo salió mal'));
+        emit(const AomLastStepFailure('Algo salió mal'));
       }
     }
   }
@@ -88,7 +88,7 @@ class AomLastStepCubit extends Cubit<AomLastStepState> {
         filesUploaded[files[i].nombredocumento] = uploadFileRequest;
       }
     } catch (_) {
-      emit(AomLastStepFailure('Ocurrió un error enviando los archivos'));
+      emit(const AomLastStepFailure('Ocurrió un error enviando los archivos'));
     }
     return filesUploaded;
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -9,7 +8,7 @@ import 'customed_text_field.dart';
 import 'qualitative_progress_card.dart';
 import 'select_aspect.dart';
 
-final titleColor = Color(0xff444444);
+final titleColor = const Color(0xff444444);
 
 class SecondStepBody extends StatefulWidget {
   const SecondStepBody({Key? key}) : super(key: key);
@@ -46,21 +45,21 @@ class SecondStepBodyState extends State<SecondStepBody> {
       children: <Widget>[
         Container(
           width: double.infinity,
-          margin: EdgeInsets.only(top: 230.h),
+          margin: const EdgeInsets.only(top: 230),
           child: ListView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: <Widget>[
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 31.sp),
-                padding: EdgeInsets.only(right: 5.0, left: 5.0, bottom: 10.0),
+                margin: const EdgeInsets.symmetric(horizontal: 31),
+                padding: const EdgeInsets.only(right: 5.0, left: 5.0, bottom: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const TextTitle(text: 'Avance Cualitativo'),
-                    SizedBox(height: 2.sp),
+                    const SizedBox(height: 2),
                     const TextSubtitle(
                         text: '¿Qué logros y dificultades se presentaron?'),
-                    SizedBox(height: 18.sp),
+                    const SizedBox(height: 18),
                     SelectAspect(
                       aspectSelected: reportProgressService.aspectSelected,
                       aspectsToEvaluate:
@@ -81,7 +80,7 @@ class SecondStepBodyState extends State<SecondStepBody> {
                       onChanged: (String text) {},
                       controller: difficultyController,
                     ),
-                    SizedBox(height: 8.sp),
+                    const SizedBox(height: 8),
                     AddGreenButton(
                       onTap: () {
                         if (achiveController.text.trim().isEmpty &&

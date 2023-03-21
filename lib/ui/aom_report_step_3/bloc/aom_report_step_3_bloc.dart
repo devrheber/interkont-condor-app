@@ -8,7 +8,7 @@ part 'aom_report_step_3_state.dart';
 
 class AomReportStep3Bloc
     extends Bloc<AomReportStep3Event, AomReportStep3State> {
-  AomReportStep3Bloc() : super(AomReportStep3State()) {
+  AomReportStep3Bloc() : super(const AomReportStep3State()) {
     on<PickFileEvent>(_onPickFileEvent);
     on<RemoveFileEvent>(_onRemoveFileEvent);
   }

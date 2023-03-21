@@ -25,10 +25,10 @@ class FactorRegistrado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(15.0),
-      margin: EdgeInsets.only(bottom: 5.0),
+      padding: const EdgeInsets.all(15.0),
+      margin: const EdgeInsets.only(bottom: 5.0),
       decoration: BoxDecoration(
-          color: Color.fromRGBO(0, 0, 0, 0.1),
+          color: const Color.fromRGBO(0, 0, 0, 0.1),
           borderRadius: BorderRadius.circular(15.0)),
       child: Column(
         children: <Widget>[
@@ -40,7 +40,7 @@ class FactorRegistrado extends StatelessWidget {
                   child: Text('Factor ${posicion + 1}',
                       style: AppTheme.parrafoBlancoNegrita),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(right: 5.0),
                   child: Text(
                     'Eliminar',
@@ -55,7 +55,7 @@ class FactorRegistrado extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5.0,
           ),
           _FactorWidget(title: 'Tipo', text: tipo),
@@ -79,7 +79,7 @@ class _FactorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5.0),
+      margin: const EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

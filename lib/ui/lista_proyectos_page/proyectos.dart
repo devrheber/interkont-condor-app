@@ -7,7 +7,6 @@ import 'package:appalimentacion/ui/widgets/cargando.dart';
 import 'package:appalimentacion/ui/widgets/proyecto_card.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -28,7 +27,7 @@ class ProyectosContenido extends StatelessWidget {
         const HeaderProfileWidget(),
         Container(
           width: double.infinity,
-          margin: EdgeInsets.only(top: 280.sp, left: 20.0, right: 20.0),
+          margin: const EdgeInsets.only(top: 280, left: 20.0, right: 20.0),
           child: ListView(
             physics: const BouncingScrollPhysics(),
             children: <Widget>[
@@ -75,21 +74,21 @@ class ProyectosContenido extends StatelessWidget {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Text(
+                              const Text(
                                 'Mis Proyectos ',
                                 style: TextStyle(
                                   fontFamily: "mulish",
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 20.sp,
-                                  color: Color(0xFF000000),
+                                  fontSize: 20,
+                                  color: const Color(0xFF000000),
                                 ),
                               ),
                               Text(
                                 '(${projects.length} proyectos)',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: "mulish",
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 20.sp,
+                                  fontSize: 20,
                                   color: ColorTheme.primary,
                                 ),
                               ),
@@ -115,17 +114,17 @@ class ProyectosContenido extends StatelessWidget {
                               )
                             ],
                           ),
-                          SizedBox(height: 6.sp),
-                          Text(
+                          const SizedBox(height: 6),
+                          const Text(
                             'Selecciona un proyecto',
                             style: TextStyle(
                               fontFamily: "montserrat",
                               fontWeight: FontWeight.w200,
-                              fontSize: 15.sp,
-                              color: const Color(0xFF566B8C),
+                              fontSize: 15,
+                              color: Color(0xFF566B8C),
                             ),
                           ),
-                          SizedBox(height: 20.sp),
+                          const SizedBox(height: 20),
                           for (int index = 0; index < projects.length; index++)
                             ProjectCard(
                               project: projects[index],

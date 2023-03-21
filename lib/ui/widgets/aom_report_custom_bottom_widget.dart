@@ -5,8 +5,6 @@ import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'home/custom_bottom_navigation_bar.dart';
 
 class AomReportCustomBottomWidget extends StatelessWidget {
@@ -38,7 +36,7 @@ class AomReportCustomBottomWidget extends StatelessWidget {
         child: Container(
           color: ColorTheme.aomBackgroundColor,
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.only(top: 10.sp),
+          padding: const EdgeInsets.only(top: 10),
           child: CustomBottomNavigationBar(
               colorFondo: AppTheme.bottomPrincipal,
               primerBotonDesactivado: false,

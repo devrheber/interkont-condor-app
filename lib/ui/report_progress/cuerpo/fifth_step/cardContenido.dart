@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../globales/colores.dart';
 
@@ -21,19 +20,19 @@ class FifthStepCard extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 7,
-            offset: Offset(1, 1),
+            offset: const Offset(1, 1),
           ),
         ],
       ),
       child: Container(
-        padding: EdgeInsets.only(
-            top: 22.sp, left: 23.sp, right: 22.0.sp, bottom: 25.sp),
+        padding: const EdgeInsets.only(
+            top: 22, left: 23, right: 22.0, bottom: 25),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           textDirection: TextDirection.ltr,
@@ -44,7 +43,7 @@ class FifthStepCard extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'montserrat',
                 fontWeight: FontWeight.w600,
-                fontSize: 20.sp,
+                fontSize: 20,
                 color: colorTitle,
               ),
             ),
@@ -75,40 +74,40 @@ class FifthStepCardDetail extends StatelessWidget {
     assert(value == null || child == null);
 
     return Container(
-      padding: EdgeInsets.only(bottom: 8.sp, top: 11.sp),
+      padding: const EdgeInsets.only(bottom: 8, top: 11),
       decoration: BoxDecoration(
           border: Border(
         bottom: BorderSide(
-          width: showDivider ? 0.3.sp : 0.0,
+          width: showDivider ? 0.3 : 0.0,
           color: Colors.black.withOpacity(0.5),
         ),
       )),
       child: Row(
         children: <Widget>[
           Container(
-            width: 120.sp,
+            width: 120,
             child: Text(
               title,
-              style: TextStyle(
-                fontSize: 13.sp,
+              style: const TextStyle(
+                fontSize: 13,
                 color: AppTheme.darkText,
                 fontWeight: FontWeight.w400,
               ),
             ),
           ),
           if (child != null) child!,
-          Spacer(),
+          const Spacer(),
           if (value != null)
             Container(
-              height: 24.sp,
-              width: 80.sp,
+              height: 24,
+              width: 80,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     value!,
-                    style: TextStyle(
-                      fontSize: 13.sp,
+                    style: const TextStyle(
+                      fontSize: 13,
                       color: Color(0xff808080),
                       fontWeight: FontWeight.w400,
                     ),
@@ -116,7 +115,7 @@ class FifthStepCardDetail extends StatelessWidget {
                 ],
               ),
             ),
-          Spacer(),
+          const Spacer(),
         ],
       ),
     );
@@ -135,7 +134,7 @@ class TrafficLight extends StatelessWidget {
         children: <Widget>[
           Image.asset(
             'assets/img/Desglose/Home/$icon.png',
-            height: 19.0.sp,
+            height: 19.0,
           )
         ],
       ),

@@ -1,7 +1,6 @@
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'yes_no_purple_widget.dart';
 
@@ -49,12 +48,12 @@ class _QuestionOneState extends State<QuestionOne>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(
+        const Center(
           child: Text(
             '1. ¿Está de acuerdo con el valor de vida remanente del activo?',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 15.sp,
+              fontSize: 15,
               color: ColorTheme.darkShade,
               fontWeight: FontWeight.w500,
             ),
@@ -73,18 +72,16 @@ class _QuestionOneState extends State<QuestionOne>
             children: <Widget>[
               //ROUNDED CONTAINER WITH SHADOW
               Container(
-                constraints:
-                    BoxConstraints(maxWidth: 340.sp, minHeight: 129.sp),
-                margin: EdgeInsets.only(
-                  top: 20.sp,
-                  left: 10.sp,
-                  right: 10.sp,
+                constraints: const BoxConstraints(maxWidth: 340, minHeight: 129),
+                margin: const EdgeInsets.only(
+                  top: 20,
+                  left: 10,
+                  right: 10,
                 ),
-                padding:
-                    EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(12.r)),
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
                   boxShadow: [
                     BoxShadow(
                       color: Color.fromRGBO(102, 102, 102, 0.26),
@@ -105,23 +102,23 @@ class _QuestionOneState extends State<QuestionOne>
                 ),
                 child: Column(
                   children: <Widget>[
-                    Text(
+                    const Text(
                       'Explique por qué considera diferente el valor de vida remanente:',
                       style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF836FF8),
                       ),
                     ),
-                    SizedBox(height: 10.sp),
+                    const SizedBox(height: 10),
                     //texfield max char 250
                     TextField(
                       maxLines: 3,
                       maxLength: 250,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         counterText: '',
                         hintStyle: TextStyle(
-                          fontSize: 14.sp,
+                          fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: Color(0xFF556A8D),
                         ),
@@ -138,19 +135,19 @@ class _QuestionOneState extends State<QuestionOne>
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(
-                  top: 20.sp,
-                  left: 10.sp,
-                  right: 10.sp,
+                margin: const EdgeInsets.only(
+                  top: 20,
+                  left: 10,
+                  right: 10,
                 ),
                 padding:
-                    EdgeInsets.symmetric(horizontal: 20.sp, vertical: 20.sp),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       '¿Cuál es la vida útil que usted considera para el activo (En meses)?',
                       style: TextStyle(
-                        fontSize: 15.sp,
+                        fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF384C68),
                       ),
@@ -160,20 +157,20 @@ class _QuestionOneState extends State<QuestionOne>
 
                     Center(
                       child: Container(
-                        width: 126.sp,
-                        margin: EdgeInsets.symmetric(
-                          vertical: 15.sp,
+                        width: 126,
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 15,
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
                           boxShadow: [
                             BoxShadow(
-                              color: Color(0xFF666666).withOpacity(.26),
+                              color: const Color(0xFF666666).withOpacity(.26),
                               blurRadius: 14,
                               spreadRadius: 1,
-                              offset: Offset(4, 10),
+                              offset: const Offset(4, 10),
                             ),
                           ],
                         ),
@@ -182,7 +179,7 @@ class _QuestionOneState extends State<QuestionOne>
                           //make texfield text center
 
                           textAlign: TextAlign.center,
-                          keyboardType: TextInputType.numberWithOptions(
+                          keyboardType: const TextInputType.numberWithOptions(
                               decimal: false, signed: false),
                           //only numbers
                           inputFormatters: <TextInputFormatter>[
@@ -191,15 +188,15 @@ class _QuestionOneState extends State<QuestionOne>
                               RegExp(r'^(\d{0,5})'),
                             ),
                           ],
-                          style: TextStyle(
-                            fontSize: 14.sp,
+                          style: const TextStyle(
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: ColorTheme.darkShade,
                           ),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: '',
                             hintStyle: TextStyle(
-                              fontSize: 14.sp,
+                              fontSize: 14,
                               color: ColorTheme.darkShade,
                             ),
                             //no border

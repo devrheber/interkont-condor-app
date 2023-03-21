@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -35,8 +34,8 @@ class FotosComplementarias extends StatelessWidget {
     return Wrap(
       alignment: WrapAlignment.start,
       runAlignment: WrapAlignment.start,
-      runSpacing: 20.sp,
-      spacing: 20.sp,
+      runSpacing: 20,
+      spacing: 20,
       children: <Widget>[
         //lista las imagenes que se encuentran grabadas
         for (int i = 0; i < images.length; i++)
