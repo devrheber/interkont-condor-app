@@ -15,10 +15,11 @@ import 'package:appalimentacion/domain/repository/files_persistent_cache_reposit
 import 'package:appalimentacion/domain/repository/projects_repository.dart';
 import 'package:appalimentacion/globales/ssl_solution.dart';
 import 'package:appalimentacion/helpers/remote_config_service.dart';
-import 'package:appalimentacion/routes/app_routes.dart';
 import 'package:appalimentacion/translation/localizations_delegates.dart';
 import 'package:appalimentacion/translation/supported_locales.dart';
 import 'package:appalimentacion/ui/authentication/authentication_provider.dart';
+import 'package:appalimentacion/ui/lista_proyectos_page/home.dart';
+import 'package:appalimentacion/ui/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +42,7 @@ import 'domain/repository/projects_repository.dart';
 import 'globales/colores.dart';
 import 'globales/logo.dart';
 import 'globales/ssl_solution.dart';
-import 'routes/app_pages.dart';
+
 import 'theme/color_theme.dart';
 import 'translation/localizations_delegates.dart';
 import 'translation/supported_locales.dart';
@@ -161,7 +162,7 @@ class AppState extends StatelessWidget {
       child: BlocProvider(
         create: (context) => NetworkBloc()..add(NetworkObserve()),
         child: ScreenUtilInit(
-          designSize: Size(414, 896),
+          designSize: const Size(414, 896),
           builder: (_, __) {
             return MaterialApp(
               home: const App(),
@@ -171,7 +172,6 @@ class AppState extends StatelessWidget {
                 fontFamily: 'WorkSans',
                 textTheme: AppTheme.textTheme,
               ),
-              routes: AppPages.routes,
             );
           },
         ),
@@ -181,7 +181,7 @@ class AppState extends StatelessWidget {
 }
 
 class App extends StatefulWidget {
-  const App();
+  const App({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _AppState();
 }
@@ -190,34 +190,31 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 4), () async {
-      await verifySession();
+    Future.delayed(const Duration(seconds: 3), () async {
+      verifySession();
     });
   }
 
   Future<void> verifySession() async {
     final authenticationProvider = context.read<AuthenticationProvider>();
 
-    // rootPage = ListaProyectos();
-    Navigator.pushNamedAndRemoveUntil(
-      context,
+    Navigator.of(context).pushAndRemoveUntil(
       authenticationProvider.user != null
-          ? AppRoutes.listaProyectos
-          : AppRoutes.login,
+          ? ListaProyectosPage.route()
+          : LoginPage.route(),
       (route) => false,
     );
-    return;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: ColorTheme.backgroundGradient,
         ),
-        child: Center(
-          child: LogoImg(),
+        child: const Center(
+          child: Hero(tag: 'loguito', child: LogoImg()),
         ),
       ),
     );

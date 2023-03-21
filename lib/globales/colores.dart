@@ -30,7 +30,8 @@ class AppTheme {
   static const Color octavo = Color(0xFF1dbcd2);
   static const Color noveno = Color(0xFF199788);
   static const Color decimo = Color(0xFF4cb050);
-  static const Color onceavo = Color(0xFF8bc24a);
+  static const Color onceavo = Color(0xFF239A90);
+  static const Color onceavo2 = Color(0xFF8DC449);
   static const Color doceavo = Color(0xFFbfbf2e);
   static const Color treceavo = Color(0xFFfd9700);
 

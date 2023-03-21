@@ -19,7 +19,7 @@ class GlobalDrawer extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.transparent,
                 border: Border(
                     bottom: BorderSide(color: Colors.black, width: 0.1))),
@@ -45,7 +45,7 @@ class GlobalDrawer extends StatelessWidget {
                         fontFamily: "montserrat",
                         fontWeight: FontWeight.bold,
                         fontSize: 20.sp,
-                        color: Color(0xFF000000),
+                        color: const Color(0xFF000000),
                       ),
                     ),
                     Text(
@@ -55,7 +55,7 @@ class GlobalDrawer extends StatelessWidget {
                         fontFamily: "montserrat",
                         fontWeight: FontWeight.w200,
                         fontSize: 15.sp,
-                        color: Color(0xFF566B8C),
+                        color: const Color(0xFF566B8C),
                       ),
                     ),
                   ],
@@ -68,11 +68,12 @@ class GlobalDrawer extends StatelessWidget {
             text: 'Reporte de Proyectos',
             onTap: () => _toReportPage(context),
           ),
-          _SideMenuOptions(
-            icon: FontAwesomeIcons.box,
-            text: 'Reporte de Activos AOM',
-            onTap: () => _toAOMPage(context),
-          ),
+          // TODO mostrar solo para app  Avanzame
+          // _SideMenuOptions(
+          //   icon: FontAwesomeIcons.box,
+          //   text: 'Reporte de Activos AOM',
+          //   onTap: () => _toAOMPage(context),
+          // ),
           _SideMenuOptions(
             icon: FontAwesomeIcons.rightFromBracket,
             text: 'Cerrar Sesión',
@@ -102,12 +103,12 @@ class GlobalDrawer extends StatelessWidget {
     }
   }
 
-  Future<void> _toAOMPage(BuildContext context) async {
-    Navigator.pop(context);
-    if (getCurrentPageName(context) != AppRoutes.listaProyectosAOM) {
-      await Navigator.of(context).pushNamed(AppRoutes.listaProyectosAOM);
-    }
-  }
+  // Future<void> _toAOMPage(BuildContext context) async {
+  //   Navigator.pop(context);
+  //   if (getCurrentPageName(context) != AppRoutes.listaProyectosAOM) {
+  //     await Navigator.of(context).pushNamed(AppRoutes.listaProyectosAOM);
+  //   }
+  // }
 
   Future<void> _toReportPage(BuildContext context) async {
     Navigator.pop(context);
@@ -145,7 +146,7 @@ class _SideMenuOptions extends StatelessWidget {
           fontFamily: "montserrat",
           fontWeight: FontWeight.w400,
           fontSize: 17.sp,
-          color: Color(0xFF566B8C),
+          color: const Color(0xFF566B8C),
         ),
       ),
       onTap: onTap,

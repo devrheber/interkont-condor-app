@@ -6,9 +6,9 @@ import '../utils/assets/assets.dart';
 class LogoImg extends StatelessWidget {
   const LogoImg({
     Key? key,
-    this.assetImageRoute = Assets.assetsNewSplashLogoAnimated,
-    this.width = 142.0,
-    this.height = 142.0,
+    this.assetImageRoute = 'assets/Siente/new_logo.png',
+    this.width = 253.51,
+    this.height = 218.65,
   }) : super(key: key);
 
   final String assetImageRoute;
@@ -16,9 +16,10 @@ class LogoImg extends StatelessWidget {
   final double height;
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: "logo",
-      child: Image.asset(assetImageRoute, width: width.sp, height: height.sp),
+    return Image.asset(
+      assetImageRoute,
+      width: width,
+      height: height,
     );
   }
 }

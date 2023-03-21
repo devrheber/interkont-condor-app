@@ -4,7 +4,6 @@ import 'package:appalimentacion/ui/login/login.dart';
 import '../ui/aom_detalle_categoria_page/aom_detalle_categoria_page.dart';
 import '../ui/aom_detalle_page/aom_detalle.dart';
 import '../ui/lista_proyectos_aom_page/home.dart';
-import '../ui/lista_proyectos_page/home.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -12,7 +11,6 @@ class AppPages {
 
   static final routes = {
     AppRoutes.login: (context) => LoginPage.init(),
-    AppRoutes.listaProyectos: (context) => const ListaProyectosPage(),
     AppRoutes.listaProyectosAOM: (context) => const ListaProyectosAomPage(),
     AppRoutes.aomDetalle: (context) => const AomDetallePage(),
     AppRoutes.aomDetalleCategoria: (context) => const AomDetalleCategoriaPage(),
