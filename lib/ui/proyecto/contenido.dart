@@ -19,7 +19,7 @@ class ProjectContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Stack(
+      child: Column(
         children: const <Widget>[
           CardTitulo(),
           BodyCard(),

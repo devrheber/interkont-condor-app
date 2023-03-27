@@ -16,8 +16,8 @@ class ListaProyectosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FondoHome(
-      body: ProyectosContenido(),
+    return FondoHome(
+      body: ProyectosContenido.init(),
       bottomNavigationBar: null,
       showMenuButton: true,
     );

@@ -2,42 +2,76 @@ import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/theme/color_theme.dart';
 import 'package:appalimentacion/ui/proyecto/project_screen.dart';
-import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/noInternet.dart';
 import 'package:appalimentacion/ui/widgets/cargando.dart';
 import 'package:appalimentacion/ui/widgets/proyecto_card.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toast/toast.dart';
 
-import 'projects_provider.dart';
+import 'bloc/projects_bloc.dart';
 
 const titleColor = Color(0xff444444);
 
 class ProyectosContenido extends StatelessWidget {
-  const ProyectosContenido({Key? key}) : super(key: key);
+  const ProyectosContenido._({Key? key}) : super(key: key);
+
+  static Widget init() {
+    return BlocProvider(
+      create: (context) => ProjectsBloc(
+        filesPersistentCacheRepository: context.read(),
+        projectsCacheRepository: context.read(),
+        projectRepository: context.read(),
+      )
+        ..add(ProjectsStream())
+        ..add(ProjectsDetailsStream())
+        ..add(ProjectsCacheStream())
+        ..add(FetchRemoteProjects()),
+      child: const ProyectosContenido._(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final projectsProvider = Provider.of<ProjectsProvider>(context);
-
     ToastContext().init(context);
-    return Stack(
-      children: <Widget>[
-        const HeaderProfileWidget(),
-        Container(
-          width: double.infinity,
-          margin: const EdgeInsets.only(top: 280, left: 20.0, right: 20.0),
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
-            children: <Widget>[
-              StreamBuilder<List<Project>>(
-                  stream: projectsProvider.projectsStream,
-                  builder: (context, AsyncSnapshot<List<Project>> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Container(
+
+    return BlocListener<ProjectsBloc, ProjectsState>(
+      listenWhen: (previous, current) => previous != current,
+      listener: (context, state) {
+        if (state.isLoading) {
+          LoadingDialog.show(context);
+        }
+        if (!state.isLoading) {
+          LoadingDialog.hide(context);
+        }
+        if (state.message.isNotEmpty) {
+          SnackBar snackBar = SnackBar(
+            content: Text(state.message),
+            backgroundColor: ColorTheme.primaryTint,
+          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(snackBar);
+        }
+      },
+      child: Stack(
+        children: <Widget>[
+          const HeaderProfileWidget(),
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.only(top: 280, left: 20.0, right: 20.0),
+            child: RefreshIndicator(
+              onRefresh: () async {
+                context.read<ProjectsBloc>().add(FetchRemoteProjects());
+              },
+              child: BlocBuilder<ProjectsBloc, ProjectsState>(
+                builder: (context, state) {
+                  if (state.projects.isEmpty) {
+                    return SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Container(
                         width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 10.0),
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -63,13 +97,15 @@ class ProyectosContenido extends StatelessWidget {
                             )
                           ],
                         ),
-                      );
-                    }
-                    final projects = snapshot.data!;
+                      ),
+                    );
+                  }
 
-                    final provider = context.read<ProjectsProvider>();
-                    return Container(
-                      child: Column(
+                  final projects = state.projects;
+                  return ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: <Widget>[
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(
@@ -80,11 +116,11 @@ class ProyectosContenido extends StatelessWidget {
                                   fontFamily: "mulish",
                                   fontWeight: FontWeight.w600,
                                   fontSize: 20,
-                                  color: const Color(0xFF000000),
+                                  color: Color(0xFF000000),
                                 ),
                               ),
                               Text(
-                                '(${projects.length} proyectos)',
+                                '(${projects.length} ${projects.length == 1 ? 'proyecto' : 'proyectos'})',
                                 style: const TextStyle(
                                   fontFamily: "mulish",
                                   fontWeight: FontWeight.w400,
@@ -94,22 +130,9 @@ class ProyectosContenido extends StatelessWidget {
                               ),
                               const Expanded(child: SizedBox.shrink()),
                               InkWell(
-                                onTap: () async {
-                                  loadingDialog(context);
-                                  await projectsProvider
-                                      .getRemoteProjects()
-                                      .then((value) => Navigator.pop(context))
-                                      .onError(
-                                    (Object? error, StackTrace stackTrace) {
-                                      Navigator.pop(context);
-                                      noInternetConnection(context);
-                                      Toast.show(
-                                        'Algo salió mal',
-                                        duration: 4,
-                                      );
-                                    },
-                                  );
-                                },
+                                onTap: () => context
+                                    .read<ProjectsBloc>()
+                                    .add(FetchRemoteProjects()),
                                 child: const Icon(Icons.replay_outlined),
                               )
                             ],
@@ -128,38 +151,43 @@ class ProyectosContenido extends StatelessWidget {
                           for (int index = 0; index < projects.length; index++)
                             ProjectCard(
                               project: projects[index],
+                              detailSyncronized: !state.details
+                                  .containsKey(projects[index].getProjectCode),
                               onTap: () async {
-                                openProject(
-                                  context,
-                                  project: projects[index],
-                                  index: index,
-                                );
+                                final detail = state
+                                    .details[projects[index].getProjectCode];
+
+                                if (detail == null) {
+                                  const SnackBar snackBar = SnackBar(
+                                    content: Text(
+                                        'Lo sentimos, este proyecto no fue sincronizado anteriormente'),
+                                    backgroundColor: ColorTheme.primaryTint,
+                                  );
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(snackBar);
+                                  context.read<ProjectsBloc>().add(
+                                      FetchRemoteProjectDetail(
+                                          projects[index].codigoproyecto));
+                                  return;
+                                }
+
+                                context
+                                    .read<ProjectsBloc>()
+                                    .add(SetCurrentProjectCode(
+                                      projects[index].codigoproyecto,
+                                    ));
+
+                                await Navigator.of(context).push(
+                                    ProyectScreen.route(
+                                        project: state.projects[index],
+                                        detail: detail,
+                                        cache: state.cache[state
+                                            .projects[index].getProjectCode]));
                               },
-                              stream: StreamBuilder<Map<String, ProjectCache>>(
-                                stream: provider.cacheStream,
-                                builder: (context,
-                                    AsyncSnapshot<Map<String, ProjectCache>>
-                                        snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return const SizedBox.shrink();
-                                  }
-                                  final cache = snapshot.data;
-
-                                  if (cache == null) {
-                                    return const SizedBox.shrink();
-                                  }
-
-                                  if (!cache.containsKey(
-                                      projects[index].getProjectCode)) {
-                                    return const SizedBox.shrink();
-                                  }
-
-                                  if (cache[projects[index].getProjectCode] ==
-                                      null) return const SizedBox.shrink();
-
-                                  if (cache[projects[index].getProjectCode]
-                                          ?.porPublicar ==
-                                      null) return const SizedBox.shrink();
+                              stream: BlocBuilder<ProjectsBloc, ProjectsState>(
+                                builder: (context, state) {
+                                  final cache = state.cache;
 
                                   if (cache[projects[index].getProjectCode]
                                           ?.porPublicar ??
@@ -177,54 +205,35 @@ class ProyectosContenido extends StatelessWidget {
                                       ),
                                     );
                                   }
-
                                   return const SizedBox.shrink();
                                 },
                               ),
                             ),
                         ],
-                      ),
-                    );
-                  }),
-            ],
+                      )
+                    ],
+                  );
+                },
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Future<void> openProject(
     context, {
-    nombreIcono,
     required Project project,
-    required int index,
   }) async {
-    try {
-      final provider = Provider.of<ProjectsProvider>(context, listen: false);
-      provider.setCurrentProjectCode(project.codigoproyecto);
-      loadingDialog(context);
+    context
+        .read<ProjectsBloc>()
+        .add(FetchRemoteProjectDetail(project.codigoproyecto));
 
-      final DatosAlimentacion? detail =
-          await provider.getProjectDetail(project.codigoproyecto);
-
-      Navigator.pop(context);
-
-      if (detail == null) {
-        Toast.show(
-            "Lo sentimos, este proyecto no fue sincronizado anteriormente",
-            duration: 3,
-            gravity: Toast.bottom);
-        return;
-      }
-
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => ProyectScreen.init(),
-        ),
-      );
-    } catch (e) {
-      // TODO
-      Toast.show("Algo salió mal", duration: 3, gravity: Toast.bottom);
-    }
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => ProyectScreen.init(),
+    //   ),
+    // );
   }
 }

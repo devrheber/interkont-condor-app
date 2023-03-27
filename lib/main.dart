@@ -69,6 +69,7 @@ void main() async {
   remoteConfig.init();
 
   final projectsRepository = ProjectsImpl();
+  // final projectsRepository = ProjectsImplLocal();
 
   final projectsCacheApi = LocalStorageProjectsCacheApi(
     plugin: instance,
@@ -96,7 +97,7 @@ void main() async {
       projectsRepository: projectsRepository,
       projectsCacheRepository: projectsCacheRepository,
       sharedPreferences: instance,
-      filesPersistentCacheApi: filesPersistentCacheApi,
+      filesPersistentCacheRepository: filesPersistentCacheApi,
       aomProjectsRepository: aomProjectsImpl,
     )),
   );
@@ -108,7 +109,7 @@ class AppState extends StatelessWidget {
     required this.prefs,
     required this.projectsRepository,
     required this.projectsCacheRepository,
-    required this.filesPersistentCacheApi,
+    required this.filesPersistentCacheRepository,
     required this.sharedPreferences,
     required this.aomProjectsRepository,
   }) : super(key: key);
@@ -116,57 +117,56 @@ class AppState extends StatelessWidget {
   final UserPreferences prefs;
   final ProjectsRepository projectsRepository;
   final ProjectsCacheRepository projectsCacheRepository;
-  final FilesPersistentCacheApi filesPersistentCacheApi;
+  final FilesPersistentCacheRepository filesPersistentCacheRepository;
   final SharedPreferences sharedPreferences;
   final AomProjectsRepository aomProjectsRepository;
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiRepositoryProvider(
       providers: [
-        Provider<ProjectsCacheRepository>(
+        RepositoryProvider<FilesPersistentCacheRepository>(
+          create: (context) => filesPersistentCacheRepository,
+        ),
+        RepositoryProvider<ProjectsCacheRepository>(
           create: (_) => projectsCacheRepository,
         ),
-        Provider<FilesPersistentCacheRepository>(
-            create: (_) => filesPersistentCacheApi),
-        Provider<LoginRepository>(
+        RepositoryProvider<LoginRepository>(
           create: (_) => LoginRemote(),
         ),
-        Provider<UserPreferences>(
+        RepositoryProvider<UserPreferences>(
           create: (_) => prefs,
         ),
-        Provider<ProjectsRepository>(
+        RepositoryProvider<ProjectsRepository>(
           create: (_) => projectsRepository,
         ),
-        Provider<AomProjectsRepository>(
+        RepositoryProvider<AomProjectsRepository>(
           create: (_) => aomProjectsRepository,
         ),
-        Provider<AomProjectsApi>(
+        RepositoryProvider<AomProjectsApi>(
           create: (_) => AomProjectsApiImpl(),
         ),
-        ChangeNotifierProvider<AuthenticationProvider>(
-          create: (_) => AuthenticationProvider(
-            loginRepository: LoginRemote(),
-            prefsRepository: prefs,
-          ),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => ProjectsProvider(
-            projectsCacheRepository: projectsCacheRepository,
-            projectRepository: projectsRepository,
-            filesPersistentCacheApi: filesPersistentCacheApi,
-          ),
-        ),
       ],
-      child: BlocProvider(
-        create: (context) => NetworkBloc()..add(NetworkObserve()),
-        child: MaterialApp(
-          home: const App(),
-          localizationsDelegates: LocalizationDelegates.delegates,
-          supportedLocales: SupportedLocales.locale,
-          theme: ThemeData(
-            fontFamily: 'WorkSans',
-            textTheme: AppTheme.textTheme,
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<AuthenticationProvider>(
+            create: (_) => AuthenticationProvider(
+              loginRepository: LoginRemote(),
+              prefsRepository: prefs,
+            ),
+          ),
+        ],
+        child: BlocProvider(
+          create: (context) => NetworkBloc()..add(NetworkObserve()),
+          child: MaterialApp(
+            title: 'SientePlus',
+            home: const App(),
+            localizationsDelegates: LocalizationDelegates.delegates,
+            supportedLocales: SupportedLocales.locale,
+            theme: ThemeData(
+              fontFamily: 'WorkSans',
+              textTheme: AppTheme.textTheme,
+            ),
           ),
         ),
       ),

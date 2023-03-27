@@ -81,11 +81,9 @@ class LastStepProvider extends ChangeNotifier {
         cantidadEjecutada: _cache.activitiesProgress == null
             ? 0
             : _cache.activitiesProgress!.containsKey(item.getStringId)
-                ? item.getNewExecutedValue(
-                    double.tryParse(
-                            _cache.activitiesProgress?[item.getStringId]) ??
-                        0.0,
-                  )
+                ? double.tryParse(
+                        _cache.activitiesProgress?[item.getStringId]) ??
+                    0.0
                 : 0,
       );
       actividades.add(newActivity);
@@ -205,9 +203,6 @@ class LastStepProvider extends ChangeNotifier {
       }
 
       if (result['status'] == 1) {
-        print(result['messages']);
-        inspect(result['messages']);
-
         return {
           'success': true,
           'message': result['messages'].first,
@@ -252,5 +247,39 @@ class LastStepProvider extends ChangeNotifier {
             stepNumber: 5,
           ),
     );
+  }
+
+  void clearCache() async {
+    _projectsCacheRepository.removeCacheByCode(projectCode);
+    _filesPersistentCacheRepository.removeCacheByCode(projectCode);
+  }
+
+  Future<String?> fetchRemoteProjects() async {
+    try {
+      final projects = await _projectsRepository.getAlimentacionProjects();
+
+      await _projectsCacheRepository.saveProjects(projects);
+
+      return 'Proyectos actualizados';
+    } on OtherException catch (e) {
+      return 'Actualización de proyectos: ${e.message}';
+    } catch (_) {
+      return 'No se pudo actualizar la lista de proyectos';
+    }
+  }
+
+  Future<String?> fetchRemoteProjectDetail() async {
+    try {
+      final detail = await _projectsRepository.getDatosAlimentacion(
+          codigoProyecto: '$projectCode');
+
+      await _projectsCacheRepository.saveProjectDetails(projectCode, detail);
+
+      return 'Detalle del Proyecto actualizado';
+    } on OtherException catch (e) {
+      return 'Actualización del detalle del proyecto: ${e.message}';
+    } catch (_) {
+      return 'No se pudo actualizar el detalle del proyecto';
+    }
   }
 }

@@ -45,9 +45,6 @@ class _ProgressCardState extends State<ProgressCard> {
     ToastContext().init(context);
 
     void calcutate(String stringValue) {
-      // print(stringValue);
-      // return;
-
       if (stringValue.contains(',')) {
         Toast.show('Para la parte decimal debe usar el caracter "." (punto)',
             duration: 6, gravity: Toast.bottom);
@@ -59,9 +56,8 @@ class _ProgressCardState extends State<ProgressCard> {
       String value = stringValue == '' ? '0' : stringValue;
       value = value.replaceAll(',', '');
 
-      final ejecutadoActual = widget.activity.getCurrentProgressDouble;
-
-      if ((ejecutadoActual + double.parse(value)) > 100) {
+      if ((widget.activity.cantidadEjecutada + double.parse(value)) >
+          widget.activity.cantidadProgramada) {
         controller.text = '';
         final val = TextSelection.collapsed(offset: controller.text.length);
         controller.selection = val;
@@ -72,13 +68,13 @@ class _ProgressCardState extends State<ProgressCard> {
         return;
       }
 
-      if (double.parse('$value') < 0) {
+      if (double.parse(value) < 0) {
         Toast.show("Lo sentimos, solo aceptamos numeros positivos",
             duration: 3, gravity: Toast.bottom);
         widget.onChanged('0');
         return;
       }
-      if (double.parse('$value') > 100) {
+      if (double.parse(value) > 100) {
         Toast.show(
             "El valor ejecutado de la actividad no puede superar el 100%",
             duration: 3,
@@ -121,7 +117,7 @@ class _ProgressCardState extends State<ProgressCard> {
               textAlign: TextAlign.center),
           const SizedBox(height: 16.93),
           const Text(
-            'Ingresa el % de avance para el presente reporte',
+            'Ingresa el avance',
             style: TextStyle(
               fontSize: 12.18,
               color: Colors.white,
@@ -186,27 +182,57 @@ class _ProgressCardState extends State<ProgressCard> {
           Column(
             children: <Widget>[
               _Celdas(
-                label: 'Ejecutado Actual',
-                value: widget.activity.ejecutadoActual,
+                label: 'Unidad de medida',
+                value: widget.activity.unidadMedida.toUpperCase(),
                 isNumericVariable: false,
               ),
               _Celdas(
-                label: 'Avance del presente reporte',
-                value: '${widget.getValue} %',
+                label: 'Valor Unitario',
+                value: widget.activity.getValorUnitario,
                 isNumericVariable: false,
+              ),
+              _Celdas(
+                label: 'Cantidad Programada',
+                value: '${widget.activity.cantidadProgramada}',
+                isNumericVariable: false,
+              ),
+              _Celdas(
+                label: 'Valor Programado',
+                value: widget.activity.getValorProgramado,
+                isNumericVariable: false,
+              ),
+              _Celdas(
+                label: 'Cantidad Ejecutada',
+                value: widget.activity.getCantidadEjecutada,
+                isNumericVariable: false,
+                isBold: true,
+              ),
+              _Celdas(
+                label: 'Cantidad Ejecutada Actual',
+                value: widget.getValue,
+                isNumericVariable: false,
+                isBold: true,
+              ),
+              _Celdas(
+                label: 'Valor Ejecutado',
+                value: widget.activity.getValorEjecutado,
+                isNumericVariable: false,
+                isBold: true,
               ),
               _Celdas(
                 label: 'Avance a hoy',
                 value: widget.activity
                     .avanceAHoy(double.tryParse(widget.valueSaved) ?? 0.0),
                 isNumericVariable: false,
+                isBold: true,
               ),
-              _Celdas(
-                label: 'Faltante por ejecutar',
-                value: widget.activity.faltantePorEjecutar(
-                    double.tryParse(widget.valueSaved) ?? 0.0),
-                isNumericVariable: false,
-              ),
+              // _Celdas(
+              //   label: 'Faltante por ejecutar',
+              //   value: widget.activity.faltantePorEjecutar(
+              //       double.tryParse(widget.valueSaved) ?? 0.0),
+              //   isNumericVariable: false,
+              //   isBold: true,
+              // ),
             ],
           ),
           const Spacer(),
@@ -221,17 +247,17 @@ class _Celdas extends StatelessWidget {
     Key? key,
     required this.label,
     required this.value,
-    this.bold = false,
     this.isNumericVariable = true,
+    this.isBold = false,
   }) : super(key: key);
   final String label;
   final String value;
-  final bool bold;
   final bool isNumericVariable;
+  final bool isBold;
 
   @override
   Widget build(BuildContext context) {
-    FontWeight fontWeight = bold ? FontWeight.w700 : FontWeight.w300;
+    FontWeight fontWeight = isBold ? FontWeight.w600 : FontWeight.w300;
     String newValue = value;
     if (isNumericVariable) {
       NumberFormat nFormatOneDecimal = NumberFormat("#,##0.0", "en_US");

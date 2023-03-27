@@ -17,7 +17,8 @@ class FirstStepProvider extends ChangeNotifier {
     activitiesProgress = cache.activitiesProgress ?? {};
     filteredActivites = [...detail.actividades];
 
-    validateValueActivities();
+    // TOOD
+    // validateValueActivities();
     calculateExecutedValuePercentage();
   }
 
@@ -33,7 +34,7 @@ class FirstStepProvider extends ChangeNotifier {
   Future<void> saveValue(int activityId, String value) async {
     activitiesProgress[activityId.toString()] = value;
 
-    this.cache = this.cache.copyWith(activitiesProgress: activitiesProgress);
+    cache = cache.copyWith(activitiesProgress: activitiesProgress);
 
     calculateExecutedValuePercentage();
 
@@ -41,7 +42,7 @@ class FirstStepProvider extends ChangeNotifier {
   }
 
   void calculateExecutedValuePercentage() {
-    final activities = this.detail.actividades;
+    final activities = detail.actividades;
     double valoresEjecutados = 0;
     double valorProyecto = 0; // Valor Proyectado
     for (int i = 0; i < activities.length; i++) {
@@ -64,12 +65,12 @@ class FirstStepProvider extends ChangeNotifier {
 
     double porcentajeNuevoValorEjectuado = 0.0;
 
-    double totalPorcentajeEjectuaado = 0.0;
+    double totalPorcentajeEjectuado = 0.0;
 
     for (int i = 0; i < activities.length; i++) {
       if (activitiesProgress.containsKey(activities[i].getStringId)) {
         nuevoValorEjecutado += activities[i].valorProgramado *
-            (double.parse(activitiesProgress[activities[i].getStringId]) / 100);
+            (double.parse(activitiesProgress[activities[i].getStringId]));
       }
 
       debugPrint('NuevoValor Ejecutado: $nuevoValorEjecutado');
@@ -81,19 +82,19 @@ class FirstStepProvider extends ChangeNotifier {
 
       debugPrint(
           'Total porcentaje ejectuado: ${(porcentajeInicial + porcentajeNuevoValorEjectuado)}');
-      totalPorcentajeEjectuaado =
+      totalPorcentajeEjectuado =
           porcentajeInicial + porcentajeNuevoValorEjectuado;
     }
 
-    this.cache = this.cache.copyWith(
-          porcentajeValorEjecutado: totalPorcentajeEjectuaado,
-        );
+    cache = cache.copyWith(
+      porcentajeValorEjecutado: totalPorcentajeEjectuado,
+    );
 
-    _projectsCacheRepository.saveCache(this.cache);
+    _projectsCacheRepository.saveCache(cache);
   }
 
   void filter(String value) {
-    this.filteredActivites = detail.actividades
+    filteredActivites = detail.actividades
         .where(
           (element) => ActivitiesHelpers.replaceAccent(
                   element.descripcionActividad.toLowerCase())
@@ -103,21 +104,5 @@ class FirstStepProvider extends ChangeNotifier {
         )
         .toList();
     notifyListeners();
-  }
-
-  void validateValueActivities() {
-    if (cache.activitiesProgress == null) return;
-    for (final item in detail.actividades) {
-      String faltantePorEjecutar = item.faltantePorEjecutar(
-          double.tryParse(cache.activitiesProgress![item.getStringId] ?? '0') ??
-              0.0);
-
-      if (double.parse(faltantePorEjecutar.replaceAll(' %', '')) < 0 ||
-          double.parse(faltantePorEjecutar.replaceAll(' %', '')) > 100) {
-        cache.activitiesProgress![item.getStringId] = '0';
-      }
-    }
-
-    _projectsCacheRepository.saveCache(this.cache);
   }
 }

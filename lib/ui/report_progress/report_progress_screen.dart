@@ -1,7 +1,7 @@
 import 'package:appalimentacion/domain/models/models.dart';
+import 'package:appalimentacion/domain/repository/files_persistent_cache_repository.dart';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/helpers/helpers.dart';
-import 'package:appalimentacion/ui/lista_proyectos_page/projects_provider.dart';
 import 'package:appalimentacion/ui/report_progress/cuerpo/last_step/last_step.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:appalimentacion/ui/widgets/home/custom_bottom_navigation_bar.dart';
@@ -26,16 +26,15 @@ class ReportProgressScreen extends StatelessWidget {
       ChangeNotifierProvider(
         create: (context) => ReportProgressProvider(
           projectsCacheRepository: context.read(),
-          filesPersistentCacheRepository: context.read(),
+          filesPersistentCacheRepository:
+              context.read<FilesPersistentCacheRepository>(),
           periodoSeleccionado: periodoSeleccionado,
         ),
         child: const ReportProgressScreen._(),
       );
-
   @override
   Widget build(BuildContext context) {
     final reportProgressProvider = Provider.of<ReportProgressProvider>(context);
-    final projectsProvider = Provider.of<ProjectsProvider>(context);
 
     ToastContext().init(context);
 
@@ -61,7 +60,7 @@ class ReportProgressScreen extends StatelessWidget {
       Toast.show("El avance ha sido cancelado",
           duration: 5, gravity: Toast.bottom);
 
-      projectsProvider
+      reportProgressProvider
           .clearCache(reportProgressProvider.project.codigoproyecto);
 
       Navigator.pop(context, {

@@ -37,8 +37,14 @@ class LastStepState extends State<LastStep> {
 
     lastStepProvider.guardarAlimentacion();
 
-    lastStepProvider.sendData().then((Map<String, dynamic> value) {
+    lastStepProvider.sendData().then((Map<String, dynamic> value) async {
       if ((value['state'] as SendDataState) == SendDataState.success) {
+        // remove cache
+        lastStepProvider.clearCache();
+
+        await lastStepProvider.fetchRemoteProjects();
+        await lastStepProvider.fetchRemoteProjectDetail();
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -97,7 +103,7 @@ class LastStepState extends State<LastStep> {
                                 "${(percentage.clamp(0, 1) * 100).round()}",
                                 style: style,
                               ),
-                              Text(
+                              const Text(
                                 "%",
                                 style: style,
                                 textAlign: TextAlign.start,

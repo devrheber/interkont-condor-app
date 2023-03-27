@@ -27,9 +27,6 @@ class ReportProgressProvider extends ChangeNotifier {
 
     _init();
     _initFourthStep();
-    // TODO This method is duplicate,
-    // There is in FirstStepProvider and here.
-    calculateExecutedValuePercentage();
   }
 
   late Project project;
@@ -137,7 +134,6 @@ class ReportProgressProvider extends ChangeNotifier {
   }
 
   bool registerDelayFactors() {
-    // calculateExecutedValuePercentage();
     final porcentajeEsperado =
         (cache.porcentajeValorProyectadoSeleccionado ?? 0) -
             detail.limitePorcentajeAtraso;
@@ -150,11 +146,11 @@ class ReportProgressProvider extends ChangeNotifier {
   }
 
   void _initFourthStep() {
-    incomeGenerationDate = this.cache.getIncomeGenerationDate;
-    rentalRepaymentDate = this.cache.getRentalRepaymentDate;
-    generatedReturns = this.cache.generatedReturns;
-    valorReintegroRendimientos = this.cache.valorReintegroRendimientos;
-    valorSaldoFinalExtracto = this.cache.valorSaldoFinalExtracto;
+    incomeGenerationDate = cache.getIncomeGenerationDate;
+    rentalRepaymentDate = cache.getRentalRepaymentDate;
+    generatedReturns = cache.generatedReturns;
+    valorReintegroRendimientos = cache.valorReintegroRendimientos;
+    valorSaldoFinalExtracto = cache.valorSaldoFinalExtracto;
 
     notifyListeners();
   }
@@ -218,10 +214,18 @@ class ReportProgressProvider extends ChangeNotifier {
         final mainPhoto = _filesPersistentCacheRepository.getMainPhoto();
         if (mainPhoto == null) return 'Agregue una foto principal';
 
+        // TODO: validar documentos, segun lista de documentos obligatorios
+
         final requiredDocuments =
             _filesPersistentCacheRepository.getRequiredDocuments();
-        if (requiredDocuments.isEmpty)
+
+        if (requiredDocuments.isNotEmpty &&
+            requiredDocuments.any(
+              (element) =>
+                  element.documento == null || element.extension == null,
+            )) {
           return 'Agregue los documentos obligatorios';
+        }
 
         return null;
 
@@ -230,48 +234,8 @@ class ReportProgressProvider extends ChangeNotifier {
     }
   }
 
-  void calculateExecutedValuePercentage() {
-    final activities = this.detail.actividades;
-    double valoresEjecutados = 0;
-    double valorProyecto = 0; // Valor Proyectado
-    for (int i = 0; i < activities.length; i++) {
-      valoresEjecutados += activities[i].valorEjecutado;
-      valorProyecto += activities[i].valorProgramado;
-    }
-
-    double porcentajeInicial = valoresEjecutados / valorProyecto * 100;
-
-    // Porcentaje Nuevo avance
-
-    double nuevoValorEjecutado = 0.0;
-
-    double porcentajeNuevoValorEjectuado = 0.0;
-
-    double totalPorcentajeEjectuaado = 0.0;
-
-    for (int i = 0; i < activities.length; i++) {
-      if (this
-              .cache
-              .activitiesProgress
-              ?.containsKey(activities[i].getStringId) ??
-          false) {
-        nuevoValorEjecutado += activities[i].valorProgramado *
-            (double.parse(
-                    this.cache.activitiesProgress![activities[i].getStringId]) /
-                100);
-      }
-
-      porcentajeNuevoValorEjectuado =
-          (nuevoValorEjecutado / valorProyecto) * 100;
-
-      totalPorcentajeEjectuaado =
-          porcentajeInicial + porcentajeNuevoValorEjectuado;
-    }
-
-    this.cache = this.cache.copyWith(
-          porcentajeValorEjecutado: totalPorcentajeEjectuaado,
-        );
-
-    _projectsCacheRepository.saveCache(this.cache);
+  void clearCache(int projectCode) async {
+    _projectsCacheRepository.removeCacheByCode(projectCode);
+    _filesPersistentCacheRepository.removeCacheByCode(projectCode);
   }
 }

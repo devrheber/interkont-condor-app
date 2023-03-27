@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 import '../models/models.dart';
 
 abstract class ProjectsRepository {
@@ -9,7 +7,6 @@ abstract class ProjectsRepository {
 
   Future<DatosAlimentacion> getDatosAlimentacion({
     required String codigoProyecto,
-    CancelToken? cancelToken,
   });
 
   Future<List<TipoDoc>> getTipoDoc();
@@ -19,6 +16,8 @@ abstract class ProjectsRepository {
     required void onSendProgress(int count, int total),
     required void onReceiveProgress(int count, int total),
   });
+
+  void cancel() {}
 }
 
 abstract class ProjectsRepositoryException implements Exception {}
