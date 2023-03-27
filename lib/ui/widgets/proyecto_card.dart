@@ -1,3 +1,4 @@
+import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/utils/utils.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -6,22 +7,23 @@ import 'package:flutter/material.dart';
 import '../../domain/models/models.dart';
 
 class ProjectCard extends StatelessWidget {
-  const ProjectCard(
-      {Key? key,
-      required this.project,
-      required this.onTap,
-      required this.stream})
-      : super(key: key);
+  const ProjectCard({
+    Key? key,
+    required this.project,
+    required this.onTap,
+    required this.detailSyncronized,
+    required this.stream,
+  }) : super(key: key);
 
   final Project project;
   final VoidCallback onTap;
+  final bool detailSyncronized;
   final Widget stream;
 
   @override
   Widget build(BuildContext context) {
-    // final provider = context.read<ProjectsProvider>();
     return Card(
-      elevation: 2,
+      elevation: 0,
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(15)),
         clipBehavior: Clip.antiAlias,
@@ -90,7 +92,7 @@ class ProjectCard extends StatelessWidget {
                                   fontFamily: "montserrat",
                                   fontWeight: FontWeight.w400,
                                   fontSize: 13,
-                                  color: const Color(0xFF000000),
+                                  color: Color(0xFF000000),
                                 ),
                               ),
                               Row(
@@ -133,8 +135,7 @@ class ProjectCard extends StatelessWidget {
                                                   border: Border(
                                                     right: BorderSide(
                                                       width: 0.3,
-                                                      color:
-                                                          Color(0xFFFF000000),
+                                                      color: Color(0xFF000000),
                                                     ),
                                                   ),
                                                 ),
@@ -160,8 +161,7 @@ class ProjectCard extends StatelessWidget {
                                               child: Center(
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          5),
+                                                      BorderRadius.circular(5),
                                                   clipBehavior: Clip.antiAlias,
                                                   child: Image.asset(
                                                     'assets/img/Desglose/Home/${project.trafficLightColorValue}.png',
@@ -184,6 +184,15 @@ class ProjectCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                  if (detailSyncronized)
+                    const Text('Detalle de proyecto aún no sincronizado',
+                        style: TextStyle(
+                          fontFamily: 'montserrat',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 10,
+                          letterSpacing: 0.4,
+                          color: AppTheme.treceavo,
+                        )),
                   stream,
                 ],
               ),

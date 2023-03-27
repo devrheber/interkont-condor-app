@@ -1,7 +1,5 @@
-import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/globales/customed_app_bar.dart';
 import 'package:appalimentacion/helpers/helpers.dart';
-import 'package:appalimentacion/ui/lista_proyectos_page/projects_provider.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:appalimentacion/utils/utils.dart';
@@ -20,8 +18,8 @@ class CardHeadReporteAvance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final projectsProvider = context.read<ProjectsProvider>();
     final project = context.read<ReportProgressProvider>().project;
+    final cache = context.read<ReportProgressProvider>().cache;
 
     const String appBarTitle = 'Reportar Avance';
 
@@ -44,33 +42,15 @@ class CardHeadReporteAvance extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                StreamBuilder<Map<String, ProjectCache>>(
-                    stream: projectsProvider.cacheStream,
-                    builder: (context,
-                        AsyncSnapshot<Map<String, ProjectCache>> snapshot) {
-                      return Percentage(
-                          value: "Proyectado",
-                          percentage: !snapshot.hasData
-                              ? '0'
-                              : PercentajeFormat.percentaje(snapshot
-                                      .data![project.getProjectCode]
-                                      ?.getPorcentajeValorProyectado ??
-                                  0));
-                    }),
+                Percentage(
+                    value: "Proyectado",
+                    percentage: PercentajeFormat.percentaje(
+                        cache.getPorcentajeValorProyectado)),
                 const Expanded(child: SizedBox.shrink()),
-                StreamBuilder<double>(
-                  initialData: 0.0,
-                  stream: projectsProvider.getExecutedValuePercentage,
-                  builder: (context, AsyncSnapshot<double> snapshot) {
-                    if (!snapshot.hasData) {
-                      return const SizedBox.shrink();
-                    }
-
-                    return Percentage(
-                      value: "Ejecutado",
-                      percentage: PercentajeFormat.percentaje(snapshot.data!),
-                    );
-                  },
+                Percentage(
+                  value: "Ejecutado",
+                  percentage:
+                      PercentajeFormat.percentaje(project.percentageByValue),
                 ),
               ],
             ),

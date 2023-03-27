@@ -32,9 +32,9 @@ class ColorTheme {
   static const Color aomBackgroundColor = Color(0xffF6F4FC);
 
   static const LinearGradient backgroundGradient = LinearGradient(
-    stops: [0.0, 0.4234],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
+    stops: [0.0, 0.8],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
     tileMode: TileMode.mirror,
     colors: <Color>[
       ColorTheme.primary,
@@ -52,13 +52,13 @@ class ColorTheme {
     ],
   );
   static const LinearGradient cardGradient = LinearGradient(
-    stops: [-0.431, 1.174],
+    stops: [-0.5, 2],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     tileMode: TileMode.mirror,
     colors: <Color>[
-      Color(0xff9482FF),
-      Color(0xff745FF2),
+      Color(0xFF22B573),
+      Color(0xFF3280CE),
     ],
   );
   static const LinearGradient buttonGradient = LinearGradient(

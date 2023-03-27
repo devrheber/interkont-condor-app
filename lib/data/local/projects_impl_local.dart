@@ -11,35 +11,34 @@ class ProjectsImplLocal implements ProjectsRepository {
     required String codigoProyecto,
     CancelToken? cancelToken,
   }) async {
+    await Future.delayed(const Duration(seconds: 2));
     return DatosAlimentacion(
         limitePorcentajeAtraso: 5,
         limitePorcentajeAtrasoAmarillo: 10,
         periodos: const [
           Periodo(
               periodoId: 21,
-              fechaIniPeriodo: '22-07-2022',
-              fechaFinPeriodo: '25-07-2022',
+              fechaIniPeriodo: '2022-07-23',
+              fechaFinPeriodo: '2022-07-24',
               porcentajeProyectado: 50),
           Periodo(
               periodoId: 22,
-              fechaIniPeriodo: '01-08-2022',
-              fechaFinPeriodo: '10-08-2022',
+              fechaIniPeriodo: '2022-08-24',
+              fechaFinPeriodo: '2022-08-26',
               porcentajeProyectado: 70),
         ],
         actividades: const [
           Actividad(
-              actividadId: 31,
-              descripcionActividad: 'Actividad Local de Prueba',
-              unidadMedida: 'M',
-              valorUnitario: 10,
-              cantidadProgramada: 10,
-              cantidadEjecutada: 0,
-              valorProgramado: 100,
-              valorEjecutado: 0,
-              porcentajeAvance: 0,
-              cantidadEjecutadaInicial: 0,
-              valorEjecutadoInicial: 0,
-              porcentajeAvanceInicial: 0),
+            actividadId: 31,
+            descripcionActividad: 'Actividad Local de Prueba',
+            unidadMedida: 'M',
+            valorUnitario: 10,
+            cantidadProgramada: 10,
+            cantidadEjecutada: 0,
+            valorProgramado: 100,
+            valorEjecutado: 0,
+            porcentajeAvance: 0,
+          ),
         ],
         indicadoresAlcance: [
           IndicadoresDeAlcance(
@@ -70,22 +69,40 @@ class ProjectsImplLocal implements ProjectsRepository {
 
   @override
   Future<List<Project>> getAlimentacionProjects() async {
+    await Future.delayed(const Duration(seconds: 2));
     return [
       Project(
-          codigoproyecto: 001,
-          nombreproyecto: 'Proyecto Local de Prueba',
-          valorproyecto: 50000,
-          valorejecutado: 0,
-          porcentajeProyectado: 1,
-          semaforoproyecto: 'rojo',
-          codigocategoria: 1,
-          imagencategoria:
-              'https://www.ftc.gov/sites/all/themes/ftc/images-cybersecurity-pages/homepage-quiz-basics.png',
-          colorcategoria: '#FFFFFF',
-          nombrecategoria: 'Categoría de prueba',
-          objeto: 'Descripción de Prueba.',
-          pendienteAprobacion: false,
-          estadoobra: 9)
+        codigoproyecto: 001,
+        nombreproyecto: 'Proyecto Local de Prueba',
+        valorproyecto: 50000,
+        valorejecutado: 0,
+        porcentajeProyectado: 1,
+        semaforoproyecto: 'rojo',
+        codigocategoria: 1,
+        imagencategoria:
+            'https://www.ftc.gov/sites/all/themes/ftc/images-cybersecurity-pages/homepage-quiz-basics.png',
+        colorcategoria: '#FFFFFF',
+        nombrecategoria: 'Categoría de prueba',
+        objeto: 'Descripción de Prueba.',
+        pendienteAprobacion: false,
+        estadoobra: 9,
+      ),
+      Project(
+        codigoproyecto: 2,
+        nombreproyecto: 'Proyecto Local de Prueba 2',
+        valorproyecto: 100000,
+        valorejecutado: 40000,
+        porcentajeProyectado: 1,
+        semaforoproyecto: 'verde',
+        codigocategoria: 1,
+        imagencategoria:
+            'https://fastly.picsum.photos/id/237/536/354.jpg?hmac=i0yVXW1ORpyCZpQ-CknuyV-jbtU7_x9EBQVhvT5aRr0',
+        colorcategoria: '#FFFFFF',
+        nombrecategoria: 'Categoría de prueba',
+        objeto: 'Descripción de Prueba.',
+        pendienteAprobacion: true,
+        estadoobra: 9,
+      )
     ];
   }
 
@@ -137,5 +154,10 @@ class ProjectsImplLocal implements ProjectsRepository {
   Future<List<Project>> getAomProjects() {
     // TODO: implement getAomProjects
     throw UnimplementedError();
+  }
+
+  @override
+  void cancel() {
+    // TODO: implement cancel
   }
 }

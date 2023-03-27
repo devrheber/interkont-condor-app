@@ -18,7 +18,7 @@ class HeaderProfileWidget extends StatelessWidget {
             margin: const EdgeInsets.only(top: 50.0, right: 28, left: 28),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: const BorderRadius.all(const Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               boxShadow: [
                 BoxShadow(
                   color: const Color(0xffC1C8D9).withOpacity(.3),

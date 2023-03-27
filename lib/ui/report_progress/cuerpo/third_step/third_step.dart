@@ -79,14 +79,14 @@ class ThirdStep extends StatelessWidget {
                           ),
                         )
                       : const Padding(
-                          padding: EdgeInsets.only(
-                              left: 25, right: 25, bottom: 22),
+                          padding:
+                              EdgeInsets.only(left: 25, right: 25, bottom: 22),
                           child: TextSubtitle(
-                              text:
-                                  '- Este proyecto no presenta indicadores.'),
+                              text: '- Este proyecto no presenta indicadores.'),
                         ),
 
-                  const PerformanceIndicators(),
+                  // TODO Solo debe ser visible para app avanzame
+                  // const PerformanceIndicators(),
                 ],
               ),
             ],

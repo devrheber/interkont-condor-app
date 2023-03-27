@@ -47,6 +47,18 @@ class RequiredDocuments extends StatelessWidget {
       }
     }
 
+    if (requiredDocuments.isEmpty) {
+      return const Center(
+        child: Text('No hay documentos requeridos',
+            style: TextStyle(
+              fontFamily: 'montserrat',
+              fontSize: 14,
+              color: Color(0xFF556A8D),
+              fontWeight: FontWeight.w400,
+            )),
+      );
+    }
+
     return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       itemCount: requiredDocuments.length,

@@ -15,5 +15,6 @@ class ApiRoutes {
 
   // App siente
 
-
+  // Others
+  static const String loadingDialog = '/loadingDialog';
 }

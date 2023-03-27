@@ -184,58 +184,32 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
           const SizedBox(height: 50.88),
           Column(
             children: <Widget>[
-              celdas('Unidad de medida', widget.item.unidadMedida, false),
-              celdas(
-                  'Cantidad programada',
-                  f.format(double.parse('${widget.item.cantidadProgramada}')),
-                  false),
-              celdas('Cantidad ejecutada', f.format(newQuantityExecuted), true),
-              celdas(
-                  'Porcentaje de avance',
-                  PercentajeFormat.percentaje(newPercentageOfCompletion,
+              Celdas(
+                txtIzquierda: 'Unidad de medida',
+                txtDerecha: widget.item.unidadMedida,
+                negrita: false,
+              ),
+              Celdas(
+                txtIzquierda: 'Unidad de medida',
+                txtDerecha: widget.item.unidadMedida,
+                negrita: true,
+              ),
+              Celdas(
+                  txtIzquierda: 'Cantidad programada',
+                  txtDerecha: f.format(
+                      double.parse('${widget.item.cantidadProgramada}')),
+                  negrita: true),
+              Celdas(
+                  txtIzquierda: 'Cantidad ejecutada',
+                  txtDerecha: f.format(newQuantityExecuted),
+                  negrita: true),
+              Celdas(
+                  txtIzquierda: 'Porcentaje de avance',
+                  txtDerecha: PercentajeFormat.percentaje(
+                      newPercentageOfCompletion,
                       precision: 2),
-                  true),
+                  negrita: true),
             ],
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget celdas(txtIzquierda, txtDerecha, negrita) {
-    FontWeight fontWeight = FontWeight.w200;
-    if (negrita == true) {
-      fontWeight = FontWeight.w600;
-    }
-    return Container(
-      padding: const EdgeInsets.only(bottom: 5.0, top: 5.0, left: 5.0, right: 5.0),
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(width: 0.3, color: Colors.white),
-        ),
-      ),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Text('$txtIzquierda',
-                style: TextStyle(
-                    fontFamily: 'montserrat',
-                    fontWeight: fontWeight,
-                    fontSize: 10,
-                    color: Colors.white)),
-          ),
-          Expanded(
-            flex: 1,
-            child: Text(
-              '$txtDerecha',
-              style: TextStyle(
-                  fontFamily: 'montserrat',
-                  fontWeight: fontWeight,
-                  fontSize: 10,
-                  color: Colors.white),
-              textAlign: TextAlign.right,
-            ),
           )
         ],
       ),
@@ -272,5 +246,60 @@ class _RangeIndicatorCardState extends State<RangeIndicatorCard> {
 
     widget.onChanged(widget.item.indicadorAlcanceId, value.toString());
     newQuantityExecuted = double.parse(value);
+  }
+}
+
+class Celdas extends StatelessWidget {
+  const Celdas({
+    Key? key,
+    required this.txtIzquierda,
+    required this.txtDerecha,
+    required this.negrita,
+  }) : super(key: key);
+
+  final String txtIzquierda;
+  final String txtDerecha;
+  final bool negrita;
+
+  @override
+  Widget build(BuildContext context) {
+    FontWeight fontWeight = FontWeight.w200;
+    if (negrita == true) {
+      fontWeight = FontWeight.w600;
+    }
+    return Container(
+      padding:
+          const EdgeInsets.only(bottom: 5.0, top: 5.0, left: 5.0, right: 5.0),
+      decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(width: 0.3, color: Colors.white),
+        ),
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Text(txtIzquierda,
+                style: TextStyle(
+                    fontFamily: 'montserrat',
+                    fontWeight: fontWeight,
+                    fontSize: 10,
+                    color: Colors.white)),
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(
+              txtDerecha,
+              style: TextStyle(
+                  fontFamily: 'montserrat',
+                  fontWeight: fontWeight,
+                  fontSize: 10,
+                  color: Colors.white),
+              textAlign: TextAlign.right,
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

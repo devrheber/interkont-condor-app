@@ -2,16 +2,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar({
-    Key? key,
-    required this.colorFondo,
-    required this.primerBotonDesactivado,
-    required this.segundoBotonDesactivado,
-    this.txtPrimerBoton,
-    required this.txtSegundoBoton,
-    this.accionPrimerBoton,
-    this.accionSegundoBoton,
-  }) : super(key: key);
+  const CustomBottomNavigationBar(
+      {Key? key,
+      required this.colorFondo,
+      required this.primerBotonDesactivado,
+      required this.segundoBotonDesactivado,
+      this.txtPrimerBoton,
+      required this.txtSegundoBoton,
+      this.accionPrimerBoton,
+      this.accionSegundoBoton,
+      this.heightSecondButton})
+      : super(key: key);
 
   final Color colorFondo;
   final bool primerBotonDesactivado;
@@ -20,11 +21,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final String txtSegundoBoton;
   final dynamic accionPrimerBoton;
   final dynamic accionSegundoBoton;
+  final double? heightSecondButton;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
+          top: 10.0,
           bottom: 16.77,
           left: accionPrimerBoton != null ? 46.19 : 28,
           right: accionPrimerBoton != null ? 46.19 : 28),
@@ -41,7 +44,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
             ),
           Expanded(
             child: btnSiguiente(context, colorFondo, txtSegundoBoton,
-                accionSegundoBoton, segundoBotonDesactivado),
+                accionSegundoBoton, segundoBotonDesactivado,
+                height: heightSecondButton),
           )
         ],
       ),
@@ -88,7 +92,8 @@ Widget btnCancelar(context, colorFondo, texto, accion, desactivado) {
   );
 }
 
-Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
+Widget btnSiguiente(context, colorFondo, texto, accion, desactivado,
+    {double? height}) {
   Color colorBoton = const Color(0xff22B573);
   if (desactivado == true) {
     colorBoton = const Color(0xff808080);
@@ -102,9 +107,9 @@ Widget btnSiguiente(context, colorFondo, texto, accion, desactivado) {
           onTap: () {
             accion();
           },
-          child: Container(
+          child: SizedBox(
             width: texto != "Siguiente Paso" ? 154.95 : 361.58,
-            height: 42.3,
+            height: height ?? 42.3,
             // color: AppTheme.bottomPrincipal,
 
             child: Container(

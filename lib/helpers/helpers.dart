@@ -6,4 +6,3 @@ export 'decimal_formatter.dart';
 export 'dialogs_helpers.dart';
 export 'network_helper.dart';
 export 'project_helpers.dart';
-export 'respuestaHttp.dart';

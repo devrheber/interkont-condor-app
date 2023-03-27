@@ -21,7 +21,7 @@ class ConfirmDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const style = const TextStyle(
+    const style = TextStyle(
       fontFamily: "montserrat",
       fontWeight: FontWeight.w400,
       fontSize: 12,

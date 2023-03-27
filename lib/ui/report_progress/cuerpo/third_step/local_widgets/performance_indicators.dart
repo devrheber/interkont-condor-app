@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 final date = DateTime.now();
 
-final style = const TextStyle(
+const style = TextStyle(
   color: Color(0xff556A8D),
   fontSize: 15,
   fontFamily: "montserrat",
@@ -131,7 +131,6 @@ class _PerformanceIndicatorsState extends State<PerformanceIndicators> {
         lastDate: DateTime(2101),
       ).then<DateTime?>((date) {
         if (date == null) return null;
-        print(date.toIso8601String());
         return date;
       });
     }
@@ -301,8 +300,8 @@ class IndicatorField extends StatelessWidget {
               child: TextField(
                 enabled: enabled,
                 textAlign: TextAlign.center,
-                style: style.copyWith(
-                    fontSize: 13, fontWeight: FontWeight.w400),
+                style:
+                    style.copyWith(fontSize: 13, fontWeight: FontWeight.w400),
                 inputFormatters: [
                   if (enabled)
                     CurrencyTextInputFormatter(
@@ -317,8 +316,8 @@ class IndicatorField extends StatelessWidget {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: hintText,
-                  hintStyle: style.copyWith(
-                      fontSize: 14, fontWeight: FontWeight.w400),
+                  hintStyle:
+                      style.copyWith(fontSize: 14, fontWeight: FontWeight.w400),
                   counterText: '',
                 ),
                 focusNode: focusNode,

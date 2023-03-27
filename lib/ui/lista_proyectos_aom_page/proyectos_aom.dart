@@ -63,70 +63,70 @@ class ProyectosContenidoAOM extends StatelessWidget {
                       // TODO Escuchar conectividad y volver a intentar obtener proyectos
                     }
 
-                    return Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              const Text(
-                                'Proyectos AOM ',
-                                style: TextStyle(
-                                  fontFamily: "mulish",
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20,
-                                  color: Color(0xFF000000),
-                                ),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            const Text(
+                              'Proyectos AOM ',
+                              style: TextStyle(
+                                fontFamily: "mulish",
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                                color: Color(0xFF000000),
                               ),
-                              Text(
-                                '(${state.projects.length} proyectos)',
-                                style: const TextStyle(
-                                  fontFamily: "mulish",
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 20,
-                                  color: ColorTheme.primary,
-                                ),
-                              ),
-                              const Spacer(),
-                              InkWell(
-                                onTap: () async {
-                                  context
-                                      .read<AomProjectsBloc>()
-                                      .add(AomProjectsGetProjects());
-                                },
-                                child: const Icon(Icons.replay_outlined),
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 6),
-                          const AutoSizeText(
-                            'Selecciona un proyecto para gestionar el inventario',
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontFamily: "montserrat",
-                              fontWeight: FontWeight.w200,
-                              fontSize: 15,
-                              color: Color(0xFF566B8C),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          for (final project in state.projects)
-                            ProjectCard(
-                              project: project,
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.aomDetalle,
-                                  arguments: {
-                                    'project': project,
-                                    'projectCode': project.codigoproyecto,
-                                  },
-                                );
+                            Text(
+                              '(${state.projects.length} proyectos)',
+                              style: const TextStyle(
+                                fontFamily: "mulish",
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                                color: ColorTheme.primary,
+                              ),
+                            ),
+                            const Spacer(),
+                            InkWell(
+                              onTap: () async {
+                                context
+                                    .read<AomProjectsBloc>()
+                                    .add(AomProjectsGetProjects());
                               },
-                              stream: Container(),
-                            ),
-                        ],
-                      ),
+                              child: const Icon(Icons.replay_outlined),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        const AutoSizeText(
+                          'Selecciona un proyecto para gestionar el inventario',
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontFamily: "montserrat",
+                            fontWeight: FontWeight.w200,
+                            fontSize: 15,
+                            color: Color(0xFF566B8C),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        for (final project in state.projects)
+                          ProjectCard(
+                            project: project,
+                            // TODO
+                            detailSyncronized: true,
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.aomDetalle,
+                                arguments: {
+                                  'project': project,
+                                  'projectCode': project.codigoproyecto,
+                                },
+                              );
+                            },
+                            stream: Container(),
+                          ),
+                      ],
                     );
                   },
                 )
@@ -148,7 +148,7 @@ class _NoProjects extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 10.0),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -161,7 +161,8 @@ class _NoProjects extends StatelessWidget {
               Expanded(
                   child: Container(
                 height: 150.0,
-                margin: const EdgeInsets.only(bottom: 20.0, top: 20.0, right: 20.0),
+                margin:
+                    const EdgeInsets.only(bottom: 20.0, top: 20.0, right: 20.0),
                 child: Image.asset('assets/img/Desglose/Demas/img-noimage.png'),
               )),
             ],

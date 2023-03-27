@@ -19,13 +19,13 @@ class NoInternet extends StatelessWidget {
                 image: AssetImage("assets/img/Desglose/Demas/bg-nosenal.jpg"),
                 fit: BoxFit.cover),
           ),
-          padding:
-              const EdgeInsets.only(top: 80.0, bottom: 20.0, left: 70.0, right: 70.0),
+          padding: const EdgeInsets.only(
+              top: 80.0, bottom: 20.0, left: 70.0, right: 70.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Image(
-                image: const AssetImage('assets/img/Desglose/Demas/icn-nosenal.png'),
+                image: AssetImage('assets/img/Desglose/Demas/icn-nosenal.png'),
                 width: 80.0,
                 height: 130,
               ),
@@ -54,7 +54,7 @@ class NoInternet extends StatelessWidget {
                 onTap: () async {
                   Navigator.pop(context);
                 },
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width - 60.0,
                   child: Container(
                     decoration: const BoxDecoration(
@@ -104,15 +104,4 @@ class NoInternet extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<dynamic> noInternetConnection(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (context) => const Dialog(
-      child: NoInternet(),
-      insetPadding: EdgeInsets.zero,
-      elevation: 0,
-    ),
-  );
 }

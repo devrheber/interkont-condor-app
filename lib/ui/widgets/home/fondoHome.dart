@@ -34,7 +34,7 @@ class _FondoHomeState extends State<FondoHome> {
               width: double.infinity,
               height: 214,
               decoration: const BoxDecoration(
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(15),
                     bottomRight: Radius.circular(15)),
                 gradient: ColorTheme.backgroundGradient,

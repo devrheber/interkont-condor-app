@@ -6,7 +6,7 @@ class StepIndicator extends StatelessWidget {
     required this.text,
     required this.number,
     this.isCompleted = false,
-    this.completedColor = const Color(0xff745FF2),
+    this.completedColor = const Color(0xFF52B4A6),
     this.pendingColor = const Color(0xff556A8D),
     this.style,
     this.onTap,
@@ -38,7 +38,9 @@ class StepIndicator extends StatelessWidget {
             border: Border(
               bottom: BorderSide(
                   width: 1.0,
-                  color: isCompleted ? const Color(0xff7964F3) : Colors.transparent),
+                  color: isCompleted
+                      ? const Color(0xFF52B4A6)
+                      : Colors.transparent),
             ),
           ),
           child: Column(
@@ -52,7 +54,8 @@ class StepIndicator extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 4.0),
                   decoration: BoxDecoration(
                     color: circleBgColor,
-                    borderRadius: const BorderRadius.all(Radius.circular(100.0)),
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(100.0)),
                   ),
                   child: Text(
                     number,
@@ -64,18 +67,16 @@ class StepIndicator extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                     ),
                   )),
-              Container(
-                child: Text(
-                  '$text',
-                  textAlign: TextAlign.center,
-                  style: style ??
-                      const TextStyle(
-                        fontFamily: "montserrat",
-                        fontSize: 12,
-                        color: Color(0xff556A8D),
-                        fontWeight: FontWeight.w500,
-                      ),
-                ),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                style: style ??
+                    const TextStyle(
+                      fontFamily: "montserrat",
+                      fontSize: 12,
+                      color: Color(0xff556A8D),
+                      fontWeight: FontWeight.w500,
+                    ),
               )
             ],
           ),
