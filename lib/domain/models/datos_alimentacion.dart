@@ -86,9 +86,28 @@ class DatosAlimentacion extends Equatable {
         factoresAtraso,
       ];
 
-  // static DatosAlimentacion get empty {
-  //   return DatosAlimentacion();
-  // }
+  DatosAlimentacion copyWith({
+    double? limitePorcentajeAtraso,
+    double? limitePorcentajeAtrasoAmarillo,
+    List<Periodo>? periodos,
+    List<Actividad>? actividades,
+    List<IndicadoresDeAlcance>? indicadoresAlcance,
+    List<AspectoEvaluar>? apectosEvaluar,
+    List<TiposFactorAtraso>? tiposFactorAtraso,
+    List<FactoresAtraso>? factoresAtraso,
+  }) =>
+      DatosAlimentacion(
+        limitePorcentajeAtraso:
+            limitePorcentajeAtraso ?? this.limitePorcentajeAtraso,
+        limitePorcentajeAtrasoAmarillo: limitePorcentajeAtrasoAmarillo ??
+            this.limitePorcentajeAtrasoAmarillo,
+        periodos: periodos ?? this.periodos,
+        actividades: actividades ?? this.actividades,
+        indicadoresAlcance: indicadoresAlcance ?? this.indicadoresAlcance,
+        apectosEvaluar: apectosEvaluar ?? this.apectosEvaluar,
+        tiposFactorAtraso: tiposFactorAtraso ?? this.tiposFactorAtraso,
+        factoresAtraso: factoresAtraso ?? this.factoresAtraso,
+      );
 }
 
 class Actividad extends Equatable {
@@ -102,9 +121,6 @@ class Actividad extends Equatable {
     required this.valorProgramado,
     required this.valorEjecutado,
     required this.porcentajeAvance,
-    required this.cantidadEjecutadaInicial,
-    required this.valorEjecutadoInicial,
-    required this.porcentajeAvanceInicial,
   });
 
   final int actividadId;
@@ -116,9 +132,6 @@ class Actividad extends Equatable {
   final double valorProgramado;
   final double valorEjecutado;
   final double porcentajeAvance;
-  final double cantidadEjecutadaInicial;
-  final double valorEjecutadoInicial;
-  final double porcentajeAvanceInicial;
 
   factory Actividad.fromJson(Map<String, dynamic> json) => Actividad(
         actividadId: json["actividadId"],
@@ -136,12 +149,6 @@ class Actividad extends Equatable {
         porcentajeAvance: json["porcentajeAvance"] == null
             ? 0.0
             : json["porcentajeAvance"].toDouble(),
-        cantidadEjecutadaInicial: json["cantidadEjecutadaInicial"] == null
-            ? 0.0
-            : json["cantidadEjecutadaInicial"].toDouble(),
-        valorEjecutadoInicial: json["valorEjecutadoInicial"].toDouble(),
-        porcentajeAvanceInicial:
-            (json["porcentajeAvanceInicial"] ?? 0.0).toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -154,40 +161,36 @@ class Actividad extends Equatable {
         "valorProgramado": valorProgramado,
         "valorEjecutado": valorEjecutado,
         "porcentajeAvance": porcentajeAvance,
-        "cantidadEjecutadaInicial": cantidadEjecutadaInicial,
-        "valorEjecutadoInicial": valorEjecutadoInicial,
-        "porcentajeAvanceInicial": porcentajeAvanceInicial,
       };
 
-  String get ejecutadoActual {
-    final value = (cantidadEjecutadaInicial / cantidadProgramada) * 100;
-
-    return '${value.toStringAsFixed(2)} %';
+  String get getValorEjecutado {
+    return '\$${valorEjecutado.toStringAsFixed(2)}';
   }
 
-  double get getCurrentProgressDouble {
-    return (cantidadEjecutadaInicial / cantidadProgramada) * 100;
+  String get getCantidadEjecutada {
+    return cantidadEjecutada.toStringAsFixed(2);
+  }
+
+  String get getValorProgramado {
+    return '\$${valorProgramado.toStringAsFixed(2)}';
+  }
+
+  String get getValorUnitario {
+    return '\$${valorUnitario.toStringAsFixed(2)}';
   }
 
   String avanceAHoy(double valorAvance) {
-    final value = (cantidadEjecutadaInicial / cantidadProgramada) * 100;
-    final percentaje = (value + valorAvance).toStringAsFixed(2);
+    final value = (cantidadEjecutada + valorAvance);
+    final percentaje = ((value / cantidadProgramada) * 100).toStringAsFixed(2);
 
     return '$percentaje %';
   }
 
   String faltantePorEjecutar(double valorAvance) {
-    final value = (cantidadEjecutadaInicial / cantidadProgramada) * 100;
+    final value = (cantidadEjecutada / cantidadProgramada) * 100;
     final percentaje = (100 - (value + valorAvance)).toStringAsFixed(2);
 
     return '$percentaje %';
-  }
-
-  double getNewExecutedValue(double porcentajeAvance) {
-    final nuevoValorDeAvance = valorProgramado * (porcentajeAvance / 100);
-    final nuevaCantidadDeAvance =
-        cantidadProgramada * (nuevoValorDeAvance / valorProgramado);
-    return nuevaCantidadDeAvance;
   }
 
   String get getStringId {
@@ -205,9 +208,6 @@ class Actividad extends Equatable {
         valorProgramado,
         valorEjecutado,
         porcentajeAvance,
-        cantidadEjecutadaInicial,
-        valorEjecutadoInicial,
-        porcentajeAvanceInicial,
       ];
 }
 
@@ -286,7 +286,7 @@ class Periodo extends Equatable {
         fechaIniPeriodo: json["fechaIniPeriodo"],
         fechaFinPeriodo: json["fechaFinPeriodo"],
         porcentajeProyectado: json["porcentajeProyectado"] == null
-            ? null
+            ? 0.0
             : json["porcentajeProyectado"].toDouble(),
       );
 

@@ -1,16 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:appalimentacion/domain/repository/aom_projects_repository.dart';
 import 'package:appalimentacion/helpers/remote_config_service.dart';
 import 'package:dio/dio.dart' as x;
-import 'package:dio/dio.dart';
 
 import '../../constants/constants.dart';
 import '../../domain/models/models.dart';
 import '../../domain/repository/projects_repository.dart';
-import '../../helpers/respuestaHttp.dart';
 import '../local/user_preferences.dart';
 
 class ProjectsImpl implements ProjectsRepository {
@@ -18,37 +14,50 @@ class ProjectsImpl implements ProjectsRepository {
   final RemoteConfigService remoteConfig = RemoteConfigService();
   final String _url = urlGlobalApiCondor;
 
+  x.CancelToken? _cancelToken;
+
   Exception manageDioError(x.DioError e) {
     switch (e.type) {
       case x.DioErrorType.connectTimeout:
-        throw AomProjectsSlowConnectionException();
+        throw const OtherException(
+          'No se pudo conectar con el servidor',
+        );
       case x.DioErrorType.response:
         if (e.response?.statusCode == 500) {
-          throw AomProjectsBackendErrorException(e.response?.data);
+          final message = e.response?.data['message'] ??
+              e.response?.data['data']['message'] ??
+              e.response?.data;
+          'Error desconocido';
+
+          throw OtherException(message);
         }
         if (e.response?.statusCode == 403) {
-          throw AomProjectsForbiddenException();
+          throw const OtherException(
+            'No tiene permisos para realizar esta acción',
+          );
         }
-        throw AomProjectsOtherEception();
+        throw const OtherException(
+            'Algo salió mal, por favor intente nuevamente');
       case x.DioErrorType.cancel:
-        throw AomProjectsCancelException();
+        throw const OtherException('Cancelado');
       case x.DioErrorType.sendTimeout:
       case x.DioErrorType.receiveTimeout:
       case x.DioErrorType.other:
-        throw AomProjectsOtherEception();
+        throw const OtherException('Algo salió mal');
       default:
-        throw AomProjectsOtherEception();
+        throw const OtherException('Error desconocido');
     }
   }
 
   @override
-  Future<List<Project>> getAlimentacionProjects(
-      {x.CancelToken? cancelToken}) async {
+  Future<List<Project>> getAlimentacionProjects() async {
     try {
       int alimentacionProjectState =
           remoteConfig.getInt('feature_estado_obra_alimentacion');
 
-      final list = await getVistaLista(cancelToken);
+      _cancelToken = x.CancelToken();
+
+      final list = await getVistaLista(_cancelToken);
 
       return list
           .where(
@@ -61,11 +70,13 @@ class ProjectsImpl implements ProjectsRepository {
   }
 
   @override
-  Future<List<Project>> getAomProjects({x.CancelToken? cancelToken}) async {
+  Future<List<Project>> getAomProjects() async {
     try {
       int aomProjectState = remoteConfig.getInt('feature_estado_obra_aom');
 
-      final list = await getVistaLista(cancelToken);
+      _cancelToken = x.CancelToken();
+
+      final list = await getVistaLista(_cancelToken);
 
       return list
           .where(
@@ -74,6 +85,8 @@ class ProjectsImpl implements ProjectsRepository {
           .toList();
     } on x.DioError catch (e) {
       throw manageDioError(e);
+    } catch (e) {
+      throw const OtherException('Error desconocido');
     }
   }
 
@@ -100,11 +113,7 @@ class ProjectsImpl implements ProjectsRepository {
         cancelToken: cancelToken,
       );
 
-      if (response.statusCode == 200) {
-        return vistaListaResponseFromJson(json.encode(response.data));
-      }
-
-      throw UnimplementedError();
+      return vistaListaResponseFromJson(json.encode(response.data));
     } catch (e) {
       rethrow;
     }
@@ -113,7 +122,6 @@ class ProjectsImpl implements ProjectsRepository {
   @override
   Future<DatosAlimentacion> getDatosAlimentacion({
     required String codigoProyecto,
-    CancelToken? cancelToken,
   }) async {
     String url = "$_url/datos-alimentacion";
 
@@ -133,20 +141,17 @@ class ProjectsImpl implements ProjectsRepository {
 
       HttpClientResponse response = await request.close();
       String cuerpoBody = await response.transform(utf8.decoder).join();
-      print(cuerpoBody);
 
-      var respuesta = await respuestaHttp(response.statusCode);
-      if (respuesta == true) {
+      if (response.statusCode == 200) {
         return datosAlimentacionFromJson(cuerpoBody);
       } else {}
-      throw '';
+      throw const OtherException('Error al obtener los datos de alimentación');
     } catch (value) {
-      print('Error al obtener los detalles del Proyecto');
-      // TODO
-      rethrow;
+      throw const OtherException('Error al obtener los detalles del Proyecto');
     }
   }
 
+  @override
   Future<List<TipoDoc>> getTipoDoc() async {
     HttpClient client = HttpClient();
 
@@ -165,8 +170,7 @@ class ProjectsImpl implements ProjectsRepository {
         return tipoDocFromJson(responseBody);
       }
       return [];
-    } on Error catch (e) {
-      print(e);
+    } catch (e) {
       return [];
     }
   }
@@ -180,14 +184,13 @@ class ProjectsImpl implements ProjectsRepository {
       var response = await dio.get(_url + ApiRoutes.tiposDocumento,
           options: x.Options(headers: {
             'content-type': 'application/json',
-            'Authorization': '$authorization'
+            'Authorization': authorization
           }));
       if (response.statusCode == 200) {
         return tipoDocFromJson(json.encode(response.data));
       }
       return [];
-    } on x.DioError catch (e) {
-      print(e);
+    } on x.DioError catch (_) {
       return [];
     }
   }
@@ -217,9 +220,6 @@ class ProjectsImpl implements ProjectsRepository {
         onReceiveProgress: onReceiveProgress,
       );
 
-      inspect(response);
-      print(response);
-
       if (response.statusCode == 200 || response.statusCode == 201) {
         final messages = List<dynamic>.from(json
             .decode(json.encode(response.data['mensajes']))
@@ -239,8 +239,6 @@ class ProjectsImpl implements ProjectsRepository {
         };
       }
     } on x.DioError catch (error) {
-      inspect(error);
-      print(error);
       switch (error.type) {
         case x.DioErrorType.connectTimeout:
           throw SlowConnectionException();
@@ -251,12 +249,15 @@ class ProjectsImpl implements ProjectsRepository {
         case x.DioErrorType.sendTimeout:
         case x.DioErrorType.receiveTimeout:
         case x.DioErrorType.cancel:
-          throw OtherException('Error desconocido');
+          throw const OtherException('Error desconocido');
       }
     } catch (_) {
-      inspect(_);
-      print(_);
-      throw OtherException('Error desconocido');
+      throw const OtherException('Error desconocido');
     }
+  }
+
+  @override
+  void cancel() {
+    _cancelToken?.cancel();
   }
 }

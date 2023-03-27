@@ -13,7 +13,6 @@ class Project {
     required this.objeto,
     this.contratista,
     required this.pendienteAprobacion,
-    this.distaciaproyecto,
     required this.estadoobra,
   });
 
@@ -30,7 +29,6 @@ class Project {
   String objeto;
   dynamic contratista;
   bool pendienteAprobacion;
-  dynamic distaciaproyecto;
   int estadoobra;
 
   factory Project.fromJson(Map<String, dynamic> json) => Project(
@@ -47,7 +45,6 @@ class Project {
         objeto: json["objeto"],
         contratista: json["contratista"],
         pendienteAprobacion: json["pendienteAprobacion"],
-        distaciaproyecto: json["distaciaproyecto"],
         estadoobra: json["estadoobra"] == null ? 9 : json["estadoobra"],
       );
 
@@ -65,7 +62,6 @@ class Project {
         "objeto": objeto,
         "contratista": contratista,
         "pendienteAprobacion": pendienteAprobacion,
-        "distaciaproyecto": distaciaproyecto,
         "estadoobra": estadoobra,
       };
 
