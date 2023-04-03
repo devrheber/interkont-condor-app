@@ -1,8 +1,10 @@
+import 'package:appalimentacion/blocs/network/network_bloc.dart';
 import 'package:appalimentacion/globales/colores.dart';
 import 'package:appalimentacion/utils/utils.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/models/models.dart';
 
@@ -184,15 +186,22 @@ class ProjectCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (detailSyncronized)
-                    const Text('Detalle de proyecto aún no sincronizado',
-                        style: TextStyle(
-                          fontFamily: 'montserrat',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 10,
-                          letterSpacing: 0.4,
-                          color: AppTheme.treceavo,
-                        )),
+                  BlocBuilder<NetworkBloc, NetworkState>(
+                      builder: (context, state) {
+                    if (detailSyncronized && state is NetworkFailure) {
+                      return const Text(
+                          'Detalle de proyecto aún no sincronizado',
+                          style: TextStyle(
+                            fontFamily: 'montserrat',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10,
+                            letterSpacing: 0.4,
+                            color: AppTheme.treceavo,
+                          ));
+                    }
+
+                    return const SizedBox.shrink();
+                  }),
                   stream,
                 ],
               ),

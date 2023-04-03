@@ -19,7 +19,7 @@ class ProjectDetailState extends Equatable {
 
   final ProjectDetailStatus status;
   final Project project;
-  final DatosAlimentacion detail;
+  final DatosAlimentacion? detail;
   final ProjectCache cache;
   final Periodo? periodoSeleccionado;
   final String message;

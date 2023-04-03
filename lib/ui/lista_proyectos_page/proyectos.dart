@@ -157,21 +157,6 @@ class ProyectosContenido extends StatelessWidget {
                                 final detail = state
                                     .details[projects[index].getProjectCode];
 
-                                if (detail == null) {
-                                  const SnackBar snackBar = SnackBar(
-                                    content: Text(
-                                        'Lo sentimos, este proyecto no fue sincronizado anteriormente'),
-                                    backgroundColor: ColorTheme.primaryTint,
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                    ..hideCurrentSnackBar()
-                                    ..showSnackBar(snackBar);
-                                  context.read<ProjectsBloc>().add(
-                                      FetchRemoteProjectDetail(
-                                          projects[index].codigoproyecto));
-                                  return;
-                                }
-
                                 context
                                     .read<ProjectsBloc>()
                                     .add(SetCurrentProjectCode(
@@ -220,20 +205,5 @@ class ProyectosContenido extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Future<void> openProject(
-    context, {
-    required Project project,
-  }) async {
-    context
-        .read<ProjectsBloc>()
-        .add(FetchRemoteProjectDetail(project.codigoproyecto));
-
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => ProyectScreen.init(),
-    //   ),
-    // );
   }
 }

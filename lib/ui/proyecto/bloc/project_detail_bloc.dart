@@ -12,7 +12,7 @@ class ProjectDetailBloc extends Bloc<ProjectDetailEvent, ProjectDetailState> {
     required ProjectsRepository projectRepository,
     required ProjectsCacheRepository projectsCacheRepository,
     required Project project,
-    required DatosAlimentacion detail,
+    required DatosAlimentacion? detail,
     required ProjectCache? cache,
   })  : _projectRepository = projectRepository,
         _projectsCacheRepository = projectsCacheRepository,
@@ -38,13 +38,15 @@ class ProjectDetailBloc extends Bloc<ProjectDetailEvent, ProjectDetailState> {
   final ProjectsCacheRepository _projectsCacheRepository;
 
   void _onEstablecerPeriodoSeleccionado(event, emit) {
-    final int index = state.detail.periodos.indexWhere(
+    if (state.detail == null) return;
+
+    final int index = state.detail!.periodos.indexWhere(
         (periodo) => periodo.periodoId == state.cache.periodoIdSeleccionado);
 
     if (index < 0) return;
 
     emit(state.copyWith(
-      periodoSeleccionado: () => state.detail.periodos[index],
+      periodoSeleccionado: () => state.detail!.periodos[index],
     ));
   }
 
@@ -86,7 +88,8 @@ class ProjectDetailBloc extends Bloc<ProjectDetailEvent, ProjectDetailState> {
   }
 
   void _updateSelectedPeriod(event, emit) {
-    final int index = state.detail.periodos.indexWhere(
+    if (state.detail == null) return;
+    final int index = state.detail!.periodos.indexWhere(
         (period) => period.periodoId == state.periodoSeleccionado?.periodoId);
 
     if (index < 0) {
@@ -95,11 +98,13 @@ class ProjectDetailBloc extends Bloc<ProjectDetailEvent, ProjectDetailState> {
     }
 
     emit(state.copyWith(
-        periodoSeleccionado: () => state.detail.periodos[index]));
+        periodoSeleccionado: () => state.detail!.periodos[index]));
   }
 
   Future<void> _onChangePeriod(ChangePeriod event, emit) async {
-    final int index = state.detail.periodos
+    if (state.detail == null) return;
+
+    final int index = state.detail!.periodos
         .indexWhere((period) => period.periodoId == event.periodo.periodoId);
 
     if (index < 0) {
@@ -117,7 +122,7 @@ class ProjectDetailBloc extends Bloc<ProjectDetailEvent, ProjectDetailState> {
     await Future.delayed(const Duration(milliseconds: 200));
     emit(state.copyWith(
       cache: cache,
-      periodoSeleccionado: () => state.detail.periodos[index],
+      periodoSeleccionado: () => state.detail!.periodos[index],
     ));
   }
 

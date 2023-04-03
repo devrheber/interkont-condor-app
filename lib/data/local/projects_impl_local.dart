@@ -12,6 +12,10 @@ class ProjectsImplLocal implements ProjectsRepository {
     CancelToken? cancelToken,
   }) async {
     await Future.delayed(const Duration(seconds: 2));
+
+    if (codigoProyecto == '3') {
+      throw Exception('Error de prueba');
+    }
     return DatosAlimentacion(
         limitePorcentajeAtraso: 5,
         limitePorcentajeAtrasoAmarillo: 10,
@@ -20,7 +24,7 @@ class ProjectsImplLocal implements ProjectsRepository {
               periodoId: 21,
               fechaIniPeriodo: '2022-07-23',
               fechaFinPeriodo: '2022-07-24',
-              porcentajeProyectado: 50),
+              porcentajeProyectado: 28.77),
           Periodo(
               periodoId: 22,
               fechaIniPeriodo: '2022-08-24',
@@ -31,11 +35,11 @@ class ProjectsImplLocal implements ProjectsRepository {
           Actividad(
             actividadId: 31,
             descripcionActividad: 'Actividad Local de Prueba',
-            unidadMedida: 'M',
-            valorUnitario: 10,
-            cantidadProgramada: 10,
-            cantidadEjecutada: 0,
-            valorProgramado: 100,
+            unidadMedida: 'UND',
+            valorUnitario: 2850000000,
+            cantidadProgramada: 1,
+            cantidadEjecutada: 0.2,
+            valorProgramado: 2850000000,
             valorEjecutado: 0,
             porcentajeAvance: 0,
           ),
@@ -90,6 +94,22 @@ class ProjectsImplLocal implements ProjectsRepository {
       Project(
         codigoproyecto: 2,
         nombreproyecto: 'Proyecto Local de Prueba 2',
+        valorproyecto: 100000,
+        valorejecutado: 40000,
+        porcentajeProyectado: 1,
+        semaforoproyecto: 'verde',
+        codigocategoria: 1,
+        imagencategoria:
+            'https://fastly.picsum.photos/id/237/536/354.jpg?hmac=i0yVXW1ORpyCZpQ-CknuyV-jbtU7_x9EBQVhvT5aRr0',
+        colorcategoria: '#FFFFFF',
+        nombrecategoria: 'Categoría de prueba',
+        objeto: 'Descripción de Prueba.',
+        pendienteAprobacion: true,
+        estadoobra: 9,
+      ),
+      Project(
+        codigoproyecto: 3,
+        nombreproyecto: 'Proyecto Local de Prueba 3 si datos',
         valorproyecto: 100000,
         valorejecutado: 40000,
         porcentajeProyectado: 1,

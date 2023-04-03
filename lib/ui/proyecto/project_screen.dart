@@ -22,7 +22,7 @@ class ProyectScreen extends StatelessWidget {
 
   static Widget init({
     required Project project,
-    required DatosAlimentacion detail,
+    required DatosAlimentacion? detail,
     required ProjectCache? cache,
   }) =>
       BlocProvider(
@@ -40,7 +40,7 @@ class ProyectScreen extends StatelessWidget {
 
   static Route<void> route({
     required Project project,
-    required DatosAlimentacion detail,
+    required DatosAlimentacion? detail,
     required ProjectCache? cache,
   }) {
     return MaterialPageRoute<void>(
@@ -89,7 +89,7 @@ class ProyectScreen extends StatelessWidget {
               return;
             }
 
-            if ((state.detail.periodos.isEmpty)) {
+            if ((state.detail?.periodos.isEmpty ?? true)) {
               Toast.show(
                   'Lo sentimos, este proyecto no tiene periodos que reportar',
                   duration: 3,
@@ -97,7 +97,7 @@ class ProyectScreen extends StatelessWidget {
               return;
             }
             // if (detailProvider.periodoSeleccionado == null) {
-            if (!(state.detail.periodos.any((periodo) =>
+            if (!((state.detail?.periodos ?? []).any((periodo) =>
                 periodo.periodoId == state.periodoSeleccionado?.periodoId))) {
               Toast.show('Seleccione el periodo a reportar',
                   duration: 3, gravity: Toast.bottom);

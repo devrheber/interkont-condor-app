@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+import '../../helpers/helpers.dart';
+
 // List<DatosAlimentacion> projetsDetailFromJson(String str) => List<DatosAlimentacion>.from(json.decode(str).map((x) => DatosAlimentacion.fromJson(x)));
 
 Map<String, DatosAlimentacion> projectsDetailFromJson(String str) =>
@@ -164,7 +166,7 @@ class Actividad extends Equatable {
       };
 
   String get getValorEjecutado {
-    return '\$${valorEjecutado.toStringAsFixed(2)}';
+    return CurrencyFormatterHelper.format(valorEjecutado);
   }
 
   String get getCantidadEjecutada {
@@ -172,11 +174,11 @@ class Actividad extends Equatable {
   }
 
   String get getValorProgramado {
-    return '\$${valorProgramado.toStringAsFixed(2)}';
+    return CurrencyFormatterHelper.format(valorProgramado);
   }
 
   String get getValorUnitario {
-    return '\$${valorUnitario.toStringAsFixed(2)}';
+    return CurrencyFormatterHelper.format(valorUnitario);
   }
 
   String avanceAHoy(double valorAvance) {

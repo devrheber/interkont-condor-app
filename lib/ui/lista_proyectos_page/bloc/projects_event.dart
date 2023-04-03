@@ -17,12 +17,6 @@ class FetchRemoteProjects extends ProjectsEvent {}
 
 class FetchDocumentsTypes extends ProjectsEvent {}
 
-class FetchRemoteProjectDetail extends ProjectsEvent {
-  final int codigoProyecto;
-
-  const FetchRemoteProjectDetail(this.codigoProyecto);
-}
-
 class SetCurrentProjectCode extends ProjectsEvent {
   final int codigoProyecto;
 

@@ -18,7 +18,7 @@ class DropDownPeriodo extends StatelessWidget {
 
         final detailBloc = BlocProvider.of<ProjectDetailBloc>(context);
 
-        final periodos = [...detailBloc.state.detail.periodos];
+        final periodos = [...detailBloc.state.detail?.periodos ?? []];
         periodos.sort(
             (a, b) => a.getFechaIniDateTime.compareTo(b.getFechaIniDateTime));
         return Container(

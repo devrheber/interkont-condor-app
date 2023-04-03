@@ -26,7 +26,7 @@ class BodyCard extends StatelessWidget {
           projectCache.lastSyncDate == null
               ? Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.only(top: 335, left: 28, right: 28),
+                  margin: const EdgeInsets.only(top: 20, left: 28, right: 28),
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(15)),

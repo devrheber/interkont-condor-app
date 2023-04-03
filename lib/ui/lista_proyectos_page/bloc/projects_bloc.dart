@@ -22,7 +22,6 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
     on<ProjectsCacheStream>(_onProjectsCacheStream);
     on<FetchRemoteProjects>(_onFetchRemoteProjects);
     on<FetchDocumentsTypes>(_onFetchDocumentsTypes);
-    on<FetchRemoteProjectDetail>(_onFetchRemoteProjectDetail);
     on<SetCurrentProjectCode>(_onSetCurrentProjectCode);
   }
 
@@ -106,34 +105,6 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
       emit(state.copyWith(status: ProjectsStatus.success));
     } catch (e) {
       emit(state.copyWith(status: ProjectsStatus.failure));
-    }
-  }
-
-  Future<void> _onFetchRemoteProjectDetail(
-    FetchRemoteProjectDetail event,
-    Emitter<ProjectsState> emit,
-  ) async {
-    int codigoProyecto = event.codigoProyecto;
-    emit(state.copyWith(status: ProjectsStatus.loading));
-    try {
-      final detail = await _projectRepository.getDatosAlimentacion(
-          codigoProyecto: '$codigoProyecto');
-
-      // Ordenar periodos por fecha de inicio
-      final periodos = [...detail.periodos];
-      periodos.sort(
-          (a, b) => a.getFechaIniDateTime.compareTo(b.getFechaIniDateTime));
-
-      detail.copyWith(periodos: periodos);
-
-      await _projectsCacheRepository.saveProjectDetails(codigoProyecto, detail);
-
-      // Actualizar hora de sincronización
-      _saveSyncDate(codigoProyecto);
-      emit(state.copyWith(status: ProjectsStatus.success));
-    } on OtherException catch (e) {
-      emit(state.copyWith(status: ProjectsStatus.failure, message: e.message));
-      emit(state.copyWith(message: ''));
     }
   }
 
