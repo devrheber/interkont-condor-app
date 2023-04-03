@@ -3,6 +3,7 @@ import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:appalimentacion/ui/report_progress/report_progress_provider.dart';
 import 'package:appalimentacion/ui/widgets/widgets.dart';
 import 'package:appalimentacion/utils/utils.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class CardHeadReporteAvance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final project = context.read<ReportProgressProvider>().project;
+    final reportProgressProvider = context.read<ReportProgressProvider>();
     final cache = context.read<ReportProgressProvider>().cache;
 
     const String appBarTitle = 'Reportar Avance';
@@ -38,20 +39,31 @@ class CardHeadReporteAvance extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 50.54,
-            margin: const EdgeInsets.symmetric(vertical: 104, horizontal: 28),
+            margin: const EdgeInsets.symmetric(vertical: 104),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
+                const Expanded(child: SizedBox.shrink()),
                 Percentage(
                     value: "Proyectado",
                     percentage: PercentajeFormat.percentaje(
                         cache.getPorcentajeValorProyectado)),
                 const Expanded(child: SizedBox.shrink()),
-                Percentage(
-                  value: "Ejecutado",
-                  percentage:
-                      PercentajeFormat.percentaje(project.percentageByValue),
+                StreamBuilder<double>(
+                  stream: reportProgressProvider.getExecutedValuePercentage,
+                  builder: (context, AsyncSnapshot<double> snapshot) {
+                    if (!snapshot.hasData) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Percentage(
+                      value: "Ejecutado",
+                      percentage:
+                          // PercentajeFormat.percentaje(project.percentageByValue),
+                          PercentajeFormat.percentaje(snapshot.data!),
+                    );
+                  },
                 ),
+                const Expanded(child: SizedBox.shrink()),
               ],
             ),
           ),
@@ -133,7 +145,7 @@ class Percentage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 2.0),
-              Text(
+              AutoSizeText(
                 'Valor $value',
                 style: const TextStyle(
                   fontFamily: "montserrat",

@@ -37,11 +37,24 @@ class ProjectsImplLocal implements ProjectsRepository {
             descripcionActividad: 'Actividad Local de Prueba',
             unidadMedida: 'UND',
             valorUnitario: 2850000000,
+            
             cantidadProgramada: 1,
             cantidadEjecutada: 0.2,
             valorProgramado: 2850000000,
-            valorEjecutado: 0,
-            porcentajeAvance: 0,
+            valorEjecutado: 570000000,
+            porcentajeAvance: 0.2,
+          ),
+           Actividad(
+            actividadId: 32,
+            descripcionActividad: 'Actividad Local de Prueba 2',
+            unidadMedida: 'UND',
+            valorUnitario: 100000000,
+            
+            cantidadProgramada: 1,
+            cantidadEjecutada: 0.5,
+            valorProgramado: 100000000,
+            valorEjecutado: 50000000,
+            porcentajeAvance: 0.5,
           ),
         ],
         indicadoresAlcance: [

@@ -48,6 +48,9 @@ class ReportProgressProvider extends ChangeNotifier {
   StreamSubscription<Map<String, ProjectCache>>? cacheSubscription;
   StreamSubscription<Map<String, DatosAlimentacion>>? detailsSubscription;
 
+  Stream<double> get getExecutedValuePercentage =>
+      _projectsCacheRepository.getExecutedValuePercentage();
+
   DateTime? incomeGenerationDate;
   DateTime? rentalRepaymentDate;
   double? generatedReturns;

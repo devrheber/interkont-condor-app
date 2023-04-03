@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -291,8 +292,8 @@ class _Celdas extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-            flex: 3,
-            child: Text(
+            flex: 2,
+            child: AutoSizeText(
               label,
               style: TextStyle(
                 fontFamily: 'montserrat',

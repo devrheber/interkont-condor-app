@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:appalimentacion/blocs/network/network_bloc.dart';
 import 'package:appalimentacion/data/local/aom_projects_api_impl.dart';
+import 'package:appalimentacion/data/local/login_local_impl.dart';
+import 'package:appalimentacion/data/local/projects_impl_local.dart';
 import 'package:appalimentacion/data/local/user_preferences.dart';
 import 'package:appalimentacion/data/remote/aom_projects_impl.dart';
 import 'package:appalimentacion/data/remote/login_remote.dart';
@@ -133,6 +135,7 @@ class AppState extends StatelessWidget {
         ),
         RepositoryProvider<LoginRepository>(
           create: (_) => LoginRemote(),
+          // create: (_) =>  LoginLocalImpl(),
         ),
         RepositoryProvider<UserPreferences>(
           create: (_) => prefs,
@@ -152,6 +155,7 @@ class AppState extends StatelessWidget {
           ChangeNotifierProvider<AuthenticationProvider>(
             create: (_) => AuthenticationProvider(
               loginRepository: LoginRemote(),
+              // loginRepository: LoginLocalImpl(),
               prefsRepository: prefs,
             ),
           ),
