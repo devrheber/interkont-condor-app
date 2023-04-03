@@ -8,7 +8,7 @@ String _baseUrlPruebas = 'http://13.59.62.87:7073/siente3-ws-consulta';
 String _baseUrlProduccion = 'https://sienteapp.gestiondelriesgo.gov.co';
 String _app = 'siente3-ws';
 // https://sienteapp.gestiondelriesgo.gov.co/siente3-ws
-String _baseUrl = '$_baseUrlPruebas/$_app';
+String _baseUrl = '$_baseUrlProduccion/$_app';
 
 // String urlGlobalApiCondor = '$_baseUrl/$_app';
 String urlGlobalApiCondor = _baseUrl;
