@@ -155,7 +155,7 @@ class _ProgressCardState extends State<ProgressCard> {
                       ),
                       inputFormatters: <FilteringTextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                          RegExp(r'^((100)|(\d{1,2})((\.?)+((\d{1,2})?)))'),
+                          RegExp(r'^(\d+(\.{1})?(\d{0,5})?)'),
                         ),
                       ],
                       controller: controller,

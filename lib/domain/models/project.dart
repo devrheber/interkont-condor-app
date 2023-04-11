@@ -1,5 +1,7 @@
-class Project {
-  Project({
+import 'package:equatable/equatable.dart';
+
+class Project extends Equatable {
+  const Project({
     required this.codigoproyecto,
     required this.nombreproyecto,
     required this.valorproyecto,
@@ -16,20 +18,54 @@ class Project {
     required this.estadoobra,
   });
 
-  int codigoproyecto;
-  String nombreproyecto;
-  double valorproyecto;
-  double valorejecutado;
-  double porcentajeProyectado;
-  String semaforoproyecto;
-  int codigocategoria;
-  String imagencategoria;
-  String colorcategoria;
-  String nombrecategoria;
-  String objeto;
-  dynamic contratista;
-  bool pendienteAprobacion;
-  int estadoobra;
+  final int codigoproyecto;
+  final String nombreproyecto;
+  final double valorproyecto;
+  final double valorejecutado;
+  final double porcentajeProyectado;
+  final String semaforoproyecto;
+  final int codigocategoria;
+  final String imagencategoria;
+  final String colorcategoria;
+  final String nombrecategoria;
+  final String objeto;
+  final dynamic contratista;
+  final bool pendienteAprobacion;
+  final int estadoobra;
+
+  Project copyWith({
+    int? codigoproyecto,
+    String? nombreproyecto,
+    double? valorproyecto,
+    double? valorejecutado,
+    double? porcentajeProyectado,
+    String? semaforoproyecto,
+    int? codigocategoria,
+    String? imagencategoria,
+    String? colorcategoria,
+    String? nombrecategoria,
+    String? objeto,
+    dynamic contratista,
+    bool? pendienteAprobacion,
+    int? estadoobra,
+  }) {
+    return Project(
+      codigoproyecto: codigoproyecto ?? this.codigoproyecto,
+      nombreproyecto: nombreproyecto ?? this.nombreproyecto,
+      valorproyecto: valorproyecto ?? this.valorproyecto,
+      valorejecutado: valorejecutado ?? this.valorejecutado,
+      porcentajeProyectado: porcentajeProyectado ?? this.porcentajeProyectado,
+      semaforoproyecto: semaforoproyecto ?? this.semaforoproyecto,
+      codigocategoria: codigocategoria ?? this.codigocategoria,
+      imagencategoria: imagencategoria ?? this.imagencategoria,
+      colorcategoria: colorcategoria ?? this.colorcategoria,
+      nombrecategoria: nombrecategoria ?? this.nombrecategoria,
+      objeto: objeto ?? this.objeto,
+      contratista: contratista ?? this.contratista,
+      pendienteAprobacion: pendienteAprobacion ?? this.pendienteAprobacion,
+      estadoobra: estadoobra ?? this.estadoobra,
+    );
+  }
 
   factory Project.fromJson(Map<String, dynamic> json) => Project(
         codigoproyecto: json["codigoproyecto"],
@@ -150,4 +186,22 @@ class Project {
 
     return 'semaforo-3';
   }
+
+  @override
+  List<Object?> get props => [
+        codigoproyecto,
+        nombreproyecto,
+        valorproyecto,
+        valorejecutado,
+        porcentajeProyectado,
+        semaforoproyecto,
+        codigocategoria,
+        imagencategoria,
+        colorcategoria,
+        nombrecategoria,
+        objeto,
+        contratista,
+        pendienteAprobacion,
+        estadoobra,
+      ];
 }

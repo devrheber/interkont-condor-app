@@ -323,44 +323,45 @@ class _SyncButtonState extends State<_SyncButton>
                         color: const Color(0xFF33ACE0),
                       ),
                       child: SizedBox(
-                          height: 35,
-                          width: 143,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                animationController != null
-                                    ? AnimatedBuilder(
-                                        animation: animationController!,
-                                        builder: (_, child) {
-                                          // print("\x1B[2J\x1B[0;0H");
+                        height: 35,
+                        width: 143,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            animationController != null
+                                ? AnimatedBuilder(
+                                    animation: animationController!,
+                                    builder: (_, child) {
+                                      // print("\x1B[2J\x1B[0;0H");
 
-                                          return Transform.rotate(
-                                            angle:
-                                                (animationController?.value ??
-                                                        0) *
-                                                    2 *
-                                                    math.pi,
-                                            child: child,
-                                          );
-                                        },
-                                        child: const SyncImage(),
-                                      )
-                                    : const SyncImage(),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 7.7),
-                                  child: Text(
-                                    (animationController?.isAnimating ?? false)
-                                        ? 'Sincronizando'
-                                        : 'Sincronizar',
-                                    style: const TextStyle(
-                                      fontFamily: "montserrat",
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                      return Transform.rotate(
+                                        angle:
+                                            (animationController?.value ?? 0) *
+                                                2 *
+                                                math.pi,
+                                        child: child,
+                                      );
+                                    },
+                                    child: const SyncImage(),
+                                  )
+                                : const SyncImage(),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 7.7),
+                              child: Text(
+                                (animationController?.isAnimating ?? false)
+                                    ? 'Sincronizando'
+                                    : 'Sincronizar',
+                                style: const TextStyle(
+                                  fontFamily: "montserrat",
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                  color: Colors.white,
                                 ),
-                              ])),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),

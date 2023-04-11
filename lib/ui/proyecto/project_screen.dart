@@ -56,6 +56,7 @@ class ProyectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ProjectDetailBloc, ProjectDetailState>(
+      listenWhen: (previous, current) => previous.message != current.message,
       listener: (context, state) {
         if (state.message.isNotEmpty) {
           SnackBar snackBar = SnackBar(
@@ -157,15 +158,16 @@ class ProyectScreen extends StatelessWidget {
                 projectCache: state.cache,
               ),
               bottomNavigationBar: CustomBottomNavigationBar(
-                  colorFondo: const Color(0xff22B573),
-                  primerBotonDesactivado: false,
-                  segundoBotonDesactivado: project.pendienteAprobacion ||
-                      (state.cache.synchronizationRequired),
-                  txtPrimerBoton: null,
-                  txtSegundoBoton: 'Reportar Avance',
-                  heightSecondButton: 58.55,
-                  accionPrimerBoton: null,
-                  accionSegundoBoton: () => goToNextScreen()),
+                colorFondo: const Color(0xff22B573),
+                primerBotonDesactivado: false,
+                segundoBotonDesactivado: project.pendienteAprobacion ||
+                    (state.cache.synchronizationRequired),
+                txtPrimerBoton: null,
+                txtSegundoBoton: 'Reportar Avance',
+                heightSecondButton: 58.55,
+                accionPrimerBoton: null,
+                accionSegundoBoton: () => goToNextScreen(),
+              ),
             ),
           );
         },

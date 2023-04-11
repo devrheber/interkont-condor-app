@@ -51,7 +51,6 @@ class ProjectDetailState extends Equatable {
         cache,
         periodoSeleccionado,
         message,
-        
       ];
 }
 

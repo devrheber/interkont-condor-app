@@ -1,5 +1,6 @@
 import 'package:appalimentacion/domain/models/models.dart';
 import 'package:appalimentacion/domain/models/project.dart';
+import 'package:appalimentacion/helpers/helpers.dart';
 import 'package:appalimentacion/ui/proyecto/bloc/project_detail_bloc.dart';
 import 'package:appalimentacion/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -71,8 +72,8 @@ class BodyCard extends StatelessWidget {
                     height: 10,
                   ),
                   Container(
-                    padding: const EdgeInsets.only(
-                        right: 28, left: 28, bottom: 5.0),
+                    padding:
+                        const EdgeInsets.only(right: 28, left: 28, bottom: 5.0),
                     child: const Text(
                       'Seleccione el periodo a reportar',
                       style: TextStyle(
@@ -107,8 +108,7 @@ class BodyCard extends StatelessWidget {
                     children: <Widget>[
                       Container(
                         height: 20.0,
-                        margin:
-                            const EdgeInsets.only(bottom: 5.0, right: 10.0),
+                        margin: const EdgeInsets.only(bottom: 5.0, right: 10.0),
                         child: Image.asset(
                           'assets/img/Desglose/Demas/icn-alert.png',
                           // width: 100.0,
@@ -162,11 +162,11 @@ class _Summary extends StatelessWidget {
             rightText: '\$ ${f2.format(project.valorproyecto)}',
           ),
           _Celdas(
-            leftText: 'Asi va',
+            leftText: 'Así va',
             rightText: PercentajeFormat.percentaje(porcentajeAsiVa),
           ),
           _Celdas(
-            leftText: 'Asi deberia ir',
+            leftText: 'Así debería ir',
             rightText:
                 PercentajeFormat.percentaje(project.porcentajeProyectado),
           ),
@@ -175,12 +175,86 @@ class _Summary extends StatelessWidget {
             rightText: '${project.contratista}',
           ),
           _Celdas(
-            leftText: 'Semaforo',
-            rightText: '${project.semaforoproyecto}',
+            leftText: 'Semáforo',
+            rightText: project.semaforoproyecto,
             semaforo: true,
+          ),
+          const SizedBox(height: 10),
+          _ProjectBudget(
+            project: project,
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ProjectBudget extends StatefulWidget {
+  const _ProjectBudget({
+    Key? key,
+    required this.project,
+  }) : super(key: key);
+
+  final Project project;
+
+  @override
+  State<_ProjectBudget> createState() => _ProjectBudgetState();
+}
+
+class _ProjectBudgetState extends State<_ProjectBudget> {
+  bool _showValues = false;
+
+  toggle() {
+    setState(() {
+      _showValues = !_showValues;
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant _ProjectBudget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.project != widget.project) {
+      _showValues = false;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.centerRight,
+          child: GestureDetector(
+            onTap: toggle,
+            child: Text(
+              _showValues ? 'Ocultar valores' : 'Mostrar valores',
+              style: const TextStyle(
+                fontSize: 9,
+                fontWeight: FontWeight.w500,
+                color: Color(0xff030303),
+                fontFamily: "montserrat",
+              ),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: _showValues,
+          child: Column(
+            children: [
+              _Celdas(
+                leftText: 'Valor proyecto',
+                rightText: CurrencyFormatterHelper.format(
+                    widget.project.valorproyecto),
+              ),
+              _Celdas(
+                leftText: 'Valor ejecutado',
+                rightText: CurrencyFormatterHelper.format(
+                    widget.project.valorejecutado),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

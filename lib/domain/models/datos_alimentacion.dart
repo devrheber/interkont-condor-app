@@ -345,7 +345,7 @@ String indicadoresDeAlcanceToJson(List<IndicadoresDeAlcance> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class IndicadoresDeAlcance extends Equatable {
-  IndicadoresDeAlcance({
+  const IndicadoresDeAlcance({
     required this.indicadorAlcanceId,
     required this.descripcionIndicadorAlcance,
     required this.unidadMedida,
@@ -356,14 +356,14 @@ class IndicadoresDeAlcance extends Equatable {
     required this.porcentajeAvanceInicial,
   });
 
-  int indicadorAlcanceId;
-  String descripcionIndicadorAlcance;
-  String unidadMedida;
-  double cantidadProgramada;
-  double cantidadEjecutada;
-  double porcentajeAvance;
-  double cantidadEjecutadaInicial;
-  double porcentajeAvanceInicial;
+  final int indicadorAlcanceId;
+  final String descripcionIndicadorAlcance;
+  final String unidadMedida;
+  final double cantidadProgramada;
+  final double cantidadEjecutada;
+  final double porcentajeAvance;
+  final double cantidadEjecutadaInicial;
+  final double porcentajeAvanceInicial;
 
   factory IndicadoresDeAlcance.fromJson(Map<String, dynamic> json) =>
       IndicadoresDeAlcance(

@@ -43,51 +43,36 @@ class FirstStepProvider extends ChangeNotifier {
 
   void calculateExecutedValuePercentage() {
     final activities = detail.actividades;
-    double valoresEjecutados = 0;
-    double valorProyecto = 0; // Valor Proyectado
+    double totalValorProgramada = 0.0;
     for (int i = 0; i < activities.length; i++) {
-      valoresEjecutados += activities[i].valorEjecutado;
-      valorProyecto += activities[i].valorProgramado;
+      totalValorProgramada += activities[i].valorProgramado;
+    }
+    double totalPorcentajeEjecutado = 0;
+    for (int i = 0; i < activities.length; i++) {
+      final activity = activities[i];
+      final porcentajeActividad =
+          activities[i].valorProgramado / totalValorProgramada;
+
+      final totalCantidadEjecutada = activity.cantidadEjecutada +
+          (activitiesProgress.containsKey(activity.getStringId)
+              ? double.parse(activitiesProgress[activity.getStringId])
+              : 0);
+
+      /// porcentaje de avance de la actividad
+      final porcentajeAvanceActividad =
+          totalCantidadEjecutada / activity.cantidadProgramada;
+
+      /// cuánto representa la cantidad de avance actual según el porcentaje de la actividad
+      final nuevoPorcentajeEjecutado =
+          porcentajeActividad * porcentajeAvanceActividad;
+
+      totalPorcentajeEjecutado += nuevoPorcentajeEjecutado;
     }
 
-    debugPrint('valoresEjecutados $valoresEjecutados');
-    debugPrint('valoresProgramado $valorProyecto');
-
-    double porcentajeInicial = valoresEjecutados / valorProyecto * 100;
-
-    debugPrint('Porcentaje Avance: $porcentajeInicial');
-
-    // Porcentaje Nuevo avance
-
-    double nuevoValorEjecutado = 0.0;
-
-    inspect(activitiesProgress);
-
-    double porcentajeNuevoValorEjectuado = 0.0;
-
-    double totalPorcentajeEjectuado = 0.0;
-
-    for (int i = 0; i < activities.length; i++) {
-      if (activitiesProgress.containsKey(activities[i].getStringId)) {
-        nuevoValorEjecutado += activities[i].valorProgramado *
-            (double.parse(activitiesProgress[activities[i].getStringId]));
-      }
-
-      debugPrint('NuevoValor Ejecutado: $nuevoValorEjecutado');
-
-      porcentajeNuevoValorEjectuado =
-          (nuevoValorEjecutado / valorProyecto) * 100;
-
-      debugPrint('Nuevo Porcentaje de Avance: $porcentajeNuevoValorEjectuado');
-
-      debugPrint(
-          'Total porcentaje ejectuado: ${(porcentajeInicial + porcentajeNuevoValorEjectuado)}');
-      totalPorcentajeEjectuado =
-          porcentajeInicial + porcentajeNuevoValorEjectuado;
-    }
-
+    totalPorcentajeEjecutado *= 100;
+    
     cache = cache.copyWith(
-      porcentajeValorEjecutado: totalPorcentajeEjectuado,
+      porcentajeValorEjecutado: totalPorcentajeEjecutado,
     );
 
     _projectsCacheRepository.saveCache(cache);

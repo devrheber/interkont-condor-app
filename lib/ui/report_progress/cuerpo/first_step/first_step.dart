@@ -57,7 +57,7 @@ class FirstStepBody extends StatelessWidget {
               enableInfiniteScroll: false,
               scrollPhysics: const BouncingScrollPhysics(),
               enlargeCenterPage: true,
-              height: 465.0,
+              height: 485.0,
             ),
             items: <Widget>[
               for (final activity in firstStepProvider.filteredActivites)

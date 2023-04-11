@@ -31,9 +31,6 @@ class ProjectDetailBloc extends Bloc<ProjectDetailEvent, ProjectDetailState> {
     on<ClearPeriodoSeleccionado>(_onClearPeriodoSeleccionado);
   }
 
-  // TODO
-  // GlobalKey titleCardKey = GlobalKey<State<StatefulWidget>>();
-
   final ProjectsRepository _projectRepository;
   final ProjectsCacheRepository _projectsCacheRepository;
 
@@ -50,40 +47,50 @@ class ProjectDetailBloc extends Bloc<ProjectDetailEvent, ProjectDetailState> {
     ));
   }
 
-  Future<void> _onSyncDetail(event, Emitter<ProjectDetailState> emit) async {
+  Future<void> _onSyncDetail(
+    SyncDetail event,
+    Emitter<ProjectDetailState> emit,
+  ) async {
     final projectCode = state.project.codigoproyecto;
     emit(state.copyWith(
         status: ProjectDetailStatus.loading,
         message: 'Sincronizando proyecto...'));
     try {
+      ///
+      // TODO We should fetch one project
+      final projects = await _projectRepository.getAlimentacionProjects();
+      final index = projects.indexWhere(
+          (project) => project.codigoproyecto == state.project.codigoproyecto);
+
+      ///
+
       final detail = await _projectRepository.getDatosAlimentacion(
         codigoProyecto: '$projectCode',
       );
-
-      _updateSelectedPeriod(event, emit);
 
       final dateSync = DateTime.now();
 
       final cache = state.cache.copyWith(lastSyncDate: dateSync);
 
+      await _projectsCacheRepository.saveProjectCache(projectCode, cache);
+      await _projectsCacheRepository.saveDetail(detail);
+      await _projectsCacheRepository.saveProjects(projects);
+
       emit(state.copyWith(
           status: ProjectDetailStatus.success,
           detail: detail,
           cache: cache,
+          project: index >= 0 ? projects[index] : state.project,
           message: 'Proyecto sincronizado correctamente!'));
-      emit(state.copyWith(message: ''));
 
-      _projectsCacheRepository.saveProjectCache(projectCode, cache);
-      _projectsCacheRepository.saveDetail(detail);
+      _updateSelectedPeriod(event, emit);
     } on OtherException catch (e) {
       emit(state.copyWith(
           status: ProjectDetailStatus.failure, message: e.message));
-      emit(state.copyWith(message: ''));
     } catch (_) {
       emit(state.copyWith(
           status: ProjectDetailStatus.failure,
           message: 'Lo sentimos, No se pudo sincronizar el proyecto'));
-      emit(state.copyWith(message: ''));
     }
   }
 
