@@ -12,4 +12,4 @@ String urlFiles = '$_baseUrl/files-ws';
 String urlBaseWeb = '$_baseUrl/avanzaweb-ws';
 
 // TODO
-String versionNumber = "2.0.6+6";
+String versionNumber = "2.0.7+7";

@@ -169,8 +169,19 @@ class Actividad extends Equatable {
     return CurrencyFormatterHelper.format(valorEjecutado);
   }
 
+  String valorEjecutadoAHoy(double cantidadAvance) {
+    final valorAvance = (cantidadAvance * valorUnitario);
+    final value = (valorEjecutado + valorAvance);
+    return CurrencyFormatterHelper.format(value);
+  }
+
   String get getCantidadEjecutada {
     return cantidadEjecutada.toStringAsFixed(2);
+  }
+
+  String cantidadEjecutadaAHoy(double cantidadAvance) {
+    final value = (cantidadEjecutada + cantidadAvance);
+    return value.toStringAsFixed(2);
   }
 
   String get getValorProgramado {
@@ -211,6 +222,21 @@ class Actividad extends Equatable {
         valorEjecutado,
         porcentajeAvance,
       ];
+
+  bool isOverOneHundredPorcent(double cantidadEjecutadaActual) {
+    return ((cantidadEjecutada + cantidadEjecutadaActual) /
+                cantidadProgramada) *
+            100 >
+        100;
+  }
+
+  double get cantidadPendienteEjecucion {
+    return cantidadProgramada - cantidadEjecutada;
+  }
+
+  bool get isOneHundredPorcent {
+    return cantidadEjecutada == cantidadProgramada;
+  }
 }
 
 class AspectoEvaluar extends Equatable {

@@ -28,6 +28,16 @@ class ProgressCard extends StatefulWidget {
 class _ProgressCardState extends State<ProgressCard> {
   late TextEditingController controller;
 
+  double _previousValue = 0;
+
+  String get previousValue {
+    if ((_previousValue % _previousValue) == 0) {
+      return _previousValue.toStringAsFixed(0);
+    } else {
+      return _previousValue == 0 ? '0' : '$_previousValue';
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -44,48 +54,6 @@ class _ProgressCardState extends State<ProgressCard> {
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
-
-    void calcutate(String stringValue) {
-      if (stringValue.contains(',')) {
-        Toast.show('Para la parte decimal debe usar el caracter "." (punto)',
-            duration: 6, gravity: Toast.bottom);
-        controller.text = controller.text.replaceAll(',', '');
-        final val = TextSelection.collapsed(offset: controller.text.length);
-        controller.selection = val;
-      }
-
-      String value = stringValue == '' ? '0' : stringValue;
-      value = value.replaceAll(',', '');
-
-      if ((widget.activity.cantidadEjecutada + double.parse(value)) >
-          widget.activity.cantidadProgramada) {
-        controller.text = '';
-        final val = TextSelection.collapsed(offset: controller.text.length);
-        controller.selection = val;
-
-        Toast.show('Ejecución Actual está al 100%',
-            duration: 5, gravity: Toast.bottom);
-        widget.onChanged('0');
-        return;
-      }
-
-      if (double.parse(value) < 0) {
-        Toast.show("Lo sentimos, solo aceptamos numeros positivos",
-            duration: 3, gravity: Toast.bottom);
-        widget.onChanged('0');
-        return;
-      }
-      if (double.parse(value) > 100) {
-        Toast.show(
-            "El valor ejecutado de la actividad no puede superar el 100%",
-            duration: 3,
-            gravity: Toast.bottom);
-        widget.onChanged('0');
-        return;
-      }
-
-      widget.onChanged(value);
-    }
 
     return Container(
       decoration: BoxDecoration(
@@ -204,19 +172,15 @@ class _ProgressCardState extends State<ProgressCard> {
               ),
               _Celdas(
                 label: 'Cantidad Ejecutada',
-                value: widget.activity.getCantidadEjecutada,
-                isNumericVariable: false,
-                isBold: true,
-              ),
-              _Celdas(
-                label: 'Cantidad Ejecutada Actual',
-                value: widget.getValue,
+                value: widget.activity.cantidadEjecutadaAHoy(
+                    double.tryParse(widget.valueSaved) ?? 0),
                 isNumericVariable: false,
                 isBold: true,
               ),
               _Celdas(
                 label: 'Valor Ejecutado',
-                value: widget.activity.getValorEjecutado,
+                value: widget.activity.valorEjecutadoAHoy(
+                    double.tryParse(widget.valueSaved) ?? 0.0),
                 isNumericVariable: false,
                 isBold: true,
               ),
@@ -240,6 +204,58 @@ class _ProgressCardState extends State<ProgressCard> {
         ],
       ),
     );
+  }
+
+  void calcutate(String stringValue) {
+    if (stringValue.contains(',')) {
+      Toast.show('Para la parte decimal debe usar el caracter "." (punto)',
+          duration: 6, gravity: Toast.bottom);
+      controller.text = controller.text.replaceAll(',', '');
+      final val = TextSelection.collapsed(offset: controller.text.length);
+      controller.selection = val;
+    }
+
+    String value = stringValue == '' ? '0' : stringValue;
+    value = value.replaceAll(',', '');
+
+    if (widget.activity.isOneHundredPorcent) {
+      Toast.show('La actividad ya está al 100%',
+          duration: 5, gravity: Toast.bottom);
+      controller.text = previousValue == '0' ? '' : previousValue;
+      final val = TextSelection.collapsed(offset: controller.text.length);
+      controller.selection = val;
+      return;
+    }
+
+    if ((widget.activity.cantidadEjecutada + double.parse(value)) >
+        widget.activity.cantidadProgramada) {
+      controller.text = previousValue == '0' ? '' : previousValue;
+      final val = TextSelection.collapsed(offset: controller.text.length);
+      controller.selection = val;
+
+      Toast.show(
+          'Puede ingresar hasta ${widget.activity.cantidadPendienteEjecucion}',
+          duration: 5,
+          gravity: Toast.bottom);
+      widget.onChanged(previousValue);
+      return;
+    }
+
+    if (double.parse(value) < 0) {
+      Toast.show("Lo sentimos, solo aceptamos numeros positivos",
+          duration: 3, gravity: Toast.bottom);
+      widget.onChanged(previousValue);
+      return;
+    }
+    if (widget.activity.isOverOneHundredPorcent(double.parse(value))) {
+      Toast.show("El valor ejecutado de la actividad no puede superar el 100%",
+          duration: 3, gravity: Toast.bottom);
+      widget.onChanged(previousValue);
+      return;
+    }
+
+    widget.onChanged(value);
+    _previousValue = double.parse(value);
   }
 }
 
