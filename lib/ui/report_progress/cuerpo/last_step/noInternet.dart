@@ -30,7 +30,7 @@ class NoInternet extends StatelessWidget {
                 height: 130,
               ),
               const Text(
-                'Parece que no tienes señal',
+                '¡No te preocupes!',
                 style: TextStyle(
                   fontFamily: 'montserrat',
                   fontWeight: FontWeight.bold,
@@ -43,7 +43,7 @@ class NoInternet extends StatelessWidget {
                 height: 20.0,
               ),
               const Text(
-                'Guarda tu avance, apenas tu móvil se conecte a Internet tu proyecto automáticamente será actualizado',
+                'Mantendremos tu avance guardado en tu dispositivo, cuando tengas nuevamente conexión a internet, puedes volver a guardar este reporte de avance',
                 style: AppTheme.parrafoBlanco,
                 textAlign: TextAlign.center,
               ),

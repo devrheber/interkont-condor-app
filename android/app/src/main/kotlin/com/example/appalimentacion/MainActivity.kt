@@ -1,4 +1,4 @@
-package com.example.appalimentacion
+package com.interkont.sienteplus
 
 import io.flutter.embedding.android.FlutterActivity
 
