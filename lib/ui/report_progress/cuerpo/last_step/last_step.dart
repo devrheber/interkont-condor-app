@@ -5,7 +5,7 @@ import 'package:toast/toast.dart';
 
 import 'felicitaciones.dart';
 import 'last_step_provider.dart';
-import 'noInternet.dart';
+import 'no_internet.dart';
 
 class LastStep extends StatefulWidget {
   const LastStep._({Key? key}) : super(key: key);
@@ -54,10 +54,7 @@ class LastStepState extends State<LastStep> {
         );
       } else if ((value['state'] as SendDataState) ==
           SendDataState.noInternet) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const NoInternet()),
-        );
+        Navigator.pushReplacement(context, NoInternet.route());
         lastStepProvider.saveDataPendingToPublish();
       } else if (value['state'] == SendDataState.backendError) {
         Navigator.pop(context);
@@ -84,66 +81,52 @@ class LastStepState extends State<LastStep> {
         child: Stack(
           children: <Widget>[
             StreamBuilder<double>(
-                stream: lastStepProvider.uploadPercentage,
-                initialData: 0.0,
-                builder: (context, AsyncSnapshot<double> snapshot) {
-                  double percentage = snapshot.data!;
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: CircularPercentIndicator(
-                          radius: 120,
-                          lineWidth: 6,
-                          percent: percentage.clamp(0, 1),
-                          center: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "${(percentage.clamp(0, 1) * 100).round()}",
-                                style: style,
-                              ),
-                              const Text(
-                                "%",
-                                style: style,
-                                textAlign: TextAlign.start,
-                              ),
-                            ],
-                          ),
-                          progressColor: const Color(0xff90CBF9),
-                          animateFromLastPercent: true,
+              stream: lastStepProvider.uploadPercentage,
+              initialData: 0.0,
+              builder: (context, AsyncSnapshot<double> snapshot) {
+                double percentage = snapshot.data!;
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: CircularPercentIndicator(
+                        radius: 120,
+                        lineWidth: 6,
+                        percent: percentage.clamp(0, 1),
+                        center: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "${(percentage.clamp(0, 1) * 100).round()}",
+                              style: style,
+                            ),
+                            const Text(
+                              "%",
+                              style: style,
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
                         ),
+                        progressColor: const Color(0xff90CBF9),
+                        animateFromLastPercent: true,
                       ),
-                      const SizedBox(height: 23),
-                      Text(
-                        percentage == 1
-                            ? 'Obteniendo respuesta'
-                            : 'Estamos cargando tu proyecto',
-                        style: const TextStyle(
-                          fontFamily: 'montserrat',
-                          fontWeight: FontWeight.w800,
-                          fontSize: 15,
-                          color: Colors.white,
-                        ),
+                    ),
+                    const SizedBox(height: 23),
+                    Text(
+                      percentage == 1
+                          ? 'Obteniendo respuesta'
+                          : 'Estamos cargando tu proyecto',
+                      style: const TextStyle(
+                        fontFamily: 'montserrat',
+                        fontWeight: FontWeight.w800,
+                        fontSize: 15,
+                        color: Colors.white,
                       ),
-                    ],
-                  );
-                }),
-
-            /*Positioned(
-                width: MediaQuery.of(context).size.width/2,
-                height: 100.0,
-                top: MediaQuery.of(context).size.height-150.0,
-                // top: 20.0,
-                right: MediaQuery.of(context).size.width/4.1,
-                child: Container(
-                  child: Image(
-                    image: AssetImage(
-                      'assets/img/Desglose/Login/logo-footer.png',
-                    )
-                  )
-                )
-              )*/
+                    ),
+                  ],
+                );
+              },
+            ),
           ],
         ),
       ),

@@ -1,15 +1,22 @@
+import 'package:appalimentacion/globales/colores.dart';
+import 'package:appalimentacion/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../globales/colores.dart';
-
 class NoInternet extends StatelessWidget {
-  const NoInternet({Key? key}) : super(key: key);
+  const NoInternet._({Key? key}) : super(key: key);
+
+  static Route route() {
+    return MaterialPageRoute<void>(
+      settings: const RouteSettings(name: AppRoutes.noInternet),
+      builder: (_) => const NoInternet._(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context);
+        back(context);
         return false;
       },
       child: Scaffold(
@@ -51,9 +58,7 @@ class NoInternet extends StatelessWidget {
                 height: 50.0,
               ),
               GestureDetector(
-                onTap: () async {
-                  Navigator.pop(context);
-                },
+                onTap: () => back(context),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width - 60.0,
                   child: Container(
@@ -102,6 +107,12 @@ class NoInternet extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void back(BuildContext context) {
+    Navigator.of(context).popUntil(
+      ModalRoute.withName(AppRoutes.listaProyectos),
     );
   }
 }

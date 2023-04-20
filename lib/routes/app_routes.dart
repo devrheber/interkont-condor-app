@@ -6,4 +6,5 @@ class AppRoutes {
   static const String aomDetalleCategoria = '/aomDetalleCategoria';
   static const String login = '/login';
   static const String aomLastStep = '/aomLastStep';
+  static const String noInternet = '/noInternet';
 }
